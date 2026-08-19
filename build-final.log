@@ -1,0 +1,9 @@
+▲ Next.js 16.3.1 (webpack)
+- Environments: .env
+⨯ Failed to load next.config.mjs, see more info here https://nextjs.org/docs/messages/next-config-error
+
+> Build error occurred
+Error: Package subpath './build' is not defined by "exports" in /home/user/projects/OmniRoute/node_modules/next-intl/package.json imported from /home/user/projects/OmniRoute/next.config.mjs
+    at ignore-listed frames {
+  code: 'ERR_PACKAGE_PATH_NOT_EXPORTED'
+}

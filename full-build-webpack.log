@@ -1,0 +1,17 @@
+
+> omniroute@3.8.50 build
+> node scripts/build/build-next-isolated.mjs
+
+▲ Next.js 16.3.1 (Turbopack)
+- Environments: .env
+[MDX] generated files in 19.25042899999994ms
+✓ Running next.config.mjs took 319ms
+- Experiments (use with caution):
+  · optimizePackageImports
+  · proxyClientMaxBodySize: "512mb"
+  · proxyTimeout: 600000
+  · serverActions
+  ✓ webpackBuildWorker
+  ✓ webpackMemoryOptimizations
+
+  Creating an optimized production build ...

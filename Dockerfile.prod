@@ -1,0 +1,17 @@
+FROM node:26-trixie-slim
+
+WORKDIR /app
+
+# Install dumb-init
+RUN apt-get update && apt-get install -y --no-install-recommends dumb-init && rm -rf /var/lib/apt/lists/*
+
+# Copy pre-built Next.js standalone and static files
+COPY .build/next/standalone ./
+COPY .build/next/static ./.next/static
+COPY public ./public
+COPY package.json ./
+
+EXPOSE 3000
+
+ENTRYPOINT ["/usr/bin/dumb-init"]
+CMD ["node", "server.js"]
