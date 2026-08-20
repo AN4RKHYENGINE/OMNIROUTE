@@ -29,7 +29,7 @@ RUN npm install @parcel/watcher --no-save --legacy-peer-deps --no-audit --no-fun
 
 COPY . .
 
-RUN NODE_OPTIONS="--max-old-space-size=1536" DISABLE_WEBPACK_BUILD_WORKERS=1 npm run build
+RUN NODE_OPTIONS="--max-old-space-size=2048 --gc-interval=100" npm run build
 
 FROM runner-base AS stage-3
 
