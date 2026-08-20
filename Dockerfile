@@ -22,12 +22,12 @@ RUN test -f package-lock.json || (echo "package-lock.json not found!" && exit 1)
 RUN npm install -g npm@11
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
-  NODE_OPTIONS="--max-old-space-size=512" \
-  npm ci --omit=optional --legacy-peer-deps --no-audit --no-fund 2>&1 | head -100
+  NODE_OPTIONS="--max-old-space-size=1024" \
+  npm ci --legacy-peer-deps --no-audit --no-fund
 
 COPY . .
 
-RUN NODE_OPTIONS="--max-old-space-size=512" npm run build
+RUN NODE_OPTIONS="--max-old-space-size=1024" npm run build
 
 FROM runner-base AS stage-3
 
