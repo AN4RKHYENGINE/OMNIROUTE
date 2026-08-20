@@ -112,51 +112,7 @@ const nextConfig = {
   },
   distDir,
   // Turbopack config: redirect native modules to stubs at build time
-  turbopack: {
-    root: projectRoot,
-    resolveAlias: {
-      // @/mitm/manager → stub ONLY where the runtime can't run the MITM stack
-      // (Docker sets OMNIROUTE_MITM_STUB=1 — #3390 graceful degradation). The
-      // alias used to be unconditional, which was fine while Docker was the
-      // only Turbopack consumer — but the v3.8.45 bundler-default flip shipped
-      // the stub to every npm/Electron/VPS artifact and broke Agent Bridge
-      // start for all non-Docker users (#6344). See scripts/build/mitm-stub-flag.mjs.
-      ...mitmManagerAliasFor(process.env),
-      ...minimalBuildAliases,
-    },
-    // src/lib/agentSkills/generator.ts builds its fs base path from a runtime
-    // `outputDir` parameter (`path.join(process.cwd(), outputDir)`), which is
-    // NOT a compile-time literal, so Turbopack's build-time file-tracing
-    // analyzer can't statically narrow the several dynamic readdirSync/rmSync/
-    // readFileSync/writeFileSync call sites a few lines below and falls back
-    // to an "Overly broad patterns... matches N files" warning — once per
-    // Next.js entry point that imports the module (/api/agent-skills/generate,
-    // /api/cli-tools/pi-settings). The fs access is legitimate and bounded
-    // (skills/<id>/SKILL.md, ~48 known IDs), so this is a known-benign,
-    // expected diagnostic — suppress it here rather than fight the analyzer,
-    // mirroring the isNextIntlExtractorDynamicImportWarning precedent below
-    // for the webpack path. (#6582)
-    // open-sse/services/compression/ruleLoader.ts and
-    // .../engines/rtk/filterLoader.ts both define an identical
-    // getModuleDir() helper that walks up directories via
-    // path.resolve(anchor) + fs.existsSync(...) in a loop with a
-    // non-literal argument — the same dynamic-path fs access pattern as
-    // the agentSkills case above, but not covered by that narrower
-    // allowlist glob, so the "Overly broad patterns..." warning kept
-    // firing (610 times, once per entry point transitively importing the
-    // compression module). Same known-benign, bounded fs access;
-    // suppressed here rather than fought. (#7051, follow-up to #6582)
-    ignoreIssue: [
-      {
-        path: "**/src/lib/agentSkills/**",
-        description: /Overly broad patterns can lead to build performance issues/,
-      },
-      {
-        path: "**/open-sse/services/compression/**",
-        description: /Overly broad patterns can lead to build performance issues/,
-      },
-    ],
-  },
+  turbopack: false,
   output: "standalone",
   compress: true,
   productionBrowserSourceMaps: false,
@@ -174,9 +130,8 @@ const nextConfig = {
       bodySizeLimit: process.env.OMNIROUTE_SERVER_ACTIONS_BODY_LIMIT || "50mb",
     },
     // Reduce peak heap during production builds (Next.js 15+).
-    webpackMemoryOptimizations: true,
+    webpackMemoryOptimizations: false,
     // Run webpack in a separate Node worker, lowering main-process memory.
-    webpackBuildWorker: true,
     // Next.js proxy (middleware) has a default 10MB body clone limit. File
     // uploads (OpenAI-compatible /v1/files) routinely exceed this. Match the
     // 512 MB server-side cap; tune via env if needed.
@@ -296,6 +251,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack(config, { webpack }) {
+    config.parallelism = 4;
+    config.cache = false;
     config.ignoreWarnings = [
       ...(config.ignoreWarnings || []),
       isNextIntlExtractorDynamicImportWarning,
@@ -359,37 +316,14 @@ const nextConfig = {
       },
     };
 
-    if (isMinimalBuild) {
-      // Mirror the turbopack.resolveAlias entries for webpack-built artifacts.
-      // NormalModuleReplacementPlugin swaps the real module for a stub before
-      // webpack resolves it, so the privileged source files are never compiled
-      // into the standalone output.
-      const replacements = [
-        [/^@\/mitm\/cert\/install$/, "./src/mitm/cert/install.stub.ts"],
-        [/^@\/lib\/zed-oauth\/keychain-reader$/, "./src/lib/zed-oauth/keychain-reader.stub.ts"],
-        [/^@\/lib\/cloudSync$/, "./src/lib/cloudSync.stub.ts"],
-        [
-          /^@\/lib\/services\/installers\/ninerouter$/,
-          "./src/lib/services/installers/ninerouter.stub.ts",
-        ],
-      ];
-      for (const [pattern, stubPath] of replacements) {
-        config.plugins.push(
-          new webpack.NormalModuleReplacementPlugin(pattern, (resource) => {
-            resource.request = stubPath;
-          })
-        );
-      }
-    }
-
     // Memory optimization: aggressive chunk size limits and splitting to reduce
     // peak heap usage during build. The OOM killer was terminating the build at
     // ~3.5GB heap; these settings force smaller, more digestible chunks.
     config.optimization.splitChunks = {
       ...config.optimization.splitChunks,
-      maxSize: 150000,                // Force chunks < 250KB to reduce heap pressure
-      maxAsyncRequests: 20,           // Limit concurrent chunk loads
-      maxInitialRequests: 20,
+      maxSize: 150000, // Force chunks < 250KB to reduce heap pressure
+      maxAsyncRequests: 10, // Limit concurrent chunk loads
+      maxInitialRequests: 10,
       minSize: 10000,
     };
 

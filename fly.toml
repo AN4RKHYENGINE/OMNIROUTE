@@ -2,6 +2,7 @@ app = "omniroute-late-meadowland-9596"
 
 [env]
 OMNIROUTE_INTERNAL_PORT = "20128"
+OMNIROUTE_USE_TURBOPACK = "0"
 
 [http_service]
 internal_port = 20128
