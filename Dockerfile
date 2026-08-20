@@ -23,7 +23,7 @@ RUN npm install -g npm@11
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
   NODE_OPTIONS="--max-old-space-size=512" \
-  npm ci --omit=optional --omit=dev --legacy-peer-deps --no-audit --no-fund 2>&1 | head -100
+  npm ci --omit=optional --legacy-peer-deps --no-audit --no-fund 2>&1 | head -100
 
 COPY . .
 
