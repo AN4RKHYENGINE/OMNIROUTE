@@ -1,39 +1,36 @@
-# fly.toml app configuration file generated for omniroute-late-meadowland-9596 on 2026-08-13T23:10:53-04:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+app = "omniroute-late-meadowland-9596"
 
-app = 'omniroute-late-meadowland-9596'
-primary_region = 'sin'
-
-[build]
-[deploy]
 [env]
-  BIND = '0.0.0.0'
-  HOST = '0.0.0.0'
-  HOSTNAME = '0.0.0.0'
-  TZ = 'Asia/Shanghai'
-
-[processes]
-  app = 'node run-standalone.mjs'
-
-[[mounts]]
-  source = 'data'
-  destination = '/data'
-  auto_extend_size_threshold = 80
-  auto_extend_size_increment = '1GB'
-  auto_extend_size_limit = '10GB'
+OMNIROUTE_INTERNAL_PORT = "20128"
 
 [http_service]
-  internal_port = 20128
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 1
-  processes = ['app']
+internal_port = 20128
+force_https = false
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 0
 
-[[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
-  memory_mb = 1024
+[[services]]
+protocol = "tcp"
+internal_port = 20128
+
+[[services.ports]]
+port = 80
+handlers = ["http"]
+
+[[services.ports]]
+port = 443
+handlers = ["tls", "http"]
+
+[mounts]
+source = "data"
+destination = "/data"
+size_gb = 10
+
+[deploy]
+release_command = "/app/scripts/release.sh"
+
+
+
+[build.args]
+  BP_NODE_VERSION = "24.x"
