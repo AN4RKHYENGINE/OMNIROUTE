@@ -1,0 +1,2 @@
+// Stub: Shared components
+export {};
