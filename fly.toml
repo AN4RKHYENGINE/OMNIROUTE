@@ -34,7 +34,7 @@ release_command = "/app/scripts/release.sh"
 
 
 [build.args]
+  OMNIROUTE_USE_TURBOPACK = "0"
   BP_NODE_VERSION = "24.x"
 
 [build]
-args = { OMNIROUTE_USE_TURBOPACK = "0" }
