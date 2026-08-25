@@ -8,6 +8,7 @@ FROM base AS runner-base
 RUN mkdir -p /app/data
 
 FROM base AS builder
+ARG OMNIROUTE_USE_TURBOPACK=0
 
 RUN apk add --no-cache python3 build-base
 
@@ -29,7 +30,7 @@ RUN npm install @parcel/watcher --no-save --legacy-peer-deps --no-audit --no-fun
 
 COPY . .
 
-RUN NODE_OPTIONS="--max-old-space-size=2048 --gc-interval=100" npm run build
+RUN OMNIROUTE_USE_TURBOPACK=$OMNIROUTE_USE_TURBOPACK NODE_OPTIONS="--max-old-space-size=2048" npm run build
 
 FROM runner-base AS stage-3
 
