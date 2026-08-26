@@ -1,40 +1,4 @@
-app = "omniroute-late-meadowland-9596"
-
-[env]
-OMNIROUTE_INTERNAL_PORT = "20128"
-OMNIROUTE_USE_TURBOPACK = "0"
-
-[http_service]
-internal_port = 20128
-force_https = false
-auto_stop_machines = true
-auto_start_machines = true
-min_machines_running = 0
-
-[[services]]
-protocol = "tcp"
-internal_port = 20128
-
-[[services.ports]]
-port = 80
-handlers = ["http"]
-
-[[services.ports]]
-port = 443
-handlers = ["tls", "http"]
-
-[mounts]
-source = "data"
-destination = "/data"
-size_gb = 10
-
-[deploy]
-release_command = "/app/scripts/release.sh"
-
-
-
+# ... existing config ...
 [build.args]
-  OMNIROUTE_USE_TURBOPACK = "0"
-  BP_NODE_VERSION = "24.x"
-
-[build]
+OMNIROUTE_USE_TURBOPACK = "0"
+NODE_OPTIONS = "--max-old-space-size=8192"
