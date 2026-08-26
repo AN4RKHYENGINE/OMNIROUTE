@@ -30,7 +30,7 @@ RUN npm install @parcel/watcher --no-save --legacy-peer-deps --no-audit --no-fun
 
 COPY . .
 
-RUN OMNIROUTE_USE_TURBOPACK=$OMNIROUTE_USE_TURBOPACK NODE_OPTIONS="--max-old-space-size=6144" npm run build
+RUN OMNIROUTE_USE_TURBOPACK=$OMNIROUTE_USE_TURBOPACK NODE_OPTIONS="${NODE_OPTIONS}" npm run build
 
 FROM runner-base AS stage-3
 
