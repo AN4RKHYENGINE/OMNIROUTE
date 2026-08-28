@@ -21,7 +21,6 @@ type GenerationResult = {
   data: any;
   timestamp: number;
   audioUrl?: string;
-
 };
 const MODALITY_CONFIG: Record<
   Modality,
@@ -445,22 +444,21 @@ export default function MediaPageClient() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-  useEffect(() => {
     if (!registriesInitialized.current && cachedRegistries) {
       registriesInitialized.current = true;
       setRegistries(cachedRegistries);
       setIsLoading(false);
       return;
     }
-    
+
     fetch("/api/registries")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         cachedRegistries = data;
         setRegistries(data);
         setIsLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Failed to load registries:", err);
         setIsLoading(false);
       });
@@ -468,8 +466,12 @@ export default function MediaPageClient() {
   const IMAGE_PROVIDER_MODELS = registries ? toProviderModels(registries.IMAGE_PROVIDERS) : [];
   const VIDEO_PROVIDER_MODELS = registries ? toProviderModels(registries.VIDEO_PROVIDERS) : [];
   const MUSIC_PROVIDER_MODELS = registries ? toProviderModels(registries.MUSIC_PROVIDERS) : [];
-  const SPEECH_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_SPEECH_PROVIDERS) : [];
-  const TRANSCRIPTION_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_TRANSCRIPTION_PROVIDERS) : [];
+  const SPEECH_PROVIDER_MODELS = registries
+    ? toProviderModels(registries.AUDIO_SPEECH_PROVIDERS)
+    : [];
+  const TRANSCRIPTION_PROVIDER_MODELS = registries
+    ? toProviderModels(registries.AUDIO_TRANSCRIPTION_PROVIDERS)
+    : [];
   const [imageMaskFile, setImageMaskFile] = useState<File | null>(null);
 
   // Fix #390: Track which local providers (sdwebui, comfyui) are actually configured
@@ -514,7 +516,7 @@ export default function MediaPageClient() {
       .catch(() => {
         // On error, keep showing all (fail-open)
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   // Filter out unconfigured local providers from the provider list
