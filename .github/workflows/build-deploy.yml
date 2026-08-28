@@ -22,6 +22,8 @@ jobs:
         run: npm ci
 
       - name: Build Next.js
+        env:
+          OMNIROUTE_USE_TURBOPACK: "0"
         run: npm run build
 
       - name: Upload .next artifact
