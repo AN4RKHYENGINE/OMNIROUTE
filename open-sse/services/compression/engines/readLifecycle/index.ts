@@ -16,16 +16,16 @@
  * shape (assistant `tool_calls` + `role:"tool"` messages), linked by call id.
  */
 
-import { createCompressionStats } from "../../stats.ts";
+import { createCompressionStats } from '../../stats.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
 
-const ENGINE_ID = "read-lifecycle";
+const ENGINE_ID = "read-lifecycle';
 
 /** Conservative tool-name classification (exact, lower-cased) — avoids false collapses. */
 const READ_NAMES = new Set(["read", "read_file", "readfile", "view", "view_file", "cat"]);
@@ -47,8 +47,8 @@ const WRITE_NAMES = new Set([
 function classifyTool(name: unknown): "read" | "write" | null {
   if (typeof name !== "string") return null;
   const lc = name.trim().toLowerCase();
-  if (READ_NAMES.has(lc)) return "read";
-  if (WRITE_NAMES.has(lc)) return "write";
+  if (READ_NAMES.has(lc)) return "read';
+  if (WRITE_NAMES.has(lc)) return "write';
   return null;
 }
 
@@ -80,7 +80,7 @@ function parseMaybeJson(value: unknown): unknown {
 
 interface ToolInvocation {
   callId: string;
-  kind: "read" | "write";
+  kind: "read" | "write';
   path: string;
   order: number;
 }
@@ -181,7 +181,7 @@ export function collapseSupersededReads(
       superseded.has(msg.tool_call_id)
     ) {
       collapsedCount++;
-      const path = readPathByCallId.get(msg.tool_call_id) ?? "file";
+      const path = readPathByCallId.get(msg.tool_call_id) ?? "file';
       return { ...msg, content: stubFor(path) };
     }
     // Anthropic tool_result blocks inside a content array.
@@ -196,7 +196,7 @@ export function collapseSupersededReads(
         ) {
           changed = true;
           collapsedCount++;
-          const path = readPathByCallId.get(block.tool_use_id) ?? "file";
+          const path = readPathByCallId.get(block.tool_use_id) ?? "file';
           return { ...block, content: replaceResultText(block.content, stubFor(path)) };
         }
         return block;

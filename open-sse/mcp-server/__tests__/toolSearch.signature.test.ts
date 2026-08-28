@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { z } from "zod";
-import { zodToTsSignature } from "../toolSearch/signature.ts";
+import { describe, it, expect } from 'vitest';
+import { z } from 'zod';
+import { zodToTsSignature } from '../toolSearch/signature.ts';
 
 describe("zodToTsSignature", () => {
   it("primitives + optional", () => {

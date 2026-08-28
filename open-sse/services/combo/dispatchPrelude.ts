@@ -12,21 +12,21 @@
  *
  * Extracted from combo.ts as a pure move (#3501). No behaviour change.
  */
-import { getCachedProviderConnections } from "@lib/db/readCache";
-import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
-import { fisherYatesShuffle, getNextFromDeck } from "@shared/utils/shuffleDeck";
-import { handleFusionChat, type FusionTuning } from "../fusion.ts";
-import { parseModel } from "../model.ts";
-import { handlePipelineChat, type PipelineStep } from "../pipeline.ts";
-import type { resolveComboSetupConfig } from "../comboConfig.ts";
-import { clampComboDepth, MAX_GLOBAL_ATTEMPTS, resolveDelayMs } from "./comboPredicates.ts";
-import { resolveComboRuntimeUnits, resolveComboTargets } from "./comboStructure.ts";
-import { isComboModelVisible } from "./comboVisibility.ts";
-import { buildFusionHandleSingleModel, extractFusionPanelSpec } from "./fusionPanel.ts";
+import { getCachedProviderConnections } from '@lib/db/readCache';
+import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
+import { fisherYatesShuffle, getNextFromDeck } from '@shared/utils/shuffleDeck';
+import { handleFusionChat, type FusionTuning } from '../fusion.ts';
+import { parseModel } from '../model.ts';
+import { handlePipelineChat, type PipelineStep } from '../pipeline.ts';
+import type { resolveComboSetupConfig } from '../comboConfig.ts';
+import { clampComboDepth, MAX_GLOBAL_ATTEMPTS, resolveDelayMs } from './comboPredicates.ts';
+import { resolveComboRuntimeUnits, resolveComboTargets } from './comboStructure.ts';
+import { isComboModelVisible } from './comboVisibility.ts';
+import { buildFusionHandleSingleModel, extractFusionPanelSpec } from './fusionPanel.ts';
 import {
   expandComboSystemPromptIfPresent,
   resolveTargetFingerprint,
-} from "../comboAgentMiddleware.ts";
+} from '../comboAgentMiddleware.ts';
 import {
   clampStickyWeightedTargetLimit,
   getStickyRoundRobinStartIndex,
@@ -35,13 +35,13 @@ import {
   recordStickyWeightedSuccess,
   resolveComboStickyRoundRobinLimit,
   rrCounters,
-} from "./rrState.ts";
-import { executeRuntimeUnitCombo } from "./runtimeUnits.ts";
+} from './rrState.ts';
+import { executeRuntimeUnitCombo } from './runtimeUnits.ts';
 import {
   releaseQualityClone,
   releaseRejectedQualityResponse,
   validateResponseQuality,
-} from "./validateQuality.ts";
+} from './validateQuality.ts';
 import type {
   ComboCollectionLike,
   ComboLike,
@@ -54,7 +54,7 @@ import type {
   NestedComboMode,
   ResolvedComboUnit,
   SingleModelTarget,
-} from "./types.ts";
+} from './types.ts';
 
 type ComboSetupConfig = ReturnType<typeof resolveComboSetupConfig>;
 type RunCombo = (options: HandleComboChatOptions) => Promise<Response>;
@@ -128,7 +128,7 @@ export function pinIsDurablyUnhealthy(
   // The pin survives as long as AT LEAST ONE connection is healthy or only
   // briefly cooling down — failover only when every connection is durably down.
   const anyUsable = connections.some((c) => {
-    const status = typeof c.testStatus === "string" ? c.testStatus : "";
+    const status = typeof c.testStatus === "string" ? c.testStatus : "';
     if (TERMINAL_PIN_STATUSES.has(status)) return false;
     if (Number(c.backoffLevel ?? 0) >= backoffThreshold) return false;
     const rl = c.rateLimitedUntil ? new Date(String(c.rateLimitedUntil)).getTime() : 0;
@@ -163,7 +163,7 @@ async function isPinnedModelDurablyUnhealthy(pinnedModel: string): Promise<boole
 }
 
 export function normalizeNestedComboMode(value: unknown): NestedComboMode {
-  return value === "execute" ? "execute" : "flatten";
+  return value === "execute" ? "execute" : "flatten';
 }
 
 function buildDefaultNesting(
@@ -522,7 +522,7 @@ async function orderRuntimeUnits(args: {
         stickyUnit,
         ...runtimeUnits.filter((unit) => unit.executionKey !== stickyUnit.executionKey),
       ];
-      unitExecutionStrategy = "priority";
+      unitExecutionStrategy = "priority';
     }
   }
   if (strategy === "random") runtimeUnits = fisherYatesShuffle([...runtimeUnits]);

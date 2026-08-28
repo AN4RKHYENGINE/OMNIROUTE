@@ -1,12 +1,12 @@
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 import {
   analyzePrefix,
   generatePromptCacheKey,
-} from "@lib/promptCache/prefixAnalyzer.ts";
-import { getCachedProviderConnections } from "@lib/db/readCache";
-import { parseModel } from "../model.ts";
-import type { ResolvedComboTarget } from "./types.ts";
-import { getOAuthSessionAvailability } from "../oauthSessionOccupancy.ts";
+} from '@lib/promptCache/prefixAnalyzer.ts';
+import { getCachedProviderConnections } from '@lib/db/readCache';
+import { parseModel } from '../model.ts';
+import type { ResolvedComboTarget } from './types.ts';
+import { getOAuthSessionAvailability } from '../oauthSessionOccupancy.ts';
 
 interface PromptCacheAffinityTarget {
   executionKey: string;
@@ -14,7 +14,7 @@ interface PromptCacheAffinityTarget {
   authType?: string | null;
 }
 
-export type PromptCacheAffinitySource = "explicit" | "prefix";
+export type PromptCacheAffinitySource = "explicit" | "prefix';
 
 export interface PromptCacheAffinityResolution {
   key: string;
@@ -38,9 +38,9 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 function normalizeMessageContent(value: unknown): string | unknown[] {
   if (typeof value === "string" || Array.isArray(value)) return value;
   try {
-    return JSON.stringify(value) || "";
+    return JSON.stringify(value) || "';
   } catch {
-    return "";
+    return "';
   }
 }
 
@@ -108,17 +108,17 @@ export function resolvePromptCacheAffinityKey(
   const prefixKey =
     prefixAnalysis && prefixAnalysis.prefixEndIdx >= 0
       ? generatePromptCacheKey(messages || [])
-      : "";
+      : "';
   const key = explicit ?? prefixKey;
   if (!key) return null;
 
-  const source: PromptCacheAffinitySource = explicit ? "explicit" : "prefix";
+  const source: PromptCacheAffinitySource = explicit ? "explicit" : "prefix';
   const fingerprint = createHash("sha256").update(key).digest("hex").slice(0, 12);
   return { key, source, fingerprint };
 }
 
 export function promptCacheTargetIdentity(target: PromptCacheAffinityTarget): string {
-  const connectionId = typeof target.connectionId === "string" ? target.connectionId.trim() : "";
+  const connectionId = typeof target.connectionId === "string" ? target.connectionId.trim() : "';
   if (connectionId) return `connection:${connectionId}`;
   return `execution:${target.executionKey}`;
 }
@@ -157,7 +157,7 @@ export function calculatePromptCacheAffinityScores(
 ): Map<string, number> {
   const resolution = resolvePromptCacheAffinityKey(body);
   if (!resolution || targets.length === 0) return new Map();
-  let winnerIdentity = "";
+  let winnerIdentity = "';
   let winnerScore = -1;
   for (const target of targets) {
     const identity = promptCacheTargetIdentity(target);
@@ -223,7 +223,7 @@ export function expandPromptCacheAffinityTargetsFromConnections(
         target.provider ||
         parseModel(target.modelStr).provider ||
         parseModel(target.modelStr).providerAlias ||
-        "unknown";
+        "unknown';
       const connection = (connectionsByProvider.get(provider) || []).find(
         (candidate) => candidate?.id === target.connectionId
       );
@@ -234,7 +234,7 @@ export function expandPromptCacheAffinityTargetsFromConnections(
       continue;
     }
     const parsed = parseModel(target.modelStr);
-    const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown";
+    const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown';
     const connectionIds = (connectionsByProvider.get(provider) || [])
       .map((connection) =>
         connection && typeof connection.id === "string" ? connection.id.trim() : ""
@@ -304,11 +304,11 @@ export function shouldProtectOriginalFirst(
  */
 function getBaseModelIdentity(target: ResolvedComboTarget): string {
   // executionKey format: "stepId@connectionId" when expanded, or just "stepId"
-  const executionKey = target.executionKey || "";
+  const executionKey = target.executionKey || "';
   const baseExecutionKey = executionKey.split("@")[0];
 
   // modelStr format: "provider/model" or "provider/model:version"
-  const modelStr = target.modelStr || "";
+  const modelStr = target.modelStr || "';
 
   // Use executionKey as primary (preserves stepId grouping), fall back to modelStr
   return baseExecutionKey || modelStr;

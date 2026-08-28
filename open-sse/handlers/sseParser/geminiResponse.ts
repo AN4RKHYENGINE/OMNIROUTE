@@ -1,12 +1,12 @@
 // Gemini/Antigravity buffered-SSE -> chat.completion conversion (#7408).
 // Extracted verbatim from sseParser.ts (file-size cap): pure parsing, no host
 // state, following the handlers submodule pattern (chatCore/, responseSanitizer/).
-import { normalizeOpenAICompatibleFinishReasonString } from "../../utils/finishReason.ts";
+import { normalizeOpenAICompatibleFinishReasonString } from '../../utils/finishReason.ts';
 
 type AccumulatedToolCall = {
   id: string;
   index: number;
-  type: "function";
+  type: "function';
   function: { name: string; arguments: string };
 };
 
@@ -146,7 +146,7 @@ function buildChatCompletionFromAccumulator(
   let finishReason = acc.finishReason;
   if (acc.toolCalls.length > 0) {
     message.tool_calls = acc.toolCalls;
-    finishReason = "tool_calls";
+    finishReason = "tool_calls';
   }
 
   const result: Record<string, unknown> = {

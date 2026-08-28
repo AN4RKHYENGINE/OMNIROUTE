@@ -11,14 +11,14 @@
  * block. Pure with respect to handler state (only buffering debug/warn logs as a side effect).
  */
 
-import { normalizePayloadForLog } from "@/lib/logPayloads";
-import { extractSSEErrorMessage } from "../sseParser.ts";
-import { readNonStreamingResponseBody } from "./nonStreamingResponseBody.ts";
+import { normalizePayloadForLog } from '@/lib/logPayloads';
+import { extractSSEErrorMessage } from '../sseParser.ts';
+import { readNonStreamingResponseBody } from './nonStreamingResponseBody.ts';
 import {
   normalizeNonStreamingEventPayload,
   parseNonStreamingSSEPayload,
   shouldTreatBufferedEventResponseAsExpected,
-} from "./nonStreamingSse.ts";
+} from './nonStreamingSse.ts';
 
 type LoggerLike =
   | {
@@ -30,20 +30,20 @@ type LoggerLike =
 
 export type NonStreamingParseResult =
   | {
-      kind: "ok";
+      kind: "ok';
       responseBody: unknown;
       responsePayloadFormat: string;
       looksLikeSSE: boolean;
       normalizedProviderPayload: unknown;
     }
   | {
-      kind: "invalid_sse";
+      kind: "invalid_sse';
       message: string;
       looksLikeSSE: true;
       normalizedProviderPayload: unknown;
     }
   | {
-      kind: "invalid_json";
+      kind: "invalid_json';
       message: string;
       detailedError: string;
       looksLikeSSE: false;
@@ -72,7 +72,7 @@ export async function parseNonStreamingResponseBody(opts: {
 
   if (looksLikeSSE) {
     const streamPayload = normalizeNonStreamingEventPayload(rawBody, contentType);
-    const streamKind = contentType.includes("application/x-ndjson") ? "NDJSON" : "SSE";
+    const streamKind = contentType.includes("application/x-ndjson") ? "NDJSON" : "SSE';
     if (shouldTreatBufferedEventResponseAsExpected(upstreamStream, providerHeaders, finalBody)) {
       log?.debug?.(
         "STREAM",
@@ -94,7 +94,7 @@ export async function parseNonStreamingResponseBody(opts: {
       // so the actionable error is not swallowed (#3324).
       const surfacedSseError = extractSSEErrorMessage(streamPayload);
       const invalidSseMessage =
-        surfacedSseError || "Invalid SSE response for non-streaming request";
+        surfacedSseError || "Invalid SSE response for non-streaming request';
       return {
         kind: "invalid_sse",
         message: invalidSseMessage,
@@ -123,7 +123,7 @@ export async function parseNonStreamingResponseBody(opts: {
     };
   } catch (err) {
     const detailedError = `Invalid JSON response from provider (error: ${err instanceof Error ? err.message : String(err)}): ${rawBody.substring(0, 1000)}`;
-    const invalidJsonMessage = "Invalid JSON response from provider";
+    const invalidJsonMessage = "Invalid JSON response from provider';
     return {
       kind: "invalid_json",
       message: invalidJsonMessage,

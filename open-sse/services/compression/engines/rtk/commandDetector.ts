@@ -1,4 +1,4 @@
-import { lastCommandSegment } from "./splitCompositeCommand.ts";
+import { lastCommandSegment } from './splitCompositeCommand.ts';
 
 export interface CommandDetectionResult {
   type: string;
@@ -13,7 +13,7 @@ export interface CommandDetectionResult {
     | "package"
     | "infra"
     | "cloud"
-    | "generic";
+    | "generic';
   matchedPatterns: string[];
 }
 

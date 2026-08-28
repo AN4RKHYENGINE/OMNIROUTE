@@ -1,10 +1,10 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { resolvePublicCred } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { resolvePublicCred } from '../../shared.ts';
 import {
   getGrokBuildClientVersion,
   GROK_BUILD_MODELS_URL,
   GROK_BUILD_TOKEN_URL,
-} from "../../../grokBuild.ts";
+} from '../../../grokBuild.ts';
 
 export const grok_cliProvider: RegistryEntry = {
   id: "grok-cli",

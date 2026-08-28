@@ -1,4 +1,4 @@
-import { getProviderModels } from "../config/providerModels.ts";
+import { getProviderModels } from '../config/providerModels.ts';
 
 const REGISTERED_EFFORT_SUFFIXES = ["none", "low", "medium", "high", "max", "xhigh"] as const;
 

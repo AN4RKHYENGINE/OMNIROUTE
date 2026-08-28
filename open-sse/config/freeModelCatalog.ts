@@ -1,6 +1,6 @@
-import type { TosVerdict } from "./freeTierCatalog.ts";
-export { FREE_MODEL_BUDGETS } from "./freeModelCatalog.data.ts";
-import { FREE_MODEL_BUDGETS } from "./freeModelCatalog.data.ts";
+import type { TosVerdict } from './freeTierCatalog.ts';
+export { FREE_MODEL_BUDGETS } from './freeModelCatalog.data.ts';
+import { FREE_MODEL_BUDGETS } from './freeModelCatalog.data.ts';
 
 export type FreeModelFreeType =
   | "recurring-daily"
@@ -9,7 +9,7 @@ export type FreeModelFreeType =
   | "recurring-uncapped"
   | "one-time-initial"
   | "keyless"
-  | "discontinued";
+  | "discontinued';
 
 export interface FreeModelBudget {
   provider: string;
@@ -72,7 +72,7 @@ export const FREE_TIER_BOOSTS: Record<
 };
 
 function fmt(n: number): string {
-  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M";
+  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M';
 }
 
 // Sum a per-model numeric field, counting each shared pool once (max within the pool);

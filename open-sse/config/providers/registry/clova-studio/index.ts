@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 export const clova_studioProvider: RegistryEntry = {
   id: "clova-studio",

@@ -1,6 +1,6 @@
 // Gemini helper functions for translator
 
-import { safeParseJSON } from "./jsonUtil.ts";
+import { safeParseJSON } from './jsonUtil.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -116,9 +116,9 @@ export const DEFAULT_SAFETY_SETTINGS = [
 
 function normalizeAudioMimeType(format: unknown): string {
   const normalized =
-    typeof format === "string" && format.trim() ? format.trim().toLowerCase() : "wav";
+    typeof format === "string" && format.trim() ? format.trim().toLowerCase() : "wav';
   if (normalized === "mp3") {
-    return "audio/mpeg";
+    return "audio/mpeg';
   }
   return `audio/${normalized}`;
 }
@@ -148,13 +148,13 @@ export function convertOpenAIContentToParts(content: unknown): JsonRecord[] {
         // OpenAI-style audio_url (data: URI). Mirrors the image_url data-URL
         // parser below but produces an audio inlineData part (#913).
         const audioUrl = toRecord(rec.audio_url);
-        const url = typeof audioUrl.url === "string" ? audioUrl.url : "";
+        const url = typeof audioUrl.url === "string" ? audioUrl.url : "';
         if (url.startsWith("data:")) {
           const commaIndex = url.indexOf(",");
           if (commaIndex !== -1) {
             const mimePart = url.substring(5, commaIndex); // skip "data:"
             const data = url.substring(commaIndex + 1);
-            const mimeType = mimePart.split(";")[0] || "audio/wav";
+            const mimeType = mimePart.split(";")[0] || "audio/wav';
             parts.push({ inlineData: { mimeType, data } });
           }
         }
@@ -204,7 +204,7 @@ export function convertOpenAIContentToParts(content: unknown): JsonRecord[] {
             rec.media_type ||
             file?.mime_type ||
             doc?.mime_type ||
-            "application/pdf";
+            "application/pdf';
           if (rawDataStr.startsWith("data:")) {
             const commaIndex = rawDataStr.indexOf(",");
             if (commaIndex !== -1) {
@@ -279,7 +279,7 @@ export function extractTextContent(content: unknown): string {
       .map((c) => (typeof c.text === "string" ? c.text : ""))
       .join("");
   }
-  return "";
+  return "';
 }
 
 // Try parse JSON safely (null fallback on parse error; re-export keeps legacy API).
@@ -355,7 +355,7 @@ function inlineLocalSchemaRefs(
   }
 
   const record: JsonRecord = { ...toRecord(node) };
-  const ref = typeof record.$ref === "string" ? record.$ref : "";
+  const ref = typeof record.$ref === "string" ? record.$ref : "';
   if (ref.startsWith("#/$defs/") || ref.startsWith("#/definitions/")) {
     const rest = { ...record };
     delete rest.$ref;
@@ -477,7 +477,7 @@ function convertEnumValuesToStrings(obj: unknown): void {
     } else {
       record.enum = record.enum.map((v: unknown) => String(v));
       if (!record.type) {
-        record.type = "string";
+        record.type = "string';
       }
     }
   }
@@ -598,7 +598,7 @@ function flattenTypeArrays(obj: unknown): void {
   const record = obj as JsonRecord;
   if (record.type && Array.isArray(record.type)) {
     const nonNullTypes = record.type.filter((t) => t !== "null");
-    record.type = nonNullTypes.length > 0 ? nonNullTypes[0] : "string";
+    record.type = nonNullTypes.length > 0 ? nonNullTypes[0] : "string';
   }
 
   for (const value of Object.values(record)) {
@@ -706,7 +706,7 @@ export function cleanJSONSchemaForAntigravity(schema: unknown): unknown {
       !record.type &&
       (record.properties !== undefined || record.required !== undefined)
     ) {
-      record.type = "object";
+      record.type = "object';
     }
 
     // Recurse into remaining values.

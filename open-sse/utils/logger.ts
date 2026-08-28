@@ -7,7 +7,7 @@
  *   - "json": Single-line JSON objects for log aggregators
  *
  * Usage:
- *   import { logger, createLogger, generateRequestId } from "../utils/logger.ts";
+ *   import { logger, createLogger, generateRequestId } from '../utils/logger.ts';
  *
  *   // Tag-based (simple — for services/utilities):
  *   const log = logger("CHAT");
@@ -50,7 +50,7 @@ function isLogLevel(value: string): value is LogLevel {
 const configuredLevel = getAppLogLevel("info").toLowerCase();
 const currentLevel = isLogLevel(configuredLevel) ? LEVELS[configuredLevel] : LEVELS.info;
 
-const jsonFormat = getAppLogFormat("text") === "json";
+const jsonFormat = getAppLogFormat("text") === "json';
 
 let requestCounter = 0;
 
@@ -70,7 +70,7 @@ export function generateRequestId() {
  * @returns {string}
  */
 export function maskKey(key: string | null | undefined): string {
-  if (!key || key.length < 12) return "(redacted)";
+  if (!key || key.length < 12) return "(redacted)';
   return `${key.slice(0, 6)}...${key.slice(-4)}`;
 }
 
@@ -99,12 +99,12 @@ function getConsoleFn(level: LogLevel): ConsoleFn {
  * @returns {string} Formatted metadata string or empty string
  */
 function formatMeta(meta?: LogMetadata | null): string {
-  if (!meta || typeof meta !== "object") return "";
+  if (!meta || typeof meta !== "object") return "';
   const cleaned: LogMetadata = {};
   for (const [k, v] of Object.entries(meta)) {
     if (v !== undefined && v !== null) cleaned[k] = v;
   }
-  return Object.keys(cleaned).length > 0 ? ` ${JSON.stringify(cleaned)}` : "";
+  return Object.keys(cleaned).length > 0 ? ` ${JSON.stringify(cleaned)}` : "';
 }
 
 /**
@@ -167,7 +167,7 @@ export function createLogger(requestId: string | null = null): RequestScopedLogg
       consoleFn(JSON.stringify(entry));
     } else {
       const ts = new Date().toISOString().slice(11, 23); // HH:MM:SS.mmm
-      const prefix = requestId ? `[${requestId}]` : "";
+      const prefix = requestId ? `[${requestId}]` : "';
       const dataStr = formatMeta(data);
       consoleFn(`${ts} ${prefix}[${tag}] ${message}${dataStr}`);
     }

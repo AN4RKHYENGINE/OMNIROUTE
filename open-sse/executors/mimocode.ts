@@ -20,22 +20,22 @@
  * real upstream diagnostic behind a generic "all accounts exhausted" error (#4976).
  */
 
-import * as crypto from "node:crypto";
-import * as os from "node:os";
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
-import { createProxyDispatcher } from "../utils/proxyDispatcher.ts";
-import { RATE_LIMIT_TEXT_PATTERNS } from "../services/accountFallback.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
-import { fetch as undiciFetch, type Dispatcher } from "undici";
+import * as crypto from 'node:crypto';
+import * as os from 'node:os';
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
+import { createProxyDispatcher } from '../utils/proxyDispatcher.ts';
+import { RATE_LIMIT_TEXT_PATTERNS } from '../services/accountFallback.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
+import { fetch as undiciFetch, type Dispatcher } from 'undici';
 
-const BOOTSTRAP_PATH = "/api/free-ai/bootstrap";
-const CHAT_PATH = "/api/free-ai/openai/chat";
+const BOOTSTRAP_PATH = "/api/free-ai/bootstrap';
+const CHAT_PATH = "/api/free-ai/openai/chat';
 const JWT_REFRESH_BUFFER_MS = 5 * 60 * 1000;
 const BOOTSTRAP_TIMEOUT_MS = 15_000;
 const COOLDOWN_BASE_MS = 5_000;
 const COOLDOWN_MAX_MS = 60_000;
 
-const MIMO_SOURCE = "mimocode-cli-free";
+const MIMO_SOURCE = "mimocode-cli-free';
 
 /**
  * Anti-abuse gate marker required by the Xiaomi free endpoint.
@@ -49,7 +49,7 @@ const MIMO_SOURCE = "mimocode-cli-free";
  * truncations are rejected.
  */
 export const MIMO_SYSTEM_MARKER =
-  "You are MiMoCode, an interactive CLI tool that helps users with software engineering tasks.";
+  "You are MiMoCode, an interactive CLI tool that helps users with software engineering tasks.';
 
 /**
  * Ensure the outgoing body carries the MiMoCode anti-abuse marker in a system message.
@@ -134,7 +134,7 @@ function getCpuModel(): string {
   } catch {
     /* ignore */
   }
-  return "unknown-cpu";
+  return "unknown-cpu';
 }
 
 export function generateFingerprint(seed?: string): string {
@@ -143,7 +143,7 @@ export function generateFingerprint(seed?: string): string {
   const platform = os.platform();
   const arch = os.arch();
   const cpu = getCpuModel();
-  let username = "unknown-user";
+  let username = "unknown-user';
   try {
     username = os.userInfo().username;
   } catch {
@@ -172,7 +172,7 @@ async function bootstrapJwt(
   const controller = new AbortController();
   const timer = setTimeout(() => {
     const err = new Error(`mimocode bootstrap timeout after ${BOOTSTRAP_TIMEOUT_MS}ms`);
-    err.name = "TimeoutError";
+    err.name = "TimeoutError';
     controller.abort(err);
   }, BOOTSTRAP_TIMEOUT_MS);
   const onSignal = signal ? () => controller.abort(signal.reason) : null;
@@ -230,7 +230,7 @@ export class MimocodeExecutor extends BaseExecutor {
 
   constructor() {
     super("mimocode", { format: "openai" });
-    this.baseUrl = this.getBaseUrls()[0] || "https://api.xiaomimimo.com";
+    this.baseUrl = this.getBaseUrls()[0] || "https://api.xiaomimimo.com';
     this.accounts.push({
       fingerprint: generateFingerprint(),
       jwt: "",
@@ -291,7 +291,7 @@ export class MimocodeExecutor extends BaseExecutor {
           const resolvedPort = port ?? (type === "socks5" ? 1080 : 8080);
           const auth = username
             ? `${encodeURIComponent(username)}:${password ? encodeURIComponent(password) : ""}@`
-            : "";
+            : "';
           this.proxyUrlMap.set(entry.fingerprint, `${type}://${auth}${host}:${resolvedPort}`);
         }
       }
@@ -400,7 +400,7 @@ export class MimocodeExecutor extends BaseExecutor {
       "MIMOCODE",
       `Auth failed (${resp.status}) on account ${account.fingerprint.slice(0, 8)}…`
     );
-    account.jwt = "";
+    account.jwt = "';
     account.expiresAt = 0;
     account.consecutiveFails = 0;
     const freshJwt = await this.getJwtForAccount(account, signal);
@@ -434,10 +434,10 @@ export class MimocodeExecutor extends BaseExecutor {
         "MIMOCODE",
         `Rate limited on account ${account.fingerprint.slice(0, 8)}, trying next…`
       );
-      return "rotate";
+      return "rotate';
     }
     if (resp.status !== 400) return null;
-    return (await this.handleBadRequest(resp, account, log)) ?? "rotate";
+    return (await this.handleBadRequest(resp, account, log)) ?? "rotate';
   }
 
   /**
@@ -509,7 +509,7 @@ export class MimocodeExecutor extends BaseExecutor {
       "X-Mimo-Source": MIMO_SOURCE,
       "User-Agent": USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)],
     };
-    if (stream) headers["Accept"] = "text/event-stream, application/json";
+    if (stream) headers["Accept"] = "text/event-stream, application/json';
     return headers;
   }
 

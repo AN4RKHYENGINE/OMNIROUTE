@@ -7,19 +7,19 @@
  * { "created": 1234567890, "data": [{ "url": "https://…", "format": "mp4" }] }
  */
 
-import { getVideoProvider, parseVideoModel } from "../config/videoRegistry.ts";
-import { kieExecutor } from "../executors/kie.ts";
-import { vertexGenerateVideo } from "../executors/vertexMedia.ts";
-import { handleGoogleFlowVideoGeneration } from "./videoGeneration/googleFlowHandler.ts";
-import { handleDeepinfraVideoGeneration } from "./videoGeneration/deepinfraHandler.ts";
-import { handleLeonardoVideoGeneration } from "./videoGeneration/leonardoHandler.ts";
-import { handleDashscopeVideoGeneration } from "./videoGeneration/dashscopeHandler.ts";
-import { handleNovitaVideoGeneration } from "./videoGeneration/novitaHandler.ts";
-import { handleXaiVideoGeneration } from "./videoGeneration/xaiGrokImagineHandler.ts";
-import { handleSegmindVideoGeneration } from "./videoGeneration/providers/segmind.ts";
-import { handleAdobeFireflyVideoGeneration } from "./videoGeneration/adobeFireflyHandler.ts";
-import { handleOpenAIVideoGeneration } from "./videoGeneration/openai.ts";
-import { getVideoJobPreset, handleVideoJobGeneration } from "./videoGeneration/job.ts";
+import { getVideoProvider, parseVideoModel } from '../config/videoRegistry.ts';
+import { kieExecutor } from '../executors/kie.ts';
+import { vertexGenerateVideo } from '../executors/vertexMedia.ts';
+import { handleGoogleFlowVideoGeneration } from './videoGeneration/googleFlowHandler.ts';
+import { handleDeepinfraVideoGeneration } from './videoGeneration/deepinfraHandler.ts';
+import { handleLeonardoVideoGeneration } from './videoGeneration/leonardoHandler.ts';
+import { handleDashscopeVideoGeneration } from './videoGeneration/dashscopeHandler.ts';
+import { handleNovitaVideoGeneration } from './videoGeneration/novitaHandler.ts';
+import { handleXaiVideoGeneration } from './videoGeneration/xaiGrokImagineHandler.ts';
+import { handleSegmindVideoGeneration } from './videoGeneration/providers/segmind.ts';
+import { handleAdobeFireflyVideoGeneration } from './videoGeneration/adobeFireflyHandler.ts';
+import { handleOpenAIVideoGeneration } from './videoGeneration/openai.ts';
+import { getVideoJobPreset, handleVideoJobGeneration } from './videoGeneration/job.ts';
 import {
   extractRunwayFailureMessage,
   normalizeRunwayVideoResult,
@@ -27,30 +27,30 @@ import {
   resolveRunwayDuration,
   resolveRunwayPromptImage,
   resolveRunwayRatio,
-} from "./videoGeneration/runwayHelpers.ts";
-import { getExecutor } from "../executors/index.ts";
-import { getKieTaskId, isJsonObject, parseKieResultJson } from "../utils/kieTask.ts";
+} from './videoGeneration/runwayHelpers.ts';
+import { getExecutor } from '../executors/index.ts';
+import { getKieTaskId, isJsonObject, parseKieResultJson } from '../utils/kieTask.ts';
 import {
   buildRunwayApiUrl,
   buildRunwayHeaders,
   RUNWAYML_IMAGE_REQUIRED_MODELS,
-} from "../config/runway.ts";
+} from '../config/runway.ts';
 import {
   submitComfyWorkflow,
   pollComfyResult,
   fetchComfyOutput,
   extractComfyOutputFiles,
   resolveComfyUiBaseUrl,
-} from "../utils/comfyuiClient.ts";
-import { saveCallLog } from "@/lib/usageDb";
-import { getAllCustomModels } from "@/lib/db/models";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+} from '../utils/comfyuiClient.ts';
+import { saveCallLog } from '@/lib/usageDb';
+import { getAllCustomModels } from '@/lib/db/models';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 import {
   FetchTimeoutError,
   fetchWithTimeout,
   getConfiguredTimeout,
-} from "@/shared/utils/fetchTimeout";
-import { handleFalVideoGeneration } from "./mediaGeneration/fal.ts";
+} from '@/shared/utils/fetchTimeout';
+import { handleFalVideoGeneration } from './mediaGeneration/fal.ts';
 
 /**
  * Resolve the base URL for OpenAI-compatible video generation endpoints.
@@ -727,7 +727,7 @@ async function handleKieVideoGeneration({
         createData?.msg ||
         createData?.message ||
         createData?.error ||
-        "KIE video generation did not return taskId";
+        "KIE video generation did not return taskId';
       if (log) {
         log.error("VIDEO", `KIE createTask failed: ${JSON.stringify(createData)}`);
       }
@@ -766,7 +766,7 @@ async function handleKieVideoGeneration({
 
     const record = isJsonObject(recordData) ? recordData : {};
     const data = isJsonObject(record.data) ? record.data : {};
-    const errorMessage = data.failMsg || data.errorMessage || record.msg || "KIE video task failed";
+    const errorMessage = data.failMsg || data.errorMessage || record.msg || "KIE video task failed';
     return { success: false, status: 502, error: String(errorMessage) };
   } catch (err: unknown) {
     return {
@@ -859,7 +859,7 @@ async function handleRunwayVideoGeneration({
     }
 
     const submitData = await submitResponse.json();
-    const taskId = typeof submitData?.id === "string" ? submitData.id : "";
+    const taskId = typeof submitData?.id === "string" ? submitData.id : "';
     if (!taskId) {
       const errorText = `Runway submit did not return task id: ${JSON.stringify(submitData).slice(0, 400)}`;
       saveCallLog({
@@ -997,7 +997,7 @@ async function handleHaiperVideoGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "";
+  const token = credentials?.apiKey || "';
   const res = await fetch(providerConfig.baseUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json", HAIPER_KEY: token },

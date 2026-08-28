@@ -1,9 +1,9 @@
 import {
   attachOmniRouteMetaHeaders,
   buildOmniRouteResponseMetaHeaders,
-} from "@/domain/omnirouteResponseMeta";
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
-import { defaultLogger } from "@omniroute/open-sse/utils/logger";
+} from '@/domain/omnirouteResponseMeta';
+import { OMNIROUTE_RESPONSE_HEADERS } from '@/shared/constants/headers';
+import { defaultLogger } from '../../utils/logger';
 
 const STREAMING_RESPONSE_HEADER_DENYLIST = new Set([
   "content-type",
@@ -100,7 +100,7 @@ function getForwardingPriority(headerName: string): number {
  *
  * See issue #5849.
  */
-const NEXTJS_MIDDLEWARE_HEADER_PREFIX = "x-middleware-";
+const NEXTJS_MIDDLEWARE_HEADER_PREFIX = "x-middleware-';
 
 /**
  * True when `headerName` is a Next.js internal middleware control header that

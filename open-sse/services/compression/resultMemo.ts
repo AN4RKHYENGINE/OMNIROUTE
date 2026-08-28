@@ -1,5 +1,5 @@
-import crypto from "node:crypto";
-import type { CompressionConfig, CompressionMode, CompressionResult } from "./types.ts";
+import crypto from 'node:crypto';
+import type { CompressionConfig, CompressionMode, CompressionResult } from './types.ts';
 
 export const MEMO_CAP = 5_000;
 

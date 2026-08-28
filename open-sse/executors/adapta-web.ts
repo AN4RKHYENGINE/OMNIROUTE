@@ -1,9 +1,9 @@
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 
-const ADAPTA_APP_URL = "https://agent.adapta.one";
-const ADAPTA_CLERK_URL = "https://clerk.agent.adapta.one";
+const ADAPTA_APP_URL = "https://agent.adapta.one';
+const ADAPTA_CLERK_URL = "https://clerk.agent.adapta.one';
 const ADAPTA_STREAM_URL = `${ADAPTA_APP_URL}/api/chat/stream/v1`;
 
 // Default model ID in Adapta's internal system (corresponds to "ONE" / auto-select)
@@ -23,7 +23,7 @@ const MODEL_ID_MAP: Record<string, number> = {
 };
 
 const USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // ── In-memory session cache ───────────────────────────────────────────────────
 
@@ -176,7 +176,7 @@ interface OpenAIMessage {
 }
 
 interface AdaptaPart {
-  type: "text";
+  type: "text';
   text: string;
 }
 
@@ -199,7 +199,7 @@ function extractText(content: unknown): string {
 
 /** Build the final Adapta messages array, injecting system prompt into first user message. */
 function buildAdaptaMessages(messages: OpenAIMessage[]): AdaptaMessage[] {
-  let systemText = "";
+  let systemText = "';
   const rest: OpenAIMessage[] = [];
 
   for (const msg of messages) {
@@ -245,7 +245,7 @@ function transformStream(adaptaStream: ReadableStream, model: string): ReadableS
   return new ReadableStream({
     async start(controller) {
       const reader = adaptaStream.getReader();
-      let buffer = "";
+      let buffer = "';
 
       const emit = (obj: object) =>
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
@@ -280,7 +280,7 @@ function transformStream(adaptaStream: ReadableStream, model: string): ReadableS
 
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
-          buffer = lines.pop() ?? "";
+          buffer = lines.pop() ?? "';
 
           for (const line of lines) {
             if (!line.startsWith("data: ")) continue;
@@ -430,11 +430,11 @@ export class AdaptaWebExecutor extends BaseExecutor {
       let errMsg = `Adapta error HTTP ${resp.status}`;
       if (resp.status === 401 || resp.status === 403) {
         errMsg =
-          "Adapta session expired or invalid — re-paste your __client cookie from .clerk.agent.adapta.one";
+          "Adapta session expired or invalid — re-paste your __client cookie from .clerk.agent.adapta.one';
         // Evict cached JWT so next request re-authenticates
         sessionCache.delete(cacheKey(clientJwt));
       } else if (resp.status === 429) {
-        errMsg = "Adapta rate limited — wait and retry";
+        errMsg = "Adapta rate limited — wait and retry';
       }
       log?.warn?.("ADAPTA-WEB", errMsg);
       return {
@@ -465,8 +465,8 @@ export class AdaptaWebExecutor extends BaseExecutor {
     // Non-streaming: collect all text-delta events
     const decoder = new TextDecoder();
     const reader = resp.body!.getReader();
-    let buf = "";
-    let fullText = "";
+    let buf = "';
+    let fullText = "';
 
     try {
       while (true) {
@@ -474,7 +474,7 @@ export class AdaptaWebExecutor extends BaseExecutor {
         if (done) break;
         buf += decoder.decode(value, { stream: true });
         const lines = buf.split("\n");
-        buf = lines.pop() ?? "";
+        buf = lines.pop() ?? "';
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           try {

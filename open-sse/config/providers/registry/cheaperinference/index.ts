@@ -1,4 +1,4 @@
-import type { RegistryEntry, RegistryModel } from "../../shared.ts";
+import type { RegistryEntry, RegistryModel } from '../../shared.ts';
 
 /**
  * Cheaper Inference (https://api.cheaperinference.com) — cost-ranked OpenAI-compatible

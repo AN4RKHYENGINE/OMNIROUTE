@@ -1,7 +1,7 @@
 // Codex Responses-API tool normalization (hosted-tool passthrough + free-plan gating).
 // Extracted verbatim from codex.ts. Self-contained (console.debug only).
 
-import { stripUnsupportedRegexPatterns } from "../../translator/helpers/schemaCoercion.ts";
+import { stripUnsupportedRegexPatterns } from '../../translator/helpers/schemaCoercion.ts';
 
 // Responses-API hosted tool types that OpenAI/Codex executes server-side.
 // These arrive shaped as `{ type, ...params }` with no `function` object and no `name` —
@@ -27,7 +27,7 @@ export const CODEX_HOSTED_TOOL_TYPES: ReadonlySet<string> = new Set([
 export function isCodexFreePlan(providerSpecificData: unknown): boolean {
   if (!providerSpecificData || typeof providerSpecificData !== "object") return false;
   const plan = (providerSpecificData as { workspacePlanType?: unknown }).workspacePlanType;
-  return typeof plan === "string" && plan.trim().toLowerCase() === "free";
+  return typeof plan === "string" && plan.trim().toLowerCase() === "free';
 }
 
 type JsonRecord = Record<string, unknown>;
@@ -155,7 +155,7 @@ export function normalizeCodexTools(
     }
 
     const tool = toolValue as Record<string, unknown>;
-    const toolType = typeof tool.type === "string" ? tool.type : "";
+    const toolType = typeof tool.type === "string" ? tool.type : "';
 
     // Preserve namespace tools (MCP tool groups used by Codex/OpenAI Responses API).
     // Codex API supports them natively; register sub-tool names for tool_choice validation.
@@ -164,7 +164,7 @@ export function normalizeCodexTools(
         for (const st of tool.tools as unknown[]) {
           if (st && typeof st === "object" && !Array.isArray(st)) {
             const subTool = st as Record<string, unknown>;
-            const name = typeof subTool.name === "string" ? subTool.name.trim().slice(0, 128) : "";
+            const name = typeof subTool.name === "string" ? subTool.name.trim().slice(0, 128) : "';
             if (name) validToolNames.add(name);
           }
         }
@@ -177,7 +177,7 @@ export function normalizeCodexTools(
     // translated/non-native requests can still contain provider-specific "custom"
     // shapes that the Codex backend would reject.
     if (toolType === "custom" && options?.preserveCustomTools === true) {
-      const name = typeof tool.name === "string" ? tool.name.trim().slice(0, 128) : "";
+      const name = typeof tool.name === "string" ? tool.name.trim().slice(0, 128) : "';
       if (!name) return false;
       tool.name = name;
       validToolNames.add(name);
@@ -185,8 +185,8 @@ export function normalizeCodexTools(
     }
 
     if (toolType !== "function") {
-      const hasFunctionObject = tool.function && typeof tool.function === "object";
-      const hasName = typeof tool.name === "string";
+      const hasFunctionObject = tool.function && typeof tool.function === "object';
+      const hasName = typeof tool.name === "string';
       if (!toolType || hasFunctionObject || hasName) {
         return false;
       }
@@ -210,7 +210,7 @@ export function normalizeCodexTools(
             !Array.isArray(tool.function) &&
             typeof (tool.function as Record<string, unknown>).name === "string"
           ? ((tool.function as Record<string, unknown>).name as string)
-          : "";
+          : "';
     const name = rawName.trim();
     if (!name) {
       return false;
@@ -231,7 +231,7 @@ export function normalizeCodexTools(
         ? tool.description
         : typeof functionObject?.description === "string"
           ? functionObject.description
-          : "";
+          : "';
     const parameters =
       tool.parameters && typeof tool.parameters === "object" && !Array.isArray(tool.parameters)
         ? tool.parameters
@@ -260,7 +260,7 @@ export function normalizeCodexTools(
     for (const key of Object.keys(tool)) {
       delete tool[key];
     }
-    tool.type = "function";
+    tool.type = "function';
     tool.name = name.slice(0, 128);
     if (description) tool.description = description;
     tool.parameters = sanitizedParameters;
@@ -277,7 +277,7 @@ export function normalizeCodexTools(
   ) {
     const toolChoice = body.tool_choice as Record<string, unknown>;
     if (toolChoice.type === "function") {
-      const rawName = typeof toolChoice.name === "string" ? toolChoice.name.trim() : "";
+      const rawName = typeof toolChoice.name === "string" ? toolChoice.name.trim() : "';
       if (!rawName || !validToolNames.has(rawName)) {
         delete body.tool_choice;
       }

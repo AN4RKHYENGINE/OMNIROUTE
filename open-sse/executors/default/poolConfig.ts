@@ -1,4 +1,4 @@
-import type { PoolConfig } from "../../services/sessionPool/types.ts";
+import type { PoolConfig } from '../../services/sessionPool/types.ts';
 
 export function normalizePoolConfig(value: Record<string, unknown>): PoolConfig | null {
   const {

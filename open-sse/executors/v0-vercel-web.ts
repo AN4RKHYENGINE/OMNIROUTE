@@ -7,13 +7,13 @@
  * Endpoint: POST https://v0.dev/api/chat
  * Auth: Session cookie from v0.dev
  */
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from '../utils/error.ts';
 
-const BASE_URL = "https://v0.dev";
+const BASE_URL = "https://v0.dev';
 const CHAT_URL = `${BASE_URL}/api/chat`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 export class V0VercelWebExecutor extends BaseExecutor {
   constructor() {
@@ -26,7 +26,7 @@ export class V0VercelWebExecutor extends BaseExecutor {
     const rawCookie = normalizeCookie(String(credentials?.apiKey ?? "").trim());
 
     const messages = (bodyObj.messages as Array<{ role: string; content: string }>) || [];
-    const modelId = (bodyObj.model as string) || "v0-default";
+    const modelId = (bodyObj.model as string) || "v0-default';
 
     const reqBody = {
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
@@ -69,9 +69,9 @@ export class V0VercelWebExecutor extends BaseExecutor {
       const data = (await upstream.json()) as Record<string, unknown>;
       const message = (data?.choices as Array<{ message?: Record<string, unknown> }>)?.[0]
         ?.message;
-      const content = (message?.content as string) || (data?.content as string) || "";
+      const content = (message?.content as string) || (data?.content as string) || "';
       const reasoningContent =
-        (message?.reasoning_content as string) || (data?.reasoning_content as string) || "";
+        (message?.reasoning_content as string) || (data?.reasoning_content as string) || "';
       const responseMessage: Record<string, unknown> = { role: "assistant", content };
       if (reasoningContent) responseMessage.reasoning_content = reasoningContent;
       return {
@@ -108,14 +108,14 @@ export class V0VercelWebExecutor extends BaseExecutor {
           return;
         }
 
-        let buffer = "";
+        let buffer = "';
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "";
+            buffer = lines.pop() || "';
 
             for (const line of lines) {
               if (!line.startsWith("data:")) continue;
@@ -127,8 +127,8 @@ export class V0VercelWebExecutor extends BaseExecutor {
               try {
                 const parsed = JSON.parse(data);
                 const delta = parsed.choices?.[0]?.delta || {};
-                const text = delta.content || "";
-                const reasoningText = delta.reasoning_content || "";
+                const text = delta.content || "';
+                const reasoningText = delta.reasoning_content || "';
                 if (text || reasoningText) {
                   const outDelta: Record<string, string> = {};
                   if (reasoningText) outDelta.reasoning_content = reasoningText;

@@ -1,4 +1,4 @@
-import type { ChatTurn, GradeVerdict } from "./types.ts";
+import type { ChatTurn, GradeVerdict } from './types.ts';
 
 /**
  * Gold grader prompt (D-D2b). Grades a single answer against the gold answer — semantically,

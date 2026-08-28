@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { MOONSHOT_KIMI_MODELS } from "../moonshot/index.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { MOONSHOT_KIMI_MODELS } from '../moonshot/index.ts';
 
 export const kimiProvider: RegistryEntry = {
   id: "kimi",

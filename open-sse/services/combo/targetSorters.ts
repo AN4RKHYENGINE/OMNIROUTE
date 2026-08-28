@@ -7,12 +7,12 @@
  * in combo.ts) are imported back from this module. No barrel import — pure leaf.
  */
 
-import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
-import { secureRandomFloat, secureRandomInt } from "@shared/utils/secureRandom";
-import { getComboStepTarget, getComboStepWeight } from "@lib/combos/steps.ts";
-import { getComboMetrics } from "../comboMetrics.ts";
-import { parseModel } from "../model.ts";
-import type { ResolvedComboTarget } from "./types.ts";
+import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
+import { secureRandomFloat, secureRandomInt } from '@shared/utils/secureRandom';
+import { getComboStepTarget, getComboStepWeight } from '@lib/combos/steps.ts';
+import { getComboMetrics } from '../comboMetrics.ts';
+import { parseModel } from '../model.ts';
+import type { ResolvedComboTarget } from './types.ts';
 
 /**
  * Normalize a model entry to { model, weight }
@@ -69,7 +69,7 @@ export async function sortModelsByCost(models: string[]): Promise<string[]> {
     const withCost = await Promise.all(
       models.map(async (modelStr) => {
         const parsed = parseModel(modelStr);
-        const provider = parsed.provider || parsed.providerAlias || "unknown";
+        const provider = parsed.provider || parsed.providerAlias || "unknown';
         const model = parsed.model || modelStr;
         try {
           const pricing = await getPricingForModel(provider, model);

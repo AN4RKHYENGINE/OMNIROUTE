@@ -1,12 +1,12 @@
-import { appendToolCallArgumentDelta } from "../utils/toolCallArguments.ts";
-import { shouldParseTextualReasoningTags } from "../handlers/responseSanitizer.ts";
-import { getReadableReasoningValue } from "../utils/reasoningFields.ts";
+import { appendToolCallArgumentDelta } from '../utils/toolCallArguments.ts';
+import { shouldParseTextualReasoningTags } from '../handlers/responseSanitizer.ts';
+import { getReadableReasoningValue } from '../utils/reasoningFields.ts';
 import {
   isInternalReasoningPlaceholder,
   stripInternalReasoningPlaceholder,
-} from "../utils/reasoningPlaceholder.ts";
-import * as fs from "fs";
-import * as path from "path";
+} from '../utils/reasoningPlaceholder.ts';
+import * as fs from 'fs';
+import * as path from 'path';
 /**
  * Responses API Transformer
  * Converts OpenAI Chat Completions SSE to Codex Responses API SSE format
@@ -342,7 +342,7 @@ export function createResponsesApiTransformStream(
   const closeMessage = (controller, idx) => {
     if (state.msgItemAdded[idx] && !state.msgItemDone[idx]) {
       state.msgItemDone[idx] = true;
-      const fullText = state.msgTextBuf[idx] || "";
+      const fullText = state.msgTextBuf[idx] || "';
       const normalizedIndex = normalizeOutputIndex(idx);
       const msgId = `msg_${state.responseId}_${normalizedIndex}`;
 
@@ -384,7 +384,7 @@ export function createResponsesApiTransformStream(
     if (state.funcItemAdded[idx] || !state.funcCallIds[idx]) return false;
 
     const customTool = customToolNames.has(state.funcNames[idx] || "");
-    const itemType = customTool ? "custom_tool_call" : "function_call";
+    const itemType = customTool ? "custom_tool_call" : "function_call';
     state.funcItemTypes[idx] = itemType;
     state.funcItemAdded[idx] = true;
 
@@ -407,10 +407,10 @@ export function createResponsesApiTransformStream(
     const callId = state.funcCallIds[idx];
     if (callId && !state.funcItemDone[idx]) {
       const normalizedIndex = normalizeOutputIndex(idx);
-      let args = state.funcArgsBuf[idx] || "{}";
-      const toolName = state.funcNames[idx] || "";
+      let args = state.funcArgsBuf[idx] || "{}';
+      const toolName = state.funcNames[idx] || "';
       emitToolCallAdded(controller, idx);
-      const isCustomTool = state.funcItemTypes[idx] === "custom_tool_call";
+      const isCustomTool = state.funcItemTypes[idx] === "custom_tool_call';
 
       // Fix #1674 & #1852: Final cleanup of empty string and empty array placeholders.
       // Custom-tool input is intentionally allowed to be an empty string.
@@ -555,7 +555,7 @@ export function createResponsesApiTransformStream(
         state.buffer += text;
 
         const messages = state.buffer.split("\n\n");
-        state.buffer = messages.pop() || "";
+        state.buffer = messages.pop() || "';
 
         for (const msg of messages) {
           if (!msg.trim()) continue;
@@ -732,7 +732,7 @@ export function createResponsesApiTransformStream(
                   logprobs: [],
                 });
 
-                if (!state.msgTextBuf[msgIdx]) state.msgTextBuf[msgIdx] = "";
+                if (!state.msgTextBuf[msgIdx]) state.msgTextBuf[msgIdx] = "';
                 state.msgTextBuf[msgIdx] += content;
               }
             }
@@ -792,7 +792,7 @@ export function createResponsesApiTransformStream(
                 }
               }
 
-              if (!state.funcArgsBuf[tcIdx]) state.funcArgsBuf[tcIdx] = "";
+              if (!state.funcArgsBuf[tcIdx]) state.funcArgsBuf[tcIdx] = "';
 
               if (tc.function?.arguments) {
                 const refCallId = state.funcCallIds[tcIdx] || newCallId;
@@ -811,7 +811,7 @@ export function createResponsesApiTransformStream(
                     .replace(/"[a-zA-Z0-9_]+":\s*\[\s*\],?/g, "");
                 }
 
-                const existingArgs = state.funcArgsBuf[tcIdx] || "";
+                const existingArgs = state.funcArgsBuf[tcIdx] || "';
                 const nextArgs = appendToolCallArgumentDelta(existingArgs, deltaStr);
                 const emittedDelta = nextArgs.slice(existingArgs.length);
                 state.funcArgsBuf[tcIdx] = nextArgs;

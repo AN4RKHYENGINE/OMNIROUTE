@@ -1,4 +1,4 @@
-import { GLM_DEFAULT_BASE_URLS } from "../../config/glmProvider.ts";
+import { GLM_DEFAULT_BASE_URLS } from '../../config/glmProvider.ts';
 
 type ZaiCredentialsLike = {
   providerSpecificData?: { targetFormat?: unknown } | null;

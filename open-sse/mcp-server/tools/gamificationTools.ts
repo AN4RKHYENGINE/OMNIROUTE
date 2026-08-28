@@ -4,7 +4,7 @@
  * @module mcp-server/tools/gamificationTools
  */
 
-import { z } from "zod";
+import { z } from 'zod';
 
 export const gamificationTools = [
   {

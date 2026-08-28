@@ -27,17 +27,17 @@
  * Reference: https://github.com/Sophomoresty/gemini-web2api (gemini_web2api.py)
  * Reference: https://github.com/yukkcat/gemini-business2api
  */
-import { createHash, randomUUID } from "node:crypto";
-import { BaseExecutor, mergeAbortSignals, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult } from "../utils/error.ts";
+import { createHash, randomUUID } from 'node:crypto';
+import { BaseExecutor, mergeAbortSignals, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult } from '../utils/error.ts';
 
 const GEMINI_BUSINESS_FETCH_TIMEOUT_MS = 60_000;
 
 const GEMINI_BUSINESS_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // Default entry URL — user can override via providerSpecificData.entryUrl
-const DEFAULT_ENTRY_URL = "https://business.gemini.google/home";
+const DEFAULT_ENTRY_URL = "https://business.gemini.google/home';
 
 /**
  * Model ID → StreamGenerate MODE_CATEGORY enum value.
@@ -65,7 +65,7 @@ const MODEL_CATEGORY_MAP: Record<string, number> = {
   "veo-3.1-generate": 80,
 };
 
-const DEFAULT_MODEL = "gemini-2.5-pro";
+const DEFAULT_MODEL = "gemini-2.5-pro';
 const DEFAULT_MODEL_CATEGORY = 53;
 
 export class GeminiBusinessExecutor extends BaseExecutor {
@@ -155,8 +155,8 @@ export class GeminiBusinessExecutor extends BaseExecutor {
         signal: signal ? mergeAbortSignals(signal, timeoutSignal) : timeoutSignal,
       });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "fetch failed";
-      const isTimeout = err instanceof Error && err.name === "TimeoutError";
+      const message = err instanceof Error ? err.message : "fetch failed';
+      const isTimeout = err instanceof Error && err.name === "TimeoutError';
       return makeErrorResult(
         isTimeout ? 504 : 502,
         `Gemini Business ${isTimeout ? "request timed out" : "network error"}: ${message}`,
@@ -333,7 +333,7 @@ function buildStreamingResponse(text: string, model: string): Response {
     model,
     choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
   })}\n\n`;
-  const done = "data: [DONE]\n\n";
+  const done = "data: [DONE]\n\n';
 
   const readable = new ReadableStream({
     start(controller) {
@@ -355,24 +355,24 @@ function buildStreamingResponse(text: string, model: string): Response {
 }
 
 function readCredentialString(value: unknown): string {
-  if (typeof value !== "string") return "";
+  if (typeof value !== "string") return "';
   const trimmed = value.trim();
-  if (!trimmed) return "";
+  if (!trimmed) return "';
   return trimmed;
 }
 
 function readProviderSpecificString(providerSpecificData: unknown, keys: string[]): string {
-  if (!providerSpecificData || typeof providerSpecificData !== "object") return "";
+  if (!providerSpecificData || typeof providerSpecificData !== "object") return "';
   const data = providerSpecificData as Record<string, unknown>;
   for (const key of keys) {
     const v = data[key];
     if (typeof v === "string" && v.trim().length > 0) return v.trim();
   }
-  return "";
+  return "';
 }
 
 export function resolveGeminiBusinessCookie(credentials: unknown): string {
-  if (!credentials || typeof credentials !== "object") return "";
+  if (!credentials || typeof credentials !== "object") return "';
   const data = credentials as Record<string, unknown>;
   const directCookie = readCredentialString(data.apiKey) || readCredentialString(data.cookie);
   const psid = readProviderSpecificString(data.providerSpecificData, ["__Secure-1PSID", "cookie"]);
@@ -388,14 +388,14 @@ function extractTextContent(content: unknown): string {
         if (typeof part === "string") return part;
         if (part && typeof part === "object" && "text" in part) {
           const text = (part as { text: unknown }).text;
-          return typeof text === "string" ? text : "";
+          return typeof text === "string" ? text : "';
         }
-        return "";
+        return "';
       })
       .join("")
       .trim();
   }
-  return "";
+  return "';
 }
 
 function extractCookieValue(cookie: string, name: string): string | null {

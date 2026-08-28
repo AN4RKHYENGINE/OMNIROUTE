@@ -22,8 +22,8 @@ import {
   parseAdobeCreditsBalance,
   resolveAdobeAccessToken,
   type AdobeFireflyCreditsBalance,
-} from "../adobeFireflyClient.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+} from '../adobeFireflyClient.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 export { parseAdobeCreditsBalance };
 

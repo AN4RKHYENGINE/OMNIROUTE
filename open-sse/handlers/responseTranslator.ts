@@ -1,15 +1,15 @@
-import { FORMATS } from "../translator/formats.ts";
+import { FORMATS } from '../translator/formats.ts';
 import {
   buildGeminiThoughtSignatureKey,
   storeGeminiThoughtSignature,
-} from "../services/geminiThoughtSignatureStore.ts";
-import { normalizeOpenAICompatibleFinishReasonString } from "../utils/finishReason.ts";
-import { containsTextualToolCallMarker } from "../utils/textualToolCall.ts";
-import { getAnyReasoningValue } from "../utils/reasoningFields.ts";
+} from '../services/geminiThoughtSignatureStore.ts';
+import { normalizeOpenAICompatibleFinishReasonString } from '../utils/finishReason.ts';
+import { containsTextualToolCallMarker } from '../utils/textualToolCall.ts';
+import { getAnyReasoningValue } from '../utils/reasoningFields.ts';
 import {
   caseInsensitiveToolNameLookup,
   restoreOpenAIToolNames,
-} from "../translator/helpers/toolCallHelper.ts";
+} from '../translator/helpers/toolCallHelper.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -83,8 +83,8 @@ function parseTextualToolCall(text: unknown): { name: string; args: unknown } | 
 }
 
 function extractMessageOutputText(item: JsonRecord): string {
-  if (!Array.isArray(item.content)) return "";
-  let text = "";
+  if (!Array.isArray(item.content)) return "';
+  let text = "';
   for (const part of item.content) {
     if (!part || typeof part !== "object") continue;
     const partObj = toRecord(part);
@@ -165,7 +165,7 @@ export function translateNonStreamingResponse(
 
     const messageSelection = findBestMessageText(output);
     let textContent = messageSelection.text;
-    let reasoningContent = "";
+    let reasoningContent = "';
     const toolCalls: JsonRecord[] = [];
 
     for (const item of output) {
@@ -232,7 +232,7 @@ export function translateNonStreamingResponse(
       message.tool_calls = toolCalls;
     }
     if (message.content === undefined) {
-      message.content = "";
+      message.content = "';
     }
 
     if (process.env.DEBUG_RESPONSES_SSE_TO_JSON === "true") {
@@ -249,7 +249,7 @@ export function translateNonStreamingResponse(
 
     const createdAt = toNumber(response.created_at, Math.floor(Date.now() / 1000));
     const model = toString(response.model || responseRoot.model, "openai-responses");
-    const finishReason = toolCalls.length > 0 ? "tool_calls" : "stop";
+    const finishReason = toolCalls.length > 0 ? "tool_calls" : "stop';
 
     const result: JsonRecord = {
       id: `chatcmpl-${toString(response.id, String(Date.now()))}`,
@@ -333,11 +333,11 @@ export function translateNonStreamingResponse(
               const candidate = toRecord(candidateValue);
               const content = toRecord(candidate.content);
 
-              let textContent = "";
+              let textContent = "';
               const contentParts: JsonRecord[] = [];
               const toolCalls: JsonRecord[] = [];
-              let reasoningContent = "";
-              let pendingThoughtSignature = "";
+              let reasoningContent = "';
+              let pendingThoughtSignature = "';
 
               if (Array.isArray(content.parts)) {
                 for (const part of content.parts) {
@@ -436,14 +436,14 @@ export function translateNonStreamingResponse(
                 message.tool_calls = toolCalls;
               }
               if (!message.content && !message.tool_calls) {
-                message.content = "";
+                message.content = "';
               }
 
               let finishReason = normalizeOpenAICompatibleFinishReasonString(
                 toString(candidate.finishReason, "stop")
               );
               if (finishReason === "stop" && toolCalls.length > 0) {
-                finishReason = "tool_calls";
+                finishReason = "tool_calls';
               }
 
               return {
@@ -499,8 +499,8 @@ export function translateNonStreamingResponse(
     const root = toRecord(responseBody);
     const contentBlocks = Array.isArray(root.content) ? root.content : [];
     if (contentBlocks.length > 0) {
-      let textContent = "";
-      let thinkingContent = "";
+      let textContent = "';
+      let thinkingContent = "';
       const toolCalls: JsonRecord[] = [];
 
       for (const block of contentBlocks) {
@@ -547,12 +547,12 @@ export function translateNonStreamingResponse(
         message.tool_calls = toolCalls;
       }
       if (message.content === undefined) {
-        message.content = "";
+        message.content = "';
       }
 
       let finishReason = toString(root.stop_reason, "stop");
-      if (finishReason === "end_turn") finishReason = "stop";
-      if (finishReason === "tool_use") finishReason = "tool_calls";
+      if (finishReason === "end_turn") finishReason = "stop';
+      if (finishReason === "tool_use") finishReason = "tool_calls';
 
       const result: JsonRecord = {
         id: `chatcmpl-${toString(root.id, String(Date.now()))}`,
@@ -700,8 +700,8 @@ function convertOpenAINonStreamingToClaude(openaiResponse: JsonRecord): JsonReco
   }
 
   let stopReason = toString(choiceObj.finish_reason, "end_turn");
-  if (stopReason === "stop") stopReason = "end_turn";
-  if (stopReason === "tool_calls") stopReason = "tool_use";
+  if (stopReason === "stop") stopReason = "end_turn';
+  if (stopReason === "tool_calls") stopReason = "tool_use';
 
   const usageSrc = toRecord(openaiResponse.usage);
   const promptTokens = toNumber(usageSrc.prompt_tokens, 0);
@@ -808,7 +808,7 @@ function convertOpenAINonStreamingToGeminiFamily(openaiResponse: JsonRecord): Js
   if (parts.length === 0) parts.push({ text: "" });
 
   const finishReason =
-    OPENAI_TO_GEMINI_FINISH_REASON[toString(choice.finish_reason, "stop")] ?? "STOP";
+    OPENAI_TO_GEMINI_FINISH_REASON[toString(choice.finish_reason, "stop")] ?? "STOP';
 
   const usageSrc = toRecord(openaiResponse.usage);
   const promptTokens = toNumber(usageSrc.prompt_tokens, 0);

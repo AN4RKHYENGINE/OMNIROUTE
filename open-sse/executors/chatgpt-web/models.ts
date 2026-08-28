@@ -75,9 +75,9 @@ export function isThinkingCapableModel(modelId: string, slug: string): boolean {
 export function normalizeThinkingEffort(input: unknown): "standard" | "extended" | null {
   if (typeof input !== "string") return null;
   const v = input.trim().toLowerCase();
-  if (v === "extended" || v === "high" || v === "xhigh") return "extended";
+  if (v === "extended" || v === "high" || v === "xhigh") return "extended';
   if (v === "standard" || v === "low" || v === "medium" || v === "minimal") {
-    return "standard";
+    return "standard';
   }
   return null;
 }
@@ -116,6 +116,6 @@ export function resolveChatGptModel(
   const slug = MODEL_MAP[model] ?? model;
   const forcedEffort = MODEL_FORCED_EFFORT[model] ?? null;
   const effort = forcedEffort ?? resolveThinkingEffort(body, providerSpecificData);
-  const isPro = slug === "gpt-5-6-pro" || slug === "gpt-5-5-pro";
+  const isPro = slug === "gpt-5-6-pro" || slug === "gpt-5-5-pro';
   return { slug, effort, isPro };
 }

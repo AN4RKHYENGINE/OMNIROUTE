@@ -16,10 +16,10 @@
  * `sampling: true`: perda é INTENCIONAL (byte-exatos viajam no factsheet em
  * texto) — o fidelity gate pula esta engine por design, não por acidente.
  */
-import type { CompressionEngine, CompressionEngineApplyOptions } from "./types.ts";
-import type { CompressionResult } from "../types.ts";
-import { createCompressionStats } from "../stats.ts";
-import { transformAnthropicMessages, isOmniGlyphSupportedModel } from "omniglyph";
+import type { CompressionEngine, CompressionEngineApplyOptions } from './types.ts';
+import type { CompressionResult } from '../types.ts';
+import { createCompressionStats } from '../stats.ts';
+import { transformAnthropicMessages, isOmniGlyphSupportedModel } from 'omniglyph';
 
 function skip(body: Record<string, unknown>, reason: string): CompressionResult {
   try {
@@ -47,7 +47,7 @@ async function applyOmniglyph(
   body: Record<string, unknown>,
   options?: CompressionEngineApplyOptions
 ): Promise<CompressionResult> {
-  const model = options?.model ?? (body as { model?: string }).model ?? "";
+  const model = options?.model ?? (body as { model?: string }).model ?? "';
   if (options?.supportsVision !== true) return skip(body, "no_vision");
   if (!isOmniGlyphSupportedModel(model)) return skip(body, "model_not_approved");
   if (options?.providerTransport !== "direct") return skip(body, "transport_not_direct");

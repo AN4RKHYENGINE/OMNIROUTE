@@ -12,10 +12,10 @@
  * that keeps emitting chunks never trips the timeout — only a stream that goes
  * silent for `timeoutMs` does.
  */
-import { readStreamChunkWithTimeout } from "../../handlers/chatCore/upstreamTimeouts.ts";
+import { readStreamChunkWithTimeout } from '../../handlers/chatCore/upstreamTimeouts.ts';
 
 function isBodyTimeoutError(err: unknown): boolean {
-  return err instanceof Error && err.name === "BodyTimeoutError";
+  return err instanceof Error && err.name === "BodyTimeoutError';
 }
 
 async function cancelReaderSafely(reader: ReadableStreamDefaultReader<Uint8Array>): Promise<void> {

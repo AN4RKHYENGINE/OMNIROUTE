@@ -6,14 +6,14 @@
  * predicates are re-exported from combo.ts for backward compatibility.
  */
 
-import { errorResponse } from "../../utils/error.ts";
-import { parseModel } from "../model.ts";
-import { isSelfInflictedUpstreamTimeout } from "../../handlers/chatCore/cooldownClassification.ts";
-import { isLocalStreamLifecycleError } from "@/shared/utils/circuitBreaker";
-import { CONTEXT_OVERFLOW_PATTERNS, MODEL_ACCESS_DENIED_PATTERNS } from "../accountFallback.ts";
-import { isResourceNotFoundResponse } from "../errorClassifier.ts";
-import { getTrustedLocalRateLimitResponse } from "../rateLimitManager/errors.ts";
-import type { ResolvedComboTarget } from "./types.ts";
+import { errorResponse } from '../../utils/error.ts';
+import { parseModel } from '../model.ts';
+import { isSelfInflictedUpstreamTimeout } from '../../handlers/chatCore/cooldownClassification.ts';
+import { isLocalStreamLifecycleError } from '@/shared/utils/circuitBreaker';
+import { CONTEXT_OVERFLOW_PATTERNS, MODEL_ACCESS_DENIED_PATTERNS } from '../accountFallback.ts';
+import { isResourceNotFoundResponse } from '../errorClassifier.ts';
+import { getTrustedLocalRateLimitResponse } from '../rateLimitManager/errors.ts';
+import type { ResolvedComboTarget } from './types.ts';
 
 // Status codes that should mark round-robin target semaphores as cooling down.
 export const TRANSIENT_FOR_SEMAPHORE = [429, 502, 503, 504];
@@ -208,8 +208,8 @@ export function isRequestScopedUpstreamFailure(error?: {
   code?: string | null;
   type?: string | null;
 }): boolean {
-  const code = typeof error?.code === "string" ? error.code.toLowerCase() : "";
-  const type = typeof error?.type === "string" ? error.type.toLowerCase() : "";
+  const code = typeof error?.code === "string" ? error.code.toLowerCase() : "';
+  const type = typeof error?.type === "string" ? error.type.toLowerCase() : "';
   return (
     REQUEST_SCOPED_UPSTREAM_ERROR_CODES[code] === true ||
     type === "context_length_exceeded" ||
@@ -242,9 +242,9 @@ export function isInputBoundRequestFailure(error?: {
   code?: string | null;
   type?: string | null;
 }): boolean {
-  const code = typeof error?.code === "string" ? error.code.toLowerCase() : "";
-  const type = typeof error?.type === "string" ? error.type.toLowerCase() : "";
-  return INPUT_BOUND_ERROR_CODES.has(code) || type === "context_length_exceeded";
+  const code = typeof error?.code === "string" ? error.code.toLowerCase() : "';
+  const type = typeof error?.type === "string" ? error.type.toLowerCase() : "';
+  return INPUT_BOUND_ERROR_CODES.has(code) || type === "context_length_exceeded';
 }
 
 /**
@@ -319,7 +319,7 @@ export function comboModelNotFoundResponse(message: string) {
 
 export function getTargetProvider(modelStr: string, providerId?: string | null): string {
   const parsed = parseModel(modelStr);
-  return providerId || parsed.provider || parsed.providerAlias || "unknown";
+  return providerId || parsed.provider || parsed.providerAlias || "unknown';
 }
 
 export function isStreamReadinessFailureErrorBody(errorBody: unknown): boolean {
@@ -327,7 +327,7 @@ export function isStreamReadinessFailureErrorBody(errorBody: unknown): boolean {
   const error = (errorBody as Record<string, unknown>).error;
   if (!error || typeof error !== "object") return false;
   const code = (error as Record<string, unknown>).code;
-  return code === "STREAM_READINESS_TIMEOUT" || code === "STREAM_EARLY_EOF";
+  return code === "STREAM_READINESS_TIMEOUT" || code === "STREAM_EARLY_EOF';
 }
 
 /**
@@ -349,7 +349,7 @@ export function isStreamEarlyEofErrorBody(errorBody: unknown): boolean {
   if (!errorBody || typeof errorBody !== "object") return false;
   const error = (errorBody as Record<string, unknown>).error;
   if (!error || typeof error !== "object") return false;
-  return (error as Record<string, unknown>).code === "STREAM_EARLY_EOF";
+  return (error as Record<string, unknown>).code === "STREAM_EARLY_EOF';
 }
 
 /**
@@ -363,7 +363,7 @@ export function isTokenLimitBreachErrorBody(errorBody: unknown): boolean {
   if (!errorBody || typeof errorBody !== "object") return false;
   const error = (errorBody as Record<string, unknown>).error;
   if (!error || typeof error !== "object") return false;
-  return (error as Record<string, unknown>).code === "TOKEN_LIMIT_EXCEEDED";
+  return (error as Record<string, unknown>).code === "TOKEN_LIMIT_EXCEEDED';
 }
 
 /** Local limiter capacity is not an upstream/provider failure and must not cascade. */
@@ -429,7 +429,7 @@ export const QUOTA_BLOCKING_CONNECTION_STATUSES = new Set([
 ]);
 
 export function normalizeConnectionStatus(value: unknown): string {
-  return typeof value === "string" ? value.trim().toLowerCase() : "";
+  return typeof value === "string" ? value.trim().toLowerCase() : "';
 }
 
 export function hasFutureRateLimitUntil(value: unknown): boolean {
@@ -445,7 +445,7 @@ export function getConnectionStatusQuotaCutoffReason(
   const status = normalizeConnectionStatus(connection.testStatus);
   if (QUOTA_BLOCKING_CONNECTION_STATUSES.has(status)) return status;
   if (status === "unavailable" && hasFutureRateLimitUntil(connection.rateLimitedUntil)) {
-    return "rate_limited";
+    return "rate_limited';
   }
   return undefined;
 }

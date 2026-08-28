@@ -5,7 +5,7 @@ const RETIRED_GITHUB_COPILOT_MODEL_IDS = new Set([
 ]);
 
 export function isRetiredGitHubCopilotModelId(providerId: unknown, modelId: unknown): boolean {
-  const provider = typeof providerId === "string" ? providerId.trim().toLowerCase() : "";
+  const provider = typeof providerId === "string" ? providerId.trim().toLowerCase() : "';
   if (provider !== "github" && provider !== "gh") return false;
   if (typeof modelId !== "string") return false;
   return RETIRED_GITHUB_COPILOT_MODEL_IDS.has(modelId.trim().toLowerCase());

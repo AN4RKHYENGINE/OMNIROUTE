@@ -8,7 +8,7 @@
  * its own private map instances and re-exports MODEL_LOCKOUT_EVICTION_CAP.
  */
 
-import type { ModelLockoutEntry, ModelFailureState } from "../accountFallback.ts";
+import type { ModelLockoutEntry, ModelFailureState } from '../accountFallback.ts';
 
 // Cap prevents unbounded growth under sustained load. Entries beyond this limit
 // are evicted (oldest first, in insertion order) during the periodic cleanup.

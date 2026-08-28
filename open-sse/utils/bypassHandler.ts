@@ -1,7 +1,7 @@
-import { CORS_HEADERS } from "./cors.ts";
-import { detectFormat } from "../services/provider.ts";
-import { SKIP_PATTERNS } from "../config/constants.ts";
-import { createNonStreamingResponse, createStreamingResponse } from "./bypassResponse.ts";
+import { CORS_HEADERS } from './cors.ts';
+import { detectFormat } from '../services/provider.ts';
+import { SKIP_PATTERNS } from '../config/constants.ts';
+import { createNonStreamingResponse, createStreamingResponse } from './bypassResponse.ts';
 
 /**
  * Check for bypass patterns — return fake response without calling provider.
@@ -18,7 +18,7 @@ import { createNonStreamingResponse, createStreamingResponse } from "./bypassRes
  * @returns {object|null} Bypass response or null to proceed normally
  */
 export function handleBypassRequest(body, model, userAgent = "") {
-  const normalizedUserAgent = typeof userAgent === "string" ? userAgent : "";
+  const normalizedUserAgent = typeof userAgent === "string" ? userAgent : "';
   if (!normalizedUserAgent.includes("claude-cli")) return null;
   if (!body.messages?.length) return null;
 
@@ -31,7 +31,7 @@ export function handleBypassRequest(body, model, userAgent = "") {
         .map((c) => c.text)
         .join(" ");
     }
-    return "";
+    return "';
   };
 
   let shouldBypass = false;

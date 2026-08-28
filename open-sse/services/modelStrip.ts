@@ -1,4 +1,4 @@
-import { PROVIDER_ID_TO_ALIAS, getModelStripTypes } from "../config/providerModels.ts";
+import { PROVIDER_ID_TO_ALIAS, getModelStripTypes } from '../config/providerModels.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -7,7 +7,7 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function shouldStripPart(part: JsonRecord, stripTypes: Set<string>): boolean {
-  const type = typeof part.type === "string" ? part.type : "";
+  const type = typeof part.type === "string" ? part.type : "';
   if (!type) return false;
 
   if (stripTypes.has(type)) return true;

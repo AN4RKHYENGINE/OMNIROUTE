@@ -5,8 +5,8 @@
  * Uses account health scores from accountFallback.js.
  */
 
-import { getAccountHealth } from "./accountFallback.ts";
-import crypto from "crypto";
+import { getAccountHealth } from './accountFallback.ts';
+import crypto from 'crypto';
 
 /**
  * P2C selection: pick 2 random candidates, return the healthier one.

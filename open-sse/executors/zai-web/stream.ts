@@ -1,4 +1,4 @@
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 
 export interface ZaiDelta {
   content: string;
@@ -23,7 +23,7 @@ function readFrameError(frame: Record<string, unknown>): string | null {
   const raw = frame.error ?? data.error;
   if (!raw) return null;
 
-  if (typeof raw === "string") return sanitizeErrorMessage(raw) || "upstream error";
+  if (typeof raw === "string") return sanitizeErrorMessage(raw) || "upstream error';
   if (typeof raw === "object") {
     const rec = raw as Record<string, unknown>;
     const message = rec.detail ?? rec.message ?? rec.msg;
@@ -59,10 +59,10 @@ function parseInternalEnvelopeFrame(
     data.done === true ||
     phase === "done" ||
     phase === "finish" ||
-    String(frame.type ?? "") === "chat:completion:finish";
+    String(frame.type ?? "") === "chat:completion:finish';
 
   if (typeof deltaContent === "string" && deltaContent) {
-    const isThinking = phase === "thinking";
+    const isThinking = phase === "thinking';
     return {
       content: isThinking ? "" : deltaContent,
       reasoning: isThinking ? deltaContent : "",
@@ -94,7 +94,7 @@ export function parseZaiFrame(raw: unknown): ZaiDelta | null {
 function extractSseDataPayloads(buffer: { text: string }, incoming: string): string[] {
   buffer.text += incoming;
   const lines = buffer.text.split("\n");
-  buffer.text = lines.pop() || "";
+  buffer.text = lines.pop() || "';
   const payloads: string[] = [];
   for (const line of lines) {
     if (!line.startsWith("data:")) continue;
@@ -190,8 +190,8 @@ export function buildZaiStreamingBody(
 export async function collectZaiNonStreaming(
   sourceBody: ReadableStream<Uint8Array>
 ): Promise<{ answer: string; reasoning: string }> {
-  let answer = "";
-  let reasoning = "";
+  let answer = "';
+  let reasoning = "';
   await drainSseDeltas(sourceBody, (delta) => {
     // Match the streaming path: an upstream error frame (rejected signature,
     // expired captcha, stale token) must surface as a failed request, not as a

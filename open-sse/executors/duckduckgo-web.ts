@@ -1,13 +1,13 @@
-import { Buffer } from "node:buffer";
-import { generateKeyPairSync, randomUUID } from "node:crypto";
-import vm from "node:vm";
-import { solveDuckDuckGoChallenge, makeDuckDuckGoFeSignals } from "./duckduckgo-web/challenge.ts";
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
-import type { Session } from "../services/sessionPool/session.ts";
-import { tryBackedChat } from "../services/browserBackedChat.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import { Buffer } from 'node:buffer';
+import { generateKeyPairSync, randomUUID } from 'node:crypto';
+import vm from 'node:vm';
+import { solveDuckDuckGoChallenge, makeDuckDuckGoFeSignals } from './duckduckgo-web/challenge.ts';
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
+import type { Session } from '../services/sessionPool/session.ts';
+import { tryBackedChat } from '../services/browserBackedChat.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 
 // Issue #6999: Lightweight circuit breaker for the DuckDuckGo executor.
 // After CB_THRESHOLD consecutive failures (429, 5xx, or network errors),
@@ -63,7 +63,7 @@ export function __getDdgCircuitBreakerStateForTests(): CircuitBreakerState {
   return { ...circuitBreaker };
 }
 
-export const DUCKDUCKGO_BASE = "https://duckduckgo.com";
+export const DUCKDUCKGO_BASE = "https://duckduckgo.com';
 // #4037: the live DuckDuckGo AI Chat backend is served from duckduckgo.com. The
 // status/chat fetches, Origin, and Referer must all use this host so the request's
 // same-origin triplet (host + Origin + Referer) stays consistent with
@@ -73,7 +73,7 @@ const AUTH_TOKEN_URL = `${DUCKDUCKGO_BASE}/duckchat/v1/auth/token`;
 const COUNTRY_URL = `${DUCKDUCKGO_BASE}/country.json`;
 export const STATUS_URL = `${DUCKDUCKGO_BASE}/duckchat/v1/status`;
 export const CHAT_URL = `${DUCKDUCKGO_BASE}/duckchat/v1/chat`;
-const DEFAULT_FE_VERSION = "serp_20260424_180649_ET-0bdc33b2a02ebf8f235def65d887787f694720a1";
+const DEFAULT_FE_VERSION = "serp_20260424_180649_ET-0bdc33b2a02ebf8f235def65d887787f694720a1';
 // #4037: the real served x-fe-version token has a 20-hex tail (e.g.
 // `serp_20250401_100419_ET-19d438eb199b2bf7c300`); the previous `{40}` requirement
 // never matched the live token, so the scrape silently fell back to DEFAULT_FE_VERSION.
@@ -81,7 +81,7 @@ const DEFAULT_FE_VERSION = "serp_20260424_180649_ET-0bdc33b2a02ebf8f235def65d887
 export const FE_VERSION_PATTERN = /serp_\d{8}_\d{6}_[A-Z]{2}-[0-9a-f]{20,40}/;
 const DEFAULT_USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64) " +
-  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 export const FAKE_HEADERS: Record<string, string> = {
   Accept: "*/*",
@@ -113,7 +113,7 @@ function shouldUseBrowserBacked(): boolean {
   const flag = process.env.WEB_COOKIE_USE_BROWSER;
   if (flag === "1" || flag === "true" || flag === "on") return true;
   const poolFlag = process.env.OMNIROUTE_BROWSER_POOL;
-  return poolFlag === "on" || poolFlag === "1" || poolFlag === "true";
+  return poolFlag === "on" || poolFlag === "1" || poolFlag === "true';
 }
 
 interface DuckDuckGoVqdHeaders {
@@ -155,13 +155,13 @@ export function normalizeDuckDuckGoMessages(value: unknown): DuckDuckGoRequestMe
 }
 
 function extractDuckDuckGoContent(data: unknown): string {
-  if (!data || typeof data !== "object") return "";
+  if (!data || typeof data !== "object") return "';
   const record = data as Record<string, unknown>;
   const content = record.content;
   if (typeof content === "string") return content;
   const message = record.message;
   if (typeof message === "string") return message;
-  return "";
+  return "';
 }
 
 function parseDuckDuckGoDataLine(line: string): unknown | null {
@@ -244,7 +244,7 @@ function mergeHeadersCaseInsensitive(
  * `ERR_BAD_REQUEST` from `duckchat/v1/chat`. Current free wire ids: gpt-5.4-mini,
  * gpt-5.4-nano, claude-haiku-4-5, mistral-small-2603, tinfoil/gpt-oss-120b, tinfoil/gemma4-31b.
  */
-export const DUCKDUCKGO_DEFAULT_MODEL = "gpt-5.4-mini";
+export const DUCKDUCKGO_DEFAULT_MODEL = "gpt-5.4-mini';
 export const DUCKDUCKGO_MODEL_ALIASES: Readonly<Record<string, string>> = {
   // retired OpenAI ids → current GPT-5.4 free tier
   "gpt-4o-mini": "gpt-5.4-mini",
@@ -330,10 +330,10 @@ function buildDuckDuckGoPayload(
 function normalizeDuckDuckGoError(status: number, body: string): string {
   const parsed = parseDuckDuckGoError(body);
   if (parsed) {
-    const type = typeof parsed.type === "string" ? parsed.type : "";
-    const overrideCode = typeof parsed.overrideCode === "string" ? parsed.overrideCode : "";
+    const type = typeof parsed.type === "string" ? parsed.type : "';
+    const overrideCode = typeof parsed.overrideCode === "string" ? parsed.overrideCode : "';
     if (type === "ERR_CHALLENGE" || type === "ERR_BN_LIMIT") {
-      const codeSuffix = overrideCode ? ` (${overrideCode})` : "";
+      const codeSuffix = overrideCode ? ` (${overrideCode})` : "';
       return (
         `DuckDuckGo AI Chat anti-abuse challenge failed: ${type}${codeSuffix}. ` +
         "Retry later or from a less rate-limited IP; DuckDuckGo is rejecting this anonymous session."
@@ -417,7 +417,7 @@ export class DuckDuckGoWebExecutor extends BaseExecutor {
       const ddgTestMs = FETCH_TIMEOUT_MS;
       const timeout = setTimeout(() => {
         const err = new Error(`duckduckgo-web testConnection timeout after ${ddgTestMs}ms`);
-        err.name = "TimeoutError";
+        err.name = "TimeoutError';
         controller.abort(err);
       }, ddgTestMs);
 
@@ -537,7 +537,7 @@ export class DuckDuckGoWebExecutor extends BaseExecutor {
       const ddgExecMs = FETCH_TIMEOUT_MS;
       const timeout = setTimeout(() => {
         const err = new Error(`duckduckgo-web execute timeout after ${ddgExecMs}ms`);
-        err.name = "TimeoutError";
+        err.name = "TimeoutError';
         controller.abort(err);
       }, ddgExecMs);
       const mergedSignal = signal
@@ -851,7 +851,7 @@ export class DuckDuckGoWebExecutor extends BaseExecutor {
       });
     } else {
       const text = await response.text();
-      let fullContent = "";
+      let fullContent = "';
 
       const lines = text.split("\n");
       for (const line of lines) {

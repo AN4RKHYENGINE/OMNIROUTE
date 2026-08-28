@@ -1,9 +1,9 @@
 // @ts-nocheck
 // Extracted from open-sse/services/tokenRefresh.ts — see ../shared.ts for
 // provenance notes (ported idea from KooshaPari's PR #7338, redone on tip).
-import { PROVIDERS, OAUTH_ENDPOINTS } from "../../../config/constants.ts";
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import { buildFormParams } from "../shared.ts";
+import { PROVIDERS, OAUTH_ENDPOINTS } from '../../../config/constants.ts';
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import { buildFormParams } from '../shared.ts';
 
 /**
  * Specialized refresh for Codex (OpenAI) OAuth tokens.
@@ -75,7 +75,7 @@ export async function refreshCodexToken(refreshToken, log, proxyConfig: unknown 
       // refresh token will never succeed; surface re-auth instead of looping.
       // 429 / 5xx remain transient and fall through to the retryable branch.
       if (response.status === 401) {
-        const code = errorCode || "unauthorized";
+        const code = errorCode || "unauthorized';
         log?.error?.(
           "TOKEN_REFRESH",
           "Codex OAuth token endpoint returned 401. Re-authentication required.",

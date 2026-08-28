@@ -9,8 +9,8 @@
  * leaf. usage.ts imports getDeepseekUsage (dispatcher). Behavior-preserving move.
  */
 
-import { fetchDeepseekQuota, type DeepseekQuota } from "../deepseekQuotaFetcher.ts";
-import { type UsageQuota } from "./quota.ts";
+import { fetchDeepseekQuota, type DeepseekQuota } from '../deepseekQuotaFetcher.ts';
+import { type UsageQuota } from './quota.ts';
 
 /**
  * DeepSeek Usage
@@ -48,7 +48,7 @@ export async function getDeepseekUsage(connectionId: string, apiKey: string) {
       };
     }
 
-    const plan = isAvailable ? "DeepSeek" : "DeepSeek (Insufficient Balance)";
+    const plan = isAvailable ? "DeepSeek" : "DeepSeek (Insufficient Balance)';
 
     return {
       plan,

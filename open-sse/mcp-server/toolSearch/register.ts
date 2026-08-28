@@ -1,7 +1,7 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { toolSearchInput } from "../schemas/toolSearch.ts";
-import type { McpToolExtraLike } from "../scopeEnforcement.ts";
-import { handleToolSearch } from "./handler.ts";
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { toolSearchInput } from '../schemas/toolSearch.ts';
+import type { McpToolExtraLike } from '../scopeEnforcement.ts';
+import { handleToolSearch } from './handler.ts';
 
 type TextToolResult = {
   content: Array<{ type: "text"; text: string }>;

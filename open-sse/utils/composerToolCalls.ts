@@ -57,7 +57,7 @@ const PARTIAL_OPEN_MARKER_RE = new RegExp(
 
 export interface ComposerToolCall {
   id: string;
-  type: "function";
+  type: "function';
   function: {
     name: string;
     arguments: string;
@@ -140,7 +140,7 @@ function parseInnerCall(body: string): { name: string; arguments: string } | nul
       const idxSp = seg.search(/\s/);
       if (idxSp < 0) {
         argName = seg.trim();
-        argValue = "";
+        argValue = "';
       } else {
         argName = seg.slice(0, idxSp).trim();
         // Unlike the newline-delimited form, a space-delimited value has no
@@ -164,7 +164,7 @@ function parseInnerCall(body: string): { name: string; arguments: string } | nul
 }
 
 function coerceArgValue(raw: string): unknown {
-  if (raw === "") return "";
+  if (raw === "") return "';
   const stripped = raw.trim();
   if (
     (stripped.startsWith("{") && stripped.endsWith("}")) ||
@@ -287,7 +287,7 @@ export function feedStreamingChunk(state: StreamingState, accumulated: string): 
     }
     // Emit any preamble we haven't emitted yet.
     const safe = preamble;
-    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "";
+    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "';
     state.emitted = safe.length;
     state.done = true;
     return { safeDelta, ready: true, toolCalls, holdback: false };
@@ -299,7 +299,7 @@ export function feedStreamingChunk(state: StreamingState, accumulated: string): 
   const openMatch = accumulated.match(openOnlyRe);
   if (openMatch && openMatch.index !== undefined) {
     const safe = accumulated.slice(0, openMatch.index);
-    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "";
+    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "';
     state.emitted = safe.length;
     return { safeDelta, ready: false, toolCalls: [], holdback: true };
   }
@@ -308,13 +308,13 @@ export function feedStreamingChunk(state: StreamingState, accumulated: string): 
   const tailMatch = accumulated.match(PARTIAL_OPEN_MARKER_RE);
   if (tailMatch && tailMatch.index !== undefined) {
     const safe = accumulated.slice(0, tailMatch.index);
-    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "";
+    const safeDelta = safe.length > state.emitted ? safe.slice(state.emitted) : "';
     state.emitted = safe.length;
     return { safeDelta, ready: false, toolCalls: [], holdback: true };
   }
 
   // 4. No markers anywhere. Emit everything new.
-  const safeDelta = accumulated.length > state.emitted ? accumulated.slice(state.emitted) : "";
+  const safeDelta = accumulated.length > state.emitted ? accumulated.slice(state.emitted) : "';
   state.emitted = accumulated.length;
   return { safeDelta, ready: false, toolCalls: [], holdback: false };
 }

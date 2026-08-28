@@ -1,7 +1,7 @@
 import { getModelSpec } from '@shared/constants/modelSpecs';
 
-export const BEDROCK_DEFAULT_REGION = "us-east-1";
-export const BEDROCK_DASHBOARD_DEFAULT_REGION = "eu-west-2";
+export const BEDROCK_DEFAULT_REGION = "us-east-1';
+export const BEDROCK_DASHBOARD_DEFAULT_REGION = "eu-west-2';
 
 const BEDROCK_REGION_PATTERN = /^[a-z]{2}(?:-gov)?-[a-z]+-\d+$/i;
 
@@ -64,7 +64,7 @@ export function buildBedrockNativeConverseUrl(region: string, modelId: string, s
 
 function modelIdFromArn(value: unknown): string | null {
   if (typeof value !== "string") return null;
-  const marker = ":foundation-model/";
+  const marker = ":foundation-model/';
   const idx = value.indexOf(marker);
   if (idx < 0) return null;
   const id = value.slice(idx + marker.length).trim();
@@ -74,7 +74,7 @@ function modelIdFromArn(value: unknown): string | null {
 export type BedrockDiscoveredModel = {
   id: string;
   name: string;
-  source: "foundation" | "inference_profile";
+  source: "foundation" | "inference_profile';
   provider?: string | null;
   supportsStreaming?: boolean;
   supportsVision?: boolean;
@@ -86,7 +86,7 @@ export function getBedrockKnownModelLimits(modelId: string): {
   inputTokenLimit?: number;
   outputTokenLimit?: number;
 } | null {
-  const trimmed = typeof modelId === "string" ? modelId.trim() : "";
+  const trimmed = typeof modelId === "string" ? modelId.trim() : "';
   if (!trimmed) return null;
 
   const unqualified = trimmed.includes("/") ? trimmed.slice(trimmed.indexOf("/") + 1) : trimmed;
@@ -129,7 +129,7 @@ export function normalizeBedrockDiscoveredModels(
   if (Array.isArray(foundationModels)) {
     for (const item of foundationModels) {
       const model = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
-      const id = typeof model.modelId === "string" ? model.modelId.trim() : "";
+      const id = typeof model.modelId === "string" ? model.modelId.trim() : "';
       if (!id) continue;
       const outputModalities = Array.isArray(model.outputModalities) ? model.outputModalities : [];
       const inputModalities = Array.isArray(model.inputModalities) ? model.inputModalities : [];
@@ -155,7 +155,7 @@ export function normalizeBedrockDiscoveredModels(
     for (const item of profiles) {
       const profile = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
       const id =
-        typeof profile.inferenceProfileId === "string" ? profile.inferenceProfileId.trim() : "";
+        typeof profile.inferenceProfileId === "string" ? profile.inferenceProfileId.trim() : "';
       if (id) {
         add(
           withKnownBedrockLimits({

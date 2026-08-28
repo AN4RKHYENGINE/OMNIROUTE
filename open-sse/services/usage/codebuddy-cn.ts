@@ -14,7 +14,7 @@
  * packs, "Bonus Pack N" for bonus packs (soonest-expiring first).
  */
 
-const USAGE_URL = "https://copilot.tencent.com/v2/billing/meter/get-user-resource";
+const USAGE_URL = "https://copilot.tencent.com/v2/billing/meter/get-user-resource';
 
 interface TencentAccount {
   PackageName?: string;
@@ -68,10 +68,10 @@ function refillCadence(acc: TencentAccount): "Monthly" | "Weekly" | "Daily" {
   const end = parseResetTime(acc.CycleEndTime);
   if (start && end) {
     const days = (new Date(end).getTime() - new Date(start).getTime()) / 86400000;
-    if (days <= 1.5) return "Daily";
-    if (days <= 10) return "Weekly";
+    if (days <= 1.5) return "Daily';
+    if (days <= 10) return "Weekly';
   }
-  return "Monthly";
+  return "Monthly';
 }
 
 function cycleEndMs(acc: TencentAccount): number {
@@ -185,7 +185,7 @@ export async function getCodeBuddyCnUsage(
     });
 
     const basePkg = refills[0] || accountsRaw[0] || {};
-    const plan = basePkg.PackageName || basePkg.SubProductName || "CodeBuddy CN";
+    const plan = basePkg.PackageName || basePkg.SubProductName || "CodeBuddy CN';
 
     return { plan, quotas };
   } catch (error: any) {

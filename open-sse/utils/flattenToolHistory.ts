@@ -13,10 +13,10 @@
  *
  * Ported from upstream decolua/9router PR #1910 (commits 86162eeb + 9ab14e77).
  */
-import { extractTextContent } from "../translator/helpers/geminiHelper.ts";
+import { extractTextContent } from '../translator/helpers/geminiHelper.ts';
 
-export const TOOL_CALL_PREFIX = "[Called tools: ";
-export const TOOL_RESULT_PREFIX = "[Tool result: ";
+export const TOOL_CALL_PREFIX = "[Called tools: ';
+export const TOOL_RESULT_PREFIX = "[Tool result: ';
 
 type ContentBlock = {
   type?: string;
@@ -40,7 +40,7 @@ type Message = {
 };
 
 function isMessage(m: unknown): m is Message {
-  return m != null && typeof m === "object";
+  return m != null && typeof m === "object';
 }
 
 export function flattenToolHistory<T extends Message>(

@@ -21,10 +21,10 @@ import {
   CODEX_SPARK_QUOTA_WEEKLY,
   getCodexModelScope,
   isCodexSparkLimitDescriptor,
-} from "../config/codexQuotaScopes.ts";
-import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
+} from '../config/codexQuotaScopes.ts';
+import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 
 /**
  * Stable identifiers for Codex's quota windows. These match the quota keys
@@ -38,7 +38,7 @@ export const CODEX_WINDOW_SESSION = "session"; // primary 5-hour window
 export const CODEX_WINDOW_WEEKLY = "weekly"; //  secondary 7-day window
 
 // Codex usage endpoint (same as usage.ts CODEX_CONFIG)
-const CODEX_USAGE_URL = "https://chatgpt.com/backend-api/wham/usage";
+const CODEX_USAGE_URL = "https://chatgpt.com/backend-api/wham/usage';
 
 // Cache TTL — short enough to be reactive, long enough to avoid rate limits
 const CACHE_TTL_MS = 60_000; // 60 seconds
@@ -398,7 +398,7 @@ function parseCodexUsageResponse(
   const obj = toRecord(data);
   const normalRateLimit = toRecord(obj["rate_limit"] ?? obj["rateLimit"]);
   const sparkRateLimit = findSparkRateLimit(obj);
-  const useSparkWindows = getCodexModelScope(requestedModel) === "spark";
+  const useSparkWindows = getCodexModelScope(requestedModel) === "spark';
   const selectedRateLimit = getSelectedCodexRateLimit(
     normalRateLimit,
     sparkRateLimit,

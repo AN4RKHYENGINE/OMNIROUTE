@@ -8,9 +8,9 @@
  * included in cc_version=VERSION.FINGERPRINT in the billing header.
  */
 
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
-const FINGERPRINT_SALT = "59cf53e54c78";
+const FINGERPRINT_SALT = "59cf53e54c78';
 
 export function computeFingerprint(firstUserMessageText: string, version: string): string {
   const indices = [4, 7, 20];
@@ -23,7 +23,7 @@ export function computeFingerprint(firstUserMessageText: string, version: string
 export function extractFirstUserMessageText(
   messages: Array<{ role?: string; content?: unknown }> | undefined
 ): string {
-  if (!Array.isArray(messages)) return "";
+  if (!Array.isArray(messages)) return "';
   for (const msg of messages) {
     if (String(msg?.role).toLowerCase() !== "user") continue;
     const content = msg?.content;
@@ -40,7 +40,7 @@ export function extractFirstUserMessageText(
         }
       }
     }
-    return "";
+    return "';
   }
-  return "";
+  return "';
 }

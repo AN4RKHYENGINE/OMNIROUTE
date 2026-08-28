@@ -2,31 +2,31 @@
  * OpenAI to Kiro Request Translator
  * Converts OpenAI Chat Completions format to Kiro/AWS CodeWhisperer format
  */
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
-import { capMaxOutputTokens, capThinkingBudget } from "@/lib/modelCapabilities";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { v4 as uuidv4, v5 as uuidv5 } from 'uuid';
+import { capMaxOutputTokens, capThinkingBudget } from '@/lib/modelCapabilities';
 import {
   parseToolInput,
   normalizeKiroToolSchema,
   serializeToolResultContent,
-} from "./openai-to-kiro/messageHelpers.ts";
+} from './openai-to-kiro/messageHelpers.ts';
 import {
   resolveKiroModelAlias,
   supportsKiroAdaptiveThinking,
   supportsKiroNativeReasoning,
-} from "./openai-to-kiro/adaptiveThinking.ts";
+} from './openai-to-kiro/adaptiveThinking.ts';
 
 /**
  * Anthropic's direct-provider `[1m]` context-1m beta suffix. Kiro is AWS
  * Bedrock-backed and does not honor it, so forwarding a `kr/*` model id that
  * carries `[1m]` produces a malformed upstream model id at Bedrock.
  */
-export const KIRO_UNSUPPORTED_CONTEXT_1M_SUFFIX = "[1m]";
+export const KIRO_UNSUPPORTED_CONTEXT_1M_SUFFIX = "[1m]';
 export const KIRO_UNSUPPORTED_CONTEXT_1M_MESSAGE =
   "[kr/*] '[1m]' suffix is not supported by Kiro upstream. Kiro is AWS " +
   "Bedrock-backed and does not honor Anthropic's context-1m beta. Use a " +
-  "direct-Anthropic provider for 1M-context routing.";
+  "direct-Anthropic provider for 1M-context routing.';
 
 /**
  * Kiro is AWS Bedrock-backed, so Anthropic's direct-provider `[1m]` context
@@ -83,7 +83,7 @@ function buildKiroToolSpecs(tools: KiroToolInput[]): {
   const docs: string[] = [];
   const specs = tools.map((t) => {
     const name = t.function?.name || t.name;
-    let description = t.function?.description || t.description || "";
+    let description = t.function?.description || t.description || "';
 
     if (!description.trim()) {
       description = `Tool: ${name}`;
@@ -182,7 +182,7 @@ function convertMessages(messages, tools, model) {
   let pendingImages: Array<{ format: string; source: { bytes: string } }> = [];
   let currentRole = null;
   let toolsAttached = false;
-  let toolDocs = "";
+  let toolDocs = "';
 
   // Only Claude models support images in Kiro. Kiro also routes non-Claude
   // models (deepseek, minimax, glm, qwen3-coder-next) that do not accept image
@@ -265,7 +265,7 @@ function convertMessages(messages, tools, model) {
         deferredAssistantContent = [];
       }
     } else if (currentRole === "assistant") {
-      const content = pendingAssistantContent.join("\n\n").trim() || "(empty)";
+      const content = pendingAssistantContent.join("\n\n").trim() || "(empty)';
       const assistantMsg = {
         assistantResponseMessage: {
           content: content,
@@ -282,7 +282,7 @@ function convertMessages(messages, tools, model) {
 
     // Normalize: system/tool -> user
     if (role === "system" || role === "tool") {
-      role = "user";
+      role = "user';
     }
 
     // If role changes, flush pending
@@ -320,7 +320,7 @@ function convertMessages(messages, tools, model) {
                 .map((c) => c.text || "")
                 .join("\n")
                 .trim()
-            : "";
+            : "';
       if (deferredText) deferredAssistantContent.push(deferredText);
       continue;
     }
@@ -346,7 +346,7 @@ function convertMessages(messages, tools, model) {
     currentRole = role;
     if (role === "user") {
       // Extract content
-      let content = "";
+      let content = "';
       if (typeof msg.content === "string") {
         content = msg.content;
       } else if (Array.isArray(msg.content)) {
@@ -359,16 +359,16 @@ function convertMessages(messages, tools, model) {
         // Skip entirely for models that do not support images — see supportsImages.
         for (const block of msg.content) {
           if (supportsImages && block.type === "image_url") {
-            const url: string = block.image_url?.url || "";
+            const url: string = block.image_url?.url || "';
             if (url.startsWith("data:")) {
               // data:image/jpeg;base64,<data>
               const [header, bytes] = url.split(",", 2);
               const mediaType = header.split(";")[0].replace("data:", ""); // e.g. "image/jpeg"
-              const format = mediaType.split("/")[1] || "jpeg";
+              const format = mediaType.split("/")[1] || "jpeg';
               if (bytes) pendingImages.push({ format, source: { bytes } });
             }
           } else if (supportsImages && block.type === "image" && block.source?.type === "base64") {
-            const format = (block.source.media_type || "image/jpeg").split("/")[1] || "jpeg";
+            const format = (block.source.media_type || "image/jpeg").split("/")[1] || "jpeg';
             if (block.source.data)
               pendingImages.push({ format, source: { bytes: block.source.data } });
           } else if (supportsImages && block.type === "image" && typeof block.image === "string") {
@@ -377,7 +377,7 @@ function convertMessages(messages, tools, model) {
             if (url.startsWith("data:")) {
               const [header, bytes] = url.split(",", 2);
               const mediaType = header.split(";")[0].replace("data:", "");
-              const format = mediaType.split("/")[1] || "jpeg";
+              const format = mediaType.split("/")[1] || "jpeg';
               if (bytes) pendingImages.push({ format, source: { bytes } });
             }
           }
@@ -418,7 +418,7 @@ function convertMessages(messages, tools, model) {
       }
     } else if (role === "assistant") {
       // Extract text content and tool uses
-      let textContent = "";
+      let textContent = "';
       let toolUses = [];
 
       if (Array.isArray(msg.content)) {
@@ -453,7 +453,7 @@ function convertMessages(messages, tools, model) {
 
         const lastMsg = history[history.length - 1];
         if (lastMsg?.assistantResponseMessage) {
-          const NAMESPACE_KIRO_TOOLUSE = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+          const NAMESPACE_KIRO_TOOLUSE = "a1b2c3d4-e5f6-7890-abcd-ef1234567890';
           lastMsg.assistantResponseMessage.toolUses = toolUses.map((tc, idx) => {
             if (tc.function) {
               const stableId =
@@ -553,7 +553,7 @@ function convertMessages(messages, tools, model) {
 
     // Kiro API requires `origin` on every userInputMessage
     if (item.userInputMessage && !item.userInputMessage.origin) {
-      item.userInputMessage.origin = "AI_EDITOR";
+      item.userInputMessage.origin = "AI_EDITOR';
     }
   });
 
@@ -573,8 +573,8 @@ function convertMessages(messages, tools, model) {
   for (const item of history) {
     const previous = mergedHistory[mergedHistory.length - 1];
     if (item.userInputMessage && previous?.userInputMessage) {
-      const previousContent = previous.userInputMessage.content || "";
-      const currentContent = item.userInputMessage.content || "";
+      const previousContent = previous.userInputMessage.content || "';
+      const currentContent = item.userInputMessage.content || "';
       previous.userInputMessage.content = previousContent
         ? `${previousContent}\n\n${currentContent}`
         : currentContent;
@@ -597,8 +597,8 @@ function convertMessages(messages, tools, model) {
       }
     } else if (item.assistantResponseMessage && previous?.assistantResponseMessage) {
       // Kiro API also rejects consecutive assistant messages. Merge them.
-      const previousContent = previous.assistantResponseMessage.content || "";
-      const currentContent = item.assistantResponseMessage.content || "";
+      const previousContent = previous.assistantResponseMessage.content || "';
+      const currentContent = item.assistantResponseMessage.content || "';
       previous.assistantResponseMessage.content = previousContent
         ? `${previousContent}\n\n${currentContent}`
         : currentContent;
@@ -656,13 +656,13 @@ function convertMessages(messages, tools, model) {
       }>;
       const toolResultTexts = toolResults
         .map((tr) => {
-          const id = tr.toolUseId || "";
-          const text = tr.content?.map((c) => c.text || "").join("\n") || "";
+          const id = tr.toolUseId || "';
+          const text = tr.content?.map((c) => c.text || "").join("\n") || "';
           return id ? `[Tool Result (${id})]\n${text}` : `[Tool Result]\n${text}`;
         })
         .join("\n\n");
 
-      const originalContent = item.userInputMessage.content || "";
+      const originalContent = item.userInputMessage.content || "';
       item.userInputMessage.content = originalContent
         ? `${originalContent}\n\n${toolResultTexts}`
         : toolResultTexts;
@@ -686,13 +686,13 @@ function convertMessages(messages, tools, model) {
         .toolResults as Array<{ toolUseId?: string; content?: Array<{ text?: string }> }>;
       const toolResultTexts = toolResults
         .map((tr) => {
-          const id = tr.toolUseId || "";
-          const text = tr.content?.map((c) => c.text || "").join("\n") || "";
+          const id = tr.toolUseId || "';
+          const text = tr.content?.map((c) => c.text || "").join("\n") || "';
           return id ? `[Tool Result (${id})]\n${text}` : `[Tool Result]\n${text}`;
         })
         .join("\n\n");
 
-      const originalContent = currentMessage.userInputMessage.content || "";
+      const originalContent = currentMessage.userInputMessage.content || "';
       currentMessage.userInputMessage.content = originalContent
         ? `${originalContent}\n\n${toolResultTexts}`
         : toolResultTexts;
@@ -741,7 +741,7 @@ const KIRO_EFFORT_LEVELS = ["low", "medium", "high", "xhigh", "max"];
  * OpenAI's `minimal` collapses to `low` (Kiro has no `minimal`).
  */
 function resolveKiroEffort(body: Record<string, unknown>): string {
-  let effort = typeof body.reasoning_effort === "string" ? body.reasoning_effort.toLowerCase() : "";
+  let effort = typeof body.reasoning_effort === "string" ? body.reasoning_effort.toLowerCase() : "';
 
   if (!effort) {
     const outputConfig = body.output_config as Record<string, unknown> | undefined;
@@ -760,21 +760,21 @@ function resolveKiroEffort(body: Record<string, unknown>): string {
       if (thinking.type === "enabled") {
         effort = effortFromBudget(Number(thinking.budget_tokens) || 0);
       } else if (thinking.type === "adaptive") {
-        effort = "high";
+        effort = "high';
       }
     }
   }
 
-  if (effort === "minimal") effort = "low";
-  return KIRO_EFFORT_LEVELS.includes(effort) ? effort : "";
+  if (effort === "minimal") effort = "low';
+  return KIRO_EFFORT_LEVELS.includes(effort) ? effort : "';
 }
 
 /** Map an Anthropic `thinking.budget_tokens` to a coarse Kiro effort level. */
 function effortFromBudget(budget: number): string {
-  if (budget >= 32000) return "high";
-  if (budget >= 16000) return "medium";
-  if (budget > 0) return "low";
-  return "";
+  if (budget >= 32000) return "high';
+  if (budget >= 16000) return "medium';
+  if (budget > 0) return "low';
+  return "';
 }
 
 /**
@@ -875,9 +875,9 @@ export function buildKiroPayload(model, body, stream, credentials) {
     normalizedModel
   );
 
-  const profileArn = credentials?.providerSpecificData?.profileArn || "";
+  const profileArn = credentials?.providerSpecificData?.profileArn || "';
 
-  let finalContent = currentMessage?.userInputMessage?.content || "";
+  let finalContent = currentMessage?.userInputMessage?.content || "';
   const timestamp = new Date().toISOString();
   finalContent = `[Context: Current time is ${timestamp}]\n\n${finalContent}`;
 
@@ -943,7 +943,7 @@ export function buildKiroPayload(model, body, stream, credentials) {
   // first chats would all hash to the same uuidv5(empty) and reuse the same
   // upstream Kiro/AWS conversation context, leaking prior state across
   // sessions. See conversionMessages() above for the `__synthetic` marker.
-  const NAMESPACE_KIRO = "34f7193f-561d-4050-bc84-9547d953d6bf";
+  const NAMESPACE_KIRO = "34f7193f-561d-4050-bc84-9547d953d6bf';
 
   // Priority 1: Extract first user message from pre-compression body (passed by chatCore before
   // compressContext runs). This keeps conversationId stable even when compression alters content.
@@ -965,7 +965,7 @@ export function buildKiroPayload(model, body, stream, credentials) {
             .map((b) => b.text || "")
             .join(" ")
         : ""
-    : "";
+    : "';
   const firstRealUserTurn = history.find((h) => h?.userInputMessage?.content && !h.__synthetic);
   const firstContent =
     seedFromPreCompression || firstRealUserTurn?.userInputMessage?.content || finalContent;
@@ -1002,7 +1002,7 @@ export function buildKiroPayload(model, body, stream, credentials) {
   const requestedEffort = resolveKiroEffort(body) || (modelRequestsThinking ? "high" : "");
   const usesNativeReasoning = supportsKiroNativeReasoning(normalizedModel);
   const usesAdaptiveThinking = supportsKiroAdaptiveThinking(normalizedModel);
-  const kiroEffort = usesNativeReasoning || usesAdaptiveThinking ? requestedEffort : "";
+  const kiroEffort = usesNativeReasoning || usesAdaptiveThinking ? requestedEffort : "';
   if (kiroEffort) {
     const fields: {
       reasoning?: { effort: string };

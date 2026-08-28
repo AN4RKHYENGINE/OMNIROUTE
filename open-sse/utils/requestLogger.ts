@@ -1,6 +1,6 @@
-import { getPendingById } from "@/lib/usage/usageHistory";
-import { getChatLogMaxDepth } from "@/lib/logEnv";
-import { sanitizeErrorMessage } from "./error.ts";
+import { getPendingById } from '@/lib/usage/usageHistory';
+import { getChatLogMaxDepth } from '@/lib/logEnv';
+import { sanitizeErrorMessage } from './error.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -97,7 +97,7 @@ function maskSensitiveHeaders(headers: HeaderInput): Record<string, unknown> {
     if (typeof value === "string" && value.length > 20) {
       masked[key] = `${value.slice(0, 10)}...${value.slice(-5)}`;
     } else if (value) {
-      masked[key] = "[REDACTED]";
+      masked[key] = "[REDACTED]';
     }
   }
 
@@ -112,8 +112,8 @@ function createEmptyStreamChunks() {
   };
 }
 
-const TRUNCATED_ARRAY_MARKER = "_omniroute_truncated_array";
-const TRUNCATED_KEYS_MARKER = "_omniroute_truncated_keys";
+const TRUNCATED_ARRAY_MARKER = "_omniroute_truncated_array';
+const TRUNCATED_KEYS_MARKER = "_omniroute_truncated_keys';
 
 function isTruncatedArrayMarker(value: unknown): boolean {
   return (
@@ -158,7 +158,7 @@ export function cloneBoundedForLog(value: unknown, depth = 0, key: string | null
   if (ArrayBuffer.isView(value)) {
     return `[binary ${(value as ArrayBufferView).byteLength} bytes]`;
   }
-  if (depth >= getChatLogMaxDepth()) return "[MaxDepth]";
+  if (depth >= getChatLogMaxDepth()) return "[MaxDepth]';
 
   if (Array.isArray(value)) {
     // Idempotence (#7847): an already-bounded array is [marker, ...tail] — MAX_LOG_ARRAY_ITEMS + 1
@@ -168,7 +168,7 @@ export function cloneBoundedForLog(value: unknown, depth = 0, key: string | null
     if (isTruncatedArrayMarker(value[0])) {
       return [value[0], ...value.slice(1).map((item) => cloneBoundedForLog(item, depth + 1))];
     }
-    const exempt = key === "tools";
+    const exempt = key === "tools';
     const shouldTruncate = !exempt && value.length > MAX_LOG_ARRAY_ITEMS;
     const source = shouldTruncate ? value.slice(-MAX_LOG_ARRAY_ITEMS) : value;
     const mapped = source.map((item) => cloneBoundedForLog(item, depth + 1));

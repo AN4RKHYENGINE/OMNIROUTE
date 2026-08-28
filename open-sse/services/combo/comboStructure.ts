@@ -13,24 +13,24 @@
  * No barrel import — depends only on sibling leaves.
  */
 
-import { getModelContextLimit } from "@lib/modelCapabilities";
-import { getHiddenModelsByProvider } from "@lib/db/models";
-import { getComboModelString, normalizeComboStep } from "@lib/combos/steps.ts";
-import { getProviderByAlias, getProviderById } from "@shared/constants/providers.ts";
-import { estimateTokens } from "../contextManager.ts";
-import { containsMediaKind } from "../../utils/mediaParts.ts";
-import { getResolvedModelCapabilities } from "../modelCapabilities.ts";
-import { parseModel, stripContextWindowSuffix } from "../model.ts";
-import { dedupeTargetsByExecutionKey, isRecord } from "./comboData.ts";
-import { isComboModelVisible } from "./comboVisibility.ts";
-import { getTargetProvider, MAX_COMBO_DEPTH } from "./comboPredicates.ts";
-import { evaluateContextLimit } from "./contextOverrideGate.ts";
-import { hasEstimableContent } from "./knownContextOverflow.ts";
+import { getModelContextLimit } from '@lib/modelCapabilities';
+import { getHiddenModelsByProvider } from '@lib/db/models';
+import { getComboModelString, normalizeComboStep } from '@lib/combos/steps.ts';
+import { getProviderByAlias, getProviderById } from '@shared/constants/providers.ts';
+import { estimateTokens } from '../contextManager.ts';
+import { containsMediaKind } from '../../utils/mediaParts.ts';
+import { getResolvedModelCapabilities } from '../modelCapabilities.ts';
+import { parseModel, stripContextWindowSuffix } from '../model.ts';
+import { dedupeTargetsByExecutionKey, isRecord } from './comboData.ts';
+import { isComboModelVisible } from './comboVisibility.ts';
+import { getTargetProvider, MAX_COMBO_DEPTH } from './comboPredicates.ts';
+import { evaluateContextLimit } from './contextOverrideGate.ts';
+import { hasEstimableContent } from './knownContextOverflow.ts';
 import {
   normalizeModelEntry,
   orderTargetsForWeightedFallback,
   selectWeightedTarget,
-} from "./targetSorters.ts";
+} from './targetSorters.ts';
 import type {
   ComboCollectionLike,
   ComboInput,
@@ -41,7 +41,7 @@ import type {
   NestedComboMode,
   ResolvedComboTarget,
   ResolvedComboUnit,
-} from "./types.ts";
+} from './types.ts';
 
 /**
  * #8488 / #5240: web-cookie (and similar) providers honestly advertise
@@ -56,7 +56,7 @@ export function providerSupportsEmulatedToolCalling(
   const provider =
     getProviderById(providerIdOrAlias) || getProviderByAlias(providerIdOrAlias) || null;
   if (!provider || typeof provider !== "object") return false;
-  return (provider as { toolCalling?: unknown }).toolCalling === "emulated";
+  return (provider as { toolCalling?: unknown }).toolCalling === "emulated';
 }
 
 function toTrimmedString(value: unknown): string | null {
@@ -449,7 +449,7 @@ function sortModelsByContextSize(models: string[]): string[] {
 
 export function getModelContextLimitForModelString(modelStr: string) {
   const parsed = parseModel(modelStr);
-  const provider = parsed.provider || parsed.providerAlias || "unknown";
+  const provider = parsed.provider || parsed.providerAlias || "unknown';
   const model = parsed.model || modelStr;
   return getModelContextLimit(provider, model);
 }
@@ -477,7 +477,7 @@ function requestRequiresTools(body: Record<string, unknown>): boolean {
 function requestRequiresStructuredOutput(body: Record<string, unknown>): boolean {
   const responseFormat = isRecord(body.response_format) ? body.response_format : null;
   const type = typeof responseFormat?.type === "string" ? responseFormat.type : null;
-  return type === "json_object" || type === "json_schema";
+  return type === "json_object" || type === "json_schema';
 }
 
 function estimateRequestInputTokens(body: Record<string, unknown>): number {
@@ -647,7 +647,7 @@ export function describeCapabilityFilterExhaustion(
       ? "vision"
       : unmet[0];
   const toolCount = Array.isArray(body.tools) ? body.tools.length : 0;
-  const name = comboName && comboName.trim().length > 0 ? comboName : "this combo";
+  const name = comboName && comboName.trim().length > 0 ? comboName : "this combo';
   let message: string;
   if (primary === "tools") {
     message = `No target in combo ${name} supports tool calling; request carried ${toolCount} tools`;

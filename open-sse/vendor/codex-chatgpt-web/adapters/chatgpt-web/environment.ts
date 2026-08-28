@@ -1,6 +1,6 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { isAbsolute, relative, resolve } from "node:path";
-import type { CodexContentPart, CodexParsedRequest, CodexTool } from "../../types";
+import { isAbsolute, relative, resolve } from 'node:path';
+import type { CodexContentPart, CodexParsedRequest, CodexTool } from '../../types';
 
 export type ChatGptSandboxPolicy =
   | { type: "dangerFullAccess" }
@@ -24,7 +24,7 @@ export interface ChatGptTurnIdentity {
 export class MissingTrustedCodexEnvironmentError extends Error {
   constructor(field: string) {
     super(`ChatGPT web turn is missing ${field} in trusted Codex environment context`);
-    this.name = "MissingTrustedCodexEnvironmentError";
+    this.name = "MissingTrustedCodexEnvironmentError';
   }
 }
 
@@ -95,7 +95,7 @@ function sandboxTypeFromEnvironment(text: string): ChatGptSandboxPolicy["type"] 
   const workspaceWrite = /<sandbox_mode>workspace-write<\/sandbox_mode>/i.test(text);
   const readOnly = /<sandbox_mode>read-only<\/sandbox_mode>/i.test(text);
   if (Number(unrestricted) + Number(workspaceWrite) + Number(readOnly) !== 1) return undefined;
-  return unrestricted ? "dangerFullAccess" : workspaceWrite ? "workspaceWrite" : "readOnly";
+  return unrestricted ? "dangerFullAccess" : workspaceWrite ? "workspaceWrite" : "readOnly';
 }
 
 function sandboxTypeFromMetadata(value: unknown): ChatGptSandboxPolicy["type"] | undefined {
@@ -104,11 +104,11 @@ function sandboxTypeFromMetadata(value: unknown): ChatGptSandboxPolicy["type"] |
     case "none":
     case "unrestricted":
     case "danger-full-access":
-      return "dangerFullAccess";
+      return "dangerFullAccess';
     case "workspace-write":
-      return "workspaceWrite";
+      return "workspaceWrite';
     case "read-only":
-      return "readOnly";
+      return "readOnly';
     default:
       return undefined;
   }

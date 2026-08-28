@@ -1,14 +1,14 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { createHash } from "node:crypto";
-import type { AdapterEvent, CodexParsedRequest } from "../../types";
-import type { BrokerToolRequest } from "./turn-broker";
-import { extractChatGptTurnIdentity } from "./environment";
+import { createHash } from 'node:crypto';
+import type { AdapterEvent, CodexParsedRequest } from '../../types';
+import type { BrokerToolRequest } from './turn-broker';
+import { extractChatGptTurnIdentity } from './environment';
 
 export type ChatGptBrowserOutcome =
   { type: "final"; answer: string } | { type: "error"; error: Error };
 
 export interface ChatGptTraceEvent {
-  kind: "reasoning" | "commentary";
+  kind: "reasoning" | "commentary';
   text: string;
   continuation?: boolean;
 }
@@ -76,7 +76,7 @@ interface TextWaiter {
 export class ChatGptTextFeed {
   private readonly queued: string[] = [];
   private readonly waiters = new Set<TextWaiter>();
-  private text = "";
+  private text = "';
 
   push(delta: string): void {
     if (!delta) return;

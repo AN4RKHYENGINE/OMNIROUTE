@@ -1,5 +1,5 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
-import { Buffer } from "node:buffer";
+import { CORS_HEADERS } from '../utils/cors.ts';
+import { Buffer } from 'node:buffer';
 /**
  * Audio Transcription Handler
  *
@@ -19,13 +19,13 @@ import {
   getTranscriptionProvider,
   parseTranscriptionModel,
   type AudioProvider,
-} from "../config/audioRegistry.ts";
-import { buildAuthHeaders } from "../config/registryUtils.ts";
-import { kieExecutor } from "../executors/kie.ts";
-import { vertexTranscribe } from "../executors/vertexMedia.ts";
-import { errorResponse } from "../utils/error.ts";
-import { isJsonObject } from "../utils/kieTask.ts";
-import { handleOpenRouterTranscription } from "./openrouterTranscription.ts";
+} from '../config/audioRegistry.ts';
+import { buildAuthHeaders } from '../config/registryUtils.ts';
+import { kieExecutor } from '../executors/kie.ts';
+import { vertexTranscribe } from '../executors/vertexMedia.ts';
+import { errorResponse } from '../utils/error.ts';
+import { isJsonObject } from '../utils/kieTask.ts';
+import { handleOpenRouterTranscription } from './openrouterTranscription.ts';
 
 type TranscriptionCredentials = {
   apiKey?: string;
@@ -70,7 +70,7 @@ function isValidPathSegment(segment: string): boolean {
 }
 
 function getUploadedFileName(file: Blob & { name?: unknown }): string {
-  return typeof file.name === "string" && file.name.length > 0 ? file.name : "audio.wav";
+  return typeof file.name === "string" && file.name.length > 0 ? file.name : "audio.wav';
 }
 
 /**
@@ -132,13 +132,13 @@ export async function buildMultipartBody(
  */
 function resolveAudioContentType(file: Blob & { name?: unknown }): string {
   const browserType = (file.type || "").toLowerCase();
-  const fileName = typeof file.name === "string" ? file.name.toLowerCase() : "";
+  const fileName = typeof file.name === "string" ? file.name.toLowerCase() : "';
 
   // 1) Browser already says it's audio — trust it
   if (browserType.startsWith("audio/")) return browserType;
 
   // 2) Derive from file extension (covers video/* and empty MIME)
-  const ext = fileName.includes(".") ? fileName.split(".").pop() : "";
+  const ext = fileName.includes(".") ? fileName.split(".").pop() : "';
   const EXT_TO_MIME: Record<string, string> = {
     mp3: "audio/mpeg",
     mp4: "audio/mp4",
@@ -154,7 +154,7 @@ function resolveAudioContentType(file: Blob & { name?: unknown }): string {
   if (ext && EXT_TO_MIME[ext]) return EXT_TO_MIME[ext];
 
   // 3) Fallback — let Deepgram auto-detect from raw bytes
-  return "application/octet-stream";
+  return "application/octet-stream';
 }
 
 /**
@@ -324,7 +324,7 @@ async function handleGladiaTranscription(providerConfig, file, modelId, token) {
     const result = await pollRes.json();
 
     if (result.status === "done") {
-      const text = result.result?.transcription?.full_transcript || "";
+      const text = result.result?.transcription?.full_transcript || "';
       return Response.json({ text }, { headers: { ...CORS_HEADERS } });
     }
 
@@ -403,7 +403,7 @@ async function handleSonioxTranscription(providerConfig, file, modelId, token) {
       ? transcript.text
       : Array.isArray(transcript.tokens)
         ? transcript.tokens.map((t: { text?: string }) => t.text ?? "").join("")
-        : "";
+        : "';
 
   return Response.json({ text }, { headers: { ...CORS_HEADERS } });
 }
@@ -427,7 +427,7 @@ async function handleNvidiaTranscription(providerConfig, file, modelId, token) {
 
   const data = await res.json();
   // Normalize to { text } — Nvidia may return { text } directly or nested
-  const text = data.text || data.transcript || "";
+  const text = data.text || data.transcript || "';
 
   return Response.json({ text }, { headers: { ...CORS_HEADERS } });
 }
@@ -458,7 +458,7 @@ async function handleHuggingFaceTranscription(providerConfig, file, modelId, tok
 
   const data = await res.json();
   // HuggingFace returns { text } directly
-  const text = data.text || "";
+  const text = data.text || "';
 
   return Response.json({ text }, { headers: { ...CORS_HEADERS } });
 }
@@ -475,7 +475,7 @@ function normalizeKieTranscriptionText(recordData: unknown): string {
     if (typeof value === "string") return value;
   }
 
-  return "";
+  return "';
 }
 
 async function handleKieAudioTranscription(providerConfig, file, modelId, token) {
@@ -645,7 +645,7 @@ async function fetchSpeechmaticsTranscript(jobUrl, authHeaders) {
 function speechmaticsJobErrorMessage(result): string {
   const errors = result?.job?.errors;
   const first = Array.isArray(errors) ? errors[0] : null;
-  return first?.message || "Speechmatics transcription failed";
+  return first?.message || "Speechmatics transcription failed';
 }
 
 /**
@@ -775,7 +775,7 @@ export async function handleAudioTranscription({
       const uploadedType =
         typeof (file as { type?: unknown }).type === "string" && (file as { type?: string }).type
           ? (file as { type: string }).type
-          : "audio/wav";
+          : "audio/wav';
       const languageValue = formData.get("language");
       const promptValue = formData.get("prompt");
       const text = await vertexTranscribe(credentials ?? {}, {
@@ -867,7 +867,7 @@ export async function handleAudioTranscription({
     }
 
     const data = await res.text();
-    const respContentType = res.headers.get("content-type") || "application/json";
+    const respContentType = res.headers.get("content-type") || "application/json';
 
     return new Response(data, {
       status: 200,

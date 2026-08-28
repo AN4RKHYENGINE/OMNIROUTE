@@ -1,13 +1,13 @@
-import { stripTrailingSlashes, normalizeBaseUrl } from "../utils/urlSanitize.ts";
+import { stripTrailingSlashes, normalizeBaseUrl } from '../utils/urlSanitize.ts';
 
 export const SAP_DEFAULT_BASE_URL =
-  "https://example-aicore.cfapps.eu10.hana.ondemand.com/v2/lm/deployments/example-deployment";
+  "https://example-aicore.cfapps.eu10.hana.ondemand.com/v2/lm/deployments/example-deployment';
 
 function sanitizeUrl(value: string): string {
   try {
     const parsed = new URL(value);
-    parsed.search = "";
-    parsed.hash = "";
+    parsed.search = "';
+    parsed.hash = "';
     return stripTrailingSlashes(parsed.toString());
   } catch {
     return value;

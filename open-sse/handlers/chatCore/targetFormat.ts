@@ -10,9 +10,9 @@
  * model id) and `targetFormat`.
  */
 
-import { PROVIDER_ID_TO_ALIAS, getModelTargetFormat } from "../../config/providerModels.ts";
-import { getTargetFormat } from "../../services/provider.ts";
-import { FORMATS } from "../../translator/formats.ts";
+import { PROVIDER_ID_TO_ALIAS, getModelTargetFormat } from '../../config/providerModels.ts';
+import { getTargetFormat } from '../../services/provider.ts';
+import { FORMATS } from '../../translator/formats.ts';
 
 export function resolveChatCoreTargetFormat(opts: {
   provider: string;

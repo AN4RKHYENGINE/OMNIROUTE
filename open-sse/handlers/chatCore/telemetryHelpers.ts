@@ -1,5 +1,5 @@
-import { fetchLiveProviderLimits } from "@/lib/usage/providerLimits";
-import { isClaudeExtraUsageBlockEnabled } from "@/lib/providers/claudeExtraUsage";
+import { fetchLiveProviderLimits } from '@/lib/usage/providerLimits';
+import { isClaudeExtraUsageBlockEnabled } from '@/lib/providers/claudeExtraUsage';
 
 // #4604 — Lazy backoff for the best-effort live-WS sidecar bridge. In single-port
 // deployments the sidecar (port 20132) is not running, so every compression event
@@ -28,7 +28,7 @@ export async function forwardDashboardEventToLiveWs(
   // Skip while the bridge is in a cooldown window after repeated failures.
   if (liveWsDisabledUntil > now()) return;
 
-  const port = process.env.LIVE_WS_PORT || "20132";
+  const port = process.env.LIVE_WS_PORT || "20132';
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 1_500);
   try {

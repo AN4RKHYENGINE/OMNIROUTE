@@ -26,60 +26,60 @@
  *
  * See _tasks/quality/2026-06-19-DESIGN-godfiles-decomposition.md §4.
  */
-import { isModelLocked } from "../accountFallback.ts";
-import { parseAutoPrefix } from "../autoCombo/autoPrefix.ts";
-import { handlePipelineCombo, buildPipelineResponse } from "../autoCombo/pipelineRouter.ts";
-import type { resolveComboSetupConfig } from "../comboConfig.ts";
-import { orderTargetsByEvalScores } from "../evalRouting.ts";
-import { parseModel } from "../model.ts";
-import { isProviderInCooldown } from "../providerCooldownTracker.ts";
+import { isModelLocked } from '../accountFallback.ts';
+import { parseAutoPrefix } from '../autoCombo/autoPrefix.ts';
+import { handlePipelineCombo, buildPipelineResponse } from '../autoCombo/pipelineRouter.ts';
+import type { resolveComboSetupConfig } from '../comboConfig.ts';
+import { orderTargetsByEvalScores } from '../evalRouting.ts';
+import { parseModel } from '../model.ts';
+import { isProviderInCooldown } from '../providerCooldownTracker.ts';
 import {
   classifyTask,
   getConversationCacheKey,
   isTaskRoutingStrategy,
   reorderByTaskWeight,
-} from "../taskAwareRouting.ts";
-import { errorResponseWithComboDiagnostics } from "../../utils/error.ts";
-import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
-import type { ResilienceSettings } from "@lib/resilience/settings";
-import { applyStrategyOrdering } from "./applyStrategyOrdering.ts";
-import { clampComboDepth } from "./comboPredicates.ts";
+} from '../taskAwareRouting.ts';
+import { errorResponseWithComboDiagnostics } from '../../utils/error.ts';
+import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
+import type { ResilienceSettings } from '@lib/resilience/settings';
+import { applyStrategyOrdering } from './applyStrategyOrdering.ts';
+import { clampComboDepth } from './comboPredicates.ts';
 import {
   describeCapabilityFilterExhaustion,
   filterTargetsByRequestCompatibility,
   resolveComboTargets,
   resolveWeightedStepGroups,
   resolveWeightedTargets,
-} from "./comboStructure.ts";
-import { applyContextRequirements } from "./contextRequirements.ts";
-import { recordComboFailure } from "./failureTracker.ts";
-import { getKnownContextOverflow } from "./knownContextOverflow.ts";
-import { buildEmptyComboTargetsPayload, buildRecoveryHint } from "./pinRecovery.ts";
+} from './comboStructure.ts';
+import { applyContextRequirements } from './contextRequirements.ts';
+import { recordComboFailure } from './failureTracker.ts';
+import { getKnownContextOverflow } from './knownContextOverflow.ts';
+import { buildEmptyComboTargetsPayload, buildRecoveryHint } from './pinRecovery.ts';
 import {
   applyPromptCacheAffinity,
   expandPromptCacheAffinityTargets,
   resolvePromptCacheAffinityKey,
   shouldProtectOriginalFirst,
-} from "./promptCacheAffinity.ts";
+} from './promptCacheAffinity.ts';
 import {
   expandProviderWildcardsInCombo,
   expandProviderWildcardsInCollection,
-} from "./providerWildcard.ts";
-import { preScreenTargets, type PreScreenResult } from "./quotaStrategies.ts";
-import { resolveAutoStrategyOrder, type ResolveAutoStrategyDeps } from "./resolveAutoStrategy.ts";
+} from './providerWildcard.ts';
+import { preScreenTargets, type PreScreenResult } from './quotaStrategies.ts';
+import { resolveAutoStrategyOrder, type ResolveAutoStrategyDeps } from './resolveAutoStrategy.ts';
 import {
   MAX_RR_COUNTERS,
   clampStickyWeightedTargetLimit,
   getStickyWeightedExecutionKey,
   weightedStickyTargets,
-} from "./rrState.ts";
+} from './rrState.ts';
 import {
   applySessionStickiness,
   normalizeStickinessMessages,
   resolveDisableSessionStickiness,
   type ApplyStickinessResult,
-} from "./sessionStickiness.ts";
-import { applyRequestTagRouting } from "./autoStrategy.ts";
+} from './sessionStickiness.ts';
+import { applyRequestTagRouting } from './autoStrategy.ts';
 import type {
   ComboCollectionLike,
   ComboLike,
@@ -90,7 +90,7 @@ import type {
   IsModelAvailable,
   HiddenModelsByProvider,
   ResolvedComboTarget,
-} from "./types.ts";
+} from './types.ts';
 
 export interface ResolveComboTargetPipelineDeps {
   body: Record<string, unknown>;
@@ -401,7 +401,7 @@ async function dispatchSmartPipeline(
 }
 
 function logPipelineFallthrough(pipelineErr: unknown, log: ComboLogger): void {
-  const pipelineMsg = pipelineErr instanceof Error ? pipelineErr.message : "";
+  const pipelineMsg = pipelineErr instanceof Error ? pipelineErr.message : "';
   if (pipelineMsg === "PIPELINE_DISABLED") {
     log.info("COMBO", "Pipeline disabled, falling through to standard auto routing");
   } else if (pipelineMsg === "PIPELINE_TOKEN_THRESHOLD") {
@@ -588,7 +588,7 @@ function applyTaskAwareOrdering(
     : taskReordered;
   if (nextOrder[0]?.modelStr !== orderedTargets[0]?.modelStr) {
     const reasons =
-      Array.isArray(task.reasons) && task.reasons.length > 0 ? ` (${task.reasons.join(",")})` : "";
+      Array.isArray(task.reasons) && task.reasons.length > 0 ? ` (${task.reasons.join(",")})` : "';
     log.info(
       "COMBO",
       `task-route task=${task.level}${reasons} cacheKey=${conversationCacheKey ?? "none"} → ${nextOrder[0]?.modelStr}`

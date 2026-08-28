@@ -5,7 +5,7 @@
  * Precedence: provider-specific > global > environment variables
  *
  * Usage:
- *   import { resolveProxy } from "open-sse/utils/networkProxy.js";
+ *   import { resolveProxy } from 'open-sse/utils/networkProxy.js';
  *   const proxyUrl = await resolveProxy("openai");
  */
 
@@ -52,7 +52,7 @@ export async function resolveProxy(providerId) {
   const envProxy = process.env.HTTPS_PROXY || process.env.HTTP_PROXY || process.env.ALL_PROXY;
   if (envProxy) {
     // Check NO_PROXY
-    const noProxy = process.env.NO_PROXY || process.env.no_proxy || "";
+    const noProxy = process.env.NO_PROXY || process.env.no_proxy || "';
     // Simple check: if providerId is in NO_PROXY list, skip
     if (noProxy && providerId) {
       const noProxyList = noProxy.split(",").map((s) => s.trim().toLowerCase());

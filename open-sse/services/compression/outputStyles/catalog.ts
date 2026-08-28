@@ -1,4 +1,4 @@
-import { SHARED_BOUNDARIES, CAVEMAN_INSTRUCTION_BY_LANGUAGE } from "../outputMode.ts";
+import { SHARED_BOUNDARIES, CAVEMAN_INSTRUCTION_BY_LANGUAGE } from '../outputMode.ts';
 
 /**
  * A single output-steering style. Instruction text MUST be static per

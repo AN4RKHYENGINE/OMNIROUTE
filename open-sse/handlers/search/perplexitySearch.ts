@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { SearchProviderConfig } from "../../config/searchRegistry.ts";
+import type { SearchProviderConfig } from '../../config/searchRegistry.ts';
 
 interface PerplexitySearchParams {
   query: string;

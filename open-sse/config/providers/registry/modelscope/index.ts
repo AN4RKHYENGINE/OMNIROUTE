@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // ModelScope (Alibaba 魔搭) — OpenAI-compatible API-Inference, ported from upstream
 // 9router PR #1764 (@tn5052). The upstream PR hardcoded `https://api-inference.modelscope.ai/...`

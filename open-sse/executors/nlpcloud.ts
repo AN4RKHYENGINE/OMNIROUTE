@@ -1,12 +1,12 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
 import {
   BaseExecutor,
   mergeUpstreamExtraHeaders,
   type ExecuteInput,
   type ProviderCredentials,
-} from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
+} from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
 
 type JsonRecord = Record<string, unknown>;
 type OpenAIMessage = {
@@ -19,8 +19,8 @@ type NlpCloudHistoryEntry = {
   response: string;
 };
 
-const DEFAULT_MODEL = "chatdolphin";
-const DEFAULT_BASE_URL = "https://api.nlpcloud.io/v1/gpu";
+const DEFAULT_MODEL = "chatdolphin';
+const DEFAULT_BASE_URL = "https://api.nlpcloud.io/v1/gpu';
 
 function asRecord(value: unknown): JsonRecord {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as JsonRecord) : {};
@@ -32,12 +32,12 @@ function extractTextContent(content: unknown): string {
   }
 
   if (!Array.isArray(content)) {
-    return "";
+    return "';
   }
 
   return content
     .map((part) => {
-      if (!part || typeof part !== "object") return "";
+      if (!part || typeof part !== "object") return "';
       const item = part as Record<string, unknown>;
       if (item.type === "text" && typeof item.text === "string") {
         return item.text;
@@ -45,7 +45,7 @@ function extractTextContent(content: unknown): string {
       if (item.type === "input_text" && typeof item.text === "string") {
         return item.text;
       }
-      return "";
+      return "';
     })
     .filter((text) => text.trim().length > 0)
     .join("\n")
@@ -230,7 +230,7 @@ function buildSynthesizedStream(
 
 function extractStreamDelta(data: string): string {
   const trimmed = data.trim();
-  if (!trimmed || trimmed === "[DONE]") return "";
+  if (!trimmed || trimmed === "[DONE]") return "';
 
   if (trimmed.startsWith("{")) {
     try {
@@ -242,7 +242,7 @@ function extractStreamDelta(data: string): string {
             ? payload.content
             : typeof payload.token === "string"
               ? payload.token
-              : "";
+              : "';
       return response.trim();
     } catch {
       return trimmed;
@@ -301,7 +301,7 @@ export class NlpCloudExecutor extends BaseExecutor {
       headers.Authorization = `Token ${key}`;
     }
 
-    headers.Accept = stream ? "text/event-stream" : "application/json";
+    headers.Accept = stream ? "text/event-stream" : "application/json';
     return headers;
   }
 
@@ -356,7 +356,7 @@ export class NlpCloudExecutor extends BaseExecutor {
         );
 
         const reader = upstream.getReader();
-        let buffer = "";
+        let buffer = "';
         let finished = false;
 
         const emitDelta = (content: string) => {
@@ -492,10 +492,10 @@ export class NlpCloudExecutor extends BaseExecutor {
       }
 
       if (stream) {
-        const contentType = response.headers.get("Content-Type") || "";
+        const contentType = response.headers.get("Content-Type") || "';
         if (contentType.includes("application/json")) {
           const json = asRecord(await response.json());
-          const content = typeof json.response === "string" ? json.response : "";
+          const content = typeof json.response === "string" ? json.response : "';
           return {
             response: buildSynthesizedStream(
               content,
@@ -518,7 +518,7 @@ export class NlpCloudExecutor extends BaseExecutor {
       }
 
       const json = asRecord(await response.json());
-      const content = typeof json.response === "string" ? json.response : "";
+      const content = typeof json.response === "string" ? json.response : "';
 
       return {
         response: buildOpenAiJsonCompletion(

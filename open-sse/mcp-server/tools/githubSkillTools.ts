@@ -10,8 +10,8 @@
  * Backed by the githubCollector library at src/lib/skills/githubCollector.ts.
  */
 
-import { z } from "zod";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+import { z } from 'zod';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 import {
   searchGitHubSkills,
   scanText,
@@ -22,7 +22,7 @@ import {
   INSTALL_TARGETS,
   type GitHubSkillRepo,
   type SkillInstallResult,
-} from "@/lib/skills/githubCollector";
+} from '@/lib/skills/githubCollector';
 
 // ── Handlers ─────────────────────────────────────────────────────────────────
 

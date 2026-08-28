@@ -6,12 +6,12 @@ export {
   type QuantumLockConfig,
   type QuantumLockStats,
   type VolatileSpan,
-} from "./quantumPatterns.ts";
-export { detectVolatileSpans } from "./quantumLock.ts";
-export { applyQuantumLock } from "./quantumLockStep.ts";
+} from './quantumPatterns.ts';
+export { detectVolatileSpans } from './quantumLock.ts';
+export { applyQuantumLock } from './quantumLockStep.ts';
 export {
   resolveQuantumLock,
   quantumCachingContext,
   withQuantumLock,
   withQuantumLockAsync,
-} from "./strategyWrap.ts";
+} from './strategyWrap.ts';

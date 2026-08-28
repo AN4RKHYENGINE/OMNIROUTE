@@ -13,9 +13,9 @@
 import {
   extractCodeAssistOnboardTierId,
   extractCodeAssistSubscriptionTier,
-} from "./codeAssistSubscription.ts";
-import { toDisplayLabel } from "./usage/scalars.ts";
-import { parseResetTime, createQuotaFromUsage } from "./usage/quota.ts";
+} from './codeAssistSubscription.ts';
+import { toDisplayLabel } from './usage/scalars.ts';
+import { parseResetTime, createQuotaFromUsage } from './usage/quota.ts';
 import {
   getMiniMaxUsage,
   getMiniMaxPlanLabel,
@@ -29,47 +29,47 @@ import {
   getMiniMaxRemainingPercent,
   getMiniMaxAuthErrorMessage,
   getMiniMaxErrorSummary,
-} from "./usage/minimax.ts";
-import { getGlmUsage } from "./usage/glm.ts";
+} from './usage/minimax.ts';
+import { getGlmUsage } from './usage/glm.ts';
 // Re-exported para o teste glm-coding-plan-monthly (importa de services/usage).
-export { glmMonthlyRemainingPercentage } from "./usage/glm.ts";
+export { glmMonthlyRemainingPercentage } from './usage/glm.ts';
 import {
   getAntigravityUsage,
   getAntigravityPlanLabel,
   mapCodeAssistSubscriptionToPlanLabel,
   mapCodeAssistTierIdToLabel,
   mapSubscriptionTierStringToPlanLabel,
-} from "./usage/antigravity.ts";
-import { getCursorUsage } from "./usage/cursor.ts";
-import { getKimiUsage } from "./usage/kimi.ts";
-import { getCodexUsage } from "./usage/codex.ts";
-import { getClaudeUsage, getClaudePlanLabel } from "./usage/claude.ts";
-import { getKiroUsage, buildKiroUsageResult, discoverKiroProfileArn } from "./usage/kiro.ts";
+} from './usage/antigravity.ts';
+import { getCursorUsage } from './usage/cursor.ts';
+import { getKimiUsage } from './usage/kimi.ts';
+import { getCodexUsage } from './usage/codex.ts';
+import { getClaudeUsage, getClaudePlanLabel } from './usage/claude.ts';
+import { getKiroUsage, buildKiroUsageResult, discoverKiroProfileArn } from './usage/kiro.ts';
 // Re-exported para os testes kiro-* (importam de services/usage).
-export { buildKiroUsageResult, discoverKiroProfileArn } from "./usage/kiro.ts";
-import { getAdobeFireflyUsage } from "./usage/adobeFirefly.ts";
-import { getOpenrouterUsage } from "./usage/openrouter.ts";
-import { getOllamaCloudUsage, getOpenCodeGoUsage } from "./opencodeOllamaUsage.ts";
-import { getCodeBuddyCnUsage } from "./usage/codebuddy-cn.ts";
-import { getPromptQlUsage } from "./usage/promptql.ts";
-import { getHyperAgentUsage } from "./usage/hyperagent.ts";
-import { getGitHubUsage, formatGitHubQuotaSnapshot, inferGitHubPlanName } from "./usage/github.ts";
-import { getCrofUsage } from "./usage/crof.ts";
-import { getNanoGptUsage } from "./usage/nanogpt.ts";
-import { getQoderUsage, parseQoderUserStatusUsage } from "./usage/qoder.ts";
+export { buildKiroUsageResult, discoverKiroProfileArn } from './usage/kiro.ts';
+import { getAdobeFireflyUsage } from './usage/adobeFirefly.ts';
+import { getOpenrouterUsage } from './usage/openrouter.ts';
+import { getOllamaCloudUsage, getOpenCodeGoUsage } from './opencodeOllamaUsage.ts';
+import { getCodeBuddyCnUsage } from './usage/codebuddy-cn.ts';
+import { getPromptQlUsage } from './usage/promptql.ts';
+import { getHyperAgentUsage } from './usage/hyperagent.ts';
+import { getGitHubUsage, formatGitHubQuotaSnapshot, inferGitHubPlanName } from './usage/github.ts';
+import { getCrofUsage } from './usage/crof.ts';
+import { getNanoGptUsage } from './usage/nanogpt.ts';
+import { getQoderUsage, parseQoderUserStatusUsage } from './usage/qoder.ts';
 // Re-exported para o teste qoder-usage-quota (importa parseQoderUserStatusUsage de services/usage).
-export { parseQoderUserStatusUsage } from "./usage/qoder.ts";
-import { getOpencodeUsage } from "./usage/opencode.ts";
-import { getDeepseekUsage } from "./usage/deepseek.ts";
-import { getBailianCodingPlanUsage } from "./usage/bailian.ts";
-import { getVertexUsage } from "./usage/vertex.ts";
-import { getXiaomiMimoUsage } from "./usage/xiaomi-mimo.ts";
-import { getXaiUsage } from "./usage/xai.ts";
-import { getXaiOauthUsage } from "./usage/xaiOauth.ts";
-import { getGrokCliUsage } from "./usage/grokCli.ts";
-import { getFirecrawlUsage } from "./usage/firecrawl.ts";
-import { getCommandCodeUsage } from "./usage/command-code.ts";
-import { getConolUsage } from "./conolUsage.ts";
+export { parseQoderUserStatusUsage } from './usage/qoder.ts';
+import { getOpencodeUsage } from './usage/opencode.ts';
+import { getDeepseekUsage } from './usage/deepseek.ts';
+import { getBailianCodingPlanUsage } from './usage/bailian.ts';
+import { getVertexUsage } from './usage/vertex.ts';
+import { getXiaomiMimoUsage } from './usage/xiaomi-mimo.ts';
+import { getXaiUsage } from './usage/xai.ts';
+import { getXaiOauthUsage } from './usage/xaiOauth.ts';
+import { getGrokCliUsage } from './usage/grokCli.ts';
+import { getFirecrawlUsage } from './usage/firecrawl.ts';
+import { getCommandCodeUsage } from './usage/command-code.ts';
+import { getConolUsage } from './conolUsage.ts';
 
 type JsonRecord = Record<string, unknown>;
 type UsageProviderConnection = JsonRecord & {

@@ -1,10 +1,10 @@
-import { isOpenAIResponsesStoreEnabled } from "@/lib/providers/requestDefaults";
+import { isOpenAIResponsesStoreEnabled } from '@/lib/providers/requestDefaults';
 import {
   DEFAULT_RESPONSES_PREVIOUS_RESPONSE_ID_MODE,
   RESPONSES_PREVIOUS_RESPONSE_ID_MODES,
   type ResponsesPreviousResponseIdMode,
-} from "@/shared/constants/responsesPreviousResponseId";
-import { FORMATS } from "../translator/formats.ts";
+} from '@/shared/constants/responsesPreviousResponseId';
+import { FORMATS } from '../translator/formats.ts';
 
 type JsonRecord = Record<string, unknown>;
 

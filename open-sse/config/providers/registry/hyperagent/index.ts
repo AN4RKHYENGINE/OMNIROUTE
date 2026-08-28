@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { HYPERAGENT_FALLBACK_MODELS } from "../../../../services/hyperagentModels.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { HYPERAGENT_FALLBACK_MODELS } from '../../../../services/hyperagentModels.ts';
 
 // HyperAgent (hyperagent.com) — unofficial reverse-engineered web session.
 // Auth: browser Cookie header. Chat: POST /api/threads/{id}/chat (SSE).

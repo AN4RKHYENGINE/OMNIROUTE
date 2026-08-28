@@ -8,13 +8,13 @@
  * timeout-bounded response.text(). Behaviour is byte-identical to the previous module-level function.
  */
 
-import { withBodyTimeout } from "../../utils/stream.ts";
-import { FETCH_BODY_TIMEOUT_MS } from "../../config/constants.ts";
-import { createBodyTimeoutError, readStreamChunkWithTimeout } from "./upstreamTimeouts.ts";
+import { withBodyTimeout } from '../../utils/stream.ts';
+import { FETCH_BODY_TIMEOUT_MS } from '../../config/constants.ts';
+import { createBodyTimeoutError, readStreamChunkWithTimeout } from './upstreamTimeouts.ts';
 import {
   appendNonStreamingSseTerminalSignal,
   type NonStreamingSseTerminalState,
-} from "./nonStreamingSse.ts";
+} from './nonStreamingSse.ts';
 
 /**
  * Thrown when a non-streaming upstream body exceeds the hard cap. Buffering an unbounded
@@ -29,7 +29,7 @@ export class NonStreamingResponseTooLargeError extends Error {
     super(
       `Upstream non-streaming response exceeded the ${maxBytes}-byte cap (saw at least ${bytesSeen} bytes)`
     );
-    this.name = "NonStreamingResponseTooLargeError";
+    this.name = "NonStreamingResponseTooLargeError';
     this.bytesSeen = bytesSeen;
     this.maxBytes = maxBytes;
   }
@@ -112,7 +112,7 @@ async function drainNonStreamingSseBody(
     currentEvent: "",
     pendingLine: "",
   };
-  let rawBody = "";
+  let rawBody = "';
   let bytesSeen = 0;
   const deadline = FETCH_BODY_TIMEOUT_MS > 0 ? Date.now() + FETCH_BODY_TIMEOUT_MS : 0;
   let cancelRequested = false;

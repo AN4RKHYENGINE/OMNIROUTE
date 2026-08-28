@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { OAUTH_ENDPOINTS } from "../../../config/constants.ts";
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import { buildFormParams } from "../shared.ts";
+import { OAUTH_ENDPOINTS } from '../../../config/constants.ts';
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import { buildFormParams } from '../shared.ts';
 
 /**
  * Specialized refresh for Openference OAuth tokens.
@@ -53,7 +53,7 @@ export async function refreshOpenferenceToken(refreshToken, log, proxyConfig: un
       }
 
       if (response.status === 401) {
-        const code = errorCode || "unauthorized";
+        const code = errorCode || "unauthorized';
         log?.error?.(
           "TOKEN_REFRESH",
           "Openference OAuth token endpoint returned 401. Re-authentication required.",

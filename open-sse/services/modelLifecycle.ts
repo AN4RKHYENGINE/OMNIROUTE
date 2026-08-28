@@ -6,12 +6,12 @@
  * their shutdown date, and untracked models pass through unchanged.
  */
 
-export const OPENAI_MODEL_DEPRECATIONS_URL = "https://developers.openai.com/api/docs/deprecations";
+export const OPENAI_MODEL_DEPRECATIONS_URL = "https://developers.openai.com/api/docs/deprecations';
 
-export type ModelLifecycleStatus = "untracked" | "deprecated" | "shutdown";
-export type ModelLifecycleAction = "allow" | "warn" | "reject";
+export type ModelLifecycleStatus = "untracked" | "deprecated" | "shutdown';
+export type ModelLifecycleAction = "allow" | "warn" | "reject';
 export type ModelLifecycleKind =
-  "audio" | "computer-use" | "deep-research" | "realtime" | "search" | "speech" | "text";
+  "audio" | "computer-use" | "deep-research" | "realtime" | "search" | "speech" | "text';
 
 export type ModelLifecycleReplacement = {
   provider: string;
@@ -133,8 +133,8 @@ export function getModelLifecycleDecision(
   model: string | null | undefined,
   asOf: Date | number | string = Date.now()
 ): ModelLifecycleDecision {
-  const normalizedProvider = typeof provider === "string" ? provider.trim().toLowerCase() : "";
-  const normalizedModel = typeof model === "string" ? model.trim() : "";
+  const normalizedProvider = typeof provider === "string" ? provider.trim().toLowerCase() : "';
+  const normalizedModel = typeof model === "string" ? model.trim() : "';
   const record = RECORDS_BY_KEY.get(lifecycleKey(normalizedProvider, normalizedModel));
 
   if (!record) {
@@ -150,7 +150,7 @@ export function getModelLifecycleDecision(
   }
 
   const status =
-    toTimestamp(asOf) >= shutdownTimestamp(record.shutdownAt) ? "shutdown" : "deprecated";
+    toTimestamp(asOf) >= shutdownTimestamp(record.shutdownAt) ? "shutdown" : "deprecated';
   return {
     provider: record.provider,
     model: record.model,
@@ -168,7 +168,7 @@ export function formatModelLifecycleMessage(decision: ModelLifecycleDecision): s
   const modelRef = `${decision.provider}/${decision.model}`;
   const replacement = decision.replacement
     ? ` Use "${decision.replacement.provider}/${decision.replacement.model}" instead.`
-    : "";
+    : "';
   if (decision.status === "shutdown") {
     return `Model "${modelRef}" was shut down on ${decision.shutdownAt} and cannot be routed automatically.${replacement}`;
   }

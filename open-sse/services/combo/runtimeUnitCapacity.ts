@@ -6,15 +6,15 @@
  * @changes
  * - [2026-07-24] [Composer] - Initial capacity pre-check for execute-mode runtime units
  */
-import { isAccountSemaphoreFull } from "../accountSemaphore.ts";
-import { resolveComboTargets } from "./comboStructure.ts";
-import { lookupPositiveCap } from "./concurrencyCaps.ts";
+import { isAccountSemaphoreFull } from '../accountSemaphore.ts';
+import { resolveComboTargets } from './comboStructure.ts';
+import { lookupPositiveCap } from './concurrencyCaps.ts';
 import type {
   ComboCollectionLike,
   ComboLike,
   HiddenModelsByProvider,
   ResolvedComboUnit,
-} from "./types.ts";
+} from './types.ts';
 
 type CapLookup = (connectionId: string) => Promise<number | null>;
 

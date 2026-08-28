@@ -9,11 +9,11 @@
  *
  * See _tasks/superpowers/plans/2026-07-03-blocoJ-combo-hotpath-decomposition.md (Task 1).
  */
-import { buildErrorBody, errorResponse, sanitizeErrorMessage } from "../../utils/error.ts";
-import type { HandleSingleModel, SingleModelTarget, ComboLogger } from "./types.ts";
+import { buildErrorBody, errorResponse, sanitizeErrorMessage } from '../../utils/error.ts';
+import type { HandleSingleModel, SingleModelTarget, ComboLogger } from './types.ts';
 
 /** Stable internal classification for OmniRoute's own combo per-target timer. */
-export const COMBO_TARGET_TIMEOUT_CODE = "combo_target_timeout";
+export const COMBO_TARGET_TIMEOUT_CODE = "combo_target_timeout';
 
 export function buildTargetTimeoutRunner(deps: {
   handleSingleModel: HandleSingleModel;

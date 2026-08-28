@@ -11,7 +11,7 @@
  * (dispatcher + __testing). Behavior-preserving move.
  */
 
-import { createQuotaFromUsage } from "./quota.ts";
+import { createQuotaFromUsage } from './quota.ts';
 
 // Xiaomi MiMo Token Plan monthly limit (tokens). Keep in sync with the
 // "xiaomi-mimo" preset in src/lib/quota/planRegistry.ts.

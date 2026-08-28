@@ -7,9 +7,9 @@
  * Pure filter kept separate from `virtualFactory.ts` for unit testing, mirroring
  * `paidModelFilter.ts` and `candidateOverrides.ts` in this directory.
  */
-import { isAccountUnavailable, isModelLocked } from "../accountFallback.ts";
+import { isAccountUnavailable, isModelLocked } from '../accountFallback.ts';
 
-export const SYNTHETIC_NOAUTH_CONNECTION_ID = "noauth";
+export const SYNTHETIC_NOAUTH_CONNECTION_ID = "noauth';
 
 const TERMINAL_CONNECTION_STATUSES = new Set([
   "banned",

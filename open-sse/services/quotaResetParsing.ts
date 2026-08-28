@@ -1,5 +1,5 @@
 import { looksLikeQuotaExhausted } from '@shared/utils/classify429';
-import { getProviderCategory } from "../config/providerRegistry.ts";
+import { getProviderCategory } from '../config/providerRegistry.ts';
 
 /**
  * Issue #6638 — Ollama Cloud (and any other apikey-category provider) 429s

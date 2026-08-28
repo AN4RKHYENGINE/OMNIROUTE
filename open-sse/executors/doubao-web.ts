@@ -7,16 +7,16 @@
  * Endpoint: POST https://www.dola.com/chat/completion
  * Auth: Session cookies from www.dola.com
  */
-import { randomUUID } from "node:crypto";
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from "../utils/error.ts";
+import { randomUUID } from 'node:crypto';
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from '../utils/error.ts';
 
-const BASE_URL = "https://www.dola.com";
+const BASE_URL = "https://www.dola.com';
 const CHAT_URL = `${BASE_URL}/chat/completion`;
-const DEFAULT_MODEL = "dola-speed";
-const DOLA_BOT_ID = "7339470689562525703";
+const DEFAULT_MODEL = "dola-speed';
+const DOLA_BOT_ID = "7339470689562525703';
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -31,11 +31,11 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function toString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.trim() : "';
 }
 
 function toContentText(value: unknown): string {
-  return typeof value === "string" ? value : "";
+  return typeof value === "string" ? value : "';
 }
 
 function parseJsonRecord(raw: string): JsonRecord | null {
@@ -76,16 +76,16 @@ function contentToText(content: unknown): string {
         const item = asRecord(part);
         if (item.type === "text") return toContentText(item.text);
         if (typeof item.text === "string") return item.text;
-        return "";
+        return "';
       })
       .filter(Boolean)
       .join("\n");
   }
-  return "";
+  return "';
 }
 
 function isDolaReasoningModel(modelId: string): boolean {
-  return modelId === "dola-pro" || modelId === "dola-deep-think";
+  return modelId === "dola-pro" || modelId === "dola-deep-think';
 }
 
 function createDolaTextExtractionState(modelId: string): DolaTextExtractionState {
@@ -102,13 +102,13 @@ function isDolaAnswerBoundary(block: JsonRecord): boolean {
 }
 
 export function foldMessages(messages: unknown): string {
-  if (!Array.isArray(messages)) return "";
+  if (!Array.isArray(messages)) return "';
   return messages
     .map((message) => {
       const item = asRecord(message);
-      const role = toString(item.role) || "user";
+      const role = toString(item.role) || "user';
       const text = contentToText(item.content);
-      return text ? `${role}: ${text}` : "";
+      return text ? `${role}: ${text}` : "';
     })
     .filter(Boolean)
     .join("\n\n");
@@ -116,7 +116,7 @@ export function foldMessages(messages: unknown): string {
 
 export function extractCookieValue(cookieHeader: string, name: string): string {
   const pattern = new RegExp(`(?:^|;\\s*)${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}=([^;]*)`);
-  const value = pattern.exec(cookieHeader)?.[1] ?? "";
+  const value = pattern.exec(cookieHeader)?.[1] ?? "';
   try {
     return decodeURIComponent(value).trim();
   } catch {
@@ -125,12 +125,12 @@ export function extractCookieValue(cookieHeader: string, name: string): string {
 }
 
 function extractQueryValue(raw: string, name: string): string {
-  if (!raw.includes("?") && !raw.includes("&")) return "";
+  if (!raw.includes("?") && !raw.includes("&")) return "';
   try {
     const url = raw.startsWith("http") ? new URL(raw) : new URL(`https://www.dola.com/?${raw}`);
     return toString(url.searchParams.get(name));
   } catch {
-    return "";
+    return "';
   }
 }
 
@@ -159,7 +159,7 @@ export function buildDolaCookieHeader(
   const parsed = parseJsonRecord(raw);
   const data = { ...providerData, ...(parsed ?? {}) };
   const explicitCookie = normalizeCookie(toString(data.cookie));
-  const directCookie = raw && !parsed ? raw : "";
+  const directCookie = raw && !parsed ? raw : "';
   const cookieSource = explicitCookie || directCookie;
 
   if (cookieSource.includes("=")) return cookieSource;
@@ -181,12 +181,12 @@ export function buildDolaCookieHeader(
   const parts = cookieNames
     .map((name) => {
       const value = toString(data[name]);
-      return value ? `${name}=${value}` : "";
+      return value ? `${name}=${value}` : "';
     })
     .filter(Boolean);
 
   if (parts.length > 0) return parts.join("; ");
-  return raw ? `sessionid=${raw}` : "";
+  return raw ? `sessionid=${raw}` : "';
 }
 
 export function buildDolaQueryParams(
@@ -494,7 +494,7 @@ export class DoubaoWebExecutor extends BaseExecutor {
           controller.close();
           return;
         }
-        let buffer = "";
+        let buffer = "';
         let errored = false;
         try {
           while (true) {
@@ -502,13 +502,13 @@ export class DoubaoWebExecutor extends BaseExecutor {
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const blocks = buffer.split(/\r?\n\r?\n/);
-            buffer = blocks.pop() || "";
+            buffer = blocks.pop() || "';
 
             for (const block of blocks) {
               const event = parseSseBlock(block);
               if (!event) continue;
               if (event.event === "STREAM_ERROR") {
-                const message = extractDolaError(event.data) || "Dola stream error";
+                const message = extractDolaError(event.data) || "Dola stream error';
                 errored = true;
                 controller.error(new Error(message));
                 return;
@@ -620,7 +620,7 @@ export class DoubaoWebExecutor extends BaseExecutor {
       };
     }
 
-    const contentType = upstream.headers.get("Content-Type") || "";
+    const contentType = upstream.headers.get("Content-Type") || "';
     if (!contentType.toLowerCase().includes("text/event-stream")) {
       const text = await upstream.text().catch(() => "");
       return {

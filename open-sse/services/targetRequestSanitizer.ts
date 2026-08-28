@@ -7,8 +7,8 @@
  * that belong to the source model but are invalid for the actual target.
  */
 
-import { stripUnsupportedParams } from "../translator/paramSupport.ts";
-import { sanitizeReasoningEffortForProvider } from "../executors/base/reasoningEffort.ts";
+import { stripUnsupportedParams } from '../translator/paramSupport.ts';
+import { sanitizeReasoningEffortForProvider } from '../executors/base/reasoningEffort.ts';
 
 type JsonRecord = Record<string, unknown>;
 type LoggerLike =

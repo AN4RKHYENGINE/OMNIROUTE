@@ -1,4 +1,4 @@
-import type { RelevanceConfig } from "../../types.ts";
+import type { RelevanceConfig } from '../../types.ts';
 
 const BOILERPLATE_TOKENS = new Set([
   "please",

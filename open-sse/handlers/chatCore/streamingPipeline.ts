@@ -9,20 +9,20 @@
  * progress marker when progress is enabled. Behaviour is byte-identical to the previous inline
  * block, including the exact transform order and branch conditions.
  */
-import { pipeWithDisconnect as defaultPipeWithDisconnect } from "../../utils/streamHandler.ts";
+import { pipeWithDisconnect as defaultPipeWithDisconnect } from '../../utils/streamHandler.ts';
 import {
   createSseHeartbeatTransform as defaultHeartbeat,
   shapeForClientFormat as defaultShape,
-} from "../../utils/sseHeartbeat.ts";
-import { createModelEchoTransform as defaultModelEcho } from "../../services/responseModelEcho.ts";
+} from '../../utils/sseHeartbeat.ts';
+import { createModelEchoTransform as defaultModelEcho } from '../../services/responseModelEcho.ts';
 import {
   createProgressTransform as defaultProgress,
   wantsProgress as defaultWantsProgress,
-} from "../../utils/progressTracker.ts";
-import { createPiiSseTransform as defaultPiiSse } from "@/lib/streamingPiiTransform";
-import { isFeatureFlagEnabled as defaultFeatureFlag } from "@/shared/utils/featureFlags";
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
-import { SSE_HEARTBEAT_INTERVAL_MS } from "../../config/constants.ts";
+} from '../../utils/progressTracker.ts';
+import { createPiiSseTransform as defaultPiiSse } from '@/lib/streamingPiiTransform';
+import { isFeatureFlagEnabled as defaultFeatureFlag } from '@/shared/utils/featureFlags';
+import { OMNIROUTE_RESPONSE_HEADERS } from '@/shared/constants/headers';
+import { SSE_HEARTBEAT_INTERVAL_MS } from '../../config/constants.ts';
 /**
  * Pipeline assembly instrumentation — performance.mark() along the SSE hot path.
  * Marks are visible to Node.js perf_hooks consumers and DevTools' Performance
@@ -31,9 +31,9 @@ import { SSE_HEARTBEAT_INTERVAL_MS } from "../../config/constants.ts";
  * Each call to assembleStreamingPipeline creates one measure record:
  *   "omni-pipeline" — wall-clock duration of the full transform chain assembly.
  */
-const PIPELINE_START = "omni-pipeline-start";
-const PIPELINE_END = "omni-pipeline-end";
-const PIPELINE_MEASURE = "omni-pipeline";
+const PIPELINE_START = "omni-pipeline-start';
+const PIPELINE_END = "omni-pipeline-end';
+const PIPELINE_MEASURE = "omni-pipeline';
 
 type HeadersLike = Headers | Record<string, unknown> | null | undefined;
 
@@ -97,7 +97,7 @@ export function assembleStreamingPipeline(
     });
     // Chain: provider → transform → progress → client
     finalStream = piiStream.pipeThrough(progressTransform);
-    args.responseHeaders[OMNIROUTE_RESPONSE_HEADERS.progress] = "enabled";
+    args.responseHeaders[OMNIROUTE_RESPONSE_HEADERS.progress] = "enabled';
   } else {
     finalStream = piiStream;
   }

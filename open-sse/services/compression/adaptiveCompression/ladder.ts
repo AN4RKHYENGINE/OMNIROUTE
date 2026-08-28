@@ -1,4 +1,4 @@
-import type { LadderStage } from "./types.ts";
+import type { LadderStage } from './types.ts';
 
 /**
  * Default escalation ladder (design D-C2): cheapest/most-lossless → most aggressive.

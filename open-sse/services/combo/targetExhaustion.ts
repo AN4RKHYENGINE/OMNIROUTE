@@ -19,15 +19,15 @@ import {
   classifyErrorText,
   hasPerModelQuota,
   isProviderExhaustedReason,
-} from "../accountFallback.ts";
+} from '../accountFallback.ts';
 import {
   isAlibabaFreeQuotaExhaustedError,
   isAlibabaModelStudioProvider,
-} from "../alibabaFreeTier.ts";
-import { RateLimitReason } from "../../config/constants.ts";
-import { isProviderCircuitOpenResult, isRequestScopedUpstreamFailure } from "./comboPredicates.ts";
-import { isCloudflareFingerprintRejection } from "../errorClassifier.ts";
-import type { ComboLogger, ResolvedComboTarget } from "./types.ts";
+} from '../alibabaFreeTier.ts';
+import { RateLimitReason } from '../../config/constants.ts';
+import { isProviderCircuitOpenResult, isRequestScopedUpstreamFailure } from './comboPredicates.ts';
+import { isCloudflareFingerprintRejection } from '../errorClassifier.ts';
+import type { ComboLogger, ResolvedComboTarget } from './types.ts';
 
 // Connection-level failure statuses: the provider connection itself is likely bad (upstream
 // unreachable, proxy/gateway error), so remaining same-connection targets are skipped.
@@ -69,7 +69,7 @@ export type ApplyComboTargetExhaustionOptions = {
   sets: ComboExhaustionSets;
   log: ComboLogger;
   tag: string;
-  exhaustedLogLevel: "info" | "debug";
+  exhaustedLogLevel: "info" | "debug';
   /** Structured error object from upstream response — preferred over raw errorText for classification */
   structuredError?: { code?: string; type?: string; message?: string };
 };

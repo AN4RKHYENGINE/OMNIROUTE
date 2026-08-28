@@ -13,22 +13,22 @@
  *     → project id is the JWT **`aud`** (UUID); no hasura namespace claims
  *     → works for data.pro.ql.app getCreditSummary (Limits), NOT for playground chat
  */
-import type { ProviderCredentials } from "../../executors/base.ts";
+import type { ProviderCredentials } from '../../executors/base.ts';
 
 function readStr(v: unknown): string {
-  if (typeof v !== "string") return "";
+  if (typeof v !== "string") return "';
   const t = v.trim();
-  return t.length ? t : "";
+  return t.length ? t : "';
 }
 
 function readPs(data: unknown, keys: readonly string[]): string {
-  if (!data || typeof data !== "object" || Array.isArray(data)) return "";
+  if (!data || typeof data !== "object" || Array.isArray(data)) return "';
   const rec = data as Record<string, unknown>;
   for (const k of keys) {
     const v = readStr(rec[k]);
     if (v) return v;
   }
-  return "";
+  return "';
 }
 
 /** Accept bare JWT or `Bearer …`. */
@@ -60,7 +60,7 @@ export function looksLikeUuid(value: string): boolean {
 /** Extract PromptQL project id from a JWT (playground enrich-token or DDN/lux token). */
 export function extractProjectIdFromToken(token: string): string {
   const payload = decodeJwtPayload(token);
-  if (!payload) return "";
+  if (!payload) return "';
 
   const hasura = payload["https://promptql.hasura.io"];
   if (hasura && typeof hasura === "object" && !Array.isArray(hasura)) {
@@ -80,7 +80,7 @@ export function extractProjectIdFromToken(token: string): string {
       if (typeof a === "string" && looksLikeUuid(a)) return a.trim();
     }
   }
-  return "";
+  return "';
 }
 
 /**
@@ -140,7 +140,7 @@ export function isJwtExpired(token: string, skewSec = 30): boolean {
   return Math.floor(Date.now() / 1000) >= exp - skewSec;
 }
 
-const DEFAULT_TZ = "UTC";
+const DEFAULT_TZ = "UTC';
 
 export function resolvePromptQlCredentials(credentials: ProviderCredentials | undefined): {
   token: string;

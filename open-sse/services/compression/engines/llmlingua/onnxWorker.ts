@@ -20,13 +20,13 @@
  * constructs before calling the backend; this worker sees prose-only segments.
  */
 
-import { parentPort } from "node:worker_threads";
+import { parentPort } from 'node:worker_threads';
 import {
   resolveLlmlinguaModel,
   configureTransformersEnv,
   type TransformersEnvLike,
-} from "./modelStore.ts";
-import type { LlmlinguaModelEntry } from "./constants.ts";
+} from './modelStore.ts';
+import type { LlmlinguaModelEntry } from './constants.ts';
 
 /**
  * Dynamic-import indirection. These four deps are OPTIONAL and not installed by

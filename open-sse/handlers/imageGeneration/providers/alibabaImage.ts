@@ -1,7 +1,7 @@
-import { resolveAlibabaProviderMediaBaseUrl } from "@/shared/constants/alibabaProviderRegions";
+import { resolveAlibabaProviderMediaBaseUrl } from '@/shared/constants/alibabaProviderRegions';
 
-import { isJsonObject } from "../../../utils/kieTask.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { isJsonObject } from '../../../utils/kieTask.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 interface AlibabaImageOptions {
   model: string;
@@ -115,7 +115,7 @@ export async function handleAlibabaImageGeneration({
     };
   }
 
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   const content = [
     ...collectImageUrls(body).map((image) => ({ image })),
     ...(prompt ? [{ text: prompt }] : []),

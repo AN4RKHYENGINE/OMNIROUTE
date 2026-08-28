@@ -1,4 +1,4 @@
-import type { Dispatcher } from "undici";
+import type { Dispatcher } from 'undici';
 
 const DISPATCHER_CACHE_KEY = Symbol.for("omniroute.proxyDispatcher.cache");
 const DEFAULT_DISPATCHER_KEY = Symbol.for("omniroute.proxyDispatcher.default");

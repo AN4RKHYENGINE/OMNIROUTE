@@ -1,11 +1,11 @@
 // Pure per-provider chat-URL normalizers + connection-preset reader.
 // Extracted verbatim from default.ts (string transforms only, no host state/this).
-import { buildDataRobotChatUrl } from "../../config/datarobot.ts";
-import { buildAzureAiChatUrl } from "../../config/azureAi.ts";
-import { buildWatsonxChatUrl } from "../../config/watsonx.ts";
-import { buildOciChatUrl } from "../../config/oci.ts";
-import { buildSapChatUrl } from "../../config/sap.ts";
-import { normalizeBaseUrl } from "../../utils/urlSanitize.ts";
+import { buildDataRobotChatUrl } from '../../config/datarobot.ts';
+import { buildAzureAiChatUrl } from '../../config/azureAi.ts';
+import { buildWatsonxChatUrl } from '../../config/watsonx.ts';
+import { buildOciChatUrl } from '../../config/oci.ts';
+import { buildSapChatUrl } from '../../config/sap.ts';
+import { normalizeBaseUrl } from '../../utils/urlSanitize.ts';
 
 export function normalizeBailianMessagesUrl(baseUrl) {
   const normalized = normalizeBaseUrl(baseUrl).replace(/\?beta=true$/, "");
@@ -64,6 +64,6 @@ export function getOpenRouterConnectionPreset(
   providerSpecificData?: Record<string, unknown> | null
 ): string | null {
   const preset =
-    typeof providerSpecificData?.preset === "string" ? providerSpecificData.preset.trim() : "";
+    typeof providerSpecificData?.preset === "string" ? providerSpecificData.preset.trim() : "';
   return preset || null;
 }

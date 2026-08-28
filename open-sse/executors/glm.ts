@@ -1,6 +1,6 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
-import { DefaultExecutor } from "./default.ts";
+import { DefaultExecutor } from './default.ts';
 import {
   applyConfiguredUserAgent,
   mergeAbortSignals,
@@ -8,7 +8,7 @@ import {
   type CountTokensInput,
   type ExecuteInput,
   type ProviderCredentials,
-} from "./base.ts";
+} from './base.ts';
 import {
   buildGlmBaseHeaders,
   buildGlmChatUrl,
@@ -17,23 +17,23 @@ import {
   GLM_COUNT_TOKENS_TIMEOUT_MS,
   type GlmTransport,
   getGlmTransport,
-} from "../config/glmProvider.ts";
-import { applyProviderRequestDefaults } from "../services/providerRequestDefaults.ts";
-import { stripUnsupportedParams } from "../translator/paramSupport.ts";
-import { getRotatingApiKey } from "../services/apiKeyRotator.ts";
-import { CLAUDE_CLI_STAINLESS_PACKAGE_VERSION } from "../config/anthropicHeaders.ts";
+} from '../config/glmProvider.ts';
+import { applyProviderRequestDefaults } from '../services/providerRequestDefaults.ts';
+import { stripUnsupportedParams } from '../translator/paramSupport.ts';
+import { getRotatingApiKey } from '../services/apiKeyRotator.ts';
+import { CLAUDE_CLI_STAINLESS_PACKAGE_VERSION } from '../config/anthropicHeaders.ts';
 import {
   getRuntimeVersion,
   normalizeStainlessArch,
   normalizeStainlessPlatform,
-} from "../config/providerHeaderProfiles.ts";
-import { translateNonStreamingResponse } from "../handlers/responseTranslator.ts";
-import { translateRequest } from "../translator/index.ts";
-import { FORMATS } from "../translator/formats.ts";
-import { createSSETransformStreamWithLogger } from "../utils/stream.ts";
-import { ensureStreamReadiness } from "../utils/streamReadiness.ts";
-import { STREAM_READINESS_TIMEOUT_MS } from "../config/constants.ts";
-import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from "../utils/thinkCloseMarker.ts";
+} from '../config/providerHeaderProfiles.ts';
+import { translateNonStreamingResponse } from '../handlers/responseTranslator.ts';
+import { translateRequest } from '../translator/index.ts';
+import { FORMATS } from '../translator/formats.ts';
+import { createSSETransformStreamWithLogger } from '../utils/stream.ts';
+import { ensureStreamReadiness } from '../utils/streamReadiness.ts';
+import { STREAM_READINESS_TIMEOUT_MS } from '../config/constants.ts';
+import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from '../utils/thinkCloseMarker.ts';
 
 type JsonRecord = Record<string, unknown>;
 type GlmExecuteResult = Awaited<ReturnType<DefaultExecutor["execute"]>> & {
@@ -49,7 +49,7 @@ function getEffectiveKey(credentials: ProviderCredentials): string {
   if (credentials.apiKey && credentials.connectionId && extraKeys.length > 0) {
     return getRotatingApiKey(credentials.connectionId, credentials.apiKey, extraKeys);
   }
-  return credentials.apiKey || credentials.accessToken || "";
+  return credentials.apiKey || credentials.accessToken || "';
 }
 
 /**
@@ -166,13 +166,13 @@ function translateAnthropicJsonError(parsed: unknown): JsonRecord {
       ? error.message
       : typeof root.message === "string" && root.message.trim()
         ? root.message
-        : "GLM Anthropic transport error";
+        : "GLM Anthropic transport error';
   const type =
     typeof error.type === "string" && error.type.trim()
       ? error.type
       : typeof root.type === "string" && root.type.trim()
         ? root.type
-        : "upstream_error";
+        : "upstream_error';
 
   return {
     error: {
@@ -388,7 +388,7 @@ export class GlmExecutor extends DefaultExecutor {
     if (timeoutController) {
       timeoutId = setTimeout(() => {
         const timeoutError = new Error(`Fetch timeout after ${fetchStartTimeoutMs}ms on ${url}`);
-        timeoutError.name = "TimeoutError";
+        timeoutError.name = "TimeoutError';
         timeoutController.abort(timeoutError);
       }, fetchStartTimeoutMs);
     }
@@ -488,7 +488,7 @@ export class GlmExecutor extends DefaultExecutor {
       input.credentials.providerSpecificData,
       this.config.baseUrl
     );
-    const fallbackTransport: GlmTransport = primaryTransport === "openai" ? "anthropic" : "openai";
+    const fallbackTransport: GlmTransport = primaryTransport === "openai" ? "anthropic" : "openai';
 
     let primaryResult: GlmExecuteResult | null = null;
     try {

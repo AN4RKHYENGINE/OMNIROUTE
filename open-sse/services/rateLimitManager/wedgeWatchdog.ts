@@ -1,4 +1,4 @@
-import Bottleneck from "bottleneck";
+import Bottleneck from 'bottleneck';
 
 export const WATCHDOG_INTERVAL_MS = 30_000;
 

@@ -25,9 +25,9 @@
  * Registration: call registerAgentrouterQuotaFetcher() once at server startup.
  */
 
-import { registerQuotaFetcher, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
+import { registerQuotaFetcher, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 
 const AGENTROUTER_CONFIG = {
   baseUrl: "https://agentrouter.org",

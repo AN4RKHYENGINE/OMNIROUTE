@@ -1,6 +1,6 @@
-import { DefaultExecutor } from "./default.ts";
-import type { ProviderCredentials } from "./base.ts";
-import { applyAzureParamRules } from "./azureParamRules.ts";
+import { DefaultExecutor } from './default.ts';
+import type { ProviderCredentials } from './base.ts';
+import { applyAzureParamRules } from './azureParamRules.ts';
 
 /**
  * Azure AI Foundry (`azure-ai`).

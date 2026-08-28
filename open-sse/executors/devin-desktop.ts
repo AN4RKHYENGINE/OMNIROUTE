@@ -6,38 +6,38 @@
  * identity is intentionally kept private to this transport.
  */
 
-import { randomUUID } from "node:crypto";
-import { gunzipSync } from "node:zlib";
+import { randomUUID } from 'node:crypto';
+import { gunzipSync } from 'node:zlib';
 
-import { PROVIDERS } from "../config/constants.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
-import { BaseExecutor, mergeUpstreamExtraHeaders, type ExecuteInput } from "./base.ts";
+import { PROVIDERS } from '../config/constants.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
+import { BaseExecutor, mergeUpstreamExtraHeaders, type ExecuteInput } from './base.ts';
 
-const DEVIN_DESKTOP_BASE_URL = "https://server.codeium.com";
-const DEVIN_DESKTOP_CHAT_PATH = "/exa.api_server_pb.ApiServerService/GetChatMessage";
-const DEVIN_DESKTOP_AUTH_PATH = "/exa.auth_pb.AuthService/GetUserJwt";
+const DEVIN_DESKTOP_BASE_URL = "https://server.codeium.com';
+const DEVIN_DESKTOP_CHAT_PATH = "/exa.api_server_pb.ApiServerService/GetChatMessage';
+const DEVIN_DESKTOP_AUTH_PATH = "/exa.auth_pb.AuthService/GetUserJwt';
 const DEVIN_DESKTOP_CHAT_URL = `${DEVIN_DESKTOP_BASE_URL}${DEVIN_DESKTOP_CHAT_PATH}`;
 
-const DEVIN_UPSTREAM_IDE_NAME = "windsurf";
-const VERIFIED_DEVIN_DESKTOP_VERSION = "3.6.27";
+const DEVIN_UPSTREAM_IDE_NAME = "windsurf';
+const VERIFIED_DEVIN_DESKTOP_VERSION = "3.6.27';
 // The installed Desktop bundle exposes codeiumVersion 1.48.2. The exact runtime
 // getter has not been independently proven, so keep this distinct from the app
 // version and allow a validated override rather than claiming they are equal.
-const DEFAULT_DEVIN_EXTENSION_VERSION = "1.48.2";
+const DEFAULT_DEVIN_EXTENSION_VERSION = "1.48.2';
 const DEVIN_VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
-const DEVIN_LOCALE = "en-US";
+const DEVIN_LOCALE = "en-US';
 const CONNECT_COMPRESSED_FLAG = 0x01;
 const CONNECT_END_STREAM_FLAG = 0x02;
 const MAX_CONNECT_FRAME_BYTES = 16 * 1024 * 1024;
 const MAX_AUTH_RESPONSE_BYTES = 1024 * 1024;
 
 export function resolveDevinDesktopVersion(): string {
-  const override = process.env.DEVIN_DESKTOP_VERSION?.trim() ?? "";
+  const override = process.env.DEVIN_DESKTOP_VERSION?.trim() ?? "';
   return DEVIN_VERSION_PATTERN.test(override) ? override : VERIFIED_DEVIN_DESKTOP_VERSION;
 }
 
 export function resolveDevinDesktopExtensionVersion(): string {
-  const override = process.env.DEVIN_DESKTOP_EXTENSION_VERSION?.trim() ?? "";
+  const override = process.env.DEVIN_DESKTOP_EXTENSION_VERSION?.trim() ?? "';
   return DEVIN_VERSION_PATTERN.test(override) ? override : DEFAULT_DEVIN_EXTENSION_VERSION;
 }
 
@@ -229,8 +229,8 @@ type OpenAIMessage = {
 
 function messageText(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
-  let text = "";
+  if (!Array.isArray(content)) return "';
+  let text = "';
   for (const part of content) {
     if (part && typeof part === "object" && (part as Record<string, unknown>).type === "text") {
       text += String((part as Record<string, unknown>).text ?? "");
@@ -508,16 +508,16 @@ function parseConnectTrailerError(payload: Uint8Array): ConnectTrailerError | nu
     return { code: "upstream_error", message: "Devin Desktop Connect stream failed" };
   }
   const record = error as Record<string, unknown>;
-  const code = typeof record.code === "string" ? record.code : "upstream_error";
-  const message = typeof record.message === "string" ? record.message : "Connect stream failed";
+  const code = typeof record.code === "string" ? record.code : "upstream_error';
+  const message = typeof record.message === "string" ? record.message : "Connect stream failed';
   return { code, message };
 }
 
 function finishReason(stopReason: number, hasToolCalls: boolean): string {
-  if (hasToolCalls || stopReason === 10) return "tool_calls";
-  if (stopReason === 3) return "length";
-  if (stopReason === 11) return "content_filter";
-  return "stop";
+  if (hasToolCalls || stopReason === 10) return "tool_calls';
+  if (stopReason === 3) return "length';
+  if (stopReason === 11) return "content_filter';
+  return "stop';
 }
 
 function serviceBaseUrl(baseUrl: string): string {
@@ -585,7 +585,7 @@ export class DevinDesktopExecutor extends BaseExecutor {
     headers: Record<string, string>;
     transformedBody: unknown;
   }> {
-    const apiKey = credentials.accessToken || credentials.apiKey || "";
+    const apiKey = credentials.accessToken || credentials.apiKey || "';
     const baseUrl = this.resolveBaseUrl(credentials, DEVIN_DESKTOP_BASE_URL);
     const url = connectChatUrl(baseUrl);
     const authEndpoint = authUrl(baseUrl);

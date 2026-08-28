@@ -1,15 +1,15 @@
-import { applyLiteCompression } from "../lite.ts";
-import { cavemanCompress } from "../caveman.ts";
-import { compressAggressive } from "../aggressive.ts";
-import { ultraCompressHeuristic } from "../ultra.ts";
-import { createCompressionStats } from "../stats.ts";
-import { adaptBodyForCompression } from "../bodyAdapter.ts";
+import { applyLiteCompression } from '../lite.ts';
+import { cavemanCompress } from '../caveman.ts';
+import { compressAggressive } from '../aggressive.ts';
+import { ultraCompressHeuristic } from '../ultra.ts';
+import { createCompressionStats } from '../stats.ts';
+import { adaptBodyForCompression } from '../bodyAdapter.ts';
 import {
   DEFAULT_AGGRESSIVE_CONFIG,
   DEFAULT_ULTRA_CONFIG,
   type CavemanIntensity,
-} from "../types.ts";
-import type { CompressionEngine, EngineConfigField, EngineValidationResult } from "./types.ts";
+} from '../types.ts';
+import type { CompressionEngine, EngineConfigField, EngineValidationResult } from './types.ts';
 
 const CAVEMAN_INTENSITIES: CavemanIntensity[] = ["lite", "full", "ultra"];
 

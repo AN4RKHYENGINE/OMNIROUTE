@@ -8,7 +8,7 @@
 
 export interface OpenAIToolCall {
   id: string;
-  type: "function";
+  type: "function';
   function: { name: string; arguments: string };
 }
 
@@ -33,7 +33,7 @@ const TOOL_CALL_TAG_RE = /<tool_call(?:\s+[^>]*)?\s*>\s*([\s\S]*?)\s*<\/tool_cal
 const toolNonceMap = new WeakMap<object, string>();
 
 export function getToolNonce(tools: unknown): string {
-  if (!Array.isArray(tools) || tools.length === 0) return "";
+  if (!Array.isArray(tools) || tools.length === 0) return "';
   let nonce = toolNonceMap.get(tools);
   if (!nonce) {
     nonce = Math.random().toString(36).slice(2, 10);
@@ -67,7 +67,7 @@ export function getRequestedToolNames(tools: unknown): RequestedToolName[] {
   for (const tool of tools) {
     const record = toRecord(tool);
     const fn = toRecord(record?.function);
-    const name = typeof fn?.name === "string" ? fn.name.trim() : "";
+    const name = typeof fn?.name === "string" ? fn.name.trim() : "';
     if (!name || seen.has(name)) continue;
     seen.add(name);
     names.push({ original: name, normalized: normalizeToolName(name) });
@@ -150,7 +150,7 @@ function stripCodeFence(value: string): string {
 }
 
 function convertSingleQuotedStrings(value: string): string {
-  let result = "";
+  let result = "';
   let inSingle = false;
   let inDouble = false;
   let escaped = false;
@@ -191,17 +191,17 @@ function convertSingleQuotedStrings(value: string): string {
 }
 
 function replacePythonLiterals(value: string): string {
-  let result = "";
+  let result = "';
   let inString = false;
   let escaped = false;
-  let token = "";
+  let token = "';
 
   const flushToken = () => {
-    if (token === "True") result += "true";
-    else if (token === "False") result += "false";
-    else if (token === "None") result += "null";
+    if (token === "True") result += "true';
+    else if (token === "False") result += "false';
+    else if (token === "None") result += "null';
     else result += token;
-    token = "";
+    token = "';
   };
 
   for (const ch of value) {
@@ -261,7 +261,7 @@ function findBareJsonCandidates(text: string): ToolParseCandidate[] {
   const candidates: ToolParseCandidate[] = [];
   let start = -1;
   let depth = 0;
-  let quote: '"' | "'" | "" = "";
+  let quote: '"' | "'" | "" = "';
   let escaped = false;
 
   for (let i = 0; i < text.length; i += 1) {
@@ -280,7 +280,7 @@ function findBareJsonCandidates(text: string): ToolParseCandidate[] {
       if (ch === "\\") {
         escaped = true;
       } else if (ch === quote) {
-        quote = "";
+        quote = "';
       }
       continue;
     }
@@ -330,7 +330,7 @@ export function stripRanges(text: string, ranges: Array<{ start: number; end: nu
     const lineEnd = nextLineBreak === -1 ? content.length : nextLineBreak;
     const beforeOnLine = content.slice(lineStart, range.start);
     const afterOnLine = content.slice(range.end, lineEnd);
-    const removeWholeLine = beforeOnLine.trim() === "" && afterOnLine.trim() === "";
+    const removeWholeLine = beforeOnLine.trim() === "" && afterOnLine.trim() === "';
     const start = removeWholeLine ? lineStart : range.start;
     const end =
       removeWholeLine && nextLineBreak !== -1
@@ -344,7 +344,7 @@ export function stripRanges(text: string, ranges: Array<{ start: number; end: nu
 }
 
 export function toArgumentsString(value: unknown): string {
-  if (value === undefined) return "{}";
+  if (value === undefined) return "{}';
   if (typeof value === "string") {
     const parsed = parseLooseJsonObject(value);
     return parsed ? JSON.stringify(parsed) : value;
@@ -352,7 +352,7 @@ export function toArgumentsString(value: unknown): string {
   try {
     return JSON.stringify(value);
   } catch {
-    return "{}";
+    return "{}';
   }
 }
 
@@ -367,28 +367,28 @@ export function toArgumentsString(value: unknown): string {
  * or copy-attacked envelopes (#9343).
  */
 export function serializeToolsToPrompt(tools: unknown): string {
-  if (!Array.isArray(tools) || tools.length === 0) return "";
+  if (!Array.isArray(tools) || tools.length === 0) return "';
 
   const nonce = getToolNonce(tools);
-  if (!nonce) return "";
+  if (!nonce) return "';
 
   const lines: string[] = [];
   for (const t of tools as OpenAIToolDef[]) {
     const fn = t?.function;
     if (!fn?.name) continue;
-    const desc = typeof fn.description === "string" && fn.description ? fn.description : "";
-    let params = "";
+    const desc = typeof fn.description === "string" && fn.description ? fn.description : "';
+    let params = "';
     try {
-      params = fn.parameters ? JSON.stringify(fn.parameters) : "";
+      params = fn.parameters ? JSON.stringify(fn.parameters) : "';
     } catch {
-      params = "";
+      params = "';
     }
     lines.push(
       `- ${fn.name}${desc ? `: ${desc}` : ""}${params ? `\n  parameters: ${params}` : ""}`
     );
   }
 
-  if (lines.length === 0) return "";
+  if (lines.length === 0) return "';
 
   return [
     "The client application provides tools beyond your built-in ones. They are NOT in your " +

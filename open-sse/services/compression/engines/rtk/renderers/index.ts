@@ -1,10 +1,10 @@
-import type { CommandDetectionResult } from "../commandDetector.ts";
-import type { RtkConfig } from "../../../types.ts";
-import { type RenderResult, NO_RENDER } from "./types.ts";
-import { renderGitDiff } from "./gitDiff.ts";
-import { renderTestGreen } from "./testGreen.ts";
-import { renderTerraformPlan } from "./terraformPlan.ts";
-import { renderStructuredTable } from "./structuredTable.ts";
+import type { CommandDetectionResult } from '../commandDetector.ts';
+import type { RtkConfig } from '../../../types.ts';
+import { type RenderResult, NO_RENDER } from './types.ts';
+import { renderGitDiff } from './gitDiff.ts';
+import { renderTestGreen } from './testGreen.ts';
+import { renderTerraformPlan } from './terraformPlan.ts';
+import { renderStructuredTable } from './structuredTable.ts';
 
 // preenchido nas tasks 2–5
 const REGISTRY: Record<string, (text: string, d: CommandDetectionResult) => RenderResult> = {};
@@ -45,6 +45,6 @@ export function applyRenderer(
   }
   return r(text, detection);
 }
-export { type RenderResult } from "./types.ts";
+export { type RenderResult } from './types.ts';
 
 export { REGISTRY };

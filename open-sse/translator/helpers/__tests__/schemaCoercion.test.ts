@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { sanitizeToolId } from "../schemaCoercion.ts";
+import { describe, it, expect } from 'vitest';
+import { sanitizeToolId } from '../schemaCoercion.ts';
 
 describe("sanitizeToolId", () => {
   it('sanitizes dots and colons to underscores: "call.abc:123" → "call_abc_123"', () => {

@@ -8,8 +8,8 @@
 // failures → 30min pause). Unrecoverable refresh errors (invalid_grant,
 // refresh_token_reused, …) short-circuit retries so the HealthCheck can
 // deactivate the account instead of looping every 60s.
-import type { RefreshLogger } from "./shared.ts";
-import { isUnrecoverableRefreshError } from "./shared.ts";
+import type { RefreshLogger } from './shared.ts';
+import { isUnrecoverableRefreshError } from './shared.ts';
 
 // ─── Circuit Breaker State ──────────────────────────────────────────────────
 const _circuitBreaker: Record<string, { failures: number; blockedUntil: number }> = {};

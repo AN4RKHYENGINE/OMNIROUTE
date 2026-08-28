@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { buildOpenAiCompatibleRegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { buildOpenAiCompatibleRegistryEntry } from '../../shared.ts';
 
 /**
  * Aion Labs — OpenAI-compatible aggregator (api.aionlabs.ai).

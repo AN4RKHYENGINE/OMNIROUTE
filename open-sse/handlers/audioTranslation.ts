@@ -15,10 +15,10 @@ import {
   getTranslationProvider,
   parseTranslationModel,
   type AudioProvider,
-} from "../config/audioRegistry.ts";
-import { buildAuthHeaders } from "../config/registryUtils.ts";
-import { buildMultipartBody } from "./audioTranscription.ts";
-import { errorResponse } from "../utils/error.ts";
+} from '../config/audioRegistry.ts';
+import { buildAuthHeaders } from '../config/registryUtils.ts';
+import { buildMultipartBody } from './audioTranscription.ts';
+import { errorResponse } from '../utils/error.ts';
 
 type TranslationCredentials = {
   apiKey?: string;
@@ -122,7 +122,7 @@ export async function handleAudioTranslation({
     }
 
     const data = await res.text();
-    const respContentType = res.headers.get("content-type") || "application/json";
+    const respContentType = res.headers.get("content-type") || "application/json';
 
     return new Response(data, {
       status: 200,

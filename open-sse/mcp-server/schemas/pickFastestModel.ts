@@ -1,5 +1,5 @@
-import { z } from "zod";
-import type { McpToolDefinition } from "./toolDefinition.ts";
+import { z } from 'zod';
+import type { McpToolDefinition } from './toolDefinition.ts';
 
 export const pickFastestModelInput = z.object({
   comboId: z

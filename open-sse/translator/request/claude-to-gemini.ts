@@ -1,21 +1,21 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
 import {
   DEFAULT_SAFETY_SETTINGS,
   tryParseJSON,
   cleanJSONSchemaForAntigravity,
-} from "../helpers/geminiHelper.ts";
-import { buildGeminiTools, sanitizeGeminiToolName } from "../helpers/geminiToolsSanitizer.ts";
+} from '../helpers/geminiHelper.ts';
+import { buildGeminiTools, sanitizeGeminiToolName } from '../helpers/geminiToolsSanitizer.ts';
 import {
   buildGeminiThoughtSignatureKey,
   resolveGeminiThoughtSignature,
-} from "../../services/geminiThoughtSignatureStore.ts";
-import { capMaxOutputTokens, capThinkingBudget } from "@lib/modelCapabilities.ts";
-import { getModelSpec } from "@shared/constants/modelSpecs.ts";
+} from '../../services/geminiThoughtSignatureStore.ts';
+import { capMaxOutputTokens, capThinkingBudget } from '@lib/modelCapabilities.ts';
+import { getModelSpec } from '@shared/constants/modelSpecs.ts';
 import {
   buildChangedToolNameMap,
   buildHistoricalToolResultContext,
-} from "./openai-to-gemini/helpers.ts";
+} from './openai-to-gemini/helpers.ts';
 
 /**
  * Direct Claude → Gemini request translator.
@@ -32,7 +32,7 @@ export function claudeToGeminiRequest(model, body, stream, credentials = null) {
   // (#3440). The public Gemini API keeps it for Gemini 3+ signature matching, so this
   // is scoped to the routed vertex provider only (threaded via credentials._provider).
   const provider = credentials && typeof credentials === "object" ? credentials._provider : null;
-  const stripFunctionCallId = provider === "vertex" || provider === "vertex-partner";
+  const stripFunctionCallId = provider === "vertex" || provider === "vertex-partner';
   // Thread the signature namespace so a thinking model's thoughtSignature (cached on the
   // Gemini→Claude response turn under `<connectionId>:<toolUseId>`) is found and
   // re-attached on the follow-up Claude→Gemini request. Without this, Claude Desktop
@@ -192,7 +192,7 @@ export function claudeToGeminiRequest(model, body, stream, credentials = null) {
               }
 
               const toolUseId = block.tool_use_id;
-              const name = toolUseNames[toolUseId] || "unknown";
+              const name = toolUseNames[toolUseId] || "unknown';
 
               // Signature-less history: represent as context text so Gemini 3+
               // does not reject a native functionResponse without a matching
@@ -233,7 +233,7 @@ export function claudeToGeminiRequest(model, body, stream, credentials = null) {
 
       if (parts.length > 0) {
         // Map Claude roles to Gemini roles
-        const geminiRole = msg.role === "assistant" ? "model" : "user";
+        const geminiRole = msg.role === "assistant" ? "model" : "user';
         result.contents.push({ role: geminiRole, parts });
       }
     }

@@ -19,9 +19,9 @@
  * Registration: call registerBailianCodingPlanQuotaFetcher() once at server startup.
  */
 
-import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
+import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 
 // Bailian quota hosts (international / china fallback)
 const BAILIAN_QUOTA_HOSTS = {
@@ -30,15 +30,15 @@ const BAILIAN_QUOTA_HOSTS = {
 } as const;
 
 const BAILIAN_QUOTA_PATH =
-  "/data/api.json?action=zeldaEasy.broadscope-bailian.codingPlan.queryCodingPlanInstanceInfoV2&product=broadscope-bailian&api=queryCodingPlanInstanceInfoV2";
+  "/data/api.json?action=zeldaEasy.broadscope-bailian.codingPlan.queryCodingPlanInstanceInfoV2&product=broadscope-bailian&api=queryCodingPlanInstanceInfoV2';
 
 // Cache TTL — short enough to be reactive, long enough to avoid rate limits
 const CACHE_TTL_MS = 60_000; // 60 seconds
 
 // Window keys as surfaced to the dashboard and quota-window registry
-export const BAILIAN_WINDOW_5H = "window_5h";
-export const BAILIAN_WINDOW_WEEKLY = "window_weekly";
-export const BAILIAN_WINDOW_MONTHLY = "window_monthly";
+export const BAILIAN_WINDOW_5H = "window_5h';
+export const BAILIAN_WINDOW_WEEKLY = "window_weekly';
+export const BAILIAN_WINDOW_MONTHLY = "window_monthly';
 
 // Triple-window quota info (richer than QuotaInfo — includes all 3 windows)
 // [Oracle CONDITIONAL] bailian-coding-plan only — do not reuse for other providers
@@ -245,7 +245,7 @@ export async function fetchBailianQuota(
   const apiKey =
     typeof connection?.apiKey === "string" && connection.apiKey.trim().length > 0
       ? connection.apiKey
-      : "";
+      : "';
 
   const authKey = getAuthKey(providerSpecificData, apiKey);
 

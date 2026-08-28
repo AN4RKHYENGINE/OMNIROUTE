@@ -50,7 +50,7 @@ export function smartTruncate(
   ].join("\n");
 
   if (maxChars > 0 && result.length > maxChars) {
-    const marker = "\n[rtk:truncated by chars]\n";
+    const marker = "\n[rtk:truncated by chars]\n';
     const budget = Math.max(0, maxChars - marker.length);
     if (budget === 0) {
       result = marker.slice(0, maxChars);
@@ -58,7 +58,7 @@ export function smartTruncate(
     }
     const headChars = Math.ceil(budget * 0.55);
     const tailChars = Math.max(0, budget - headChars);
-    const tailText = tailChars > 0 ? result.slice(-tailChars) : "";
+    const tailText = tailChars > 0 ? result.slice(-tailChars) : "';
     result = `${result.slice(0, headChars)}${marker}${tailText}`;
     if (result.length > maxChars) result = result.slice(0, maxChars);
   }

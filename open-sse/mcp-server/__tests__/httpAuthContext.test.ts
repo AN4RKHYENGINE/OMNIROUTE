@@ -1,12 +1,12 @@
-import { describe, expect, it, vi } from "vitest";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { describe, expect, it, vi } from 'vitest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 
-import { createMcpServer } from "../server.ts";
+import { createMcpServer } from '../server.ts';
 import {
   getMcpHttpAuthHeadersForInternalFetch,
   withMcpHttpAuthContext,
-} from "../httpAuthContext.ts";
+} from '../httpAuthContext.ts';
 
 vi.mock("../audit.ts", () => ({
   logToolCall: vi.fn().mockResolvedValue(undefined),

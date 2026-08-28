@@ -1,4 +1,4 @@
-import { findFencedCodeBlocks } from "./preservation.ts";
+import { findFencedCodeBlocks } from './preservation.ts';
 
 export interface ValidationResult {
   valid: boolean;
@@ -33,15 +33,15 @@ function isPreviewWhitespace(char: string): boolean {
 }
 
 function isHorizontalWhitespace(char: string): boolean {
-  return char === " " || char === "\t";
+  return char === " " || char === "\t';
 }
 
 function isAsciiDigit(char: string | undefined): boolean {
-  return !!char && char >= "0" && char <= "9";
+  return !!char && char >= "0" && char <= "9';
 }
 
 function isAsciiUpper(char: string | undefined): boolean {
-  return !!char && char >= "A" && char <= "Z";
+  return !!char && char >= "A" && char <= "Z';
 }
 
 function isAsciiLetter(char: string | undefined): boolean {
@@ -68,14 +68,14 @@ function isUrlTerminator(char: string): boolean {
 }
 
 function collapseWhitespaceForPreview(text: string): string {
-  let output = "";
+  let output = "';
   let previousWasWhitespace = false;
   let changed = false;
 
   for (const char of text) {
     if (isPreviewWhitespace(char)) {
       if (!previousWasWhitespace) {
-        output += " ";
+        output += " ';
       } else {
         changed = true;
       }

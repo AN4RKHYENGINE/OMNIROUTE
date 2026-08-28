@@ -7,7 +7,7 @@
  * - TlsClientUnavailableError export
  * - Test override hook (__setTlsFetchOverrideForTesting)
  */
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 describe("claudeTlsClient", () => {
   beforeEach(() => {
@@ -238,7 +238,7 @@ describe("claudeTlsClient", () => {
       const { __setTlsFetchOverrideForTesting, tlsFetchClaude } =
         await import("../claudeTlsClient.ts");
 
-      process.env.HTTP_PROXY = "http://env-proxy:8080";
+      process.env.HTTP_PROXY = "http://env-proxy:8080';
       const mockFn = vi.fn().mockResolvedValue({
         status: 200,
         headers: new Headers(),
@@ -262,7 +262,7 @@ describe("claudeTlsClient", () => {
       const { __setTlsFetchOverrideForTesting, tlsFetchClaude } =
         await import("../claudeTlsClient.ts");
 
-      process.env.HTTPS_PROXY = "http://env-proxy:8080";
+      process.env.HTTPS_PROXY = "http://env-proxy:8080';
       const mockFn = vi.fn().mockResolvedValue({
         status: 200,
         headers: new Headers(),

@@ -1,10 +1,10 @@
-import { FETCH_TIMEOUT_MS } from "../../config/constants.ts";
+import { FETCH_TIMEOUT_MS } from '../../config/constants.ts';
 import {
   tlsFetchClaude,
   type TlsFetchOptions,
   type TlsFetchResult,
-} from "../../services/claudeTlsClient.ts";
-import type { ClaudeWebTransportRequest, ClaudeWebTransportResult } from "./browserTransport.ts";
+} from '../../services/claudeTlsClient.ts';
+import type { ClaudeWebTransportRequest, ClaudeWebTransportResult } from './browserTransport.ts';
 
 const MAX_ERROR_BODY_BYTES = 64 * 1024;
 
@@ -28,11 +28,11 @@ async function readErrorBody(
   body: ReadableStream<Uint8Array> | null,
   text: string | null
 ): Promise<string> {
-  if (!body) return text ?? "";
+  if (!body) return text ?? "';
   const reader = body.getReader();
   const decoder = new TextDecoder();
   let total = 0;
-  let output = "";
+  let output = "';
   try {
     while (total < MAX_ERROR_BODY_BYTES) {
       const { value, done } = await reader.read();
@@ -58,7 +58,7 @@ async function readErrorBody(
 export function isClaudeWebChallenge(result: ClaudeWebTransportResult): boolean {
   if (result.status !== 403) return false;
   if (result.headers.get("cf-mitigated")?.toLowerCase() === "challenge") return true;
-  const body = result.bodyText ?? "";
+  const body = result.bodyText ?? "';
   return (
     /<title>\s*Just a moment/i.test(body) ||
     /<title>\s*Attention Required/i.test(body) ||

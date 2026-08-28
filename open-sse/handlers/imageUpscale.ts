@@ -17,17 +17,17 @@
  * plus an `upscale` metadata block, so existing image clients need no changes.
  */
 
-import { getUpscaleProvider, parseUpscaleModel } from "../config/upscaleRegistry.ts";
-import { handleAdobeFireflyImageUpscale } from "./imageUpscale/adobeFirefly.ts";
-import { handleStabilityImageUpscale } from "./imageUpscale/stability.ts";
-import { handleTopazImageUpscale } from "./imageUpscale/topaz.ts";
+import { getUpscaleProvider, parseUpscaleModel } from '../config/upscaleRegistry.ts';
+import { handleAdobeFireflyImageUpscale } from './imageUpscale/adobeFirefly.ts';
+import { handleStabilityImageUpscale } from './imageUpscale/stability.ts';
+import { handleTopazImageUpscale } from './imageUpscale/topaz.ts';
 import type {
   UpscaleCredentials,
   UpscaleHandlerResult,
   UpscaleLogger,
-} from "./imageUpscale/shared.ts";
+} from './imageUpscale/shared.ts';
 
-export type { UpscaleHandlerResult } from "./imageUpscale/shared.ts";
+export type { UpscaleHandlerResult } from './imageUpscale/shared.ts';
 
 export async function handleImageUpscale({
   body,
@@ -40,7 +40,7 @@ export async function handleImageUpscale({
   log?: UpscaleLogger;
   fetchImpl?: typeof fetch;
 }): Promise<UpscaleHandlerResult> {
-  const requestedModel = typeof body.model === "string" ? body.model : "";
+  const requestedModel = typeof body.model === "string" ? body.model : "';
   const { provider, model } = parseUpscaleModel(requestedModel);
 
   if (!provider || !model) {

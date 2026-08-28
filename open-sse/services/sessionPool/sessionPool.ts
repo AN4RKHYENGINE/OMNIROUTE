@@ -27,18 +27,18 @@
  *   finally { session.release(); }
  */
 
-import { type EventEmitter } from "node:events";
-import { createHash, randomUUID } from "node:crypto";
-import { setTimeout as sleep } from "node:timers/promises";
+import { type EventEmitter } from 'node:events';
+import { createHash, randomUUID } from 'node:crypto';
+import { setTimeout as sleep } from 'node:timers/promises';
 
-import { Session } from "./session.ts";
-import { SessionFactory } from "./sessionFactory.ts";
+import { Session } from './session.ts';
+import { SessionFactory } from './sessionFactory.ts';
 import {
   type PoolConfig,
   type PoolSessionDetail,
   type PoolStats,
   DEFAULT_POOL_CONFIG,
-} from "./types.ts";
+} from './types.ts';
 
 export class SessionPool {
   readonly provider: string;

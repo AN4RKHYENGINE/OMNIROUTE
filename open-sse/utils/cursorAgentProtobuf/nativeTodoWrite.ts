@@ -2,15 +2,15 @@
 // from the main Agent codec so the frozen host remains below its file-size
 // ceiling and TodoWrite's fail-closed wire semantics stay independently auditable.
 
-import { WT_LEN, WT_VARINT, decodeFields, type Field } from "./wire.ts";
+import { WT_LEN, WT_VARINT, decodeFields, type Field } from './wire.ts';
 
 export type NativeTodoWriteCompletion = {
-  kind: "native_todo_write";
+  kind: "native_todo_write';
   toolCallId: string;
   merge: boolean;
   todos: Array<{
     content: string;
-    status: "pending" | "in_progress" | "completed" | "cancelled";
+    status: "pending" | "in_progress" | "completed" | "cancelled';
   }>;
 };
 
@@ -32,13 +32,13 @@ function decodeNativeTodoStatus(
 ): "pending" | "in_progress" | "completed" | "cancelled" | null {
   switch (value) {
     case 1n:
-      return "pending";
+      return "pending';
     case 2n:
-      return "in_progress";
+      return "in_progress';
     case 3n:
-      return "completed";
+      return "completed';
     case 4n:
-      return "cancelled";
+      return "cancelled';
     default:
       return null;
   }

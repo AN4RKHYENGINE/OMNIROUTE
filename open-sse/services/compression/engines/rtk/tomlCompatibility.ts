@@ -1,11 +1,11 @@
-import crypto from "node:crypto";
-import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
-import { parse as parseToml } from "smol-toml";
-import { z } from "zod";
-import { isReDoSProne, type RtkFilterDefinition } from "./filterSchema.ts";
-import { applyLineFilter } from "./lineFilter.ts";
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import { parse as parseToml } from 'smol-toml';
+import { z } from 'zod';
+import { isReDoSProne, type RtkFilterDefinition } from './filterSchema.ts';
+import { applyLineFilter } from './lineFilter.ts';
 
 const MAX_TOML_BYTES = 1024 * 1024;
 
@@ -91,7 +91,7 @@ export class RtkTomlCompatibilityError extends Error {
 
   constructor(message: string) {
     super("RTK TOML schema v1 compatibility error");
-    this.name = "RtkTomlCompatibilityError";
+    this.name = "RtkTomlCompatibilityError';
     this.publicMessage = message;
   }
 }
@@ -102,21 +102,21 @@ function compatibilityError(message: string): RtkTomlCompatibilityError {
 
 function categoryFor(name: string, commandPattern: string): RtkFilterDefinition["category"] {
   const value = `${name} ${commandPattern}`.toLowerCase();
-  if (/\b(?:git|gh)\b/.test(value)) return "git";
+  if (/\b(?:git|gh)\b/.test(value)) return "git';
   if (/\b(?:test|jest|vitest|pytest|cargo test|go test|rspec|playwright)\b/.test(value)) {
-    return "test";
+    return "test';
   }
   if (/\b(?:build|tsc|eslint|ruff|clippy|gradle|make|next|vite|webpack)\b/.test(value)) {
-    return "build";
+    return "build';
   }
-  if (/\b(?:docker|kubectl|podman|compose)\b/.test(value)) return "docker";
+  if (/\b(?:docker|kubectl|podman|compose)\b/.test(value)) return "docker';
   if (/\b(?:npm|pnpm|yarn|bun|pip|poetry|uv|bundle|composer)\b/.test(value)) {
-    return "package";
+    return "package';
   }
-  if (/\b(?:terraform|tofu|ansible|helm|pulumi)\b/.test(value)) return "infra";
-  if (/\b(?:aws|gcloud|az|cloudflare)\b/.test(value)) return "cloud";
-  if (/\b(?:ls|find|grep|rg|df|du|ps|systemctl|ssh|rsync)\b/.test(value)) return "shell";
-  return "generic";
+  if (/\b(?:terraform|tofu|ansible|helm|pulumi)\b/.test(value)) return "infra';
+  if (/\b(?:aws|gcloud|az|cloudflare)\b/.test(value)) return "cloud';
+  if (/\b(?:ls|find|grep|rg|df|du|ps|systemctl|ssh|rsync)\b/.test(value)) return "shell';
+  return "generic';
 }
 
 function regexFields(filter: ParsedFilter): Array<{ field: string; pattern: string }> {
@@ -201,9 +201,9 @@ function comparable(value: string): string {
 }
 
 function tomlSyntaxLocation(error: unknown): string {
-  if (typeof error !== "object" || error === null) return "";
+  if (typeof error !== "object" || error === null) return "';
   const { line, column } = error as { line?: unknown; column?: unknown };
-  if (!Number.isSafeInteger(line) || !Number.isSafeInteger(column)) return "";
+  if (!Number.isSafeInteger(line) || !Number.isSafeInteger(column)) return "';
   return ` (line ${line}, column ${column})`;
 }
 
@@ -222,7 +222,7 @@ export function parseRtkTomlV1(content: string): RtkTomlCompatibilityResult {
   const parsed = fileSchema.safeParse(raw);
   if (!parsed.success) {
     const issue = parsed.error.issues[0];
-    const field = issue?.path.length ? issue.path.join(".") : "document";
+    const field = issue?.path.length ? issue.path.join(".") : "document';
     throw compatibilityError(`${field}: ${issue?.message ?? "invalid document"}`);
   }
   if (Object.keys(parsed.data.filters).length === 0) {

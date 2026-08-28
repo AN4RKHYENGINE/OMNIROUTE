@@ -6,11 +6,11 @@
  * the actual registered handler (not mockFetch directly).
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
-import { MCP_ESSENTIAL_TOOLS } from "../schemas/tools";
-import { createMcpServer } from "../server";
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { MCP_ESSENTIAL_TOOLS } from '../schemas/tools';
+import { createMcpServer } from '../server';
 
 // Mock fetch globally
 const mockFetch = vi.fn();
@@ -380,7 +380,7 @@ describe("omniroute_get_health handler (via MCP dispatch)", () => {
     // The two healthy sources still come through untouched.
     expect(data.uptime).toBe("100");
     expect(data.rateLimits).toEqual([]);
-    // But the failure is visible instead of being indistinguishable from "no rate limits".
+    // But the failure is visible instead of being indistinguishable from 'no rate limits".
     expect(Array.isArray(data.degraded)).toBe(true);
     expect(data.degraded).toHaveLength(1);
     expect(data.degraded[0].source).toBe("rateLimits");

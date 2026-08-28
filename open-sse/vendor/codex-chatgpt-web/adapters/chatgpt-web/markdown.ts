@@ -1,6 +1,6 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import TurndownService from "turndown";
-import { gfm } from "turndown-plugin-gfm";
+import TurndownService from 'turndown';
+import { gfm } from 'turndown-plugin-gfm';
 
 const turndown = new TurndownService({
   headingStyle: "atx",
@@ -35,7 +35,7 @@ turndown.addRule("compactListItem", {
 });
 
 export function chatGptHtmlToMarkdown(html: string): string {
-  return html.trim() ? turndown.turndown(html).trim() : "";
+  return html.trim() ? turndown.turndown(html).trim() : "';
 }
 
 /**
@@ -44,8 +44,8 @@ export function chatGptHtmlToMarkdown(html: string): string {
  * emitted only by `finish`, so already-streamed Markdown never needs a retraction.
  */
 export class ChatGptMarkdownStream {
-  private candidate = "";
-  private committed = "";
+  private candidate = "';
+  private committed = "';
 
   constructor(private readonly transform: (markdown: string) => string = (markdown) => markdown) {}
 
@@ -56,7 +56,7 @@ export class ChatGptMarkdownStream {
     }
     if (next !== this.candidate) {
       this.candidate = next;
-      return "";
+      return "';
     }
     const delta = next.slice(this.committed.length);
     this.committed = next;

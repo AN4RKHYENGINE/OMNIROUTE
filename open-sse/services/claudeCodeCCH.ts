@@ -12,7 +12,7 @@
  *   4. Replace cch=00000 with computed value
  */
 
-import xxhashInit from "xxhash-wasm";
+import xxhashInit from 'xxhash-wasm';
 
 const CCH_SEED = 0x6e52736ac806831en;
 const CCH_PATTERN = /\bcch=([0-9a-f]{5});/;

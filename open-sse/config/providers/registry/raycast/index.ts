@@ -6,7 +6,7 @@
  * - [2026-07-28] [Composer] - Initial Raycast provider registry module
  */
 
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 /** Seed catalog — full list synced from Raycast /api/v1/ai/models on connect/import. */
 export const raycastProvider: RegistryEntry = {

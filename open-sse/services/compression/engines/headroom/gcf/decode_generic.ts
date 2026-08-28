@@ -14,7 +14,7 @@ import {
   isBareKey,
   MISSING,
   ATTACHMENT,
-} from "./scalar.ts";
+} from './scalar.ts';
 
 /**
  * Decode GCF generic or graph profile text into a JS value.
@@ -40,7 +40,7 @@ export function decodeGeneric(input: string): any {
 
   // Filter body.
   const contentLines: string[] = [];
-  let summaryLine = "";
+  let summaryLine = "';
   let deferredSectionCount = 0;
   for (let i = 1; i < lines.length; i++) {
     const l = lines[i].replace(/\r$/, "");
@@ -92,7 +92,7 @@ function parseHeaderProfile(header: string): string {
   const parts = header.split(/\s+/);
   if (parts.length < 2) throw new Error("missing_profile");
   const seen = new Set<string>();
-  let profile = "";
+  let profile = "';
   for (let i = 1; i < parts.length; i++) {
     const eq = parts[i].indexOf("=");
     if (eq < 0) throw new Error(`malformed_header_field: ${parts[i]}`);
@@ -236,7 +236,7 @@ function parseArrayFromHeader(
 
   // Inline.
   if (afterBracket.startsWith(": ") || afterBracket === ":") {
-    const valsStr = afterBracket.startsWith(": ") ? afterBracket.slice(2) : "";
+    const valsStr = afterBracket.startsWith(": ") ? afterBracket.slice(2) : "';
     if (!valsStr) {
       if (count >= 0 && count !== 0) throw new Error(`count_mismatch: declared ${count}, got 0`);
       return [[], 1];
@@ -288,7 +288,7 @@ function findClosingBrace(s: string): number {
 
 // A path segment that would pollute Object.prototype if written through.
 function isUnsafePathKey(k: string): boolean {
-  return k === "__proto__" || k === "constructor" || k === "prototype";
+  return k === "__proto__" || k === "constructor" || k === "prototype';
 }
 
 // Assign a decoded key without ever mutating Object.prototype: a literal
@@ -566,7 +566,7 @@ function parseTabularBody(
 
         // No-prefix line: positional inline data.
         let foundInline = false;
-        let nextInlineField = "";
+        let nextInlineField = "';
         while (inlineIdx < inlineAttOrder.length) {
           const candidate = inlineAttOrder[inlineIdx];
           if (!attachmentValues.has(candidate)) {
@@ -824,9 +824,9 @@ function validateSummaryCounts(
   deferredCount: number,
   contentLines: string[]
 ): void {
-  // Parse counts from "##! summary counts=N,M,..."
+  // Parse counts from '##! summary counts=N,M,..."
   const parts = summaryLine.split(/\s+/);
-  let countsStr = "";
+  let countsStr = "';
   for (const p of parts) {
     if (p.startsWith("counts=")) {
       countsStr = p.slice(7);

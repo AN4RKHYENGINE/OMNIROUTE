@@ -12,9 +12,9 @@
  * from there). Behavior-preserving move.
  */
 
-import { getGitHubCopilotInternalUserHeaders } from "../../config/providerHeaderProfiles.ts";
-import { toRecord, toNumber, getFieldValue, clampPercentage, toDisplayLabel } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+import { getGitHubCopilotInternalUserHeaders } from '../../config/providerHeaderProfiles.ts';
+import { toRecord, toNumber, getFieldValue, clampPercentage, toDisplayLabel } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -192,8 +192,8 @@ export function formatGitHubQuotaSnapshot(
 export function inferGitHubPlanName(data: JsonRecord, premiumQuota: UsageQuota | null): string {
   const rawPlan = getFieldValue(data, "copilot_plan", "copilotPlan");
   const rawSku = getFieldValue(data, "access_type_sku", "accessTypeSku");
-  const planText = typeof rawPlan === "string" ? rawPlan.trim() : "";
-  const skuText = typeof rawSku === "string" ? rawSku.trim() : "";
+  const planText = typeof rawPlan === "string" ? rawPlan.trim() : "';
+  const skuText = typeof rawSku === "string" ? rawSku.trim() : "';
   const combined = `${skuText} ${planText}`.trim().toUpperCase();
   const monthlyQuotas = toRecord(getFieldValue(data, "monthly_quotas", "monthlyQuotas"));
   const premiumTotal =
@@ -202,29 +202,29 @@ export function inferGitHubPlanName(data: JsonRecord, premiumQuota: UsageQuota |
   const chatTotal = toNumber(getFieldValue(monthlyQuotas, "chat", "chat"), 0);
 
   if (combined.includes("PRO+") || combined.includes("PRO_PLUS") || combined.includes("PROPLUS")) {
-    return "Copilot Pro+";
+    return "Copilot Pro+';
   }
-  if (combined.includes("ENTERPRISE")) return "Copilot Enterprise";
-  if (combined.includes("BUSINESS")) return "Copilot Business";
-  if (combined.includes("STUDENT")) return "Copilot Student";
-  if (combined.includes("FREE")) return "Copilot Free";
-  if (combined.includes("PRO")) return "Copilot Pro";
+  if (combined.includes("ENTERPRISE")) return "Copilot Enterprise';
+  if (combined.includes("BUSINESS")) return "Copilot Business';
+  if (combined.includes("STUDENT")) return "Copilot Student';
+  if (combined.includes("FREE")) return "Copilot Free';
+  if (combined.includes("PRO")) return "Copilot Pro';
 
-  if (premiumTotal >= 1400) return "Copilot Pro+";
-  if (premiumTotal >= 900) return "Copilot Enterprise";
+  if (premiumTotal >= 1400) return "Copilot Pro+';
+  if (premiumTotal >= 900) return "Copilot Enterprise';
   if (premiumTotal >= 250) {
-    if (combined.includes("INDIVIDUAL")) return "Copilot Pro";
-    return "Copilot Business";
+    if (combined.includes("INDIVIDUAL")) return "Copilot Pro';
+    return "Copilot Business';
   }
-  if (premiumTotal > 0 || chatTotal === 50) return "Copilot Free";
+  if (premiumTotal > 0 || chatTotal === 50) return "Copilot Free';
 
   if (skuText) {
     const label = toDisplayLabel(skuText);
-    return label ? `Copilot ${label}` : "GitHub Copilot";
+    return label ? `Copilot ${label}` : "GitHub Copilot';
   }
   if (planText) {
     const label = toDisplayLabel(planText);
-    return label ? `Copilot ${label}` : "GitHub Copilot";
+    return label ? `Copilot ${label}` : "GitHub Copilot';
   }
-  return "GitHub Copilot";
+  return "GitHub Copilot';
 }

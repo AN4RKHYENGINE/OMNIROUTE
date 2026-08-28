@@ -445,21 +445,14 @@ export default function MediaPageClient() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-      if (!registriesInitialized.current && cachedRegistries) {
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
+  useEffect(() => {
+    if (!registriesInitialized.current && cachedRegistries) {
+      registriesInitialized.current = true;
+      setRegistries(cachedRegistries);
       setIsLoading(false);
       return;
-      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
-      setIsLoading(false);
-      return;
+    }
+    
     fetch("/api/registries")
       .then(res => res.json())
       .then(data => {
@@ -472,7 +465,6 @@ export default function MediaPageClient() {
         setIsLoading(false);
       });
   }, []);
-
   const IMAGE_PROVIDER_MODELS = registries ? toProviderModels(registries.IMAGE_PROVIDERS) : [];
   const VIDEO_PROVIDER_MODELS = registries ? toProviderModels(registries.VIDEO_PROVIDERS) : [];
   const MUSIC_PROVIDER_MODELS = registries ? toProviderModels(registries.MUSIC_PROVIDERS) : [];

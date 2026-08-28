@@ -1,4 +1,4 @@
-import { sanitizeToolId } from "../../helpers/schemaCoercion.ts";
+import { sanitizeToolId } from '../../helpers/schemaCoercion.ts';
 
 // #7705: sanitize a "tool" role message's tool_use_id symmetrically with the
 // assistant's sanitized tool_use.id (see getContentBlocksFromMessage). Returns null for

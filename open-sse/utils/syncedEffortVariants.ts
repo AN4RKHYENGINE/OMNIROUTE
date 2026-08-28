@@ -26,7 +26,7 @@
  * matches a canonical effort value, to avoid colliding with a model that legitimately ends
  * in an effort-like token (e.g. a model literally named "...-high").
  */
-import { CANONICAL_EFFORT_VALUES } from "@/shared/reasoning/effortStandardization.ts";
+import { CANONICAL_EFFORT_VALUES } from '@/shared/reasoning/effortStandardization.ts';
 
 /** Provider ids that already own a native `-{effort}` suffix mechanism — never double-register. */
 export const SYNCED_EFFORT_SKIP_PROVIDERS = new Set(["codex"]);

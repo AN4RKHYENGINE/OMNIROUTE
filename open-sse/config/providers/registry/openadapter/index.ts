@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // OpenAdapter (#4239) — subscription LLM gateway exposing 70+ open-source SOTA
 // models through one OpenAI-compatible endpoint. API lives on `.in` (the `.dev`

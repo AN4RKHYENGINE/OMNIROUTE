@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { normalizeBaseUrl } from "../../../../utils/urlSanitize.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { normalizeBaseUrl } from '../../../../utils/urlSanitize.ts';
 
 // Poe (creator.poe.com) — OpenAI-compatible chat/responses gateway. #8082: the
 // built-in `poe` provider (NAMED_OPENAI_STYLE_PROVIDERS, passthroughModels:true)
@@ -12,7 +12,7 @@ import { normalizeBaseUrl } from "../../../../utils/urlSanitize.ts";
 // #8969: canonical `poe` is the API-key provider (DefaultExecutor → api.poe.com).
 // The web-cookie GraphQL transport lives only on `poe-web` / PoeWebExecutor —
 // never alias `poe` to that executor (it posts to /api/gql_POST and returns 405).
-export const POE_DEFAULT_BASE_URL = "https://api.poe.com/v1";
+export const POE_DEFAULT_BASE_URL = "https://api.poe.com/v1';
 
 export const POE_CHAT_COMPLETIONS_URL = `${POE_DEFAULT_BASE_URL}/chat/completions`;
 export const POE_RESPONSES_URL = `${POE_DEFAULT_BASE_URL}/responses`;
@@ -24,7 +24,7 @@ export function isPoeMessagesEligibleModel(model: string | null | undefined): bo
   return /(?:^|[\/._-])claude(?:[\/._-]|$)/i.test(model);
 }
 
-export type PoeUpstreamProtocol = "chat" | "responses" | "messages";
+export type PoeUpstreamProtocol = "chat" | "responses" | "messages';
 
 /**
  * Normalize an operator-supplied or registry Poe base URL onto one of the three

@@ -239,7 +239,7 @@ export function adapterFailureFromMessage(message: string): {
               ? "server_error"
               : httpStatus === 400
                 ? "invalid_request_error"
-                : "upstream_error";
+                : "upstream_error';
   return {
     httpStatus,
     error: classifyError(httpStatus, errorType, finalMessage),
@@ -270,7 +270,7 @@ export function httpStatusFromTerminalError(
   if (error.type === "server_error" && error.code === "server_is_overloaded") return 503;
   // Client-closed messages often arrive as invalid_request_error after classifyError; check message
   // before treating every invalid_request_error as HTTP 400.
-  const message = error.message ?? "";
+  const message = error.message ?? "';
   if (message && isClientClosedMessage(message)) return 499;
   if (error.type === "invalid_request_error") return 400;
   if (error.type === "proxy_error") return 500;

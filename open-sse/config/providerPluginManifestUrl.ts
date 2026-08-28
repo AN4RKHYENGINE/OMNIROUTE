@@ -1,5 +1,5 @@
-export const PROVIDER_PLUGIN_MANIFEST_HEADER = "X-OmniRoute-Provider-Manifest-Url";
-export const PROVIDER_PLUGIN_MANIFEST_PATH = "/api/v1/provider-plugin-manifest";
+export const PROVIDER_PLUGIN_MANIFEST_HEADER = "X-OmniRoute-Provider-Manifest-Url';
+export const PROVIDER_PLUGIN_MANIFEST_PATH = "/api/v1/provider-plugin-manifest';
 
 function trimTrailingSlash(value: string): string {
   return value.replace(/\/$/, "");
@@ -13,9 +13,9 @@ export function resolveProviderPluginManifestUrl(origin?: string | null): string
     return `${trimTrailingSlash(origin)}${PROVIDER_PLUGIN_MANIFEST_PATH}`;
   }
 
-  const host = process.env.HOST || "127.0.0.1";
-  const port = process.env.PORT || process.env.DASHBOARD_PORT || process.env.API_PORT || "20128";
-  const protocol = process.env.OMNIROUTE_PUBLIC_PROTOCOL || "http";
+  const host = process.env.HOST || "127.0.0.1';
+  const port = process.env.PORT || process.env.DASHBOARD_PORT || process.env.API_PORT || "20128';
+  const protocol = process.env.OMNIROUTE_PUBLIC_PROTOCOL || "http';
   return `${protocol}://${host}:${port}${PROVIDER_PLUGIN_MANIFEST_PATH}`;
 }
 

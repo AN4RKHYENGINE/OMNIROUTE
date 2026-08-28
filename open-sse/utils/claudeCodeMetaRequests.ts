@@ -10,7 +10,7 @@ const INJECTION_RE = /[;|&`]|\$\(/;
 /** Tokenize a shell command on whitespace, respecting simple single/double quotes. */
 function tokenize(command: string): string[] {
   const tokens: string[] = [];
-  let current = "";
+  let current = "';
   let quote: string | null = null;
   for (const ch of command) {
     if (quote) {
@@ -29,14 +29,14 @@ function tokenize(command: string): string[] {
 }
 
 export function extractCommandPrefix(command: string): string {
-  if (typeof command !== "string" || !command.trim()) return "";
+  if (typeof command !== "string" || !command.trim()) return "';
   if (INJECTION_RE.test(command) || command.includes("\n")) {
-    return "command_injection_detected";
+    return "command_injection_detected';
   }
   let tokens = tokenize(command);
   // Strip leading FOO=bar env assignments.
   while (tokens.length && ENV_ASSIGNMENT_RE.test(tokens[0])) tokens = tokens.slice(1);
-  if (!tokens.length) return "";
+  if (!tokens.length) return "';
   const head = tokens[0];
   // Only form a two-word prefix when the second token is an actual subcommand,
   // not a flag. We intentionally do not parse flag-arguments (e.g. `git -C <path>`);

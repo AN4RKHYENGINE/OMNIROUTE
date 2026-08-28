@@ -1,4 +1,4 @@
-import { RISK_PATTERNS, type RiskCategory } from "./riskPatterns.ts";
+import { RISK_PATTERNS, type RiskCategory } from './riskPatterns.ts';
 
 export interface RiskGateConfig {
   enabled: boolean;

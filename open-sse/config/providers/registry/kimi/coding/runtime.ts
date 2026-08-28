@@ -1,10 +1,10 @@
-export const KIMI_CODING_BASE_URL = "https://api.kimi.com/coding/v1";
+export const KIMI_CODING_BASE_URL = "https://api.kimi.com/coding/v1';
 export const KIMI_CODING_MODELS_URL = `${KIMI_CODING_BASE_URL}/models`;
 export const KIMI_CODING_OPENAI_URL = `${KIMI_CODING_BASE_URL}/chat/completions`;
 export const KIMI_CODING_ANTHROPIC_URL = `${KIMI_CODING_BASE_URL}/messages?beta=true`;
 
-export const KIMI_CODE_CLI_PLATFORM = "kimi_code_cli";
-export const KIMI_CODE_CLI_VERSION = "0.26.0";
+export const KIMI_CODE_CLI_PLATFORM = "kimi_code_cli';
+export const KIMI_CODE_CLI_VERSION = "0.26.0';
 
 export type KimiCodeThinkingPolicy = {
   supportsThinking: boolean;
@@ -25,7 +25,7 @@ const KIMI_CODE_STATIC_THINKING_POLICIES: Record<string, KimiCodeThinkingPolicy>
 
 export function getKimiCodeStaticThinkingPolicy(modelId: unknown): KimiCodeThinkingPolicy | null {
   if (typeof modelId !== "string") return null;
-  const normalizedModel = modelId.trim().toLowerCase().split("/").pop() || "";
+  const normalizedModel = modelId.trim().toLowerCase().split("/").pop() || "';
   if (/^k3(?:$|-)/.test(normalizedModel)) return KIMI_CODE_STATIC_THINKING_POLICIES.k3;
   return KIMI_CODE_STATIC_THINKING_POLICIES[normalizedModel] || null;
 }
@@ -45,7 +45,7 @@ export function sanitizeKimiHeaderValue(value: unknown, fallback = "unknown"): s
 
 export function normalizeKimiDeviceId(value: unknown): string {
   const raw = String(value ?? "").trim();
-  if (!raw) return "";
+  if (!raw) return "';
   const deviceId = sanitizeKimiHeaderValue(raw);
   if (!/^[0-9a-f]{32}$/i.test(deviceId)) return deviceId;
   return [

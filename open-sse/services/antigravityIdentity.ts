@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 
 export type AntigravityCredentialsLike = {
   accessToken?: string | null;
@@ -37,7 +37,7 @@ export function getAntigravityAccountKey(
 export function getAntigravityEnvelopeUserAgent(
   _credentials?: AntigravityCredentialsLike | null
 ): "antigravity" {
-  return "antigravity";
+  return "antigravity';
 }
 
 export function generateAntigravityRequestId(): string {

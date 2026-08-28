@@ -1,6 +1,6 @@
-import { createCostMeter } from "./costMeter.ts";
-import { buildJudgePrompt, parseJudgeVerdict } from "./judge.ts";
-import type { JudgeVerdict, ModelClient } from "./types.ts";
+import { createCostMeter } from './costMeter.ts';
+import { buildJudgePrompt, parseJudgeVerdict } from './judge.ts';
+import type { JudgeVerdict, ModelClient } from './types.ts';
 
 export interface FidelityItem {
   id: string;
@@ -26,7 +26,7 @@ export interface FidelityBatchResult {
  *
  * Iterates items in order; stops adding new LLM calls once the accumulated cost
  * exceeds `costCapUsd`. Remaining items receive `skippedCapped: true` and
- * `verdict: null` so callers can distinguish "not judged" from "unparseable".
+ * `verdict: null` so callers can distinguish "not judged" from 'unparseable".
  *
  * Hard Rule #18: NOT unit-tested for real LLM calls; VPS-validated via the
  * /api/compression/compare/verify route.

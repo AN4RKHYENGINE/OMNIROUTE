@@ -1,5 +1,5 @@
-import { CLAUDE_OAUTH_TOOL_PREFIX } from "../../translator/request/openai-to-claude.ts";
-import { restoreOpenAIToolNames } from "../../translator/helpers/toolCallHelper.ts";
+import { CLAUDE_OAUTH_TOOL_PREFIX } from '../../translator/request/openai-to-claude.ts';
+import { restoreOpenAIToolNames } from '../../translator/helpers/toolCallHelper.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -17,7 +17,7 @@ export function buildClaudePassthroughToolNameMap(
       typeof toolRecord.function === "object"
         ? (toolRecord.function as Record<string, unknown>)
         : toolRecord;
-    const originalName = typeof toolData?.name === "string" ? toolData.name.trim() : "";
+    const originalName = typeof toolData?.name === "string" ? toolData.name.trim() : "';
     if (!originalName) continue;
     toolNameMap.set(`${CLAUDE_OAUTH_TOOL_PREFIX}${originalName}`, originalName);
   }
@@ -95,7 +95,7 @@ export function normalizeOpenAIToolFinishReasons(responseBody: unknown): void {
 
   for (const choice of response.choices) {
     if (choice.message?.tool_calls?.length > 0 && choice.finish_reason !== "tool_calls") {
-      choice.finish_reason = "tool_calls";
+      choice.finish_reason = "tool_calls';
     }
   }
 }

@@ -1,14 +1,14 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
+import { CORS_HEADERS } from '../utils/cors.ts';
 /**
  * OCR Handler
  *
  * Handles POST /v1/ocr (Mistral OCR API format).
  */
 
-import { getOcrProvider, parseOcrModel } from "../config/ocrRegistry.ts";
-import { errorResponse } from "../utils/error.ts";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import { generateRequestId } from "@/shared/utils/requestId";
+import { getOcrProvider, parseOcrModel } from '../config/ocrRegistry.ts';
+import { errorResponse } from '../utils/error.ts';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import { generateRequestId } from '@/shared/utils/requestId';
 
 /**
  * Handle OCR request
@@ -26,7 +26,7 @@ export async function handleOcr({ body, credentials }) {
   }
 
   // Default to latest OCR model
-  const model = body.model || "mistral-ocr-latest";
+  const model = body.model || "mistral-ocr-latest';
   const { provider: providerId, model: modelId } = parseOcrModel(model);
   const providerConfig = providerId ? getOcrProvider(providerId) : null;
 

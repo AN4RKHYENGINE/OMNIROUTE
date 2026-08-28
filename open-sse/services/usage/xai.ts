@@ -13,7 +13,7 @@
  * + __testing). Behavior-preserving move.
  */
 
-import { type UsageQuota } from "./quota.ts";
+import { type UsageQuota } from './quota.ts';
 
 /**
  * xAI (Grok) — SELF-TRACKED cumulative usage.

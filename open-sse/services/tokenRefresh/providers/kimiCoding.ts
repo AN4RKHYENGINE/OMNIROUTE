@@ -1,16 +1,16 @@
 // @ts-nocheck
 // Extracted from open-sse/services/tokenRefresh.ts — see ../shared.ts for
 // provenance notes (ported idea from KooshaPari's PR #7338, redone on tip).
-import { pbkdf2Sync } from "node:crypto";
-import { hostname, release } from "node:os";
-import { PROVIDERS } from "../../../config/constants.ts";
+import { pbkdf2Sync } from 'node:crypto';
+import { hostname, release } from 'node:os';
+import { PROVIDERS } from '../../../config/constants.ts';
 import {
   buildKimiCodeIdentityHeaders,
   normalizeKimiDeviceId,
-} from "../../../config/providers/registry/kimi/coding/runtime.ts";
-import { getKimiDeviceModel } from "../../../utils/kimiDevice.ts";
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import type { RefreshLogger } from "../shared.ts";
+} from '../../../config/providers/registry/kimi/coding/runtime.ts';
+import { getKimiDeviceModel } from '../../../utils/kimiDevice.ts';
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import type { RefreshLogger } from '../shared.ts';
 
 /**
  * Specialized refresh for Kimi Coding OAuth tokens.
@@ -46,7 +46,7 @@ export async function refreshKimiCodingToken(
   const persistedDeviceModel =
     typeof providerSpecificData?.deviceModel === "string"
       ? providerSpecificData.deviceModel.trim()
-      : "";
+      : "';
   const deviceModel = persistedDeviceModel || getKimiDeviceModel();
 
   try {

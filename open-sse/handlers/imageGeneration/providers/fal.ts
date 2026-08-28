@@ -1,12 +1,12 @@
-import type { ExecutorLog, ProviderCredentials } from "../../../executors/base.ts";
+import type { ExecutorLog, ProviderCredentials } from '../../../executors/base.ts';
 import {
   mapFalImageSize,
   normalizeProviderImagePayload,
   normalizeRequestedImageFormat,
   saveImageErrorResult,
   saveImageSuccessResult,
-} from "../../imageGeneration.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+} from '../../imageGeneration.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 export const FAL_IMAGE_EDIT_MODELS = new Set([
   "fal-ai/flux-2-flex",

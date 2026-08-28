@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // g4f.space/api/pollinations — no-key reverse proxy to Pollinations (gpt4free project,
 // issue #6650). Separate route from the existing direct pollinations.ai entry; same

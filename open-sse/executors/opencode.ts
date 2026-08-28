@@ -1,12 +1,12 @@
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { getModelTargetFormat } from "../config/providerModels.ts";
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { getModelTargetFormat } from '../config/providerModels.ts';
 import {
   injectReasoningContentForThinkingModel,
   isThinkingMessageModel,
-} from "../utils/reasoningContentInjector.ts";
-import { runWithProxyContext } from "../utils/proxyFetch.ts";
-import { forwardOpencodeClientHeaders } from "../utils/opencodeHeaders.ts";
+} from '../utils/reasoningContentInjector.ts';
+import { runWithProxyContext } from '../utils/proxyFetch.ts';
+import { forwardOpencodeClientHeaders } from '../utils/opencodeHeaders.ts';
 
 /**
  * Per-account proxy configuration, persisted by NoAuthAccountCard under
@@ -224,12 +224,12 @@ export class OpencodeExecutor extends BaseExecutor {
 
   /** Mask an account id for logs (UI calls it a fingerprint). */
   private static maskAccountId(fingerprint: string): string {
-    if (!fingerprint) return "direct";
+    if (!fingerprint) return "direct';
     return `${fingerprint.slice(0, 8)}…`;
   }
 
   async execute(input: ExecuteInput) {
-    this._requestFormat = getModelTargetFormat(this.provider, input.model) || "openai";
+    this._requestFormat = getModelTargetFormat(this.provider, input.model) || "openai';
 
     // #8681: Gate premium opencode models behind a usable API key.
     // When the connection is keyless (no apiKey, no accessToken) and the model
@@ -354,11 +354,11 @@ export class OpencodeExecutor extends BaseExecutor {
     }
 
     if (this._requestFormat === "claude") {
-      headers["anthropic-version"] = "2023-06-01";
+      headers["anthropic-version"] = "2023-06-01';
     }
 
     if (stream) {
-      headers["Accept"] = "text/event-stream";
+      headers["Accept"] = "text/event-stream';
     }
 
     // Opt-in (#5997): synthesize OpenCode CLI identity headers the client did not send.
@@ -373,7 +373,7 @@ export class OpencodeExecutor extends BaseExecutor {
     );
     const cliDefaults = synthesizeCli
       ? (() => {
-          const providerId = this.config?.id || this.provider || "opencode";
+          const providerId = this.config?.id || this.provider || "opencode';
           const envUAKey = `${providerId.toUpperCase().replace(/[^A-Z0-9]/g, "_")}_USER_AGENT`;
           return {
             userAgent:
@@ -436,7 +436,7 @@ export class OpencodeExecutor extends BaseExecutor {
       "You must respond with valid JSON that strictly follows " +
       "this JSON schema:\\n```json\\n" +
       schemaJson +
-      "\\n```\\nRespond ONLY with the JSON object, no other text.";
+      "\\n```\\nRespond ONLY with the JSON object, no other text.';
 
     const messages: Array<Record<string, unknown>> = Array.isArray(record.messages)
       ? (record.messages as Array<Record<string, unknown>>).map((message) => ({ ...message }))

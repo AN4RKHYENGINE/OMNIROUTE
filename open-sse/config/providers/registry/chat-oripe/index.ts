@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { buildOpenAiCompatibleRegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { buildOpenAiCompatibleRegistryEntry } from '../../shared.ts';
 
 // The upstream brand and hostname are ambiguous, so avoid unverified quota claims.
 export const chatOripeProvider: RegistryEntry = buildOpenAiCompatibleRegistryEntry({

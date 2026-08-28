@@ -11,9 +11,9 @@
 // valid OmniRoute API key. This module mirrors that same anonymous
 // session-pool fallback for the image path.
 
-import { SessionPool } from "../../services/sessionPool/sessionPool.ts";
-import { DEFAULT_POOL_CONFIG } from "../../services/sessionPool/types.ts";
-import type { Session } from "../../services/sessionPool/session.ts";
+import { SessionPool } from '../../services/sessionPool/sessionPool.ts';
+import { DEFAULT_POOL_CONFIG } from '../../services/sessionPool/types.ts';
+import type { Session } from '../../services/sessionPool/session.ts';
 
 let pollinationsImagePool: SessionPool | null = null;
 

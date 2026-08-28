@@ -1,4 +1,4 @@
-import v8 from "node:v8";
+import v8 from 'node:v8';
 
 /**
  * Compute the V8 heap-pressure shed threshold (MB).
@@ -44,7 +44,7 @@ export const HEAP_PRESSURE_THRESHOLD_MB = computeHeapPressureThresholdMb(
 );
 
 const HEAP_PRESSURE_MESSAGE =
-  "Service temporarily unavailable due to resource pressure. Retry shortly.";
+  "Service temporarily unavailable due to resource pressure. Retry shortly.';
 
 export type HeapPressureGuardResult = {
   success: false;

@@ -10,11 +10,11 @@ import {
   renameSync,
   rmSync,
   writeFileSync,
-} from "node:fs";
-import { homedir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+} from 'node:fs';
+import { homedir } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
 
-export type RuntimeMode = "browser-only" | "full";
+export type RuntimeMode = "browser-only" | "full';
 
 export interface AppConfig {
   mode: RuntimeMode;

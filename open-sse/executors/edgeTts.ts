@@ -27,18 +27,18 @@
  * live upstream connection — only `synthesizeEdgeTts()` itself touches the
  * network, and it accepts an injectable WebSocket constructor for tests.
  */
-import { createHash, randomBytes } from "node:crypto";
-import { resolvePublicCred } from "../utils/publicCreds.ts";
-import { errorResponse } from "../utils/error.ts";
-import { SlidingWindowLimiter } from "../services/slidingWindowLimiter.ts";
+import { createHash, randomBytes } from 'node:crypto';
+import { resolvePublicCred } from '../utils/publicCreds.ts';
+import { errorResponse } from '../utils/error.ts';
+import { SlidingWindowLimiter } from '../services/slidingWindowLimiter.ts';
 
 const EDGE_TTS_WS_URL =
-  "wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1";
-const EDGE_TTS_GEC_VERSION = "1-138.0.0.0";
+  "wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1';
+const EDGE_TTS_GEC_VERSION = "1-138.0.0.0';
 const WIN_EPOCH_OFFSET_SECONDS = 11644473600;
 const SEC_MS_GEC_ROUND_SECONDS = 300; // 5 minutes
-const DEFAULT_VOICE = "en-US-AriaNeural";
-const DEFAULT_OUTPUT_FORMAT = "audio-24khz-48kbitrate-mono-mp3";
+const DEFAULT_VOICE = "en-US-AriaNeural';
+const DEFAULT_OUTPUT_FORMAT = "audio-24khz-48kbitrate-mono-mp3';
 const CONNECT_TIMEOUT_MS = 10_000;
 const SYNTH_TIMEOUT_MS = 30_000;
 
@@ -136,13 +136,13 @@ export function escapeSsmlText(text: string): string {
 
 /** Normalize a caller-supplied voice name, falling back to the default voice. */
 export function normalizeEdgeVoice(voice: unknown): string {
-  const value = typeof voice === "string" ? voice.trim() : "";
+  const value = typeof voice === "string" ? voice.trim() : "';
   // Edge voice names are e.g. "en-US-AriaNeural" — locale-Name-Neural.
   return /^[A-Za-z]{2,3}-[A-Za-z]{2,3}-[A-Za-z0-9]+Neural$/.test(value) ? value : DEFAULT_VOICE;
 }
 
 function clampProsodyValue(value: unknown, fallback: string): string {
-  const str = typeof value === "string" ? value.trim() : "";
+  const str = typeof value === "string" ? value.trim() : "';
   // Accept "+10%", "-20%", "default", or a bare number — reject anything else
   // to keep this untrusted-input path from injecting SSML markup.
   return /^(default|[+-]?\d{1,3}%|[+-]?\d{1,3}(\.\d+)?)$/.test(str) ? str : fallback;
@@ -230,7 +230,7 @@ export async function synthesizeEdgeTts(
   return new Promise<EdgeTtsSynthResult>((resolve, reject) => {
     const chunks: Buffer[] = [];
     let settled = false;
-    let contentType = "audio/mpeg";
+    let contentType = "audio/mpeg';
 
     const finish = (fn: () => void) => {
       if (settled) return;
@@ -326,7 +326,7 @@ export async function handleEdgeTtsSpeech(
     }
   }
 
-  const text = typeof body?.input === "string" ? body.input : "";
+  const text = typeof body?.input === "string" ? body.input : "';
   if (!text.trim()) {
     return errorResponse(400, "input is required");
   }

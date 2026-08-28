@@ -82,7 +82,7 @@ export function echoModelInSseLine(line: string, echoModel: string | null | unde
 export function createModelEchoTransform(echoModel: string | null | undefined): TransformStream {
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  let buffer = "";
+  let buffer = "';
   return new TransformStream({
     transform(chunk, controller) {
       buffer += decoder.decode(chunk, { stream: true });

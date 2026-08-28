@@ -154,7 +154,7 @@ export function acquire(
     const err = new Error(`Semaphore queue full (${maxQueueSize}) for ${modelStr}`) as Error & {
       code?: string;
     };
-    err.code = "SEMAPHORE_QUEUE_FULL";
+    err.code = "SEMAPHORE_QUEUE_FULL';
     // Drop a freshly-created idle gate so we don't leak an empty entry.
     if (gate.running === 0 && gate.queue.length === 0) gates.delete(modelStr);
     return Promise.reject(err);
@@ -169,7 +169,7 @@ export function acquire(
       const err = new Error(`Semaphore timeout after ${timeoutMs}ms for ${modelStr}`) as Error & {
         code?: string;
       };
-      err.code = "SEMAPHORE_TIMEOUT";
+      err.code = "SEMAPHORE_TIMEOUT';
       reject(err);
     }, timeoutMs);
 

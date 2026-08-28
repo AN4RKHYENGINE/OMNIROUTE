@@ -12,7 +12,7 @@
 // this module is shared: `buildToolModeResponse()` accepts an `idSeed` so
 // every provider gets its own `tool_calls[].id` prefix.
 
-import { buildToolAwareResult } from "../translator/webTools.ts";
+import { buildToolAwareResult } from '../translator/webTools.ts';
 
 const SSE_HEADERS: Record<string, string> = {
   "Content-Type": "text/event-stream",
@@ -37,7 +37,7 @@ async function applyToolCallsToJsonResponse(
   const bodyText = await response.text();
   try {
     const json = JSON.parse(bodyText);
-    const rawContent = json?.choices?.[0]?.message?.content || "";
+    const rawContent = json?.choices?.[0]?.message?.content || "';
     const { content, toolCalls, finishReason } = buildToolAwareResult(
       rawContent,
       requestedTools,
@@ -76,7 +76,7 @@ function toolCompletionToSseStream(
   const encoder = new TextEncoder();
   const choice = (completion?.choices as Array<Record<string, unknown>> | undefined)?.[0] ?? {};
   const message = (choice.message as Record<string, unknown>) ?? {};
-  const finishReason = (choice.finish_reason as string) ?? "stop";
+  const finishReason = (choice.finish_reason as string) ?? "stop';
   const chunk = (delta: Record<string, unknown>, fr: string | null): Uint8Array =>
     encoder.encode(
       sseChunk({

@@ -1,11 +1,11 @@
 // OpenAI <-> Grok tool-call translation (pure). Extracted verbatim from grok-web.ts.
-import type { GrokStreamResponse } from "./types.ts";
+import type { GrokStreamResponse } from './types.ts';
 
 // ─── OpenAI message → Grok query translation ───────────────────────────────
 
 export interface OpenAIToolCall {
   id: string;
-  type: "function";
+  type: "function';
   function: {
     name: string;
     arguments: string;
@@ -26,7 +26,7 @@ export interface GrokFunctionToolSummary {
   parameters: unknown;
 }
 
-export type NativeToolIntent = "bash" | "readFile" | "webSearch" | "browsePage";
+export type NativeToolIntent = "bash" | "readFile" | "webSearch" | "browsePage';
 
 export interface ToolBridgeContext {
   lastUserText: string;
@@ -50,14 +50,14 @@ export function extractTextContent(msg: Record<string, unknown>): string {
         .join(" ")
     );
   }
-  return "";
+  return "';
 }
 
 export function getLastUserText(messages: Array<Record<string, unknown>>): string {
   for (let i = messages.length - 1; i >= 0; i--) {
     if (String(messages[i].role || "") === "user") return extractTextContent(messages[i]);
   }
-  return "";
+  return "';
 }
 
 export function normalizeToolArgumentObject(value: unknown): Record<string, unknown> {
@@ -151,17 +151,17 @@ export function getExecutedToolState(messages: Array<Record<string, unknown>>): 
     const msg = messages[i];
     if (String(msg.role || "") === "assistant" && Array.isArray(msg.tool_calls)) {
       for (const call of msg.tool_calls as Array<Record<string, unknown>>) {
-        const id = typeof call.id === "string" ? call.id : "";
+        const id = typeof call.id === "string" ? call.id : "';
         const fn = call.function;
         if (!id || !fn || typeof fn !== "object") continue;
         const fnRecord = fn as Record<string, unknown>;
-        const name = typeof fnRecord.name === "string" ? fnRecord.name : "";
+        const name = typeof fnRecord.name === "string" ? fnRecord.name : "';
         if (!name) continue;
         callsById.set(id, { name, args: normalizeToolArgumentObject(fnRecord.arguments) });
       }
     }
     if (String(msg.role || "") === "tool") {
-      const id = typeof msg.tool_call_id === "string" ? msg.tool_call_id : "";
+      const id = typeof msg.tool_call_id === "string" ? msg.tool_call_id : "';
       const call = id ? callsById.get(id) : null;
       if (call) {
         const key = semanticToolKey(call.name, call.args);
@@ -219,13 +219,13 @@ export function parseOpenAIMessages(
   for (let msgIdx = 0; msgIdx < messages.length; msgIdx++) {
     const msg = messages[msgIdx];
     let role = String(msg.role || "user");
-    if (role === "developer") role = "system";
+    if (role === "developer") role = "system';
 
     let content = extractTextContent(msg);
     if (role === "tool") {
       if (msgIdx < lastUserSourceIdx) continue;
-      const toolName = typeof msg.name === "string" ? msg.name : "unknown_tool";
-      const toolCallId = typeof msg.tool_call_id === "string" ? msg.tool_call_id : "unknown_call";
+      const toolName = typeof msg.name === "string" ? msg.name : "unknown_tool';
+      const toolCallId = typeof msg.tool_call_id === "string" ? msg.tool_call_id : "unknown_call';
       content = `CLIENT TOOL RESULT from caller runtime for ${toolName} (${toolCallId}). Use this result to answer; do not call the same tool again:\n${content}`;
     } else if (role === "assistant" && Array.isArray(msg.tool_calls)) {
       if (msgIdx < lastUserSourceIdx) continue;
@@ -273,7 +273,7 @@ export function buildGrokToolRegistry(body: Record<string, unknown>): GrokToolRe
     : [];
   const lastUserText = getLastUserText(messages);
   const executedToolState = getExecutedToolState(messages);
-  const toolChoice = body.tool_choice ?? "auto";
+  const toolChoice = body.tool_choice ?? "auto';
 
   if (toolChoice === "none") {
     return {
@@ -290,7 +290,7 @@ export function buildGrokToolRegistry(body: Record<string, unknown>): GrokToolRe
       const fn = tool?.function;
       if (tool?.type !== "function" || !fn || typeof fn !== "object") return null;
       const record = fn as Record<string, unknown>;
-      const name = typeof record.name === "string" ? record.name.trim() : "";
+      const name = typeof record.name === "string" ? record.name.trim() : "';
       if (!name) return null;
       return {
         name,
@@ -336,7 +336,7 @@ export function formatToolArgsSummary(parameters: unknown): string {
   const segments: string[] = [];
   if (propNames.length > 0) segments.push(`args=${propNames.join(",")}`);
   if (required.length > 0) segments.push(`required=${required.join(",")}`);
-  return segments.length > 0 ? ` (${segments.join("; ")})` : "";
+  return segments.length > 0 ? ` (${segments.join("; ")})` : "';
 }
 
 export function toolText(tool: GrokFunctionToolSummary): string {
@@ -473,7 +473,7 @@ export function orderedToolsForManifest(
 }
 
 export function formatToolManifestEntry(tool: GrokFunctionToolSummary, rank: number): string {
-  const desc = tool.description ? `\n  description: ${tool.description}` : "";
+  const desc = tool.description ? `\n  description: ${tool.description}` : "';
   const args = formatToolArgsSummary(tool.parameters).trim();
   return `${rank}. name: ${tool.name}${args ? `\n   ${args.slice(1, -1)}` : ""}${desc ? desc.replace(/\n  /g, "\n   ") : ""}`;
 }
@@ -482,7 +482,7 @@ export function buildClientToolManifest(
   toolRegistry: GrokToolRegistry,
   toolChoice: unknown
 ): string {
-  if (!toolRegistry.enabled) return "";
+  if (!toolRegistry.enabled) return "';
   const orderedTools = orderedToolsForManifest(toolRegistry);
   const lines = [
     'CLIENT_TOOLS: use this caller-runtime tool list as the tool interface for this request. To call one, respond only with <tool_call>{"name":"exact_tool_name","arguments":{...}}</tool_call>. After tool results, answer normally.',
@@ -517,7 +517,7 @@ export function propertyType(properties: Record<string, unknown>, key: string): 
 }
 
 export function hasValue(value: unknown): boolean {
-  return value !== undefined && value !== null && value !== "";
+  return value !== undefined && value !== null && value !== "';
 }
 
 export function firstString(...values: unknown[]): string | undefined {
@@ -551,7 +551,7 @@ export function defaultRequiredValue(
     if (query) return `Search: ${query}`;
     return `Grok Web ${intent} tool call`;
   }
-  if (lower === "intent_data_sensitivity") return "private";
+  if (lower === "intent_data_sensitivity") return "private';
   return undefined;
 }
 
@@ -639,7 +639,7 @@ export function parseClientToolCallMarkup(
     }
     if (!parsed || typeof parsed !== "object") continue;
     const record = parsed as Record<string, unknown>;
-    const name = typeof record.name === "string" ? record.name.trim() : "";
+    const name = typeof record.name === "string" ? record.name.trim() : "';
     if (!name || !toolRegistry.toolsByName.has(name)) continue;
     const rawArgs = normalizeArbitraryToolArguments(record.arguments);
     const args = adaptArgumentsToDeclaredTool(name, rawArgs, toolRegistry, "clientTool", {

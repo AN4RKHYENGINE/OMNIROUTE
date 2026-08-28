@@ -8,9 +8,9 @@
 //   entity["city","Paris","capital of France"]  →  Paris
 //   entity["…","value", …]                       →  value
 const ENTITY_RE = /entity\["[^"]*","([^"]*)"[^\]]*\]/g;
-const CHATGPT_MARKER_START = "\uE200";
-const CHATGPT_MARKER_SEP = "\uE202";
-const CHATGPT_MARKER_END = "\uE201";
+const CHATGPT_MARKER_START = "\uE200';
+const CHATGPT_MARKER_SEP = "\uE202';
+const CHATGPT_MARKER_END = "\uE201';
 const CHATGPT_REF_TOKEN_RE = /turn\d+(?:search|product|news|image|webpage)\d+/g;
 
 type ChatGptCitationSource = {
@@ -114,7 +114,7 @@ function formatCitationLinks(numbers: number[], sources: ChatGptCitationSource[]
     .sort((a, b) => a - b)
     .map((num) => {
       const source = sources[num - 1];
-      return source ? `[${num}](${markdownUrl(source.url)})` : "";
+      return source ? `[${num}](${markdownUrl(source.url)})` : "';
     })
     .filter(Boolean)
     .join("");
@@ -274,7 +274,7 @@ function collectChatGptCitationData(metadata?: Record<string, unknown>): ChatGpt
     if (existing) return existing;
 
     const title = asString(titleValue) ?? url;
-    const attribution = asString(attributionValue) ?? "";
+    const attribution = asString(attributionValue) ?? "';
     const idx = sources.length + 1;
     sources.push({ title: title.replace(/\n/g, " ").trim(), url, attribution });
     sourceIndexByCanonicalUrl.set(canonical, idx);
@@ -299,7 +299,7 @@ function collectChatGptCitationData(metadata?: Record<string, unknown>): ChatGpt
   for (const refValue of refs) {
     const ref = asRecord(refValue);
     if (!ref) continue;
-    const type = asString(ref.type) ?? "";
+    const type = asString(ref.type) ?? "';
 
     if (type === "grouped_webpages") {
       collectGroupedWebpagesRef(ref, sources, addSource, addMention, refTokenToSourceNumber);
@@ -320,7 +320,7 @@ function replacePrivateCitationMarkers(text: string, citationData: ChatGptCitati
     const numbers = tokens
       .map((token) => citationData.refTokenToSourceNumber.get(token))
       .filter((num): num is number => typeof num === "number");
-    return numbers.length > 0 ? formatCitationLinks(numbers, citationData.sources) : "";
+    return numbers.length > 0 ? formatCitationLinks(numbers, citationData.sources) : "';
   };
 
   return text

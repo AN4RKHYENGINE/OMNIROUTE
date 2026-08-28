@@ -1,5 +1,5 @@
-import { AdobeFireflyError } from "./adobeFireflyClient.ts";
-import type { AdobeFireflyVideoModelSpec } from "./adobeFireflyClient.ts";
+import { AdobeFireflyError } from './adobeFireflyClient.ts';
+import type { AdobeFireflyVideoModelSpec } from './adobeFireflyClient.ts';
 
 export interface AdobeSourceImageReference {
   source: string;
@@ -29,12 +29,12 @@ export function normalizeAdobeReferenceBlobs(
       throw new AdobeFireflyError("Invalid Adobe Firefly reference image", 400, "bad_image");
     }
     const value = reference as Record<string, unknown>;
-    const id = typeof value.id === "string" ? value.id.trim() : "";
+    const id = typeof value.id === "string" ? value.id.trim() : "';
     if (!id) {
       throw new AdobeFireflyError("Adobe Firefly reference image id is required", 400, "bad_image");
     }
 
-    const expectedUsage = modelSpec.referenceMode === "image" ? "asset" : "frame";
+    const expectedUsage = modelSpec.referenceMode === "image" ? "asset" : "frame';
     const usage = typeof value.usage === "string" ? value.usage.trim() : expectedUsage;
     if (usage !== expectedUsage) {
       throw new AdobeFireflyError(
@@ -81,7 +81,7 @@ export function extractAdobeSourceImageReferences(
             ? String((imageUrl as Record<string, unknown>).url).trim()
             : typeof value.url === "string"
               ? value.url.trim()
-              : "";
+              : "';
     if (!source || (!source.startsWith("data:image/") && !/^https?:\/\//i.test(source))) continue;
 
     const usage =

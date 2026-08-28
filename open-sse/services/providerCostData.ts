@@ -1,5 +1,5 @@
-import type { TierAssignment } from "./tierTypes";
-import type { TierConfig } from "./tierTypes";
+import type { TierAssignment } from './tierTypes';
+import type { TierConfig } from './tierTypes';
 
 export interface ModelPricing {
   inputCostPer1M: number;

@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import type { McpToolDefinition } from "./toolDefinition.ts";
+import type { McpToolDefinition } from './toolDefinition.ts';
 
 const ccrHash = z
   .string()

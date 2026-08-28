@@ -1,6 +1,6 @@
-import { GithubExecutor } from "./github.ts";
-import type { ProviderCredentials, ExecuteInput, ExecutorLog } from "./base.ts";
-import { getModelTargetFormat } from "../config/providerModels.ts";
+import { GithubExecutor } from './github.ts';
+import type { ProviderCredentials, ExecuteInput, ExecutorLog } from './base.ts';
+import { getModelTargetFormat } from '../config/providerModels.ts';
 
 /** Result of a successful GHE Copilot internal token exchange. */
 type CopilotTokenResult = {

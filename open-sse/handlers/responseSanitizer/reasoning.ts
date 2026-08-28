@@ -80,7 +80,7 @@ export function extractThinkingFromContent(text: string): {
     if (trimmed) {
       thinkingParts.push(trimmed);
     }
-    return "";
+    return "';
   });
 
   if (!hasThinkTags) {
@@ -112,7 +112,7 @@ export function extractThinkingFromContent(text: string): {
 }
 
 export function normalizeReasoningRouteId(value: unknown): string {
-  return typeof value === "string" ? value.toLowerCase() : "";
+  return typeof value === "string" ? value.toLowerCase() : "';
 }
 
 export function isAntigravityReasoningRoute(providerId: string, modelId: string): boolean {

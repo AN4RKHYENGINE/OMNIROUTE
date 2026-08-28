@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 export const felo_webProvider: RegistryEntry = {
   id: "felo-web",

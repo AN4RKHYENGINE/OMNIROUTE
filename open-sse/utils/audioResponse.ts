@@ -7,7 +7,7 @@
  * logic without importing from the (frozen, file-size-ratcheted) handler
  * itself — which would create a circular import.
  */
-import { CORS_HEADERS } from "./cors.ts";
+import { CORS_HEADERS } from './cors.ts';
 
 /**
  * Pull a human-readable error message out of a parsed upstream JSON error body.

@@ -9,7 +9,7 @@
  * getBailianCodingPlanUsage (dispatcher). Behavior-preserving move.
  */
 
-import { fetchBailianQuota, type BailianTripleWindowQuota } from "../bailianQuotaFetcher.ts";
+import { fetchBailianQuota, type BailianTripleWindowQuota } from '../bailianQuotaFetcher.ts';
 
 /**
  * Bailian (Alibaba Token Plan) Usage

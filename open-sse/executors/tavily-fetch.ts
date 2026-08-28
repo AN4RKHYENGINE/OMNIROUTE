@@ -8,10 +8,10 @@
  * Docs: https://docs.tavily.com/documentation/api-reference/endpoint/post-extract
  */
 
-import { sanitizeErrorMessage, buildErrorBody } from "../utils/error.ts";
-import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from "../handlers/webFetch.ts";
+import { sanitizeErrorMessage, buildErrorBody } from '../utils/error.ts';
+import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from '../handlers/webFetch.ts';
 
-const TAVILY_EXTRACT_URL = "https://api.tavily.com/extract";
+const TAVILY_EXTRACT_URL = "https://api.tavily.com/extract';
 const TAVILY_TIMEOUT_MS = 30_000;
 
 interface TavilyFetchOptions {
@@ -42,7 +42,7 @@ export async function tavilyFetch(opts: TavilyFetchOptions): Promise<WebFetchRes
   const controller = new AbortController();
   const timeoutId = setTimeout(() => {
     const err = new Error(`tavily-fetch timeout after ${TAVILY_TIMEOUT_MS}ms`);
-    err.name = "TimeoutError";
+    err.name = "TimeoutError';
     controller.abort(err);
   }, TAVILY_TIMEOUT_MS);
 

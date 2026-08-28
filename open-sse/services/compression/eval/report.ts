@@ -1,4 +1,4 @@
-import type { EvalReport, KindSummary } from "./types.ts";
+import type { EvalReport, KindSummary } from './types.ts';
 
 function fmtDelta(d: number | null): string {
   return d === null ? "n/a" : `${d > 0 ? "+" : ""}${d}%`;

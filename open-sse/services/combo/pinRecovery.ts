@@ -1,4 +1,4 @@
-import type { ComboDiagnostics, ComboRecoveryHint } from "../../utils/error.ts";
+import type { ComboDiagnostics, ComboRecoveryHint } from '../../utils/error.ts';
 
 /**
  * Build the recovery hint that travels with a terminal combo failure. Lives
@@ -92,7 +92,7 @@ export function buildEmptyComboTargetsPayload(
     const minCtxLabel =
       typeof minContextWindow === "number" && minContextWindow > 0
         ? ` (minContextWindow: ${minContextWindow})`
-        : "";
+        : "';
     return {
       message: `Combo has no executable targets after context requirements filtering${minCtxLabel}`,
       diagnostics: {

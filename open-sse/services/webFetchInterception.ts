@@ -8,9 +8,9 @@
  * generic tool-call execution path (@/lib/skills/interception::handleToolCallExecution).
  */
 
-import { FORMATS } from "../translator/formats.ts";
+import { FORMATS } from '../translator/formats.ts';
 
-export const OMNIROUTE_WEB_FETCH_FALLBACK_TOOL_NAME = "omniroute_web_fetch";
+export const OMNIROUTE_WEB_FETCH_FALLBACK_TOOL_NAME = "omniroute_web_fetch';
 // "web_fetch" mirrors the Responses-API-style built-in tool type convention already
 // used for web_search; "web_fetch_20250910" is Anthropic's dated server-tool type.
 const WEB_FETCH_TOOL_TYPES = new Set(["web_fetch", "web_fetch_20250910"]);
@@ -33,13 +33,13 @@ function toRecord(value: unknown): JsonRecord {
 
 function isBuiltInWebFetchTool(tool: unknown): tool is JsonRecord {
   const toolRecord = toRecord(tool);
-  const toolType = typeof toolRecord.type === "string" ? toolRecord.type : "";
+  const toolType = typeof toolRecord.type === "string" ? toolRecord.type : "';
   return WEB_FETCH_TOOL_TYPES.has(toolType) && !toolRecord.function;
 }
 
 function isBuiltInWebFetchToolChoice(toolChoice: unknown): boolean {
   const choice = toRecord(toolChoice);
-  const toolType = typeof choice.type === "string" ? choice.type : "";
+  const toolType = typeof choice.type === "string" ? choice.type : "';
   return WEB_FETCH_TOOL_TYPES.has(toolType);
 }
 
@@ -151,7 +151,7 @@ export function prepareWebFetchFallbackBody<T extends WebFetchFallbackBody>(
         ? functionRecord.name
         : typeof toolRecord.name === "string"
           ? toolRecord.name
-          : "";
+          : "';
     if (name.trim().length > 0) {
       toolNames.add(name.trim());
     }

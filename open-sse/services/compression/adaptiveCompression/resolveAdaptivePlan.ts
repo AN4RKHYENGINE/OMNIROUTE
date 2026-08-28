@@ -1,7 +1,7 @@
-import type { DerivedPlan } from "../deriveDefaultPlan.ts";
-import type { AdaptiveTelemetry, ContextBudgetConfig, LadderStage } from "./types.ts";
-import { DEFAULT_LADDER, aggressivenessOf, expectedReductionFactor } from "./ladder.ts";
-import { computeTarget } from "./computeTarget.ts";
+import type { DerivedPlan } from '../deriveDefaultPlan.ts';
+import type { AdaptiveTelemetry, ContextBudgetConfig, LadderStage } from './types.ts';
+import { DEFAULT_LADDER, aggressivenessOf, expectedReductionFactor } from './ladder.ts';
+import { computeTarget } from './computeTarget.ts';
 
 export interface ResolveAdaptiveInput {
   basePlan: DerivedPlan;

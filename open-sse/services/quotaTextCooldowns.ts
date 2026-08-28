@@ -10,7 +10,7 @@
  * @module services/quotaTextCooldowns
  */
 
-import { RateLimitReason } from "../config/constants.ts";
+import { RateLimitReason } from '../config/constants.ts';
 
 type RateLimitReasonValue = (typeof RateLimitReason)[keyof typeof RateLimitReason];
 

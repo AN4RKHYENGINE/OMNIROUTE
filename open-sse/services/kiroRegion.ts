@@ -62,7 +62,7 @@ export function regionFromKiroProfileArn(profileArn?: string | null): string | u
 }
 
 function normalizeRegion(region: unknown): string {
-  return typeof region === "string" ? region.trim().toLowerCase() : "";
+  return typeof region === "string" ? region.trim().toLowerCase() : "';
 }
 
 /**
@@ -89,7 +89,7 @@ export function resolveKiroRuntimeRegion(
   const stored = normalizeRegion(providerSpecificData?.region);
   if (stored && (KIRO_PROFILE_REGIONS as readonly string[]).includes(stored)) return stored;
 
-  return "us-east-1";
+  return "us-east-1';
 }
 
 /**
@@ -170,7 +170,7 @@ export async function discoverKiroProfileArnAcrossRegions(
   storedRegion?: string | null,
   fetchImpl?: typeof fetch
 ): Promise<string | undefined> {
-  const token = typeof accessToken === "string" ? accessToken.trim() : "";
+  const token = typeof accessToken === "string" ? accessToken.trim() : "';
   if (!token) return undefined;
 
   // Resolve fetch at call time (not module-load) so callers/tests that swap globalThis.fetch

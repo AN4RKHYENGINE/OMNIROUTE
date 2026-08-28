@@ -26,7 +26,7 @@
  *   and alibabaFreeTierQuotaTypes.ts to stay under the file-size cap
  */
 
-import { getAlibabaBillingMode, isAlibabaModelStudioProvider } from "./alibabaFreeTier.ts";
+import { getAlibabaBillingMode, isAlibabaModelStudioProvider } from './alibabaFreeTier.ts';
 import {
   asRecord,
   getAlibabaFreeTierQuotaLastSyncAt,
@@ -34,7 +34,7 @@ import {
   toTrimmedString,
   type AlibabaFreeTierQuotaEntry,
   type AlibabaFreeTierQuotaSnapshot,
-} from "./alibabaFreeTierQuotaTypes.ts";
+} from './alibabaFreeTierQuotaTypes.ts';
 import {
   applyAlibabaSharedFreeTierEligibility,
   classifyAlibabaAudioFreeTierQuotaEntries,
@@ -43,16 +43,16 @@ import {
   classifyAlibabaVisionFreeTierQuotaEntries,
   extractAlibabaSharedFreeTierEligibility,
   parseAlibabaFreeTierQuotaEntries,
-} from "./alibabaFreeTierQuotaClassify.ts";
+} from './alibabaFreeTierQuotaClassify.ts';
 
 // Re-export the shared types + the classification/eligibility public API so existing
-// imports of this module (`from "./alibabaFreeTierQuotaFetcher.ts"`) keep working.
+// imports of this module (`from './alibabaFreeTierQuotaFetcher.ts"`) keep working.
 export type {
   AlibabaFreeTierQuotaEntry,
   AlibabaFreeTierQuotaClassification,
   AlibabaFreeTierQuotaSnapshot,
-} from "./alibabaFreeTierQuotaTypes.ts";
-export { getAlibabaFreeTierQuotaLastSyncAt, isAlibabaLiveQuotaSyncAt } from "./alibabaFreeTierQuotaTypes.ts";
+} from './alibabaFreeTierQuotaTypes.ts';
+export { getAlibabaFreeTierQuotaLastSyncAt, isAlibabaLiveQuotaSyncAt } from './alibabaFreeTierQuotaTypes.ts';
 export {
   isAlibabaQuotaValidityExpired,
   parseAlibabaFreeTierQuotaEntries,
@@ -80,18 +80,18 @@ export {
   filterAlibabaFreeAudioEligibleModels,
   type AlibabaConnectionLike,
   type AlibabaFreeTierEligibilityFields,
-} from "./alibabaFreeTierQuotaClassify.ts";
+} from './alibabaFreeTierQuotaClassify.ts';
 
-const FREE_TIER_QUOTA_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuotaAsyn";
-const FREE_TIER_QUOTA_START_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuota";
-const DEFAULT_TEXT_FE_PATH = "/costing-balance/free-quota";
+const FREE_TIER_QUOTA_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuotaAsyn';
+const FREE_TIER_QUOTA_START_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuota';
+const DEFAULT_TEXT_FE_PATH = "/costing-balance/free-quota';
 const DEFAULT_VISION_FE_PATH =
-  process.env.ALIBABA_FREE_TIER_VISION_FE_PATH?.trim() || "/costing-balance/free-quota-image-video";
+  process.env.ALIBABA_FREE_TIER_VISION_FE_PATH?.trim() || "/costing-balance/free-quota-image-video';
 const DEFAULT_MULTIMODAL_FE_PATH =
   process.env.ALIBABA_FREE_TIER_MULTIMODAL_FE_PATH?.trim() ||
-  "/costing-balance/free-quota-multimodal";
+  "/costing-balance/free-quota-multimodal';
 const DEFAULT_AUDIO_FE_PATH =
-  process.env.ALIBABA_FREE_TIER_AUDIO_FE_PATH?.trim() || "/costing-balance/free-quota-audio";
+  process.env.ALIBABA_FREE_TIER_AUDIO_FE_PATH?.trim() || "/costing-balance/free-quota-audio';
 
 const CONSOLE_GATEWAYS = {
   "global-sg": {
@@ -114,7 +114,7 @@ function resolveAlibabaConsoleRegion(
   providerSpecificData: Record<string, unknown> | null | undefined
 ): AlibabaProviderRegion {
   const region = toTrimmedString(asRecord(providerSpecificData).region);
-  return region === "china-beijing" ? "china-beijing" : "global-sg";
+  return region === "china-beijing" ? "china-beijing" : "global-sg';
 }
 
 export function normalizeAlibabaConsoleCookie(raw: unknown): string | null {

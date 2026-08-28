@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 /**
  * Zed Hosted Models — cloud.zed.dev, Zed's own aggregator (fronts

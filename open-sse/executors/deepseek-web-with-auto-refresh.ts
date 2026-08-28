@@ -1,10 +1,10 @@
-import type { ExecuteInput } from "./base.ts";
+import type { ExecuteInput } from './base.ts';
 import {
   DeepSeekWebExecutor,
   acquireAccessToken,
   extractUserToken,
   tokenCache,
-} from "./deepseek-web.ts";
+} from './deepseek-web.ts';
 
 interface AutoRefreshConfig {
   sessionRefreshInterval?: number;
@@ -23,7 +23,7 @@ export class DeepSeekWebWithAutoRefreshExecutor extends DeepSeekWebExecutor {
   private sessionValid = false;
   private retryCount = 0;
   private readonly maxRetries = 2;
-  private currentUserToken = "";
+  private currentUserToken = "';
 
   constructor(config: AutoRefreshConfig = {}) {
     super();

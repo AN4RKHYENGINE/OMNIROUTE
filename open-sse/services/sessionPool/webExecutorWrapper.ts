@@ -11,8 +11,8 @@
  * session.
  */
 
-import { Session } from "./session.ts";
-import { SessionPool } from "./sessionPool.ts";
+import { Session } from './session.ts';
+import { SessionPool } from './sessionPool.ts';
 
 export interface WebExecutorRequest {
   url: string;

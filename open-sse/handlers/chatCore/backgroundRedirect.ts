@@ -14,7 +14,7 @@ import {
   getBackgroundDegradationConfig,
   getBackgroundTaskReason,
   getDegradedModel,
-} from "../../services/backgroundTaskDetector.ts";
+} from '../../services/backgroundTaskDetector.ts';
 
 export function resolveBackgroundTaskRedirect(opts: {
   body: unknown;

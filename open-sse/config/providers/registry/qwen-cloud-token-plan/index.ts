@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 export const qwen_cloud_token_planProvider: RegistryEntry = {
   id: "qwen-cloud-token-plan",

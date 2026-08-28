@@ -1,15 +1,15 @@
-import type { AggressiveConfig, CompressionStats, Summarizer } from "./types.ts";
-import { DEFAULT_AGGRESSIVE_CONFIG } from "./types.ts";
+import type { AggressiveConfig, CompressionStats, Summarizer } from './types.ts';
+import { DEFAULT_AGGRESSIVE_CONFIG } from './types.ts';
 import {
   compressToolResult,
   compressAnthropicToolResultBlock,
   isAnthropicToolResultBlock,
-} from "./toolResultCompressor.ts";
-import { applyAging } from "./progressiveAging.ts";
-import { RuleBasedSummarizer } from "./summarizer.ts";
-import { cavemanCompress } from "./caveman.ts";
-import { applyLiteCompression } from "./lite.ts";
-import { extractTextContent, replaceTextContent, type ChatMessageLike } from "./messageContent.ts";
+} from './toolResultCompressor.ts';
+import { applyAging } from './progressiveAging.ts';
+import { RuleBasedSummarizer } from './summarizer.ts';
+import { cavemanCompress } from './caveman.ts';
+import { applyLiteCompression } from './lite.ts';
+import { extractTextContent, replaceTextContent, type ChatMessageLike } from './messageContent.ts';
 
 const COMPRESSED_MARKER_RE = /^\[COMPRESSED:/;
 

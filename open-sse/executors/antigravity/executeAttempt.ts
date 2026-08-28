@@ -5,27 +5,27 @@
 // import the executor's credit-balance cache. Extracted from antigravity.ts
 // (file-size cap), mirroring the existing antigravity/streamingPassthrough.ts and
 // antigravity/sseCollect.ts submodule pattern.
-import { mergeAbortSignals, type ExecutorLog } from "../base.ts";
-import { applyFingerprint, isCliCompatEnabled } from "../../config/cliFingerprints.ts";
-import { buildAntigravityUpstreamError } from "../antigravityUpstreamError.ts";
+import { mergeAbortSignals, type ExecutorLog } from '../base.ts';
+import { applyFingerprint, isCliCompatEnabled } from '../../config/cliFingerprints.ts';
+import { buildAntigravityUpstreamError } from '../antigravityUpstreamError.ts';
 import {
   HTTP_STATUS,
   STREAM_READINESS_TIMEOUT_MS,
   ANTIGRAVITY_PRE_RESPONSE_TIMEOUT_CODE,
-} from "../../config/constants.ts";
-import { injectCreditsField, handleCreditsFailure } from "../../services/antigravityCredits.ts";
-import { sanitizeAntigravityToolPayload } from "../../config/toolCloaking.ts";
+} from '../../config/constants.ts';
+import { injectCreditsField, handleCreditsFailure } from '../../services/antigravityCredits.ts';
+import { sanitizeAntigravityToolPayload } from '../../config/toolCloaking.ts';
 import {
   applyAntigravityClientProfileHeaders,
   removeHeaderCaseInsensitive,
-} from "../../services/antigravityClientProfile.ts";
-import * as prl from "../../utils/providerRequestLogging.ts";
+} from '../../services/antigravityClientProfile.ts';
+import * as prl from '../../utils/providerRequestLogging.ts';
 import {
   createCreditsExtractionTransform as createCreditsExtractionTransformImpl,
   buildSsePassthroughResult,
   type SsePassthroughResult,
-} from "./streamingPassthrough.ts";
-import type { AntigravityCredentials } from "../antigravity.ts";
+} from './streamingPassthrough.ts';
+import type { AntigravityCredentials } from '../antigravity.ts';
 
 const LONG_RETRY_THRESHOLD_MS = 60_000;
 const CREDITS_EXHAUSTED_TTL_MS = 5 * 60 * 60 * 1000; // 5 hours
@@ -91,7 +91,7 @@ class AntigravityPreResponseTimeoutError extends Error {
 
   constructor(timeoutMs: number, url: string) {
     super(`Antigravity upstream did not return response headers within ${timeoutMs}ms: ${url}`);
-    this.name = "TimeoutError";
+    this.name = "TimeoutError';
   }
 }
 
@@ -262,7 +262,7 @@ function serializeAntigravityRequest(
 
 function getRequestTargetModel(body: Record<string, unknown>): string {
   const target = body.model;
-  return typeof target === "string" && target.length > 0 ? target : "unknown";
+  return typeof target === "string" && target.length > 0 ? target : "unknown';
 }
 
 /** Sanitize unsupported schema metadata, then apply credits-first injection for one attempt. */
@@ -293,7 +293,7 @@ function dumpAntigravityRequestDebug(
   log: SafeAntigravityLog
 ): void {
   const safeHeaders = { ...finalHeaders };
-  if (safeHeaders["Authorization"]) safeHeaders["Authorization"] = "Bearer ***";
+  if (safeHeaders["Authorization"]) safeHeaders["Authorization"] = "Bearer ***';
   log.debug("AG_REQUEST_HEADERS", JSON.stringify(safeHeaders));
 
   const envelope = transformedBody as Record<string, unknown>;

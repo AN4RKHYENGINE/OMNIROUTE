@@ -3,8 +3,8 @@
  *
  * Extracted verbatim from openai-responses.ts. Registration stays in the host.
  */
-import { isOpenAIResponsesStoreEnabled } from "@/lib/providers/requestDefaults";
-import { generateToolCallId } from "../../helpers/toolCallHelper.ts";
+import { isOpenAIResponsesStoreEnabled } from '@/lib/providers/requestDefaults';
+import { generateToolCallId } from '../../helpers/toolCallHelper.ts';
 import {
   JsonRecord,
   RESPONSES_STORE_MARKER,
@@ -15,7 +15,7 @@ import {
   imageUrlToText,
   normalizeVerbosity,
   normalizeResponsesReasoningEffort,
-} from "./helpers.ts";
+} from './helpers.ts';
 
 // A Chat-Completions client can only express reasoning via the top-level
 // `reasoning_effort` hint; it has no way to request a reasoning summary. When we
@@ -24,8 +24,8 @@ import {
 // downstream chat client still sees a thinking stream instead of an empty
 // summary. Mirrors the Codex executor's `ensureCodexReasoningSummary`. An
 // explicit `reasoning` object from a Responses-shaped client is preserved as-is.
-const DEFAULT_RESPONSES_REASONING_SUMMARY = "auto";
-const RESPONSES_REASONING_ENCRYPTED_CONTENT_INCLUDE = "reasoning.encrypted_content";
+const DEFAULT_RESPONSES_REASONING_SUMMARY = "auto';
+const RESPONSES_REASONING_ENCRYPTED_CONTENT_INCLUDE = "reasoning.encrypted_content';
 
 // Chat Completions `response_format: { type: "json_schema" }` → Responses API `text.format`.
 // Merges into any existing `result.text` (e.g. verbosity) so structured-output schemas from
@@ -107,7 +107,7 @@ export function openaiToOpenAIResponsesRequest(
 
     if (role === "system" || role === "developer") {
       if (!hasSystemMessage) {
-        result.instructions = typeof msg.content === "string" ? msg.content : "";
+        result.instructions = typeof msg.content === "string" ? msg.content : "';
         hasSystemMessage = true;
         continue;
       }
@@ -314,7 +314,7 @@ export function openaiToOpenAIResponsesRequest(
 
   // If no system message, keep empty instructions
   if (!hasSystemMessage) {
-    result.instructions = "";
+    result.instructions = "';
   }
 
   // Convert tools format

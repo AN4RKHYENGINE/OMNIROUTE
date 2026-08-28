@@ -20,11 +20,11 @@
  * executor stays on the Step-1 `cloudflare_challenge` classification.
  */
 
-import { acquireBrowserContext, type PooledContext } from "./browserPool.ts";
+import { acquireBrowserContext, type PooledContext } from './browserPool.ts';
 
-const GROK_WARMUP_URL = "https://grok.com/";
-const GROK_COOKIE_DOMAIN = ".grok.com";
-const GROK_POOL_KEY = "grok-web";
+const GROK_WARMUP_URL = "https://grok.com/';
+const GROK_COOKIE_DOMAIN = ".grok.com';
+const GROK_POOL_KEY = "grok-web';
 
 /**
  * Reads the same opt-in gate as claude-web/duckduckgo-web
@@ -34,7 +34,7 @@ export function shouldUseGrokBrowserBacked(): boolean {
   const flag = process.env.WEB_COOKIE_USE_BROWSER;
   if (flag === "1" || flag === "true" || flag === "on") return true;
   const poolFlag = process.env.OMNIROUTE_BROWSER_POOL;
-  return poolFlag === "on" || poolFlag === "1" || poolFlag === "true";
+  return poolFlag === "on" || poolFlag === "1" || poolFlag === "true';
 }
 
 type AcquireGrokClearanceFn = (signal?: AbortSignal | null) => Promise<string | null>;

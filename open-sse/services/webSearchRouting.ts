@@ -20,7 +20,7 @@ interface WebSearchRouteResult {
 }
 
 function asString(value: unknown): string {
-  return typeof value === "string" ? value : "";
+  return typeof value === "string" ? value : "';
 }
 
 /**

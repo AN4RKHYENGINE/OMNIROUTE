@@ -35,28 +35,28 @@
  *   - Only replace blocks ≥ minChars (default 600).
  *   - `stackable: true`, `stackPriority: 4` (runs just after session-dedup(3)).
  */
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 import {
   deleteAllCcrBlocks,
   deleteCcrBlockRow,
   loadCcrBlock,
   persistCcrBlock,
   touchCcrBlock,
-} from "@lib/db/ccrBlocks.ts";
-import { createCompressionStats } from "../../stats.ts";
-import { queryBlock, type CcrQuery } from "./ccrQuery.ts";
-import { injectCcrProtocolInstruction } from "./protocolInstruction.ts";
+} from '@lib/db/ccrBlocks.ts';
+import { createCompressionStats } from '../../stats.ts';
+import { queryBlock, type CcrQuery } from './ccrQuery.ts';
+import { injectCcrProtocolInstruction } from './protocolInstruction.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
 
 // ─── constants ────────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "ccr";
+const ENGINE_ID = "ccr';
 /** Default minimum character count for a block to be a CCR candidate. */
 const DEFAULT_MIN_CHARS = 600;
 /** Number of retrievals before a block is flagged "do-not-compress" for that principal. */
@@ -81,7 +81,7 @@ export const DEFAULT_CCR_TTL_SECONDS = 24 * 60 * 60;
 export const MAX_CCR_TTL_SECONDS = 7 * 24 * 60 * 60;
 export const MAX_CCR_MCP_FULL_BYTES = 256 * 1024;
 
-export type CcrEntrySource = "compression" | "mcp" | "ionizer" | "session-dedup";
+export type CcrEntrySource = "compression" | "mcp" | "ionizer" | "session-dedup';
 
 export interface CcrEntryMetadata {
   hash: string;
@@ -113,7 +113,7 @@ export type StoreCcrBlockResult =
   | {
       stored: false;
       hash: string;
-      reason: "block_too_large" | "principal_budget_exceeded" | "global_budget_exceeded";
+      reason: "block_too_large" | "principal_budget_exceeded" | "global_budget_exceeded';
     };
 
 export function isCcrStoreRejection(
@@ -123,7 +123,7 @@ export function isCcrStoreRejection(
 }
 
 export interface CcrStoreStats {
-  storage: "memory";
+  storage: "memory';
   entries: number;
   bytes: number;
   limits: {
@@ -156,7 +156,7 @@ type CcrLifecycleCounters = CcrStoreStats["lifecycle"];
 const lifecycleByPrincipal = new Map<string, CcrLifecycleCounters>();
 
 /** Sentinel used when no principalId is provided. */
-const ANON = "__anon__";
+const ANON = "__anon__';
 
 function buildStoreKey(hash: string, principalId?: string): string {
   return `${principalId ?? ANON} ${hash}`;
@@ -195,7 +195,7 @@ const MAX_DURABLE_BLOCK_BYTES = 512 * 1024;
 const isCloudRuntime = typeof globalThis.caches === "object" && globalThis.caches !== null;
 
 function durableTierEnabled(): boolean {
-  return !isCloudRuntime && process.env.COMPRESSION_CCR_DURABLE_STORE !== "false";
+  return !isCloudRuntime && process.env.COMPRESSION_CCR_DURABLE_STORE !== "false';
 }
 
 const loggedDurableErrors = new Set<string>();

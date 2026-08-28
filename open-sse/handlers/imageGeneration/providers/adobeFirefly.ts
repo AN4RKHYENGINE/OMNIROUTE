@@ -10,15 +10,15 @@
 //   2) generate-async with referenceBlobs:[{ id, usage:"general"|"subject" }]
 // See web_providers/adobe_atach_images.txt for live captures.
 
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
-import { saveImageErrorResult, saveImageSuccessResult } from "../../imageGeneration.ts";
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
+import { saveImageErrorResult, saveImageSuccessResult } from '../../imageGeneration.ts';
 import {
   AdobeFireflyError,
   adobeFireflyGenerateImage,
   resolveAdobeSourceImageIds,
   resolveAdobeImageModel,
-} from "../../../services/adobeFireflyClient.ts";
-import { ensureAdobeFireflySession } from "../../../services/adobeFireflySession.ts";
+} from '../../../services/adobeFireflyClient.ts';
+import { ensureAdobeFireflySession } from '../../../services/adobeFireflySession.ts';
 
 function normalizePositiveNumber(value: unknown, fallback: number): number {
   const n = Number(value);
@@ -66,7 +66,7 @@ export async function handleAdobeFireflyImageGeneration({
   fetchImpl?: typeof fetch;
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (!prompt) {
     return saveImageErrorResult({
       provider,

@@ -8,19 +8,19 @@
  * Tolerates both Array and Record shapes. Deduplicates by name (first wins).
  */
 
-import { MCP_TOOLS } from "../schemas/tools.ts";
-import { memoryTools } from "../tools/memoryTools.ts";
-import { skillTools } from "../tools/skillTools.ts";
-import { agentSkillTools } from "../tools/agentSkillTools.ts";
-import { poolTools } from "../tools/poolTools.ts";
-import { gamificationTools } from "../tools/gamificationTools.ts";
-import { pluginTools } from "../tools/pluginTools.ts";
-import { notionTools } from "../tools/notionTools.ts";
-import { obsidianTools } from "../tools/obsidianTools.ts";
-import { localCorpusTools } from "../tools/localCorpusTools.ts";
-import { compressionTools } from "../tools/compressionTools.ts";
+import { MCP_TOOLS } from '../schemas/tools.ts';
+import { memoryTools } from '../tools/memoryTools.ts';
+import { skillTools } from '../tools/skillTools.ts';
+import { agentSkillTools } from '../tools/agentSkillTools.ts';
+import { poolTools } from '../tools/poolTools.ts';
+import { gamificationTools } from '../tools/gamificationTools.ts';
+import { pluginTools } from '../tools/pluginTools.ts';
+import { notionTools } from '../tools/notionTools.ts';
+import { obsidianTools } from '../tools/obsidianTools.ts';
+import { localCorpusTools } from '../tools/localCorpusTools.ts';
+import { compressionTools } from '../tools/compressionTools.ts';
 
-import type { ToolCatalogEntry } from "./search.ts";
+import type { ToolCatalogEntry } from './search.ts';
 
 type AnyToolLike = {
   name?: unknown;
@@ -31,7 +31,7 @@ type AnyToolLike = {
 
 function normalizeEntry(raw: AnyToolLike): ToolCatalogEntry | null {
   const name = typeof raw.name === "string" ? raw.name : null;
-  const description = typeof raw.description === "string" ? raw.description : "";
+  const description = typeof raw.description === "string" ? raw.description : "';
   if (!name) return null;
 
   const scopes: readonly string[] = Array.isArray(raw.scopes)

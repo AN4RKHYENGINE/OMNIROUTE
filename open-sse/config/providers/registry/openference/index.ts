@@ -1,4 +1,4 @@
-import { resolvePublicCred, type RegistryEntry } from "../../shared.ts";
+import { resolvePublicCred, type RegistryEntry } from '../../shared.ts';
 
 /**
  * Openference — OpenAI-compatible AI inference gateway (https://openference.com/).

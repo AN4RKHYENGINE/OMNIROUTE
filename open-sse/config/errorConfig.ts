@@ -9,7 +9,7 @@ export type ConfiguredErrorReason =
   | "rate_limit_exceeded"
   | "model_capacity"
   | "server_error"
-  | "unknown";
+  | "unknown';
 
 export type ErrorRule = {
   id: string;
@@ -193,7 +193,7 @@ export function getErrorInfo(statusCode: number): ErrorInfo {
 }
 
 export function getDefaultErrorMessage(statusCode: number): string {
-  return DEFAULT_ERROR_MESSAGES[statusCode] || "An error occurred";
+  return DEFAULT_ERROR_MESSAGES[statusCode] || "An error occurred';
 }
 
 export function calculateBackoffCooldown(level = 0): number {

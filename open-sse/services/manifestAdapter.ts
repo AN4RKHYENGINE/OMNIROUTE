@@ -1,14 +1,14 @@
-import type { TierAssignment, ProviderTier } from "./tierTypes";
-import { PROVIDER_TIER } from "./tierTypes";
-import type { SpecificityResult, SpecificityLevel } from "./specificityTypes";
-import { classifyTier } from "./tierResolver";
+import type { TierAssignment, ProviderTier } from './tierTypes';
+import { PROVIDER_TIER } from './tierTypes';
+import type { SpecificityResult, SpecificityLevel } from './specificityTypes';
+import { classifyTier } from './tierResolver';
 import {
   analyzeSpecificity,
   getSpecificityLevel,
   getRecommendedMinTier,
-} from "./specificityDetector";
-import type { RuleInput } from "./specificityTypes";
-import type { ResolvedComboTarget } from "./combo";
+} from './specificityDetector';
+import type { RuleInput } from './specificityTypes';
+import type { ResolvedComboTarget } from './combo';
 
 export type StrategyModifier =
   | "default"
@@ -16,7 +16,7 @@ export type StrategyModifier =
   | "prefer-cheap"
   | "require-premium"
   | "cost-save"
-  | "quality-first";
+  | "quality-first';
 
 export interface RoutingHint {
   tierAssignments: Map<string, TierAssignment>;
@@ -93,11 +93,11 @@ function determineStrategyModifier(
   eligibleCount: number,
   underqualifiedCount: number
 ): StrategyModifier {
-  if (level === "expert") return "require-premium";
-  if (level === "complex") return "prefer-cheap";
-  if (level === "moderate") return "prefer-cheap";
-  if (level === "simple" || level === "trivial") return "prefer-free";
-  return "default";
+  if (level === "expert") return "require-premium';
+  if (level === "complex") return "prefer-cheap';
+  if (level === "moderate") return "prefer-cheap';
+  if (level === "simple" || level === "trivial") return "prefer-free';
+  return "default';
 }
 
 export function getTargetTier(target: ResolvedComboTarget): TierAssignment {

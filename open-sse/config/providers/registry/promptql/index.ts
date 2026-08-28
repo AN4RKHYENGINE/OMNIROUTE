@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { PROMPTQL_FALLBACK_MODELS } from "../../../../services/promptqlModels.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { PROMPTQL_FALLBACK_MODELS } from '../../../../services/promptqlModels.ts';
 
 // PromptQL playground agent (prompt.ql.app) — unofficial reverse-engineered session.
 // Live catalog: GraphQL FetchLlmConfigs; seed below is offline fallback.

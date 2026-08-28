@@ -9,7 +9,7 @@
  * cleanup timer; it calls into these with its own map instances.
  */
 
-import type { ModelLockoutEntry, ModelFailureState } from "../accountFallback.ts";
+import type { ModelLockoutEntry, ModelFailureState } from '../accountFallback.ts';
 
 /** Build the "exact" scoped lockout key — a distinct namespace from the quota-family key. */
 export function buildExactModelLockKey(

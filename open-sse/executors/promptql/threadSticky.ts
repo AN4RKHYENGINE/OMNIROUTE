@@ -14,10 +14,10 @@
  *  4. After each successful reply, store under fingerprint(full history + asst)
  *     so the next request's prefix matches exactly one conversation.
  */
-import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { extractMessageTextFromMessage, isUserLikeRole, type ChatMessage } from "./messageText.ts";
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { extractMessageTextFromMessage, isUserLikeRole, type ChatMessage } from './messageText.ts';
 
 export interface PromptQlRequestBody {
   messages?: ChatMessage[];
@@ -27,9 +27,9 @@ export interface PromptQlRequestBody {
 }
 
 function readStr(v: unknown): string {
-  if (typeof v !== "string") return "";
+  if (typeof v !== "string") return "';
   const t = v.trim();
-  return t.length ? t : "";
+  return t.length ? t : "';
 }
 
 type ThreadBinding = { threadId: string; projectId: string; updatedAt: number };
@@ -122,7 +122,7 @@ export function normalizeForFingerprint(text: string): string {
  * of args while still distinguishing different tools.
  */
 export function extractToolNameSignature(text: string): string {
-  if (!text) return "";
+  if (!text) return "';
   const names = new Set<string>();
   for (const m of text.matchAll(/"tool"\s*:\s*"([^"]+)"/g)) names.add(m[1]!.toLowerCase());
   for (const m of text.matchAll(/tool_call:([A-Za-z0-9_.-]+):/g)) names.add(m[1]!.toLowerCase());
@@ -258,7 +258,7 @@ export function readClientThreadId(
 ): string {
   const fromBody = readStr(body.promptql_thread_id) || readStr(body.thread_id);
   if (fromBody) return fromBody;
-  if (!headers) return "";
+  if (!headers) return "';
   const lower: Record<string, string> = {};
   for (const [k, v] of Object.entries(headers)) lower[k.toLowerCase()] = String(v ?? "");
   return (

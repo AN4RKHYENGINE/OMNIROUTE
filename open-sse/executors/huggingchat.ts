@@ -23,21 +23,21 @@ import {
   mergeAbortSignals,
   mergeUpstreamExtraHeaders,
   type ExecuteInput,
-} from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
-import { normalizeSessionCookieHeader } from "@/lib/providers/webCookieAuth";
-import { streamJsonlToOpenAi, readJsonlResponse } from "./huggingchat/jsonlStream.ts";
+} from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
+import { normalizeSessionCookieHeader } from '@/lib/providers/webCookieAuth';
+import { streamJsonlToOpenAi, readJsonlResponse } from './huggingchat/jsonlStream.ts';
 
-const HUGGINGFACE_BASE = "https://huggingface.co";
+const HUGGINGFACE_BASE = "https://huggingface.co';
 const CONVERSATION_URL = `${HUGGINGFACE_BASE}/chat/conversation`;
 const API_CONVERSATIONS_URL = `${HUGGINGFACE_BASE}/chat/api/v2/conversations`;
-const DEFAULT_COOKIE_NAME = "hf-chat";
+const DEFAULT_COOKIE_NAME = "hf-chat';
 
 const USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
-const DEFAULT_MODEL = "baidu/ERNIE-4.5-VL-424B-A47B-Base-PT";
+const DEFAULT_MODEL = "baidu/ERNIE-4.5-VL-424B-A47B-Base-PT';
 
 // -- Helpers -----------------------------------------------------------------
 
@@ -51,15 +51,15 @@ function isEncryptedCredentialBlob(value: unknown): boolean {
 
 function extractTextFromContent(content: unknown): string {
   if (typeof content === "string") return content.trim();
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
 
   return content
     .map((part: unknown) => {
-      if (!part || typeof part !== "object") return "";
+      if (!part || typeof part !== "object") return "';
       const item = part as Record<string, unknown>;
       if (item.type === "text" && typeof item.text === "string") return item.text;
       if (item.type === "input_text" && typeof item.text === "string") return item.text;
-      return "";
+      return "';
     })
     .filter((p: string) => p.trim().length > 0)
     .join("\n")
@@ -98,7 +98,7 @@ function buildConversationPrompt(messages: Array<Record<string, unknown>>): {
 
   const lines: string[] = [];
   for (const part of conversationParts) {
-    const label = part.role === "user" ? "User" : "Assistant";
+    const label = part.role === "user" ? "User" : "Assistant';
     lines.push(`${label}: ${part.content}`);
   }
   lines.push("Assistant:");
@@ -115,9 +115,9 @@ function estimateTokens(text: string): number {
 
 function getLocalTimezone(): string {
   try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC';
   } catch {
-    return "UTC";
+    return "UTC';
   }
 }
 
@@ -125,7 +125,7 @@ async function readUpstreamErrorDetails(response: Response): Promise<{
   message: string | null;
   details: unknown;
 }> {
-  const contentType = response.headers.get("content-type") || "";
+  const contentType = response.headers.get("content-type") || "';
   const text = await response.text().catch(() => "");
   if (!text) return { message: null, details: null };
 
@@ -216,7 +216,7 @@ function getSetCookieHeaders(headers: Headers): string[] {
 }
 
 function parseSetCookiePair(setCookie: string): { name: string; value: string } | null {
-  const pair = setCookie.split(";", 1)[0]?.trim() || "";
+  const pair = setCookie.split(";", 1)[0]?.trim() || "';
   const eq = pair.indexOf("=");
   if (eq <= 0) return null;
   return { name: pair.slice(0, eq).trim(), value: pair.slice(eq + 1) };
@@ -359,9 +359,9 @@ export class HuggingChatExecutor extends BaseExecutor {
         if (status === 401 || status === 403) {
           message =
             "HuggingChat auth failed -- your hf-chat session cookie may be missing or expired. " +
-            "Log in to huggingface.co/chat and re-paste your cookie.";
+            "Log in to huggingface.co/chat and re-paste your cookie.';
         } else if (status === 429) {
-          message = "HuggingChat rate limited. Wait a moment and retry.";
+          message = "HuggingChat rate limited. Wait a moment and retry.';
         }
         if (upstreamError.message) {
           message = `${message}: ${upstreamError.message}`;
@@ -483,9 +483,9 @@ export class HuggingChatExecutor extends BaseExecutor {
       const upstreamError = await readUpstreamErrorDetails(upstreamResponse);
       let message = `HuggingChat returned HTTP ${status}`;
       if (status === 401 || status === 403) {
-        message = "HuggingChat auth failed -- session cookie may be expired.";
+        message = "HuggingChat auth failed -- session cookie may be expired.';
       } else if (status === 429) {
-        message = "HuggingChat rate limited. Wait a moment and retry.";
+        message = "HuggingChat rate limited. Wait a moment and retry.';
       } else if (status === 404) {
         message = `HuggingChat model not found: ${resolvedModel}. Check the model ID.`;
       }

@@ -8,8 +8,8 @@
 // Factored out so each per-modality handler stays a thin body-builder +
 // response-formatter (keeps both under the complexity/max-lines ratchets).
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "./error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from './error.ts';
 
 export interface SegmindLogger {
   info: (scope: string, message: string) => void;
@@ -23,7 +23,7 @@ export interface SegmindRequestOptions {
   upstreamBody: Record<string, unknown>;
   callLogPath: string;
   provider: string;
-  scope: "IMAGE" | "VIDEO";
+  scope: "IMAGE" | "VIDEO';
   log?: SegmindLogger | null;
 }
 
@@ -90,7 +90,7 @@ export async function segmindRequest(opts: SegmindRequestOptions): Promise<Segmi
       return logSegmindFailure(opts, response.status, Date.now() - startTime, errorText);
     }
 
-    const contentType = response.headers.get("content-type") || "";
+    const contentType = response.headers.get("content-type") || "';
     const buffer = Buffer.from(await response.arrayBuffer());
 
     saveCallLog({

@@ -1,5 +1,5 @@
-import type { CavemanRule } from "./types.ts";
-import { loadAllRulesForLanguage } from "./ruleLoader.ts";
+import type { CavemanRule } from './types.ts';
+import { loadAllRulesForLanguage } from './ruleLoader.ts';
 
 const CAVEMAN_RULES: CavemanRule[] = [
   // ── Category 1: Filler Removal (10+ rules) ──────────────────────────
@@ -18,7 +18,7 @@ const CAVEMAN_RULES: CavemanRule[] = [
         "you should": "",
         "remember to": "",
       };
-      return map[match.trim().toLowerCase()] ?? "";
+      return map[match.trim().toLowerCase()] ?? "';
     },
     context: "all",
     category: "structural",

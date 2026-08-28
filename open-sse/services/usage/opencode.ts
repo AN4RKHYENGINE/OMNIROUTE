@@ -10,9 +10,9 @@
  * (dispatcher + __testing). Behavior-preserving move.
  */
 
-import { fetchOpencodeQuota, type OpencodeTripleWindowQuota } from "../opencodeQuotaFetcher.ts";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
-import { type UsageQuota } from "./quota.ts";
+import { fetchOpencodeQuota, type OpencodeTripleWindowQuota } from '../opencodeQuotaFetcher.ts';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
+import { type UsageQuota } from './quota.ts';
 
 /**
  * OpenCode Go / OpenCode / OpenCode Zen Usage

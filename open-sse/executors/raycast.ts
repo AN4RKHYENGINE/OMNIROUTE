@@ -6,15 +6,15 @@
  * - [2026-07-27] [Composer] - Initial Raycast Pro local-dev executor
  */
 
-import { BaseExecutor, mergeUpstreamExtraHeaders, type ProviderCredentials } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import { BaseExecutor, mergeUpstreamExtraHeaders, type ProviderCredentials } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 import {
   RAYCAST_CHAT_URL,
   buildRaycastChatBody,
   buildRaycastHeaders,
   parseRaycastSseText,
-} from "../services/raycast.ts";
+} from '../services/raycast.ts';
 
 type JsonRecord = Record<string, unknown>;
 type ChatMessage = { role?: string; content?: unknown };
@@ -36,7 +36,7 @@ export class RaycastExecutor extends BaseExecutor {
     credentials: ProviderCredentials,
     payload?: string
   ): Record<string, string> {
-    const body = payload || "{}";
+    const body = payload || "{}';
     return buildRaycastHeaders(body, credentials as JsonRecord);
   }
 
@@ -135,7 +135,7 @@ export class RaycastExecutor extends BaseExecutor {
           const encoder = new TextEncoder();
           const reader = raycastBody.getReader();
           const decoder = new TextDecoder();
-          let buffer = "";
+          let buffer = "';
 
           try {
             while (true) {

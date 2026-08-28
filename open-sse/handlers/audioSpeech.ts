@@ -1,5 +1,5 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
-import { stripTrailingSlashes } from "../utils/urlSanitize.ts";
+import { CORS_HEADERS } from '../utils/cors.ts';
+import { stripTrailingSlashes } from '../utils/urlSanitize.ts';
 /**
  * Audio Speech Handler (TTS)
  *
@@ -17,25 +17,25 @@ import { stripTrailingSlashes } from "../utils/urlSanitize.ts";
  * - Tortoise TTS: POST { text, voice } → audio binary (local, no auth)
  */
 
-import { getSpeechProvider, parseSpeechModel } from "../config/audioRegistry.ts";
-import { buildAuthHeaders } from "../config/registryUtils.ts";
-import { kieExecutor } from "../executors/kie.ts";
-import { vertexGenerateSpeech } from "../executors/vertexMedia.ts";
-import { handleAwsPollySpeech } from "../executors/awsPollyTts.ts";
-import { handleEdgeTtsSpeech } from "../executors/edgeTts.ts";
-import { GttsUpstreamError, normalizeGttsLang, synthesizeGtts } from "../executors/gtts.ts";
-import { errorResponse } from "../utils/error.ts";
-import { audioStreamResponse, upstreamErrorResponse } from "../utils/audioResponse.ts";
+import { getSpeechProvider, parseSpeechModel } from '../config/audioRegistry.ts';
+import { buildAuthHeaders } from '../config/registryUtils.ts';
+import { kieExecutor } from '../executors/kie.ts';
+import { vertexGenerateSpeech } from '../executors/vertexMedia.ts';
+import { handleAwsPollySpeech } from '../executors/awsPollyTts.ts';
+import { handleEdgeTtsSpeech } from '../executors/edgeTts.ts';
+import { GttsUpstreamError, normalizeGttsLang, synthesizeGtts } from '../executors/gtts.ts';
+import { errorResponse } from '../utils/error.ts';
+import { audioStreamResponse, upstreamErrorResponse } from '../utils/audioResponse.ts';
 import {
   getKieCallbackUrl,
   getKieErrorMessage,
   getKieErrorStatus,
   isJsonObject,
   parseKieResultJson,
-} from "../utils/kieTask.ts";
+} from '../utils/kieTask.ts';
 
 function normalizeKieElevenLabsVoice(voice: unknown): string {
-  const value = typeof voice === "string" ? voice.trim() : "";
+  const value = typeof voice === "string" ? voice.trim() : "';
   const aliases: Record<string, string> = {
     alloy: "Rachel",
     echo: "Adam",
@@ -44,7 +44,7 @@ function normalizeKieElevenLabsVoice(voice: unknown): string {
     nova: "Bella",
     shimmer: "Dorothy",
   };
-  return aliases[value.toLowerCase()] || value || "Rachel";
+  return aliases[value.toLowerCase()] || value || "Rachel';
 }
 
 function findAudioUrlDeep(value: unknown): string | null {
@@ -138,7 +138,7 @@ function getProviderSpecificData(credentials) {
 }
 
 function normalizeXiaomiMimoSpeechUrl(baseUrl) {
-  const configured = getStringValue(baseUrl) || "https://api.xiaomimimo.com/v1";
+  const configured = getStringValue(baseUrl) || "https://api.xiaomimimo.com/v1';
   const normalized = stripTrailingSlashes(configured).replace(/\/chat\/completions$/i, "");
   return `${normalized}/chat/completions`;
 }
@@ -150,10 +150,10 @@ function normalizeXiaomiMimoMimeType(format) {
     case "mp3":
     case "audio/mp3":
     case "audio/mpeg":
-      return "audio/mpeg";
+      return "audio/mpeg';
     case "wav":
     case "audio/wav":
-      return "audio/wav";
+      return "audio/wav';
     default:
       return null;
   }
@@ -232,7 +232,7 @@ async function handleDeepgramSpeech(providerConfig, body, modelId, token) {
  * Handle Soniox TTS (OpenAI speech shape → Soniox /tts, returns raw audio bytes)
  */
 async function handleSonioxSpeech(providerConfig, body, modelId, token) {
-  const fmt = typeof body.response_format === "string" ? body.response_format : "mp3";
+  const fmt = typeof body.response_format === "string" ? body.response_format : "mp3';
   const audioFormat = fmt === "pcm" ? "pcm_s16le" : fmt;
 
   const res = await fetch(providerConfig.baseUrl, {
@@ -253,7 +253,7 @@ async function handleSonioxSpeech(providerConfig, body, modelId, token) {
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = fmt === "wav" ? "audio/wav" : fmt === "opus" ? "audio/opus" : "audio/mpeg";
+  const contentType = fmt === "wav" ? "audio/wav" : fmt === "opus" ? "audio/opus" : "audio/mpeg';
   return audioStreamResponse(res, contentType);
 }
 
@@ -264,7 +264,7 @@ async function handleSonioxSpeech(providerConfig, body, modelId, token) {
  */
 async function handleElevenLabsSpeech(providerConfig, body, modelId, token) {
   // ElevenLabs uses voice_id in URL path; default to "21m00Tcm4TlvDq8ikWAM" (Rachel)
-  const voiceId = body.voice || "21m00Tcm4TlvDq8ikWAM";
+  const voiceId = body.voice || "21m00Tcm4TlvDq8ikWAM';
   if (!isValidPathSegment(voiceId)) {
     return errorResponse(400, "Invalid voice ID");
   }
@@ -354,7 +354,7 @@ const INWORLD_AUDIO_FORMATS = {
 
 async function handleInworldSpeech(providerConfig, body, modelId, token) {
   const requestedFormat =
-    typeof body.response_format === "string" ? body.response_format.toLowerCase() : "mp3";
+    typeof body.response_format === "string" ? body.response_format.toLowerCase() : "mp3';
   const audioFormat = INWORLD_AUDIO_FORMATS[requestedFormat];
   if (!audioFormat) {
     return errorResponse(400, "Inworld TTS supports response_format mp3, wav, opus, or pcm only");
@@ -621,7 +621,7 @@ async function handleXiaomiMimoSpeech(providerConfig, body, modelId, token, cred
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = res.headers.get("content-type") || "";
+  const contentType = res.headers.get("content-type") || "';
   if (contentType.startsWith("audio/")) {
     return audioStreamResponse(res, audioMimeType);
   }
@@ -648,7 +648,7 @@ async function handleXiaomiMimoSpeech(providerConfig, body, modelId, token, cred
  * Port of decolua/9router#1043 by toanalien <toanalien@gmail.com>.
  */
 function hexToBytes(audioHex): Uint8Array<ArrayBuffer> {
-  const clean = typeof audioHex === "string" ? audioHex.trim() : "";
+  const clean = typeof audioHex === "string" ? audioHex.trim() : "';
   if (!clean) throw new Error("MiniMax TTS returned no audio");
   if (clean.length % 2 !== 0 || !/^[0-9a-f]+$/i.test(clean)) {
     throw new Error("MiniMax TTS returned invalid audio");
@@ -662,7 +662,7 @@ function hexToBytes(audioHex): Uint8Array<ArrayBuffer> {
 }
 
 async function handleMinimaxSpeech(providerConfig, body, modelId, token) {
-  const voiceId = (typeof body.voice === "string" && body.voice) || "English_expressive_narrator";
+  const voiceId = (typeof body.voice === "string" && body.voice) || "English_expressive_narrator';
   const res = await fetch(providerConfig.baseUrl, {
     method: "POST",
     headers: {
@@ -717,7 +717,7 @@ async function handleMinimaxSpeech(providerConfig, body, modelId, token) {
   try {
     bytes = hexToBytes(audioField);
   } catch (err) {
-    const msg = err instanceof Error ? err.message : "invalid audio";
+    const msg = err instanceof Error ? err.message : "invalid audio';
     return errorResponse(502, `MiniMax TTS: ${msg}`);
   }
 
@@ -748,7 +748,7 @@ async function handleCoquiSpeech(providerConfig, body) {
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = res.headers.get("content-type") || "audio/wav";
+  const contentType = res.headers.get("content-type") || "audio/wav';
   return new Response(res.body, {
     status: 200,
     headers: {
@@ -775,7 +775,7 @@ async function handleTortoiseSpeech(providerConfig, body) {
     return upstreamErrorResponse(res, await res.text());
   }
 
-  const contentType = res.headers.get("content-type") || "audio/wav";
+  const contentType = res.headers.get("content-type") || "audio/wav';
   return new Response(res.body, {
     status: 200,
     headers: {
@@ -801,7 +801,7 @@ async function handleGttsSpeech(body) {
     });
   } catch (err) {
     const status = err instanceof GttsUpstreamError ? err.status : 502;
-    const message = err instanceof Error ? err.message : "gTTS synthesis failed";
+    const message = err instanceof Error ? err.message : "gTTS synthesis failed';
     return errorResponse(status, message);
   }
 }

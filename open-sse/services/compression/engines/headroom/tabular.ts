@@ -15,30 +15,30 @@
  * for backward-compat decoding and benchmark comparison.
  */
 
-import { encodeGeneric, decodeGeneric } from "./gcf/index.ts";
-import { TOON_FENCE_OPEN, decodeToon } from "./toon.ts";
+import { encodeGeneric, decodeGeneric } from './gcf/index.ts';
+import { TOON_FENCE_OPEN, decodeToon } from './toon.ts';
 
 // ─── fence markers ───────────────────────────────────────────────────────────
 
 /** New GCF fence marker. */
-export const GCF_FENCE_OPEN = "```gcf-generic";
-export const GCF_FENCE_CLOSE = "```";
+export const GCF_FENCE_OPEN = "```gcf-generic';
+export const GCF_FENCE_CLOSE = "```';
 
 /** Legacy fence markers (kept for backward-compat decoding). */
-export const TABULAR_FENCE_OPEN = "```omni-tabular";
-export const TABULAR_FENCE_CLOSE = "```";
+export const TABULAR_FENCE_OPEN = "```omni-tabular';
+export const TABULAR_FENCE_CLOSE = "```';
 export const TABULAR_MARKER_RE = /```(?:gcf-generic|omni-tabular)\n([\s\S]*?)\n```/g;
 
 // ─── legacy types (for backward-compat decoder) ─────────────────────────────
 
-type CellKind = "s" | "n" | "b" | "null" | "j";
+type CellKind = "s" | "n" | "b" | "null" | "j';
 
 export function kindOf(val: unknown): CellKind {
-  if (val === null) return "null";
-  if (typeof val === "number") return "n";
-  if (typeof val === "boolean") return "b";
-  if (typeof val === "object") return "j";
-  return "s";
+  if (val === null) return "null';
+  if (typeof val === "number") return "n';
+  if (typeof val === "boolean") return "b';
+  if (typeof val === "object") return "j';
+  return "s';
 }
 
 // ─── GCF encoder (replaces old encodeTabularBlock) ───────────────────────────
@@ -102,7 +102,7 @@ export function parseCsvRow(line: string): string[] {
 
   while (i < len) {
     if (line[i] === '"') {
-      let cell = "";
+      let cell = "';
       i++;
       while (i < len) {
         if (line[i] === '"') {
@@ -140,7 +140,7 @@ export function parseCsvRow(line: string): string[] {
  * Legacy encoder — preserved for backward-compat testing and benchmarks.
  */
 export function encodeTabularBlockLegacy(arr: Record<string, unknown>[]): string {
-  if (arr.length === 0) return "";
+  if (arr.length === 0) return "';
 
   const keysSet = new Set<string>();
   for (const row of arr) {
@@ -159,7 +159,7 @@ export function encodeTabularBlockLegacy(arr: Record<string, unknown>[]): string
       .map((k) => {
         const val = row[k];
         const kind = kindOf(val);
-        if (kind === "null") return "null";
+        if (kind === "null") return "null';
         if (kind === "n") return String(val);
         if (kind === "b") return String(val);
         return encodeCell(JSON.stringify(val));
@@ -200,14 +200,14 @@ export function decodeTabularBlockLegacy(block: string): Record<string, unknown>
     const obj: Record<string, unknown> = {};
     for (let j = 0; j < keys.length; j++) {
       const key = keys[j];
-      const cell = cells[j] ?? "";
+      const cell = cells[j] ?? "';
       const kind = kinds[j];
       if (kind === "null") {
         obj[key] = null;
       } else if (kind === "n") {
         obj[key] = Number(cell);
       } else if (kind === "b") {
-        obj[key] = cell === "true";
+        obj[key] = cell === "true';
       } else {
         try {
           obj[key] = JSON.parse(cell);

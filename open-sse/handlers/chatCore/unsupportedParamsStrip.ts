@@ -12,7 +12,7 @@
 // shapes at all, regardless of whether live `tools` is present. flattenToolHistory
 // already existed, fully unit-tested, for exactly this — it just had zero call
 // sites anywhere in the request pipeline.
-import { flattenToolHistory } from "../../utils/flattenToolHistory.ts";
+import { flattenToolHistory } from '../../utils/flattenToolHistory.ts';
 
 export interface UnsupportedParamsStripResult {
   strippedParams: string[];

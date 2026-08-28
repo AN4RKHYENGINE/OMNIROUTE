@@ -4,8 +4,8 @@
 // in `data.image_urls`. This normalizes that response into the OpenAI-compatible
 // images payload the rest of the handler expects.
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 interface MinimaxImageGenArgs {
   model: string;
@@ -33,7 +33,7 @@ const MINIMAX_ASPECT_RATIOS = new Set(["1:1", "16:9", "9:16", "4:3", "3:4", "3:2
 
 function mapMinimaxAspectRatio(size?: string): string {
   if (size && MINIMAX_ASPECT_RATIOS.has(size)) return size;
-  return "1:1";
+  return "1:1';
 }
 
 /** Fire-and-forget usage log for a MiniMax image-generation call. */
@@ -91,7 +91,7 @@ interface MinimaxResultCtx {
 /** MiniMax returned 2xx but no images — logs and shapes the empty-result error. */
 function buildMinimaxNoImagesResult(data: unknown, ctx: MinimaxResultCtx) {
   const record = data as { base_resp?: { status_msg?: string } } | undefined;
-  const errorMsg = record?.base_resp?.status_msg || "No images returned from MiniMax";
+  const errorMsg = record?.base_resp?.status_msg || "No images returned from MiniMax';
   logMinimaxCall({
     status: 502,
     model: `${ctx.provider}/${ctx.model}`,
@@ -152,7 +152,7 @@ export async function handleMinimaxImageGeneration({
   log,
 }: MinimaxImageGenArgs) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || credentials?.accessToken || "";
+  const token = credentials?.apiKey || credentials?.accessToken || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   const upstreamBody = buildMinimaxUpstreamBody(model, prompt, body);
 

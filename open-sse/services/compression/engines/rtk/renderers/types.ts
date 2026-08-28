@@ -1,5 +1,5 @@
-import type { CommandDetectionResult } from "../commandDetector.ts";
-import type { RtkConfig } from "../../../types.ts";
+import type { CommandDetectionResult } from '../commandDetector.ts';
+import type { RtkConfig } from '../../../types.ts';
 
 export interface RenderResult {
   text: string;

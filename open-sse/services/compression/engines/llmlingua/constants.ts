@@ -10,7 +10,7 @@
  * models PROVEN to work end-to-end are registered here.
  */
 
-export type LlmlinguaFactory = "WithBERTMultilingual" | "WithXLMRoBERTa";
+export type LlmlinguaFactory = "WithBERTMultilingual" | "WithXLMRoBERTa';
 
 export interface LlmlinguaModelEntry {
   /** config value, e.g. "tinybert" */
@@ -18,14 +18,14 @@ export interface LlmlinguaModelEntry {
   /** HuggingFace Hub repo id */
   hfRepo: string;
   factory: LlmlinguaFactory;
-  dtype: "fp32";
+  dtype: "fp32';
   /** transformers.js subfolder option; "" for both proven models */
   subfolder: string;
   sizeMB: number;
   label: string;
 }
 
-export const DEFAULT_LLMLINGUA_MODEL = "tinybert";
+export const DEFAULT_LLMLINGUA_MODEL = "tinybert';
 
 /** Registry keyed by config `model` value. Only the two PROVEN models. */
 export const LLMLINGUA_MODELS: Record<string, LlmlinguaModelEntry> = {

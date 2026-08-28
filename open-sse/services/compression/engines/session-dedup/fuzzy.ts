@@ -1,5 +1,5 @@
 // open-sse/services/compression/engines/session-dedup/fuzzy.ts
-import { buildCcrMarker, tryStoreBlock } from "../ccr/index.ts";
+import { buildCcrMarker, tryStoreBlock } from '../ccr/index.ts';
 
 type MessageLike = { role?: string; content?: unknown; [key: string]: unknown };
 

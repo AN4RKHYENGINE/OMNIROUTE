@@ -2,7 +2,7 @@
  * LMArena live model list parsing, catalog normalization, and name→UUID resolution.
  */
 
-export const LMARENA_API_BASE = "https://arena.ai";
+export const LMARENA_API_BASE = "https://arena.ai';
 export const LMARENA_STREAM_URL = `${LMARENA_API_BASE}/nextjs-api/stream/create-evaluation`;
 /**
  * Current Chrome stable UA (header surface).
@@ -11,7 +11,7 @@ export const LMARENA_STREAM_URL = `${LMARENA_API_BASE}/nextjs-api/stream/create-
  * fingerprint stays at the newest native profile we can actually impersonate.
  */
 export const LMARENA_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
 export const LMARENA_MODEL_ID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -158,7 +158,7 @@ function lmarenaModelResolutionScore(entry: LMArenaModelMetadata): number {
 }
 
 function getLMArenaPublicModelId(entry: LMArenaModelMetadata): string {
-  return entry.publicName || entry.displayName || entry.name || entry.id || "";
+  return entry.publicName || entry.displayName || entry.name || entry.id || "';
 }
 
 export function normalizeLMArenaModelsForCatalog(models: LMArenaModelMetadata[]): Array<{
@@ -166,7 +166,7 @@ export function normalizeLMArenaModelsForCatalog(models: LMArenaModelMetadata[])
   name: string;
   owned_by: string;
   supportsVision?: boolean;
-  apiFormat: "chat-completions";
+  apiFormat: "chat-completions';
   supportedEndpoints: ["chat"];
 }> {
   const bestByPublicId = new Map<string, { entry: LMArenaModelMetadata; index: number }>();

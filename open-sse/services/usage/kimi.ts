@@ -8,13 +8,13 @@
  * usage.ts imports getKimiUsage (dispatcher). Behavior-preserving move.
  */
 
-import { safePercentage } from "@/shared/utils/formatting";
+import { safePercentage } from '@/shared/utils/formatting';
 import {
   buildKimiCodeIdentityHeaders,
   getKimiCodeCliUserAgent,
-} from "../../config/providers/registry/kimi/coding/runtime.ts";
-import { toRecord, toNumber } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+} from '../../config/providers/registry/kimi/coding/runtime.ts';
+import { toRecord, toNumber } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -31,7 +31,7 @@ const KIMI_CONFIG = {
  * LEVEL_ADVANCED = Allegro, LEVEL_STANDARD = Vivace
  */
 function getKimiPlanName(level: unknown): string {
-  if (!level) return "";
+  if (!level) return "';
   const normalizedLevel = String(level);
 
   const levelMap = {

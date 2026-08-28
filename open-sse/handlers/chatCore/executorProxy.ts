@@ -16,17 +16,17 @@
  * account pool (not a configured bearer key) and has its own server-side model-alias mechanism.
  */
 
-import { getExecutor } from "../../executors/index.ts";
-import { isCliproxyapiDeepModeEnabled } from "../../executors/cliproxyapi.ts";
-import { isDarioDeepModeEnabled } from "../../executors/dario.ts";
-import { getCachedSettings } from "@/lib/db/readCache";
-import { getUpstreamProxyConfigCached } from "./comboContextCache.ts";
-import type { FallbackBackend } from "@/lib/db/upstreamProxy";
-import { wrapExecutorWithCliproxyapiModelMapping } from "./cliproxyModelMapping.ts";
+import { getExecutor } from '../../executors/index.ts';
+import { isCliproxyapiDeepModeEnabled } from '../../executors/cliproxyapi.ts';
+import { isDarioDeepModeEnabled } from '../../executors/dario.ts';
+import { getCachedSettings } from '@/lib/db/readCache';
+import { getUpstreamProxyConfigCached } from './comboContextCache.ts';
+import type { FallbackBackend } from '@/lib/db/upstreamProxy';
+import { wrapExecutorWithCliproxyapiModelMapping } from './cliproxyModelMapping.ts';
 import {
   resolveDedicatedCliproxyapiApiKey,
   wrapExecutorWithCliproxyapiCredentials,
-} from "./cliproxyapiCredentials.ts";
+} from './cliproxyapiCredentials.ts';
 
 type LoggerLike =
   | {
@@ -148,7 +148,7 @@ export async function resolveExecutorWithProxy(
     fallbackBackend === "dario"
       ? getExecutor("dario")
       : resolveCliproxyapiExecutor(cfg.cliproxyapiModelMapping, dedicatedApiKey);
-  const backendLabel = fallbackBackend === "dario" ? "Dario" : "CLIProxyAPI";
+  const backendLabel = fallbackBackend === "dario" ? "Dario" : "CLIProxyAPI';
   const isRetryableStatus = (s: number) => fallbackCodes.includes(s) || s === 0;
 
   const wrapper = Object.create(nativeExec);

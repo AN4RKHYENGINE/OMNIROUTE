@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../../shared.ts";
+import type { RegistryEntry } from '../../../shared.ts';
 
 export const vertex_partnerProvider: RegistryEntry = {
   id: "vertex-partner",

@@ -1,19 +1,19 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from 'node:fs';
 
-import { browserLoginStateExists } from "../../vendor/codex-chatgpt-web/browser-login.ts";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
-import { detectChromeExecutable } from "../chatgpt-web-codex.ts";
-import { decodeChatGptWebCodexSecrets } from "./credentials.ts";
-import { getChatGptWebCodexRuntimeCounts } from "./runtime.ts";
+import { browserLoginStateExists } from '../../vendor/codex-chatgpt-web/browser-login.ts';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
+import { detectChromeExecutable } from '../chatgpt-web-codex.ts';
+import { decodeChatGptWebCodexSecrets } from './credentials.ts';
+import { getChatGptWebCodexRuntimeCounts } from './runtime.ts';
 import {
   connectionRuntimePaths,
   ensureConnectionStorageStateFromCredential,
-} from "./storageState.ts";
+} from './storageState.ts';
 import {
   getTunnelRuntimeStatus,
   tunnelClientPaths,
   tunnelSupervisorLeaseStatus,
-} from "./tunnelClient.ts";
+} from './tunnelClient.ts';
 
 function record(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -27,7 +27,7 @@ export async function getChatGptWebCodexDoctorStatus(connection: {
   providerSpecificData?: unknown;
   lastError?: unknown;
 }) {
-  const connectionId = typeof connection.id === "string" ? connection.id : "";
+  const connectionId = typeof connection.id === "string" ? connection.id : "';
   const data = record(connection.providerSpecificData);
   const paths = connectionRuntimePaths(connectionId);
   const tunnelPaths = tunnelClientPaths();

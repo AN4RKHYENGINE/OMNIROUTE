@@ -14,7 +14,7 @@ import {
   parseCodexQuotaHeaders,
   getCodexModelScope,
   getCodexDualWindowCooldownMs,
-} from "../../executors/codex.ts";
+} from '../../executors/codex.ts';
 
 export type CodexQuotaPersistence = {
   /** The merged providerSpecificData to persist (existing data + codexQuotaState [+ 429 cooldown]). */

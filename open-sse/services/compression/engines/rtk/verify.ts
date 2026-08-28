@@ -1,10 +1,10 @@
-import { estimateCompressionTokens } from "../../stats.ts";
+import { estimateCompressionTokens } from '../../stats.ts';
 import {
   getRtkFilterLoadDiagnostics,
   loadRtkFilters,
   type RtkFilterLoadDiagnostic,
-} from "./filterLoader.ts";
-import { applyLineFilter } from "./lineFilter.ts";
+} from './filterLoader.ts';
+import { applyLineFilter } from './lineFilter.ts';
 
 export interface RtkFilterTestOutcome {
   filterId: string;

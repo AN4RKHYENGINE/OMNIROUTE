@@ -4,7 +4,7 @@ import {
   normalizeBedrockDiscoveredModels,
   resolveBedrockRegion,
   type BedrockDiscoveredModel,
-} from "../config/bedrock.ts";
+} from '../config/bedrock.ts';
 
 export type BedrockNativeFetch = (url: string, init: RequestInit) => Promise<Response>;
 
@@ -23,7 +23,7 @@ export class BedrockNativeApiError extends Error {
 
   constructor(message: string, options: { status?: number | null; url: string; body?: unknown }) {
     super(message);
-    this.name = "BedrockNativeApiError";
+    this.name = "BedrockNativeApiError';
     this.status = typeof options.status === "number" ? options.status : null;
     this.url = options.url;
     this.body = options.body ?? null;

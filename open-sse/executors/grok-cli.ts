@@ -6,16 +6,16 @@
  * proxy-aware fetch dispatch, upstream-header merging, and credential-refresh persistence.
  */
 
-import { PROVIDERS } from "../config/constants.ts";
+import { PROVIDERS } from '../config/constants.ts';
 import {
   getGrokBuildSessionHeaders,
   GROK_BUILD_DEFAULT_REASONING_EFFORT,
   GROK_BUILD_REASONING_INCLUDE,
   GROK_BUILD_RESPONSES_URL,
   GROK_BUILD_TOKEN_URL,
-} from "../config/grokBuild.ts";
-import { resolvePublicCred } from "../utils/publicCreds.ts";
-import { BaseExecutor, type ExecutorLog, type ProviderCredentials } from "./base.ts";
+} from '../config/grokBuild.ts';
+import { resolvePublicCred } from '../utils/publicCreds.ts';
+import { BaseExecutor, type ExecutorLog, type ProviderCredentials } from './base.ts';
 
 const GROK_BUILD_MAX_TOOLS = 200;
 const GROK_BUILD_SUPPORTED_REASONING_EFFORTS = new Set(["low", "medium", "high"]);
@@ -43,7 +43,7 @@ const GROK_BUILD_UNSUPPORTED_PARAMS = [
  * Normalize outputs to valid JSON text (or plain text) before dispatch (#7611).
  */
 function sanitizeGrokBuildFunctionCallOutput(output: unknown): string {
-  if (output == null) return "";
+  if (output == null) return "';
   if (typeof output === "string") {
     const value = output;
     try {
@@ -285,7 +285,7 @@ export class GrokCliExecutor extends BaseExecutor {
     const base = super.transformRequest(model, body, stream, _credentials);
     const transformed = asRequestRecord(base);
     if (!transformed.model) {
-      transformed.model = model || "grok-composer-2.5-fast";
+      transformed.model = model || "grok-composer-2.5-fast';
     }
     transformed.stream = !!stream;
 

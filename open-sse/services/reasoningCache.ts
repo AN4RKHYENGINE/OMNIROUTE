@@ -22,7 +22,7 @@ import {
   getReasoningCacheStats,
   setReasoningCache,
 } from '@lib/db/reasoningCache.ts';
-import { isInternalReasoningPlaceholder } from "../utils/reasoningPlaceholder.ts";
+import { isInternalReasoningPlaceholder } from '../utils/reasoningPlaceholder.ts';
 
 // ──────────────── Provider/Model Detection ────────────────
 
@@ -90,7 +90,7 @@ export function requiresReasoningReplay(params: {
   const normalizedProvider = params.provider.trim().toLowerCase();
   const normalizedModel = params.model.trim();
   const normalizedInterleavedField =
-    typeof params.interleavedField === "string" ? params.interleavedField.trim().toLowerCase() : "";
+    typeof params.interleavedField === "string" ? params.interleavedField.trim().toLowerCase() : "';
 
   // Explicit model signal from models.dev (preferred source of truth).
   if (normalizedInterleavedField === "reasoning_content") return true;
@@ -271,7 +271,7 @@ export function cacheReasoningFromAssistantMessage(
       ? message.reasoning_content
       : typeof message.reasoning === "string" && message.reasoning.length > 0
         ? message.reasoning
-        : "";
+        : "';
   if (!reasoning) return 0;
   // ponytail: don't capture the echoed placeholder into the cache.
   if (isInternalReasoningPlaceholder(reasoning)) return 0;
@@ -406,7 +406,7 @@ export function getReasoningCacheServiceStats(): {
   }
 
   const totalLookups = hits + misses;
-  const replayRate = totalLookups > 0 ? ((replays / totalLookups) * 100).toFixed(1) : "0.0";
+  const replayRate = totalLookups > 0 ? ((replays / totalLookups) * 100).toFixed(1) : "0.0';
 
   return {
     memoryEntries: memoryCache.size,

@@ -1,6 +1,6 @@
-import { isVisionModelId } from "@/shared/constants/visionModels";
-import type { CompressionResult, CompressionMode } from "./types.ts";
-import { createCompressionStats } from "./stats.ts";
+import { isVisionModelId } from '@/shared/constants/visionModels';
+import type { CompressionResult, CompressionMode } from './types.ts';
+import { createCompressionStats } from './stats.ts';
 
 interface Message {
   role: string;
@@ -31,7 +31,7 @@ function trimTrailingHorizontalWhitespace(line: string): string {
 }
 
 function collapseNewlineRuns(content: string): string {
-  let normalized = "";
+  let normalized = "';
   let newlineRun = 0;
 
   for (const char of content) {
@@ -227,7 +227,7 @@ export function replaceImageUrls(
         );
         if (url.startsWith("data:image/")) {
           applied = true;
-          const format = url.slice(url.indexOf("/") + 1, url.indexOf(";")) || "unknown";
+          const format = url.slice(url.indexOf("/") + 1, url.indexOf(";")) || "unknown';
           return { type: "text", text: `[image: ${format}]` };
         }
       }

@@ -12,7 +12,7 @@
  * (`COMPRESSION_PREFIX_FREEZE_ENABLED`); when off the observer is never consulted (zero cost).
  */
 
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 
 export interface PrefixFreezeConfig {
   /** Master switch. Default false — the resolver never observes/consults when off. */

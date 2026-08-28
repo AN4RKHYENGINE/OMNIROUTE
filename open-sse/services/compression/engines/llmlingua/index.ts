@@ -44,17 +44,17 @@
  * is exercised on the VPS behind RUN_LLMLINGUA_INT (Hard Rule #18). See `./worker.ts`.
  */
 
-import { createCompressionStats, estimateCompressionTokens } from "../../stats.ts";
-import { extractPreservedBlocks } from "../../preservation.ts";
+import { createCompressionStats, estimateCompressionTokens } from '../../stats.ts';
+import { extractPreservedBlocks } from '../../preservation.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
-import { workerBackend } from "./worker.ts";
-import { LLMLINGUA_MODELS, DEFAULT_LLMLINGUA_MODEL } from "./constants.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
+import { workerBackend } from './worker.ts';
+import { LLMLINGUA_MODELS, DEFAULT_LLMLINGUA_MODEL } from './constants.ts';
 
 // ─── backend abstraction ──────────────────────────────────────────────────────
 
@@ -90,7 +90,7 @@ function resolveBackend(): LlmlinguaBackend {
 // ─── prose/code splitting ─────────────────────────────────────────────────────
 
 interface TextSegment {
-  kind: "prose" | "preserved";
+  kind: "prose" | "preserved';
   text: string;
 }
 
@@ -326,7 +326,7 @@ function validateLlmlinguaConfig(config: Record<string, unknown>): EngineValidat
 
 // ─── engine export ─────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "llmlingua";
+const ENGINE_ID = "llmlingua';
 
 export const llmlinguaEngine: CompressionEngine = {
   id: ENGINE_ID,

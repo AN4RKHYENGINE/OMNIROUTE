@@ -1,4 +1,4 @@
-import type { RegistryEntry, RegistryModel } from "./providers/shared.ts";
+import type { RegistryEntry, RegistryModel } from './providers/shared.ts';
 
 export type ProviderPluginCapability =
   | "apikey"
@@ -6,7 +6,7 @@ export type ProviderPluginCapability =
   | "oauth"
   | "passthrough-models"
   | "responses"
-  | "sidecar-candidate";
+  | "sidecar-candidate';
 
 export interface ProviderPluginModel {
   id: string;
@@ -50,7 +50,7 @@ export interface ProviderPluginManifestEntry {
 
 export interface ProviderPluginManifest {
   schemaVersion: 1;
-  generatedFrom: "open-sse/config/providers";
+  generatedFrom: "open-sse/config/providers';
   providers: ProviderPluginManifestEntry[];
 }
 

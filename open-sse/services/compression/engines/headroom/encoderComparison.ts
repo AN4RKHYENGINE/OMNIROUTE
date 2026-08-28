@@ -5,9 +5,9 @@
  * import the app-side tiktoken counter). Fail-open: if TOON is unavailable on any
  * array, toonAvailable=false and TOON is not eligible as winner.
  */
-import { encodeTabularBlock, wrapTabular } from "./tabular.ts";
-import { encodeToonBlock, wrapToon } from "./toon.ts";
-import { collectCompactableArrays } from "./smartcrusher.ts";
+import { encodeTabularBlock, wrapTabular } from './tabular.ts';
+import { encodeToonBlock, wrapToon } from './toon.ts';
+import { collectCompactableArrays } from './smartcrusher.ts';
 
 export interface EncoderSize {
   bytes: number;
@@ -19,7 +19,7 @@ export interface EncoderComparison {
   gcf: EncoderSize;
   toon: EncoderSize;
   toonAvailable: boolean;
-  winner: "gcf" | "toon" | "json";
+  winner: "gcf" | "toon" | "json';
 }
 
 type MessageLike = { role?: string; content?: unknown };

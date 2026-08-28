@@ -1,4 +1,4 @@
-import type { EvalCase } from "./types.ts";
+import type { EvalCase } from './types.ts';
 
 /**
  * Curated seed corpus (D-D5). Small, diverse content kinds; pinned for reproducible runs.

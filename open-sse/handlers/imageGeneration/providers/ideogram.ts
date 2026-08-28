@@ -2,8 +2,8 @@
 // Family: ideogram | Module: ideogram | Lines: 3559-3669 (111 LOC)
 // Ref: see open-sse/handlers/imageGeneration.ts top-of-file comment for split rationale
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 export async function handleIdeogramImageGeneration({
   model,
@@ -14,7 +14,7 @@ export async function handleIdeogramImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "";
+  const token = credentials?.apiKey || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   if (log) {
     log.info("IMAGE", `${provider}/${model} (ideogram) | prompt: "${prompt.slice(0, 60)}..."`);

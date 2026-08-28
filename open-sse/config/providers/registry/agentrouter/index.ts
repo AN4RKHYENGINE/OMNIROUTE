@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { getCodexCliRsHeaders } from "../../../codexClient.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { getCodexCliRsHeaders } from '../../../codexClient.ts';
 
 export const agentrouterProvider: RegistryEntry = {
   id: "agentrouter",

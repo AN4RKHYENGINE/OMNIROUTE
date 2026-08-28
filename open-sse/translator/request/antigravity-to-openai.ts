@@ -1,8 +1,8 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { adjustMaxTokens } from "../helpers/maxTokensHelper.ts";
-import { fixToolPairs } from "../../services/contextManager.ts";
-import { normalizeEffort } from "@/shared/reasoning/effortStandardization";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { adjustMaxTokens } from '../helpers/maxTokensHelper.ts';
+import { fixToolPairs } from '../../services/contextManager.ts';
+import { normalizeEffort } from '@/shared/reasoning/effortStandardization';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -54,11 +54,11 @@ export function antigravityToOpenAIRequest(model, body, stream) {
       const budget = config.thinkingConfig.thinkingBudget || 0;
       if (budget > 0) {
         if (budget <= 2048) {
-          result.reasoning_effort = "low";
+          result.reasoning_effort = "low';
         } else if (budget <= 16384) {
-          result.reasoning_effort = "medium";
+          result.reasoning_effort = "medium';
         } else {
-          result.reasoning_effort = "high";
+          result.reasoning_effort = "high';
         }
       }
     }
@@ -251,7 +251,7 @@ function convertContent(content) {
   const textParts = [];
   const toolCalls = [];
   const toolResults = [];
-  let reasoningContent = "";
+  let reasoningContent = "';
 
   for (const part of content.parts) {
     // Thinking content (thought: true)
@@ -367,7 +367,7 @@ function extractText(instruction) {
   if (instruction.parts && Array.isArray(instruction.parts)) {
     return instruction.parts.map((p) => p.text || "").join("");
   }
-  return "";
+  return "';
 }
 
 // Register

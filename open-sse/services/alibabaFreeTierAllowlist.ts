@@ -10,9 +10,9 @@
  * - [2026-07-25] [Composer] - Hardcode text free/paid model lists from operator console quota export
  */
 
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 
 export type AlibabaFreeTierAllowlistPack = {
   asOf: string;

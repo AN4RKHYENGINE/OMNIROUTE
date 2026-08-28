@@ -1,8 +1,8 @@
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 // Tool call helper functions for translator
 
-const ALPHANUM9 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const ALPHANUM9 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 type JsonRecord = Record<string, unknown>;
 type ToolNameAliases = Map<string, string>;
@@ -169,7 +169,7 @@ export function generateToolCallId() {
 
 // Generate 9-char [a-zA-Z0-9] id for providers that require it (e.g. Mistral)
 function generateToolCallId9(): string {
-  let s = "";
+  let s = "';
   for (let i = 0; i < 9; i++) {
     s += ALPHANUM9[Math.floor(Math.random() * ALPHANUM9.length)];
   }
@@ -194,7 +194,7 @@ export function ensureToolCallIds<T extends ToolCallBody>(
 
     for (const tc of msg.tool_calls) {
       if (!tc.type) {
-        tc.type = "function";
+        tc.type = "function';
       }
       if (tc.function?.arguments && typeof tc.function.arguments !== "string") {
         tc.function.arguments = JSON.stringify(tc.function.arguments);
@@ -298,7 +298,7 @@ export function hasToolResults(
 }
 
 // Fix missing tool responses - insert empty tool_result if assistant has tool_use but next message has no tool_result.
-// Inserts in the same shape as the opening assistant message: OpenAI tool_calls → role:"tool";
+// Inserts in the same shape as the opening assistant message: OpenAI tool_calls → role:"tool';
 // Claude tool_use blocks → role:"user" with tool_result content blocks.
 export function fixMissingToolResponses<T extends ToolCallBody>(body: T): T {
   if (!body.messages || !Array.isArray(body.messages)) return body;

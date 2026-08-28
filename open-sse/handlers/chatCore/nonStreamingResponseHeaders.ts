@@ -8,8 +8,8 @@
  * (returns a fresh map; only mutates the map it owns). Behaviour is byte-identical to the previous
  * inline block, including `latencyMs: now - startTime`.
  */
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
-import { attachOmniRouteMetaHeaders as defaultAttachMeta } from "@/domain/omnirouteResponseMeta";
+import { OMNIROUTE_RESPONSE_HEADERS } from '@/shared/constants/headers';
+import { attachOmniRouteMetaHeaders as defaultAttachMeta } from '@/domain/omnirouteResponseMeta';
 
 export function buildNonStreamingResponseHeaders(
   args: {

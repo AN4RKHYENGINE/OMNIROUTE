@@ -12,8 +12,8 @@
  *   but `user` matches the current web client)
  * - Assistant turns as `agent-inference` text parts
  */
-import { randomUUID } from "node:crypto";
-import { extractNotionMessageText, type NotionMessage } from "./notionThreadSessions.ts";
+import { randomUUID } from 'node:crypto';
+import { extractNotionMessageText, type NotionMessage } from './notionThreadSessions.ts';
 
 /** Custom Notion AI agent (workflow) options from account credential / providerSpecificData. */
 export interface NotionAgentOptions {
@@ -102,7 +102,7 @@ function buildNotionMessageStep(
 
   if (role === "system") {
     // Fold system prompts into context instructions rather than a separate step.
-    const existing = typeof contextValue.instructions === "string" ? contextValue.instructions : "";
+    const existing = typeof contextValue.instructions === "string" ? contextValue.instructions : "';
     contextValue.instructions = existing ? `${existing}\n${text}` : text;
     return null;
   }
@@ -150,7 +150,7 @@ export function messagesForNotionTranscript(
   if (slice.length === 0) {
     const lastUser = [...messages].reverse().find((m) => {
       const r = (m.role || "").toLowerCase();
-      return r === "user" || r === "human";
+      return r === "user" || r === "human';
     });
     return lastUser ? [lastUser] : messages;
   }
@@ -168,8 +168,8 @@ export function buildNotionTranscript(
     isFollowUp?: boolean;
   } = {}
 ): Array<Record<string, unknown>> {
-  const trimmedModel = typeof opts.notionModel === "string" ? opts.notionModel.trim() : "";
-  const model = trimmedModel && trimmedModel !== "notion-ai" ? trimmedModel : "";
+  const trimmedModel = typeof opts.notionModel === "string" ? opts.notionModel.trim() : "';
+  const model = trimmedModel && trimmedModel !== "notion-ai" ? trimmedModel : "';
   const now = isoNow();
   const agent = opts.agent?.workflowId ? opts.agent : undefined;
   const isFollowUp = Boolean(opts.isFollowUp);

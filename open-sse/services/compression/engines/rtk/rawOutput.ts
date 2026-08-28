@@ -1,11 +1,11 @@
-import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
-import crypto from "node:crypto";
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import crypto from 'node:crypto';
 
-import type { CommandSample } from "./discover.ts";
+import type { CommandSample } from './discover.ts';
 
-export type RtkRawOutputRetention = "never" | "failures" | "always";
+export type RtkRawOutputRetention = "never" | "failures" | "always';
 
 export interface RtkRawOutputPointer {
   id: string;
@@ -40,7 +40,7 @@ function safeId(seed: string): string {
 function safeUtf8Slice(value: string, maxBytes: number): string {
   if (maxBytes <= 0 || Buffer.byteLength(value, "utf8") <= maxBytes) return value;
   let bytes = 0;
-  let output = "";
+  let output = "';
   for (const char of value) {
     const len = Buffer.byteLength(char, "utf8");
     if (bytes + len > maxBytes) break;
@@ -192,7 +192,7 @@ export function listRtkCommandSamples(opts: { limit?: number } = {}): CommandSam
     }
     if (output.trim().length === 0) continue;
 
-    let command = "";
+    let command = "';
     try {
       const metaRaw = fs.readFileSync(fullPath.replace(/\.log$/, ".meta.json"), "utf8");
       const meta = JSON.parse(metaRaw) as { command?: unknown };
@@ -200,7 +200,7 @@ export function listRtkCommandSamples(opts: { limit?: number } = {}): CommandSam
     } catch {
       // No/!invalid sidecar → fall back to the filename slug below.
     }
-    if (!command) command = commandFromSlug(fileName) || "tool-output";
+    if (!command) command = commandFromSlug(fileName) || "tool-output';
 
     samples.push({ command, output });
   }

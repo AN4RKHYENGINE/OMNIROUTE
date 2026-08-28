@@ -5,17 +5,17 @@
  * Each provider has its own request format and endpoint.
  */
 
-import { LMARENA_DIRECT_IMAGE_MODELS } from "./providers/registry/lmarena/directModels.ts";
-import { SEGMIND_IMAGE_PROVIDER } from "./providers/registry/segmind/imageModels.ts";
-import { KIE_IMAGE_MODELS } from "./providers/registry/kie/imageModels.ts";
-import { FREEPIK_IMAGE_PROVIDER } from "./providers/registry/freepik/index.ts";
-import { STABILITY_AI_IMAGE_MODELS } from "./providers/registry/stability-ai/imageModels.ts";
-import { GEMINI_IMAGEN_PROVIDER } from "./providers/registry/gemini/imageModels.ts";
-import { CHEAPERINFERENCE_IMAGE_PROVIDER } from "./providers/registry/cheaperinference/imageModels.ts";
+import { LMARENA_DIRECT_IMAGE_MODELS } from './providers/registry/lmarena/directModels.ts';
+import { SEGMIND_IMAGE_PROVIDER } from './providers/registry/segmind/imageModels.ts';
+import { KIE_IMAGE_MODELS } from './providers/registry/kie/imageModels.ts';
+import { FREEPIK_IMAGE_PROVIDER } from './providers/registry/freepik/index.ts';
+import { STABILITY_AI_IMAGE_MODELS } from './providers/registry/stability-ai/imageModels.ts';
+import { GEMINI_IMAGEN_PROVIDER } from './providers/registry/gemini/imageModels.ts';
+import { CHEAPERINFERENCE_IMAGE_PROVIDER } from './providers/registry/cheaperinference/imageModels.ts';
 import {
   ADOBE_FIREFLY_IMAGE_ROUTING_ALIASES,
   toRegistryImageModels,
-} from "../services/adobeFireflyModels.ts";
+} from '../services/adobeFireflyModels.ts';
 
 interface ImageModelEntry {
   id: string;

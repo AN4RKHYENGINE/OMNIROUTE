@@ -1,5 +1,5 @@
-import { Agent, buildConnector, type Dispatcher } from "undici";
-import { SocksClient, type SocksProxy } from "socks";
+import { Agent, buildConnector, type Dispatcher } from 'undici';
+import { SocksClient, type SocksProxy } from 'socks';
 
 const DEFAULT_SOCKS_HANDSHAKE_TIMEOUT_MS = 10_000;
 const MAX_SOCKS_HANDSHAKE_TIMEOUT_MS = 120_000;

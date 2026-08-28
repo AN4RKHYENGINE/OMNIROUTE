@@ -24,15 +24,15 @@
  * code to the backend. System messages are never touched.
  */
 
-import { createCompressionStats, estimateCompressionTokens } from "../../stats.ts";
-import { extractPreservedBlocks } from "../../preservation.ts";
+import { createCompressionStats, estimateCompressionTokens } from '../../stats.ts';
+import { extractPreservedBlocks } from '../../preservation.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
 
 // ─── backend abstraction ──────────────────────────────────────────────────────
 
@@ -68,7 +68,7 @@ function resolveBackend(): LlmCompressorBackend {
 // ─── prose / code splitting (code is never sent to the backend) ─────────────────
 
 interface TextSegment {
-  kind: "prose" | "preserved";
+  kind: "prose" | "preserved';
   text: string;
 }
 
@@ -237,7 +237,7 @@ function validateLlmCompressorConfig(config: Record<string, unknown>): EngineVal
 
 // ─── engine export ──────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "llm";
+const ENGINE_ID = "llm';
 
 export const llmCompressorEngine: CompressionEngine = {
   id: ENGINE_ID,

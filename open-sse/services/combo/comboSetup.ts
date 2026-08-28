@@ -9,19 +9,19 @@
  *
  * See _tasks/quality/2026-06-19-DESIGN-godfiles-decomposition.md §4.
  */
-import { normalizeRoutingStrategy } from "@shared/constants/routingStrategies.ts";
+import { normalizeRoutingStrategy } from '@shared/constants/routingStrategies.ts';
 import {
   resolveContextRelayConfig,
   resolveUniversalHandoffConfig,
   SKIP_UNIVERSAL_HANDOFF_FLAG,
-} from "../contextHandoff.ts";
-import { getLastSessionModel } from "@lib/db/contextHandoffs.ts";
-import { applyComboAgentMiddleware } from "../comboAgentMiddleware.ts";
-import { resolveComboSetupConfig, resolveComboTargetTimeoutMsForCombo } from "../comboConfig.ts";
-import { resolveResilienceSettings } from "@lib/resilience/settings";
-import { FETCH_TIMEOUT_MS } from "../../config/constants.ts";
-import { deriveComboSessionKey } from "./autoStrategy.ts";
-import type { ComboContext } from "./context.ts";
+} from '../contextHandoff.ts';
+import { getLastSessionModel } from '@lib/db/contextHandoffs.ts';
+import { applyComboAgentMiddleware } from '../comboAgentMiddleware.ts';
+import { resolveComboSetupConfig, resolveComboTargetTimeoutMsForCombo } from '../comboConfig.ts';
+import { resolveResilienceSettings } from '@lib/resilience/settings';
+import { FETCH_TIMEOUT_MS } from '../../config/constants.ts';
+import { deriveComboSessionKey } from './autoStrategy.ts';
+import type { ComboContext } from './context.ts';
 
 export interface ComboSetup {
   strategy: ReturnType<typeof normalizeRoutingStrategy>;

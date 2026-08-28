@@ -14,8 +14,8 @@
  * `null`, and callers should skip the `finally` release when the return value
  * is `null`.
  */
-import * as semaphore from "../../services/rateLimitSemaphore.ts";
-import { getProviderConcurrencyCap } from "../../services/providerDefaultRateLimit.ts";
+import * as semaphore from '../../services/rateLimitSemaphore.ts';
+import { getProviderConcurrencyCap } from '../../services/providerDefaultRateLimit.ts';
 
 const NVIDIA_DEFAULT_CONCURRENCY_CAP = 6;
 const NVIDIA_ACQUIRE_TIMEOUT_MS = 30_000;

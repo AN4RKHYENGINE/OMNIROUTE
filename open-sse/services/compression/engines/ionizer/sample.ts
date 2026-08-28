@@ -1,5 +1,5 @@
 // open-sse/services/compression/engines/ionizer/sample.ts
-import { tryStoreBlock } from "../ccr/index.ts";
+import { tryStoreBlock } from '../ccr/index.ts';
 
 type MessageLike = { role?: string; content?: unknown; [key: string]: unknown };
 

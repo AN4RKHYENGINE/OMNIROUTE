@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // FreeTheAi — OpenAI-compatible gateway with a Discord-signup free tier
 // (issue #6670). Same shape as the hackclub/chutes aggregator entries:

@@ -7,7 +7,7 @@
 // effect even when the stacked-pipeline step itself carries no config. #8388 extends the same
 // merge to session-dedup and ccr, whose detail settings previously had nowhere to persist to
 // (see compressionDetailNormalizers.ts on the DB write side of the same gap).
-import type { CompressionConfig, CompressionPipelineStep } from "./types.ts";
+import type { CompressionConfig, CompressionPipelineStep } from './types.ts';
 
 export function resolveStepDetailConfig(
   engine: CompressionPipelineStep["engine"],

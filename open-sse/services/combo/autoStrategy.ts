@@ -20,31 +20,31 @@
  * import cycle. This module never imports from the combo barrel.
  */
 
-import { isRecord } from "./comboData.ts";
+import { isRecord } from './comboData.ts';
 import type {
   AutoProviderCandidate,
   ComboLike,
   HistoricalLatencyStatsEntry,
   ResolvedComboTarget,
-} from "./types.ts";
-import { extractSessionAffinityKey } from "@/sse/services/auth";
-import { DEFAULT_INTENT_CONFIG, type IntentClassifierConfig } from "../intentClassifier.ts";
-import { getTaskFitness } from "../autoCombo/taskFitness.ts";
+} from './types.ts';
+import { extractSessionAffinityKey } from '@/sse/services/auth';
+import { DEFAULT_INTENT_CONFIG, type IntentClassifierConfig } from '../intentClassifier.ts';
+import { getTaskFitness } from '../autoCombo/taskFitness.ts';
 import {
   calculateFactors,
   calculateScore,
   computePoolMaxima,
   type ProviderCandidate,
   type ScoringWeights,
-} from "../autoCombo/scoring.ts";
-import type { RoutingHint } from "../manifestAdapter";
-import { getCachedProviderConnections } from "@lib/db/readCache";
-import { getProviderModels } from "../../config/providerModels.ts";
+} from '../autoCombo/scoring.ts';
+import type { RoutingHint } from '../manifestAdapter';
+import { getCachedProviderConnections } from '@lib/db/readCache';
+import { getProviderModels } from '../../config/providerModels.ts';
 import {
   getConnectionRoutingTags,
   matchesRoutingTags,
   resolveRequestRoutingTags,
-} from "../../../src/domain/tagRouter.ts";
+} from '../../../src/domain/tagRouter.ts';
 
 // Quota Share soft-policy deprioritization factor (B17).
 // When a candidate has quotaSoftPenalty === true, its auto-combo score is
@@ -132,18 +132,18 @@ export function _unregisterExecutionCandidates(executionKeys: string[]): void {
 
 function toTextContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
   return content
     .map((part) => {
-      if (!isRecord(part)) return "";
+      if (!isRecord(part)) return "';
       if (typeof part.text === "string") return part.text;
-      return "";
+      return "';
     })
     .join("\n");
 }
 
 export function extractPromptForIntent(body: Record<string, unknown> | null | undefined): string {
-  if (!body || typeof body !== "object") return "";
+  if (!body || typeof body !== "object") return "';
 
   const fromMessages = Array.isArray(body.messages)
     ? [...body.messages].reverse().find((m) => isRecord(m) && m.role === "user")
@@ -154,10 +154,10 @@ export function extractPromptForIntent(body: Record<string, unknown> | null | un
   if (Array.isArray(body.input)) {
     const text = body.input
       .map((item) => {
-        if (!isRecord(item)) return "";
+        if (!isRecord(item)) return "';
         if (typeof item.content === "string") return item.content;
         if (typeof item.text === "string") return item.text;
-        return "";
+        return "';
       })
       .filter(Boolean)
       .join("\n");
@@ -165,20 +165,20 @@ export function extractPromptForIntent(body: Record<string, unknown> | null | un
   }
 
   if (typeof body.prompt === "string") return body.prompt;
-  return "";
+  return "';
 }
 
 export function mapIntentToTaskType(intent: string): "coding" | "analysis" | "default" {
   switch (intent) {
     case "code":
-      return "coding";
+      return "coding';
     case "reasoning":
-      return "analysis";
+      return "analysis';
     case "simple":
-      return "default";
+      return "default';
     case "medium":
     default:
-      return "default";
+      return "default';
   }
 }
 

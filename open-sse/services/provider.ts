@@ -1,23 +1,23 @@
 // @ts-nocheck
-import { PROVIDERS } from "../config/constants.ts";
-import { getRegistryEntry } from "../config/providerRegistry.ts";
-import { resolveAlternateFormat } from "../config/providers/alternateFormats.ts";
+import { PROVIDERS } from '../config/constants.ts';
+import { getRegistryEntry } from '../config/providerRegistry.ts';
+import { resolveAlternateFormat } from '../config/providers/alternateFormats.ts';
 import {
   buildClaudeCodeCompatibleHeaders,
   CLAUDE_CODE_COMPATIBLE_DEFAULT_CHAT_PATH,
   joinClaudeCodeCompatibleUrl,
-} from "./claudeCodeCompatible.ts";
-import { getClaudeCodeCompatibleRequestDefaults } from "@/lib/providers/requestDefaults";
-import { buildClineHeaders } from "@/shared/utils/clineAuth";
-import { usesCcWireImage } from "./ccWireImageBuiltins.ts";
+} from './claudeCodeCompatible.ts';
+import { getClaudeCodeCompatibleRequestDefaults } from '@/lib/providers/requestDefaults';
+import { buildClineHeaders } from '@/shared/utils/clineAuth';
+import { usesCcWireImage } from './ccWireImageBuiltins.ts';
 
-const OPENAI_COMPATIBLE_PREFIX = "openai-compatible-";
+const OPENAI_COMPATIBLE_PREFIX = "openai-compatible-';
 const OPENAI_COMPATIBLE_DEFAULTS = {
   baseUrl: "https://api.openai.com/v1",
 };
 
-const ANTHROPIC_COMPATIBLE_PREFIX = "anthropic-compatible-";
-const CLAUDE_CODE_COMPATIBLE_PREFIX = "anthropic-compatible-cc-";
+const ANTHROPIC_COMPATIBLE_PREFIX = "anthropic-compatible-';
+const CLAUDE_CODE_COMPATIBLE_PREFIX = "anthropic-compatible-cc-';
 const ANTHROPIC_COMPATIBLE_DEFAULTS = {
   baseUrl: "https://api.anthropic.com/v1",
 };
@@ -43,7 +43,7 @@ export function getOpenAICompatibleType(
   provider,
   providerSpecificData: Record<string, unknown> | null = null
 ) {
-  if (!isOpenAICompatible(provider)) return "chat";
+  if (!isOpenAICompatible(provider)) return "chat';
   const configuredType =
     providerSpecificData &&
     typeof providerSpecificData === "object" &&
@@ -60,27 +60,27 @@ export function getOpenAICompatibleType(
   ) {
     return configuredType;
   }
-  if (provider.includes("responses")) return "responses";
-  if (provider.includes("embeddings")) return "embeddings";
-  if (provider.includes("audio-transcriptions")) return "audio-transcriptions";
-  if (provider.includes("audio-speech")) return "audio-speech";
-  if (provider.includes("images-generations")) return "images-generations";
-  return "chat";
+  if (provider.includes("responses")) return "responses';
+  if (provider.includes("embeddings")) return "embeddings';
+  if (provider.includes("audio-transcriptions")) return "audio-transcriptions';
+  if (provider.includes("audio-speech")) return "audio-speech';
+  if (provider.includes("images-generations")) return "images-generations';
+  return "chat';
 }
 
 function buildOpenAICompatibleUrl(baseUrl, apiType) {
   const normalized = baseUrl.replace(/\/$/, "");
-  let path = "/chat/completions";
+  let path = "/chat/completions';
   if (apiType === "responses") {
-    path = "/responses";
+    path = "/responses';
   } else if (apiType === "embeddings") {
-    path = "/embeddings";
+    path = "/embeddings';
   } else if (apiType === "audio-transcriptions") {
-    path = "/audio/transcriptions";
+    path = "/audio/transcriptions';
   } else if (apiType === "audio-speech") {
-    path = "/audio/speech";
+    path = "/audio/speech';
   } else if (apiType === "images-generations") {
-    path = "/images/generations";
+    path = "/images/generations';
   }
   return `${normalized}${path}`;
 }
@@ -97,11 +97,11 @@ export function detectFormatFromEndpoint(body, endpointPath = "") {
   const path = String(endpointPath || "");
 
   if (/\/responses(?=\/|$)/i.test(path) || /^responses(?=\/|$)/i.test(path)) {
-    return "openai-responses";
+    return "openai-responses';
   }
 
   if (/\/messages(?=\/|$)/i.test(path) || /^messages(?=\/|$)/i.test(path)) {
-    return "claude";
+    return "claude';
   }
 
   // Antigravity/cloudcode-compatible inbound endpoint (D4): the AgentBridge
@@ -110,7 +110,7 @@ export function detectFormatFromEndpoint(body, endpointPath = "") {
   // antigravity→openai and the response openai→antigravity, so the IDE gets
   // a cloudcode reply regardless of which provider actually served it.
   if (/\/antigravity(?=\/|:|$)/i.test(path) || /^antigravity(?=\/|:|$)/i.test(path)) {
-    return "antigravity";
+    return "antigravity';
   }
 
   if (
@@ -124,9 +124,9 @@ export function detectFormatFromEndpoint(body, endpointPath = "") {
       body.input !== undefined &&
       body.messages === undefined
     ) {
-      return "openai-responses";
+      return "openai-responses';
     }
-    return "openai";
+    return "openai';
   }
 
   return detectFormat(body);
@@ -135,7 +135,7 @@ export function detectFormatFromEndpoint(body, endpointPath = "") {
 // Thin wrapper for call sites that only have the full request URL (not the bare endpoint
 // path chatCore already threads) — single source of truth stays detectFormatFromEndpoint.
 export function detectFormatFromUrl(body, requestUrl) {
-  const rawUrl = typeof requestUrl === "string" ? requestUrl : "";
+  const rawUrl = typeof requestUrl === "string" ? requestUrl : "';
   let pathname = rawUrl;
   try {
     // Supplying a base URL keeps relative client endpoints (for example,
@@ -160,17 +160,17 @@ export function detectFormat(body) {
     body.previous_response_id !== undefined ||
     body.reasoning !== undefined;
   if (hasInputField || hasResponsesSpecificFields) {
-    return "openai-responses";
+    return "openai-responses';
   }
 
   // Antigravity format: Gemini wrapped in body.request
   if (body.request?.contents && body.userAgent === "antigravity") {
-    return "antigravity";
+    return "antigravity';
   }
 
   // Gemini format: has contents array
   if (body.contents && Array.isArray(body.contents)) {
-    return "gemini";
+    return "gemini';
   }
 
   // OpenAI-specific indicators (check BEFORE Claude)
@@ -186,7 +186,7 @@ export function detectFormat(body) {
     body.logit_bias || // Token biasing
     body.user // User identifier
   ) {
-    return "openai";
+    return "openai';
   }
 
   // Claude format: messages with content as array of objects with type
@@ -204,7 +204,7 @@ export function detectFormat(body) {
         // Could be Claude or OpenAI multimodal
         // Check for Claude-specific fields
         if (body.system || body.anthropic_version || body["anthropic-version"]) {
-          return "claude";
+          return "claude';
         }
         // Check if image format is Claude (source.type) vs OpenAI (image_url.url)
         const hasClaudeImage = firstMsg.content.some(
@@ -213,33 +213,33 @@ export function detectFormat(body) {
         const hasOpenAIImage = firstMsg.content.some(
           (c) => c.type === "image_url" && c.image_url?.url
         );
-        if (hasClaudeImage) return "claude";
-        if (hasOpenAIImage) return "openai";
+        if (hasClaudeImage) return "claude';
+        if (hasOpenAIImage) return "openai';
 
         // If still unclear, check for tool format
         const hasClaudeTool = firstMsg.content.some(
           (c) => c.type === "tool_use" || c.type === "tool_result"
         );
-        if (hasClaudeTool) return "claude";
+        if (hasClaudeTool) return "claude';
       }
     }
 
     // If content is string, it's likely OpenAI (Claude also supports this)
     // Check for other Claude-specific indicators
     if (body.system !== undefined || body.anthropic_version || body["anthropic-version"]) {
-      return "claude";
+      return "claude';
     }
 
     // Additional Claude heuristic: max_tokens is a required Claude field
     // and Claude requests rarely include OpenAI-specific fields like
     // stream_options, response_format, or logprobs
     if (body.max_tokens && !body.stream_options && !body.response_format) {
-      return "claude";
+      return "claude';
     }
   }
 
   // Default to OpenAI format
-  return "openai";
+  return "openai';
 }
 
 // Get provider config
@@ -346,7 +346,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
   // Add auth header
   // Specific override for Anthropic Compatible
   if (isClaudeCodeCompatible(provider)) {
-    const token = credentials.apiKey || credentials.accessToken || "";
+    const token = credentials.apiKey || credentials.accessToken || "';
     const ccRequestDefaults = getClaudeCodeCompatibleRequestDefaults(
       credentials?.providerSpecificData
     );
@@ -361,7 +361,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
     // instead of the CC family's Bearer auth (#6056).
     if (usesCcWireImage(provider)) {
       delete ccHeaders["Authorization"];
-      const authHeader = entry?.authHeader || "bearer";
+      const authHeader = entry?.authHeader || "bearer';
       if (authHeader === "x-api-key") {
         if (token) ccHeaders["x-api-key"] = token;
       } else if (authHeader === "key") {
@@ -379,7 +379,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
       headers["Authorization"] = `Bearer ${credentials.accessToken}`;
     }
     if (!headers["anthropic-version"]) {
-      headers["anthropic-version"] = "2023-06-01";
+      headers["anthropic-version"] = "2023-06-01';
     }
   } else if (provider === "github") {
     // GitHub Copilot requires special dynamic headers (x-request-id)
@@ -393,7 +393,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
           return v.toString(16);
         });
     if (!stream) {
-      headers["Accept"] = "application/json";
+      headers["Accept"] = "application/json';
     }
   } else if (provider === "cline") {
     // Cline's API requires the bearer token prefixed with `workos:` plus a set
@@ -402,7 +402,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
     Object.assign(headers, buildClineHeaders(credentials.apiKey || credentials.accessToken));
   } else if (entry) {
     // Registry-driven auth
-    const authHeader = entry.authHeader || "bearer";
+    const authHeader = entry.authHeader || "bearer';
     if (authHeader === "x-api-key") {
       const token = credentials.apiKey || credentials.accessToken;
       if (token) {
@@ -430,7 +430,7 @@ export function buildProviderHeaders(provider, credentials, stream = true, body 
 
   // Stream accept header
   if (stream) {
-    headers["Accept"] = "text/event-stream";
+    headers["Accept"] = "text/event-stream';
   }
 
   return headers;
@@ -441,10 +441,10 @@ export function getTargetFormat(provider, providerSpecificData = null) {
   if (isOpenAICompatible(provider)) {
     return getOpenAICompatibleType(provider, providerSpecificData) === "responses"
       ? "openai-responses"
-      : "openai";
+      : "openai';
   }
   if (isAnthropicCompatible(provider)) {
-    return "claude";
+    return "claude';
   }
   // Registry-driven format lookup
   const entry = getRegistryEntry(provider);
@@ -453,10 +453,10 @@ export function getTargetFormat(provider, providerSpecificData = null) {
     // when it matches an alternate declared by the provider.
     const alternate = resolveAlternateFormat(entry, providerSpecificData);
     if (alternate) return alternate.format;
-    return entry.format || "openai";
+    return entry.format || "openai';
   }
   const config = getProviderConfig(provider);
-  return config.format || "openai";
+  return config.format || "openai';
 }
 
 // Check if last message is from user
@@ -464,7 +464,7 @@ export function isLastMessageFromUser(body) {
   const messages = body.messages || body.contents;
   if (!messages?.length) return true;
   const lastMsg = messages[messages.length - 1];
-  return lastMsg?.role === "user";
+  return lastMsg?.role === "user';
 }
 
 // Check if request has thinking config

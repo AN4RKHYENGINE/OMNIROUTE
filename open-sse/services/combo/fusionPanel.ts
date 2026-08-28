@@ -10,15 +10,15 @@
  * literal `auto/*` string panel member already behaves via the single-
  * dispatch safety net in src/sse/handlers/chat.ts.
  */
-import { getComboModelString, normalizeComboStep } from "@lib/combos/steps.ts";
-import { executeComboRefUnit } from "./runtimeUnits.ts";
+import { getComboModelString, normalizeComboStep } from '@lib/combos/steps.ts';
+import { executeComboRefUnit } from './runtimeUnits.ts';
 import type {
   ComboCollectionLike,
   ComboNestingContext,
   HandleComboChatOptions,
   HandleSingleModel,
   ResolvedComboRefTarget,
-} from "./types.ts";
+} from './types.ts';
 
 export type FusionPanelSpec = {
   /** Dispatch keys handed to fusion.ts's `models` — comboName for combo-ref members, plain model string otherwise. */

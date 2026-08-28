@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // ClinePass — Cline's $9.99/mo gateway (https://cline.bot). Dual-auth: sign in
 // with a Cline account (OAuth, reusing the `cline` WorkOS flow) OR paste a direct

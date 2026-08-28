@@ -1,5 +1,5 @@
-import { FORMATS } from "../../translator/formats.ts";
-import { sanitizeOpenAITool } from "../../services/toolSchemaSanitizer.ts";
+import { FORMATS } from '../../translator/formats.ts';
+import { sanitizeOpenAITool } from '../../services/toolSchemaSanitizer.ts';
 
 export function sanitizeChatRequestBody(
   body: Record<string, unknown>,
@@ -47,7 +47,7 @@ export function sanitizeChatRequestBody(
 
   if (Array.isArray(body.tools)) {
     const tools = body.tools.filter((tool: Record<string, unknown>) => {
-      const toolType = typeof tool.type === "string" ? tool.type : "";
+      const toolType = typeof tool.type === "string" ? tool.type : "';
       if (toolType && toolType !== "function" && !tool.function && tool.name === undefined) {
         return true;
       }

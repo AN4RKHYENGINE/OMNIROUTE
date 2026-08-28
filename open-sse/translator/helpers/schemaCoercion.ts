@@ -1,7 +1,7 @@
 import {
   isDeepSeekReasoningModel,
   requiresReasoningReplay,
-} from "../../services/reasoningCache.ts";
+} from '../../services/reasoningCache.ts';
 
 /**
  * Shared sanitizers for tool payloads that arrive from IDEs/SDKs with
@@ -76,7 +76,7 @@ function mapRecordValues(record: JsonRecord): JsonRecord {
 
 function sanitizeDescriptionValue(value: unknown): string | undefined {
   if (value === undefined) return undefined;
-  if (value === null) return "";
+  if (value === null) return "';
   return typeof value === "string" ? value : String(value);
 }
 
@@ -317,7 +317,7 @@ function widenPropertyForNullOmission(propSchema: JsonRecord): JsonRecord {
   } else if (Array.isArray(propSchema.type) && !propSchema.type.includes("null")) {
     widened.type = [...propSchema.type, "null"];
   }
-  const note = "null = omit this parameter";
+  const note = "null = omit this parameter';
   widened.description =
     typeof propSchema.description === "string" && propSchema.description.length > 0
       ? `${propSchema.description} (${note})`

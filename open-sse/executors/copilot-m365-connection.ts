@@ -8,8 +8,8 @@
  * the URL MUST go through redactWsUrl().
  */
 
-import { randomUUID, randomBytes } from "node:crypto";
-import type { ProviderCredentials } from "./base.ts";
+import { randomUUID, randomBytes } from 'node:crypto';
+import type { ProviderCredentials } from './base.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -109,7 +109,7 @@ export interface M365ConnectionParams {
   licenseType?: string;
   agent?: string;
   /** Resolved tier name (#7870) — threads into the chat invocation payload, not just the URL. */
-  tier?: "edu" | "enterprise";
+  tier?: "edu" | "enterprise';
 }
 
 /** A new 32-hex chat session id (== XRoutingParameterSessionKey == clientrequestid). */
@@ -134,7 +134,7 @@ function parsePastedCredential(
   if (/^wss:\/\/substrate\.office\.com\/m365Copilot\/Chathub\//i.test(value)) {
     try {
       const url = new URL(value);
-      parts.access_token ||= url.searchParams.get("access_token") || "";
+      parts.access_token ||= url.searchParams.get("access_token") || "';
       parts.chathubPath ||= decodeURIComponent(
         url.pathname.split("/m365Copilot/Chathub/")[1] || ""
       );
@@ -168,7 +168,7 @@ export function resolveConnectionParams(
       credentials.apiKey) ||
     (typeof psd.accessToken === "string" && psd.accessToken) ||
     (typeof psd.access_token === "string" && psd.access_token) ||
-    "";
+    "';
   if (!accessToken) {
     return { error: "Missing M365 Copilot access_token. Paste it as the provider credential." };
   }
@@ -176,7 +176,7 @@ export function resolveConnectionParams(
     parsedApiKey.chathubPath ||
     (typeof psd.chathubPath === "string" && psd.chathubPath) ||
     (typeof psd.userTenant === "string" && psd.userTenant) ||
-    "";
+    "';
   if (!chathubPath || !chathubPath.includes("@")) {
     return {
       error:
@@ -199,9 +199,9 @@ export function resolveConnectionParams(
 function resolveTierOverrides(
   psd: JsonRecord
 ): Pick<M365ConnectionParams, "scenario" | "isEdu" | "licenseType" | "agent" | "tier"> {
-  const tier = typeof psd.tier === "string" ? psd.tier.toLowerCase() : "";
-  const isEduTier = tier === "edu" || tier === "included";
-  const isEnterpriseTier = tier === "enterprise" || tier === "work";
+  const tier = typeof psd.tier === "string" ? psd.tier.toLowerCase() : "';
+  const isEduTier = tier === "edu" || tier === "included';
+  const isEnterpriseTier = tier === "enterprise" || tier === "work';
   const psdIsEdu =
     (typeof psd.isEdu === "string" && psd.isEdu) ||
     (typeof psd.isEdu === "boolean" && String(psd.isEdu)) ||
@@ -261,7 +261,7 @@ export function buildPrompt(body: JsonRecord | undefined): string {
   const userMsg = messages.filter((m) => m.role === "user").pop();
   const userText =
     typeof userMsg?.content === "string" ? userMsg.content : JSON.stringify(userMsg?.content ?? "");
-  let prompt = "";
+  let prompt = "';
   if (systemMsgs.length > 0) {
     const sysText = systemMsgs
       .map((m) => (typeof m.content === "string" ? m.content : ""))

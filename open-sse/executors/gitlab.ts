@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
 import {
   BaseExecutor,
@@ -7,16 +7,16 @@ import {
   type ExecuteInput,
   type ExecutorLog,
   type ProviderCredentials,
-} from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { getAccessToken } from "../services/tokenRefresh.ts";
-import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
+} from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { getAccessToken } from '../services/tokenRefresh.ts';
+import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
 import {
   buildStreamingResponse,
   buildJsonCompletion,
   buildToolJsonCompletion,
   buildToolStreamingResponse,
-} from "./gitlabResponses.ts";
+} from './gitlabResponses.ts';
 import {
   buildGitLabDirectGatewayUrl,
   buildGitLabOAuthEndpoints,
@@ -25,7 +25,7 @@ import {
   parseGitLabDirectAccessDetails,
   resolveGitLabOAuthBaseUrl,
   type GitLabDirectAccessDetails,
-} from "@/lib/oauth/gitlab";
+} from '@/lib/oauth/gitlab';
 
 type OpenAIToolCall = {
   id?: string;
@@ -60,7 +60,7 @@ function capText(text: string, max: number): string {
 }
 
 type GitLabRequestTarget = {
-  mode: "monolith" | "direct";
+  mode: "monolith" | "direct';
   url: string;
   headers: Record<string, string>;
 };
@@ -75,12 +75,12 @@ function extractTextContent(content: unknown): string {
   }
 
   if (!Array.isArray(content)) {
-    return "";
+    return "';
   }
 
   return content
     .map((part) => {
-      if (!part || typeof part !== "object") return "";
+      if (!part || typeof part !== "object") return "';
       const item = part as Record<string, unknown>;
       if (item.type === "text" && typeof item.text === "string") {
         return item.text;
@@ -88,7 +88,7 @@ function extractTextContent(content: unknown): string {
       if (item.type === "input_text" && typeof item.text === "string") {
         return item.text;
       }
-      return "";
+      return "';
     })
     .filter((text) => text.trim().length > 0)
     .join("\n")
@@ -131,7 +131,7 @@ function buildSimplePrompt(messages: OpenAIMessage[]): string {
       userParts.push(text);
     }
   }
-  const latestUserPrompt = userParts.at(-1) || "";
+  const latestUserPrompt = userParts.at(-1) || "';
   if (!systemParts.length) return latestUserPrompt;
   return `System instructions:\n${systemParts.join("\n\n")}\n\n${latestUserPrompt}`.trim();
 }
@@ -141,7 +141,7 @@ function renderAssistantTurn(message: OpenAIMessage, text: string): string | nul
   const lines: string[] = [];
   if (text) lines.push(text);
   for (const tc of Array.isArray(message?.tool_calls) ? message.tool_calls : []) {
-    const id = tc?.id ? ` [${tc.id}]` : "";
+    const id = tc?.id ? ` [${tc.id}]` : "';
     lines.push(
       `Called tool ${tc?.function?.name || "tool"}${id} with arguments: ${tc?.function?.arguments ?? ""}`
     );
@@ -154,8 +154,8 @@ function renderConversationTurn(message: OpenAIMessage, role: string, text: stri
   if (role === "user") return text ? `User: ${text}` : null;
   if (role === "assistant") return renderAssistantTurn(message, text);
   if (role === "tool") {
-    const id = message?.tool_call_id ? ` for ${message.tool_call_id}` : "";
-    const name = message?.name ? ` (${message.name})` : "";
+    const id = message?.tool_call_id ? ` for ${message.tool_call_id}` : "';
+    const name = message?.name ? ` (${message.name})` : "';
     return `Tool result${name}${id}: ${text}`;
   }
   return null;
@@ -210,7 +210,7 @@ function buildToolExchangePrompt(messages: OpenAIMessage[]): string {
   }
   const header = systemParts.length
     ? `System instructions:\n${systemParts.join("\n\n")}\n\n`
-    : "";
+    : "';
   const body = `${header}${convo.join(
     "\n\n"
   )}\n\nContinue the response using the tool result above; do not repeat the tool call.`.trim();
@@ -230,7 +230,7 @@ function buildLatestUserInstruction(messages: OpenAIMessage[]): string {
       if (text) return capText(text, MAX_USER_INSTRUCTION_CHARS);
     }
   }
-  return "";
+  return "';
 }
 
 /**
@@ -241,7 +241,7 @@ function buildLatestUserInstruction(messages: OpenAIMessage[]): string {
  * forever (#6220). Complements the tool_call emission added in #6051.
  */
 export function buildPrompt(messages: OpenAIMessage[] | undefined): string {
-  if (!Array.isArray(messages)) return "";
+  if (!Array.isArray(messages)) return "';
   return hasToolExchange(messages)
     ? buildToolExchangePrompt(messages)
     : buildSimplePrompt(messages);
@@ -340,7 +340,7 @@ function buildDirectHeaders(directAccess: GitLabDirectAccessDetails): Record<str
 }
 
 function isGitLabDuoOAuthProvider(providerId: string): boolean {
-  return providerId === "gitlab-duo";
+  return providerId === "gitlab-duo';
 }
 
 async function persistGitLabDirectAccessCache(
@@ -417,7 +417,7 @@ export class GitlabExecutor extends BaseExecutor {
     const fileName =
       typeof providerData.fileName === "string" && providerData.fileName.trim().length > 0
         ? providerData.fileName.trim()
-        : "snippet.txt";
+        : "snippet.txt';
 
     return {
       current_file: {
@@ -760,7 +760,7 @@ export class GitlabExecutor extends BaseExecutor {
         ? firstChoice.text
         : typeof payload.content === "string"
           ? payload.content
-          : "";
+          : "';
     const resolvedModel = resolveResponseModel(payload, input.model);
     const responseId = `chatcmpl-gitlab-${randomUUID()}`;
     const created = Math.floor(Date.now() / 1000);

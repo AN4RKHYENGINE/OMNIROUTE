@@ -1,7 +1,7 @@
-import { registerBuiltinCompressionEngines } from "./index.ts";
-import { getCompressionEngine } from "./registry.ts";
-import type { CompressionEngineApplyOptions } from "./types.ts";
-import type { CompressionResult } from "../types.ts";
+import { registerBuiltinCompressionEngines } from './index.ts';
+import { getCompressionEngine } from './registry.ts';
+import type { CompressionEngineApplyOptions } from './types.ts';
+import type { CompressionResult } from '../types.ts';
 
 /**
  * Single-mode resolution for the async-only "omniglyph" engine. Selecting the

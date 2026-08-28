@@ -8,7 +8,7 @@
  * per-provider fetcher leaves (MiniMax, GLM, …) import it without a cycle.
  */
 
-import { toNumber, clampPercentage } from "./scalars.ts";
+import { toNumber, clampPercentage } from './scalars.ts';
 
 export type UsageQuota = {
   used: number;
@@ -23,7 +23,7 @@ export type UsageQuota = {
    * NOT a confirmed-exhausted state. Antigravity-specific.
    */
   fractionReported?: boolean;
-  quotaSource?: "retrieveUserQuota" | "fetchAvailableModels" | "localUsageHistory";
+  quotaSource?: "retrieveUserQuota" | "fetchAvailableModels" | "localUsageHistory';
   displayName?: string;
   details?: Array<{
     name: string;

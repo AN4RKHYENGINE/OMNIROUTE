@@ -9,7 +9,7 @@
  * consume these.
  */
 
-import type { CompressionResult, CompressionStats } from "./types.ts";
+import type { CompressionResult, CompressionStats } from './types.ts';
 
 /**
  * TV1 — Opt-in bail-out configuration for the stacked pipeline.
@@ -67,7 +67,7 @@ export function decideStep(
  * blocks, ccr below its min-chars threshold) returns `stats: null` instead of throwing or
  * advancing. Left unrecorded, that step vanishes from the pipeline's telemetry with zero trace —
  * no `engineBreakdown` entry, no warning, no error (#6479, #6491). Surface it as a validation
- * warning so operators can tell "engine ran but had nothing to do" apart from "engine never ran".
+ * warning so operators can tell "engine ran but had nothing to do" apart from 'engine never ran".
  */
 function recordNullStatsStep(acc: StackAccumulator, engineId: string): void {
   acc.validationWarnings.add(`${engineId}: skipped (no eligible content)`);
@@ -85,7 +85,7 @@ export function mergeStackStep(
     // identity survives. Without this the breakdown stays empty and ensureEngineBreakdown
     // synthesizes a generic "stacked" 0% node, hiding which engine an operator actually asked for.
     // Also surface a validation warning so operators can tell "engine ran but had nothing to do"
-    // apart from "engine never ran" (#6479, #6491).
+    // apart from 'engine never ran" (#6479, #6491).
     recordNullStatsStep(acc, engineId);
     acc.breakdown.push({
       engine: engineId,

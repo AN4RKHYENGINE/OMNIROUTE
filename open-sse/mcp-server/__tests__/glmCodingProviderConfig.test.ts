@@ -1,13 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from 'vitest';
 
-import { getRegistryEntry } from "../../config/providerRegistry.ts";
+import { getRegistryEntry } from '../../config/providerRegistry.ts';
 import {
   PROVIDER_ID_TO_ALIAS,
   getModelsByProviderId,
   getProviderModels,
-} from "../../config/providerModels.ts";
-import { buildGlmAnthropicMessagesUrl, buildGlmOpenAIChatUrl } from "../../config/glmProvider.ts";
-import { getPricingForModel } from "@shared/constants/pricing.ts";
+} from '../../config/providerModels.ts';
+import { buildGlmAnthropicMessagesUrl, buildGlmOpenAIChatUrl } from '../../config/glmProvider.ts';
+import { getPricingForModel } from '@shared/constants/pricing.ts';
 
 describe("GLM Coding provider registry surfaces", () => {
   it("registers the GLM Coding provider with the expected transport metadata", () => {

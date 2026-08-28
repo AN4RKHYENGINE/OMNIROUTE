@@ -1,22 +1,22 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { ANTIGRAVITY_DEFAULT_SYSTEM } from "../../config/constants.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { ANTIGRAVITY_DEFAULT_SYSTEM } from '../../config/constants.ts';
 import {
   buildGeminiThoughtSignatureKey,
   resolveGeminiThoughtSignature,
-} from "../../services/geminiThoughtSignatureStore.ts";
+} from '../../services/geminiThoughtSignatureStore.ts';
 import {
   generateAntigravityRequestId,
   getAntigravityEnvelopeUserAgent,
   getAntigravitySessionId,
-} from "../../services/antigravityIdentity.ts";
-import { fixToolPairs } from "../../services/contextManager.ts";
+} from '../../services/antigravityIdentity.ts';
+import { fixToolPairs } from '../../services/contextManager.ts';
 import {
   capMaxOutputTokens,
   capThinkingBudget,
   getDefaultThinkingBudget,
-} from "@lib/modelCapabilities.ts";
-import { getModelSpec } from "@shared/constants/modelSpecs.ts";
+} from '@lib/modelCapabilities.ts';
+import { getModelSpec } from '@shared/constants/modelSpecs.ts';
 
 import {
   DEFAULT_SAFETY_SETTINGS,
@@ -24,8 +24,8 @@ import {
   extractTextContent,
   tryParseJSON,
   cleanJSONSchemaForAntigravity,
-} from "../helpers/geminiHelper.ts";
-import { buildGeminiTools, sanitizeGeminiToolName } from "../helpers/geminiToolsSanitizer.ts";
+} from '../helpers/geminiHelper.ts';
+import { buildGeminiTools, sanitizeGeminiToolName } from '../helpers/geminiToolsSanitizer.ts';
 import {
   type GeminiGenerationConfig,
   isVertexGeminiProvider,
@@ -39,7 +39,7 @@ import {
   escapeHistoricalContextAttribute,
   escapeHistoricalContextContent,
   buildHistoricalToolResultContext,
-} from "./openai-to-gemini/helpers.ts";
+} from './openai-to-gemini/helpers.ts';
 
 // Observed Antigravity wrapper output cap, not an underlying model capability.
 // Keep this bridge-local: Antigravity currently caps visible output around 16K.
@@ -148,7 +148,7 @@ type CloudCodeEnvelope = {
 type GeminiToolNameOptions = {
   stripNamespace?: boolean;
   signatureNamespace?: string | null;
-  signaturelessToolCallMode?: "native" | "text" | "context";
+  signaturelessToolCallMode?: "native" | "text" | "context';
   // Vertex AI's FunctionCall/FunctionResponse protos have no `id` field; emitting it
   // makes Vertex reject the request with 400 "Unknown name id" (#3440). The public
   // Gemini API DOES use `id` for Gemini 3+ signature matching, so this is scoped to
@@ -419,9 +419,9 @@ function openaiToGeminiBase(
 
           let shouldUseEmbeddedSignature = !parts.some((p) => p.thoughtSignature);
           const signaturelessToolCallMode = toolNameOptions.signaturelessToolCallMode;
-          const stringifySignaturelessToolCalls = signaturelessToolCallMode === "text";
+          const stringifySignaturelessToolCalls = signaturelessToolCallMode === "text';
           const contextualizeSignaturelessToolResponses =
-            signaturelessToolCallMode === "text" || signaturelessToolCallMode === "context";
+            signaturelessToolCallMode === "text" || signaturelessToolCallMode === "context';
 
           for (const tc of toolCalls) {
             if (tc.type !== "function") continue;
@@ -471,7 +471,7 @@ function openaiToGeminiBase(
             const signatureBypassEnabled =
               toolNameOptions.supportsSignatureBypass &&
               signaturelessToolCallMode !== "text" &&
-              process.env.ANTIGRAVITY_ALLOW_SIGNATURE_BYPASS !== "0";
+              process.env.ANTIGRAVITY_ALLOW_SIGNATURE_BYPASS !== "0';
             const finalSignature =
               embeddedThoughtSignature ||
               (signatureBypassEnabled ? "skip_thought_signature_validator" : undefined);
@@ -563,7 +563,7 @@ function openaiToGeminiBase(
                 if (tc.type !== "function" || !id) continue;
                 if (!resolvedSignatures.has(id) && toolResponses[id]) {
                   const fn = tc.function as { name?: string } | undefined;
-                  const name = tcID2Name[id] || fn?.name || "unknown";
+                  const name = tcID2Name[id] || fn?.name || "unknown';
                   const resp = toolResponses[id];
                   toolParts.push({
                     text:
@@ -625,16 +625,16 @@ function openaiToGeminiBase(
     | undefined;
   if (responseFormat) {
     if (responseFormat.type === "json_schema" && responseFormat.json_schema) {
-      result.generationConfig.responseMimeType = "application/json";
+      result.generationConfig.responseMimeType = "application/json';
       // Extract the schema (may be nested under .schema key)
       const schema = responseFormat.json_schema.schema || responseFormat.json_schema;
       if (schema && typeof schema === "object") {
         result.generationConfig.responseSchema = cleanJSONSchemaForAntigravity(schema);
       }
     } else if (responseFormat.type === "json_object") {
-      result.generationConfig.responseMimeType = "application/json";
+      result.generationConfig.responseMimeType = "application/json';
     } else if (responseFormat.type === "text") {
-      result.generationConfig.responseMimeType = "text/plain";
+      result.generationConfig.responseMimeType = "text/plain';
     }
   }
 
@@ -655,7 +655,7 @@ export function openaiToGeminiRequest(
   stream: boolean,
   credentials: Record<string, unknown> | null = null,
   options: {
-    signaturelessToolCallMode?: "native" | "text" | "context";
+    signaturelessToolCallMode?: "native" | "text" | "context';
   } = {}
 ) {
   // Thread the signature namespace so a thinking model's thoughtSignature (cached on the
@@ -680,7 +680,7 @@ export function openaiToCloudCodeGeminiRequest(
   stream: boolean,
   options: {
     signatureNamespace?: string | null;
-    signaturelessToolCallMode?: "native" | "text" | "context";
+    signaturelessToolCallMode?: "native" | "text" | "context';
   } = {}
 ) {
   const request = openaiToGeminiBase(model, body, stream, {
@@ -715,7 +715,7 @@ function wrapInCloudCodeEnvelope(model, cloudCodeRequest, credentials = null) {
       `[OmniRoute] Antigravity account is missing projectId. ` +
         `Attempting request with empty project — reconnect OAuth to resolve.`
     );
-    projectId = "";
+    projectId = "';
   }
 
   const cleanModel = model.includes("/") ? model.split("/").pop()! : model;

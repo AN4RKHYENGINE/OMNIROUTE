@@ -9,7 +9,7 @@
  * `creditUsagePercent` is percent **used** (0–100), matching grok.com Usage.
  */
 
-import { type UsageQuota, createQuotaFromUsage } from "./quota.ts";
+import { type UsageQuota, createQuotaFromUsage } from './quota.ts';
 
 type JsonRecord = Record<string, unknown>;
 type UsageProviderConnection = JsonRecord & {

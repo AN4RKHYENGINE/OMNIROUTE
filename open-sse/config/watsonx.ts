@@ -1,6 +1,6 @@
-import { stripTrailingSlashes, normalizeBaseUrl } from "../utils/urlSanitize.ts";
+import { stripTrailingSlashes, normalizeBaseUrl } from '../utils/urlSanitize.ts';
 
-export const WATSONX_DEFAULT_BASE_URL = "https://ca-tor.ml.cloud.ibm.com/ml/gateway/v1";
+export const WATSONX_DEFAULT_BASE_URL = "https://ca-tor.ml.cloud.ibm.com/ml/gateway/v1';
 
 export function normalizeWatsonxBaseUrl(value: string | null | undefined): string {
   const normalized = normalizeBaseUrl(value || WATSONX_DEFAULT_BASE_URL);
@@ -22,12 +22,12 @@ export function normalizeWatsonxBaseUrl(value: string | null | undefined): strin
   try {
     const parsed = new URL(stripped);
     if (!parsed.pathname || parsed.pathname === "/") {
-      parsed.pathname = "/ml/gateway/v1";
+      parsed.pathname = "/ml/gateway/v1';
     } else if (parsed.pathname.endsWith("/ml/gateway")) {
       parsed.pathname = `${parsed.pathname}/v1`;
     }
-    parsed.search = "";
-    parsed.hash = "";
+    parsed.search = "';
+    parsed.hash = "';
     return stripTrailingSlashes(parsed.toString());
   } catch {
     return stripped;

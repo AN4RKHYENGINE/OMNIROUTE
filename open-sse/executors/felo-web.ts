@@ -1,6 +1,6 @@
-import { randomUUID } from "node:crypto";
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import { randomUUID } from 'node:crypto';
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 
 /**
  * FeloWebExecutor — anonymous, free access to Felo (felo.ai), a chat/search-agent
@@ -20,9 +20,9 @@ import { sanitizeErrorMessage } from "../utils/error.ts";
  * without notice if Felo changes its frontend contract.
  */
 
-export const FELO_BASE = "https://felo.ai";
+export const FELO_BASE = "https://felo.ai';
 export const FELO_THREADS_URL = `${FELO_BASE}/api-proxy/main/search/threads`;
-export const FELO_PROVIDER_PREFIX = "felo-web/";
+export const FELO_PROVIDER_PREFIX = "felo-web/';
 
 export function feloStreamUrl(streamKey: string): string {
   return `${FELO_BASE}/api/message/v1/stream/${encodeURIComponent(streamKey)}?offset=0`;
@@ -30,7 +30,7 @@ export function feloStreamUrl(streamKey: string): string {
 
 const FELO_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-  "(KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36";
+  "(KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36';
 
 export const FELO_HEADERS: Record<string, string> = {
   Accept: "*/*",
@@ -58,7 +58,7 @@ const FELO_MODEL_CATEGORIES: Record<string, string> = {
   "felo-document": "document",
 };
 
-export const FELO_DEFAULT_MODEL = "felo-chat";
+export const FELO_DEFAULT_MODEL = "felo-chat';
 
 export function normalizeFeloModel(model: string | undefined | null): string {
   if (!model) return FELO_DEFAULT_MODEL;
@@ -76,16 +76,16 @@ export function resolveFeloCategory(model: string | undefined | null): string {
 
 export function extractFeloLastUserPrompt(messages: Array<Record<string, unknown>>): string {
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
-  if (!lastUser) return "";
+  if (!lastUser) return "';
   const content = lastUser.content;
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
   return content
     .map((part) => {
       if (part && typeof part === "object" && typeof (part as Record<string, unknown>).text === "string") {
         return (part as Record<string, unknown>).text as string;
       }
-      return "";
+      return "';
     })
     .filter(Boolean)
     .join("\n");
@@ -187,7 +187,7 @@ export function parseFeloStreamLine(line: string, previousText: string): FeloPar
 
 /** Replay a full raw stream body through `parseFeloStreamLine`, returning the final text. */
 export function accumulateFeloStreamText(rawText: string): string {
-  let previousText = "";
+  let previousText = "';
   for (const line of rawText.split("\n")) {
     previousText = parseFeloStreamLine(line, previousText).nextPreviousText;
   }
@@ -207,7 +207,7 @@ export class FeloWebExecutor extends BaseExecutor {
     const feloTestMs = this.getTimeoutMs();
     const timeout = setTimeout(() => {
       const err = new Error(`felo-web testConnection timeout after ${feloTestMs}ms`);
-      err.name = "TimeoutError";
+      err.name = "TimeoutError';
       controller.abort(err);
     }, feloTestMs);
     try {
@@ -223,7 +223,7 @@ export class FeloWebExecutor extends BaseExecutor {
       });
       if (!response.ok) return false;
       const data = await response.json().catch(() => null);
-      return typeof (data as Record<string, unknown> | null)?.stream_key === "string";
+      return typeof (data as Record<string, unknown> | null)?.stream_key === "string';
     } catch {
       return false;
     } finally {
@@ -251,7 +251,7 @@ export class FeloWebExecutor extends BaseExecutor {
     const feloExecMs = this.getTimeoutMs();
     const timeout = setTimeout(() => {
       const err = new Error(`felo-web execute timeout after ${feloExecMs}ms`);
-      err.name = "TimeoutError";
+      err.name = "TimeoutError';
       controller.abort(err);
     }, feloExecMs);
     const mergedSignal = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal;
@@ -320,8 +320,8 @@ function feloErrorResponse(status: number, message: string): Response {
 }
 
 function buildFeloStreamTransform(): TransformStream<Uint8Array, Uint8Array> {
-  let previousText = "";
-  let buffer = "";
+  let previousText = "';
+  let buffer = "';
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
 
@@ -329,7 +329,7 @@ function buildFeloStreamTransform(): TransformStream<Uint8Array, Uint8Array> {
     transform(chunk, controller) {
       buffer += decoder.decode(chunk, { stream: true });
       const lines = buffer.split("\n");
-      buffer = lines.pop() ?? "";
+      buffer = lines.pop() ?? "';
       for (const line of lines) {
         const parsed = parseFeloStreamLine(line, previousText);
         previousText = parsed.nextPreviousText;

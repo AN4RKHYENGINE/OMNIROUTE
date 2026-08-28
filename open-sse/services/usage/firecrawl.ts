@@ -9,8 +9,8 @@ import {
   fetchFirecrawlQuota,
   getFirecrawlBaseUrl,
   type FirecrawlQuota,
-} from "../firecrawlQuotaFetcher.ts";
-import { createQuotaFromUsage, parseResetTime } from "./quota.ts";
+} from '../firecrawlQuotaFetcher.ts';
+import { createQuotaFromUsage, parseResetTime } from './quota.ts';
 
 function createFirecrawlPlanQuota(q: FirecrawlQuota) {
   if (q.overPlan) {

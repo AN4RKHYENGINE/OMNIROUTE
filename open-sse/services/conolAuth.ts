@@ -1,4 +1,4 @@
-export const CONOL_SESSION_COOKIE_NAME = "__Secure-better-auth.session_token";
+export const CONOL_SESSION_COOKIE_NAME = "__Secure-better-auth.session_token';
 
 export interface ConolCredentialInput {
   apiKey?: unknown;
@@ -8,7 +8,7 @@ export interface ConolCredentialInput {
 }
 
 function readString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.trim() : "';
 }
 
 function readStoredValue(value: unknown): string {
@@ -28,7 +28,7 @@ function readStoredValue(value: unknown): string {
 
 export function normalizeConolCookie(rawValue: string): string {
   const raw = readStoredValue(rawValue).replace(/^Cookie:\s*/i, "").trim();
-  if (!raw) return "";
+  if (!raw) return "';
   if (raw.includes("=")) return raw;
   return `${CONOL_SESSION_COOKIE_NAME}=${raw}`;
 }

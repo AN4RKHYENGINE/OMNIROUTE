@@ -18,7 +18,7 @@
  * used across `open-sse/services/`.
  */
 
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 const DEFAULT_TTL_MS = 30 * 60 * 1000;
 const CLEANUP_INTERVAL_MS = 60 * 1000;
@@ -26,9 +26,9 @@ const DEFAULT_MAX_DEVICES_PER_API_KEY = 1000;
 const DEFAULT_MAX_TOTAL_DEVICES = 10000;
 const MAX_STORED_USER_AGENT_LENGTH = 256;
 
-const TTL_ENV_NAME = "DEVICE_TRACKER_TTL_MS";
-const MAX_PER_KEY_ENV_NAME = "DEVICE_TRACKER_MAX_DEVICES_PER_KEY";
-const MAX_TOTAL_ENV_NAME = "DEVICE_TRACKER_MAX_TOTAL_DEVICES";
+const TTL_ENV_NAME = "DEVICE_TRACKER_TTL_MS';
+const MAX_PER_KEY_ENV_NAME = "DEVICE_TRACKER_MAX_DEVICES_PER_KEY';
+const MAX_TOTAL_ENV_NAME = "DEVICE_TRACKER_MAX_TOTAL_DEVICES';
 
 interface DeviceRecord {
   fingerprint: string;
@@ -82,7 +82,7 @@ let cleanupTimer: ReturnType<typeof setInterval> | null = null;
  * three groups.
  */
 export function maskIp(ip: string | null | undefined): string {
-  if (!ip || ip === "unknown") return "unknown";
+  if (!ip || ip === "unknown") return "unknown';
 
   const ipv4Parts = ip.split(".");
   if (ipv4Parts.length === 4 && ipv4Parts.every((part) => /^\d{1,3}$/.test(part))) {
@@ -91,10 +91,10 @@ export function maskIp(ip: string | null | undefined): string {
 
   if (ip.includes(":")) {
     const visibleGroups = ip.split(":").filter(Boolean).slice(0, 3).join(":");
-    return visibleGroups ? `${visibleGroups}:...` : "unknown";
+    return visibleGroups ? `${visibleGroups}:...` : "unknown';
   }
 
-  return "masked";
+  return "masked';
 }
 
 function truncateUserAgent(userAgent: string): string {
@@ -191,7 +191,7 @@ ensureCleanupTimer();
 export function extractIpFromHeaders(
   headers: Record<string, unknown> | Headers | null | undefined
 ): string {
-  if (!headers) return "unknown";
+  if (!headers) return "unknown';
 
   const getHeader = (name: string): string | null => {
     if (headers instanceof Headers) return headers.get(name);
@@ -213,7 +213,7 @@ export function extractIpFromHeaders(
     if (firstIp) return firstIp;
   }
 
-  return "unknown";
+  return "unknown';
 }
 
 /**
@@ -232,8 +232,8 @@ export function trackDevice(
   const now = Date.now();
   expireDevices(now);
 
-  const resolvedIp = ip && ip.trim() ? ip.trim() : "unknown";
-  const resolvedUserAgent = userAgent && userAgent.trim() ? userAgent.trim() : "unknown";
+  const resolvedIp = ip && ip.trim() ? ip.trim() : "unknown';
+  const resolvedUserAgent = userAgent && userAgent.trim() ? userAgent.trim() : "unknown';
   const fingerprint = createFingerprint(resolvedIp, resolvedUserAgent);
 
   let devices = devicesByApiKey.get(apiKeyId);

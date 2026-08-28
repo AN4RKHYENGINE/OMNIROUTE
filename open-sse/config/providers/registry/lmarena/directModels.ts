@@ -4,7 +4,7 @@
  * - Image → IMAGE_PROVIDERS in imageRegistry.ts (not chat catalog)
  * Live HTML discovery is disabled. Scrape JSON stays local/desktop only — not shipped.
  */
-import type { RegistryModel } from "../../shared.ts";
+import type { RegistryModel } from '../../shared.ts';
 
 export interface LmarenaDirectModelEntry {
   catalogId: string;

@@ -8,7 +8,7 @@
  * work across multiple process instances (no cross-instance dedup).
  */
 
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 const MAX_INFLIGHT = 1000;
 

@@ -1,8 +1,8 @@
-import { trackPendingRequest } from "@/lib/usageDb";
-import { STREAM_IDLE_TIMEOUT_MS } from "../config/constants.ts";
-import { FORMATS } from "../translator/formats.ts";
-import { PENDING_REQUEST_CLEARED_MARKER } from "./stream.ts";
-import { createStreamContentWatcher, type StreamContentWatcher } from "./streamReadiness.ts";
+import { trackPendingRequest } from '@/lib/usageDb';
+import { STREAM_IDLE_TIMEOUT_MS } from '../config/constants.ts';
+import { FORMATS } from '../translator/formats.ts';
+import { PENDING_REQUEST_CLEARED_MARKER } from './stream.ts';
+import { createStreamContentWatcher, type StreamContentWatcher } from './streamReadiness.ts';
 
 // Stream handler with disconnect detection - shared for all providers
 
@@ -40,7 +40,7 @@ type StreamControllerOptions = {
 
 type StreamController = ReturnType<typeof createStreamController>;
 
-type StreamErrorStatusKind = "rate_limit" | "authentication" | "permission" | "client" | "server";
+type StreamErrorStatusKind = "rate_limit" | "authentication" | "permission" | "client" | "server';
 
 type StreamErrorStatusMapping = {
   responses: {
@@ -60,11 +60,11 @@ function isResponsesClientFormat(clientResponseFormat?: string | null): boolean 
 }
 
 function getStreamErrorStatusKind(statusCode: number): StreamErrorStatusKind {
-  if (statusCode === 429) return "rate_limit";
-  if (statusCode === 401) return "authentication";
-  if (statusCode === 403) return "permission";
-  if (statusCode >= 400 && statusCode < 500) return "client";
-  return "server";
+  if (statusCode === 429) return "rate_limit';
+  if (statusCode === 401) return "authentication';
+  if (statusCode === 403) return "permission';
+  if (statusCode >= 400 && statusCode < 500) return "client';
+  return "server';
 }
 
 function getStreamErrorStatusMapping(statusCode: number): StreamErrorStatusMapping {
@@ -117,7 +117,7 @@ function encodeSseEvent(
   }
 
   const encoder = new TextEncoder();
-  const prefix = event ? `event: ${event}\n` : "";
+  const prefix = event ? `event: ${event}\n` : "';
   const chunks = [encoder.encode(`${prefix}data: ${JSON.stringify(data)}\n\n`)];
   if (includeDone) {
     chunks.push(encoder.encode("data: [DONE]\n\n"));
@@ -164,14 +164,14 @@ export function isClientDisconnectError(error: unknown): boolean {
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error && error.message) return error.message;
   if (typeof error === "string" && error.trim().length > 0) return error;
-  return "Upstream stream error";
+  return "Upstream stream error';
 }
 
 function getErrorStatusCode(error: unknown): number {
   const errorName =
     error && typeof error === "object" && typeof (error as { name?: unknown }).name === "string"
       ? (error as { name: string }).name
-      : "";
+      : "';
   if (errorName === "TimeoutError" || errorName === "BodyTimeoutError") {
     return 504;
   }
@@ -240,7 +240,7 @@ export function createStreamController({
 
   const logStream = (status) => {
     const duration = Date.now() - startTime;
-    const p = provider?.toUpperCase() || "UNKNOWN";
+    const p = provider?.toUpperCase() || "UNKNOWN';
     console.log(
       `[${getTimeString()}] 🌊 [STREAM] ${p} | ${model || "unknown"} | ${duration}ms | ${status}`
     );
@@ -283,7 +283,7 @@ export function createStreamController({
     if (reason instanceof Error && reason.message) {
       return reason.message;
     }
-    return "request_signal_aborted";
+    return "request_signal_aborted';
   };
 
   const controller = {
@@ -517,12 +517,12 @@ function resolveSilentCloseReason(input: {
   if (!input.bytesWereForwarded) return null;
 
   if (!input.clientTerminalSeen && input.clientResponseFormat === FORMATS.CLAUDE) {
-    return "Upstream stream ended without a terminal marker";
+    return "Upstream stream ended without a terminal marker';
   }
 
   const watcher = input.contentWatcher;
   if (watcher.sawSseFrame() && !watcher.sawContent() && !watcher.sawLegitEmptyTerminal()) {
-    return "Provider returned empty content";
+    return "Provider returned empty content';
   }
 
   return null;
@@ -534,7 +534,7 @@ export function createDisconnectAwareStream(transformStream, streamController) {
   const terminalDecoder = new TextDecoder();
   const contentDecoder = new TextDecoder();
   const contentWatcher = createStreamContentWatcher();
-  let terminalTail = "";
+  let terminalTail = "';
   let clientTerminalSeen = false;
   let bytesWereForwarded = false;
 

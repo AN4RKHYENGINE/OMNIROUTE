@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 /**
  * Image Generation Handler
  *
@@ -16,70 +16,70 @@ import { randomUUID } from "crypto";
  * }
  */
 
-import { getImageProvider, parseImageModel } from "../config/imageRegistry.ts";
-import { HTTP_STATUS } from "../config/constants.ts";
-import { applyAntigravityClientProfileHeaders } from "../services/antigravityClientProfile.ts";
-import { getAntigravityEnvelopeUserAgent } from "../services/antigravityIdentity.ts";
-import { kieExecutor } from "../executors/kie.ts";
-import { mapImageSize } from "../translator/image/sizeMapper.ts";
-import { getCodexClientVersion, getCodexUserAgent } from "../config/codexClient.ts";
-import { ChatGptWebExecutor } from "../executors/chatgpt-web.ts";
-import type { ExecutorLog, ProviderCredentials } from "../executors/base.ts";
-import { getChatGptImage, findChatGptImageBySha256 } from "../services/chatgptImageCache.ts";
-import { createHash } from "node:crypto";
-import { saveCallLog } from "@/lib/usageDb";
-import { sleep } from "../utils/sleep.ts";
+import { getImageProvider, parseImageModel } from '../config/imageRegistry.ts';
+import { HTTP_STATUS } from '../config/constants.ts';
+import { applyAntigravityClientProfileHeaders } from '../services/antigravityClientProfile.ts';
+import { getAntigravityEnvelopeUserAgent } from '../services/antigravityIdentity.ts';
+import { kieExecutor } from '../executors/kie.ts';
+import { mapImageSize } from '../translator/image/sizeMapper.ts';
+import { getCodexClientVersion, getCodexUserAgent } from '../config/codexClient.ts';
+import { ChatGptWebExecutor } from '../executors/chatgpt-web.ts';
+import type { ExecutorLog, ProviderCredentials } from '../executors/base.ts';
+import { getChatGptImage, findChatGptImageBySha256 } from '../services/chatgptImageCache.ts';
+import { createHash } from 'node:crypto';
+import { saveCallLog } from '@/lib/usageDb';
+import { sleep } from '../utils/sleep.ts';
 import {
   getKieErrorMessage,
   getKieErrorStatus,
   getKieTaskId,
   isJsonObject,
   parseKieResultJson,
-} from "../utils/kieTask.ts";
+} from '../utils/kieTask.ts';
 import {
   submitComfyWorkflow,
   pollComfyResult,
   fetchComfyOutput,
   extractComfyOutputFiles,
   resolveComfyUiBaseUrl,
-} from "../utils/comfyuiClient.ts";
-import { fetchRemoteImage } from "@/shared/network/remoteImageFetch";
+} from '../utils/comfyuiClient.ts';
+import { fetchRemoteImage } from '@/shared/network/remoteImageFetch';
 import {
   FetchTimeoutError,
   fetchWithTimeout,
   getConfiguredTimeout,
-} from "@/shared/utils/fetchTimeout";
-import { sanitizeErrorMessage, sanitizeUpstreamDetails } from "../utils/error.ts";
+} from '@/shared/utils/fetchTimeout';
+import { sanitizeErrorMessage, sanitizeUpstreamDetails } from '../utils/error.ts';
 
 // --- Per-provider handlers (extracted to co-located files in PR-#4582-batch) ---
 // Imported locally so internal callers (handleImageGeneration / handleImageEdit)
 // resolve to a real binding. extractMarkdownImageUrls + CHATGPT_WEB_IMAGE_ID_RE
 // are still used by handleImageEdit below, so they are imported (not re-defined).
-import { handleSDWebUIImageGeneration } from "./imageGeneration/providers/sdWebUI.ts";
-import { handleHyperbolicImageGeneration } from "./imageGeneration/providers/hyperbolic.ts";
-import { handleHuggingFaceImageGeneration } from "./imageGeneration/providers/huggingface.ts";
-import { handleComfyUIImageGeneration } from "./imageGeneration/providers/comfyUI.ts";
-import { handleImagen3ImageGeneration } from "./imageGeneration/providers/imagen3.ts";
-import { handleGoogleImagenGeneration } from "./imageGeneration/providers/googleImagen.ts";
-import { handleIdeogramImageGeneration } from "./imageGeneration/providers/ideogram.ts";
-import { handleHaiperImageGeneration } from "./imageGeneration/providers/haiper.ts";
-import { handleLeonardoImageGeneration } from "./imageGeneration/providers/leonardo.ts";
-import { handleFreepikImageGeneration } from "./imageGeneration/providers/freepik.ts";
+import { handleSDWebUIImageGeneration } from './imageGeneration/providers/sdWebUI.ts';
+import { handleHyperbolicImageGeneration } from './imageGeneration/providers/hyperbolic.ts';
+import { handleHuggingFaceImageGeneration } from './imageGeneration/providers/huggingface.ts';
+import { handleComfyUIImageGeneration } from './imageGeneration/providers/comfyUI.ts';
+import { handleImagen3ImageGeneration } from './imageGeneration/providers/imagen3.ts';
+import { handleGoogleImagenGeneration } from './imageGeneration/providers/googleImagen.ts';
+import { handleIdeogramImageGeneration } from './imageGeneration/providers/ideogram.ts';
+import { handleHaiperImageGeneration } from './imageGeneration/providers/haiper.ts';
+import { handleLeonardoImageGeneration } from './imageGeneration/providers/leonardo.ts';
+import { handleFreepikImageGeneration } from './imageGeneration/providers/freepik.ts';
 import {
   handleChatGptWebImageGeneration,
   extractMarkdownImageUrls,
   CHATGPT_WEB_IMAGE_ID_RE,
-} from "./imageGeneration/providers/chatgptWeb.ts";
-import { handleNvidiaNimImageGeneration } from "./imageGeneration/providers/nvidiaNim.ts";
-import { handleSegmindImageGeneration } from "./imageGeneration/providers/segmind.ts";
-import { handleDesignerWebImageGeneration } from "./imageGeneration/providers/designerWeb.ts";
-import { handleMinimaxImageGeneration } from "./imageGeneration/providers/minimax.ts";
-import { handleAdobeFireflyImageGeneration } from "./imageGeneration/providers/adobeFirefly.ts";
-import { handleAlibabaImageGeneration } from "./imageGeneration/providers/alibabaImage.ts";
+} from './imageGeneration/providers/chatgptWeb.ts';
+import { handleNvidiaNimImageGeneration } from './imageGeneration/providers/nvidiaNim.ts';
+import { handleSegmindImageGeneration } from './imageGeneration/providers/segmind.ts';
+import { handleDesignerWebImageGeneration } from './imageGeneration/providers/designerWeb.ts';
+import { handleMinimaxImageGeneration } from './imageGeneration/providers/minimax.ts';
+import { handleAdobeFireflyImageGeneration } from './imageGeneration/providers/adobeFirefly.ts';
+import { handleAlibabaImageGeneration } from './imageGeneration/providers/alibabaImage.ts';
 import {
   applyPollinationsAnonymousFallback,
   reportPollinationsAnonOutcome,
-} from "./imageGeneration/pollinationsAnonAuth.ts";
+} from './imageGeneration/pollinationsAnonAuth.ts';
 
 // Re-export so /v1/images/edits can dispatch Firefly reference-image edits.
 export { handleAdobeFireflyImageGeneration };
@@ -229,7 +229,7 @@ const BFL_FAILURE_STATUSES = new Set(["Error", "Failed", "Content Moderated", "R
 function formatImageProviderError(err) {
   const sanitized = sanitizeErrorMessage(err);
   const message = (sanitized || "").replace(/^Error:\s*/i, "").trim();
-  return message ? `Image provider error: ${message}` : "Image provider error";
+  return message ? `Image provider error: ${message}` : "Image provider error';
 }
 
 const STABILITY_GENERATION_ENDPOINTS = {
@@ -310,7 +310,7 @@ export async function handleImageGeneration({
     // Provider was already resolved by the route layer (custom model from DB)
     // Extract model name from the full "provider/model" string
     provider = resolvedProvider;
-    const modelStr = body.model || "";
+    const modelStr = body.model || "';
     model = modelStr.startsWith(provider + "/") ? modelStr.slice(provider.length + 1) : modelStr;
   } else {
     // Standard path: resolve from built-in image registry
@@ -722,7 +722,7 @@ async function handleKieImageGeneration({
   const isMarket = modelEntry?.isMarket || model.includes("/");
 
   const { imageUrl } = extractImageInputs(body);
-  let baseUrl = "";
+  let baseUrl = "';
   let payload: Record<string, unknown> = {};
 
   if (isMarket) {
@@ -777,7 +777,7 @@ async function handleKieImageGeneration({
         createData?.msg ||
         createData?.message ||
         createData?.error ||
-        "KIE image generation did not return taskId";
+        "KIE image generation did not return taskId';
       if (log) {
         log.error("IMAGE", `KIE createTask failed: ${JSON.stringify(createData)}`);
       }
@@ -829,7 +829,7 @@ async function handleKieImageGeneration({
       recordDataBody.errorMessage ||
       recordDataBody.failMsg ||
       record.msg ||
-      "KIE image task failed";
+      "KIE image task failed';
 
     if (log) {
       log.error("IMAGE", `KIE poll failed for task ${taskId}: ${JSON.stringify(recordData)}`);
@@ -860,7 +860,7 @@ async function handleKieImageGeneration({
 async function handleGeminiImageGeneration({ model, providerConfig, body, credentials, log }) {
   const startTime = Date.now();
   const url = providerConfig.baseUrl;
-  const provider = "antigravity";
+  const provider = "antigravity';
   const credentialRecord = credentials || {};
   const token = credentialRecord.accessToken || credentialRecord.apiKey;
   const providerSpecificData = credentialRecord.providerSpecificData;
@@ -869,9 +869,9 @@ async function handleGeminiImageGeneration({ model, providerConfig, body, creden
       ? (providerSpecificData as Record<string, unknown>).projectId
       : null;
   const credentialProjectId =
-    typeof credentialRecord.projectId === "string" ? credentialRecord.projectId.trim() : "";
+    typeof credentialRecord.projectId === "string" ? credentialRecord.projectId.trim() : "';
   const providerProjectId =
-    typeof providerSpecificProjectId === "string" ? providerSpecificProjectId.trim() : "";
+    typeof providerSpecificProjectId === "string" ? providerSpecificProjectId.trim() : "';
   const projectId = credentialProjectId || providerProjectId || null;
   const candidateCount =
     typeof body.n === "number" && Number.isFinite(body.n) && body.n > 0 ? Math.floor(body.n) : 1;
@@ -1244,7 +1244,7 @@ export async function handleOpenAIImageEdit({
   // field (including `model`, which reaches the upstream empty). A Buffer body is accepted
   // verbatim by any fetch implementation. (#3273)
   const boundary = `----OmniRouteImageEdit${randomUUID().replace(/-/g, "")}`;
-  const CRLF = "\r\n";
+  const CRLF = "\r\n';
   const partBuffers: Buffer[] = [];
   const appendField = (name: string, value: string) => {
     partBuffers.push(
@@ -1330,7 +1330,7 @@ export async function handleImageEdit({
   clientHeaders?: Record<string, string> | null;
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (!prompt) {
     return saveImageErrorResult({
       provider,
@@ -1354,7 +1354,7 @@ export async function handleImageEdit({
   const imageHash = createHash("sha256").update(imageBytes).digest("hex");
   const cached = findChatGptImageBySha256(imageHash);
 
-  const wantsBase64 = body.response_format === "b64_json";
+  const wantsBase64 = body.response_format === "b64_json';
   const requestBody = {
     model,
     prompt: prompt.slice(0, 500),
@@ -1437,7 +1437,7 @@ export async function handleImageEdit({
     });
   }
 
-  let content = "";
+  let content = "';
   try {
     const json = JSON.parse(responseText);
     content = String(json?.choices?.[0]?.message?.content || "");
@@ -1642,7 +1642,7 @@ async function handleStabilityAIImageGeneration({
 
       if (imageUrl) {
         const imageSource = await resolveImageSource(imageUrl);
-        upstreamBody.mode = "image-to-image";
+        upstreamBody.mode = "image-to-image';
         appendOptionalFormValue(formData, "mode", "image-to-image");
         upstreamBody.image = imageSource.base64;
         appendImageFormValue(formData, "image", imageSource, "image");
@@ -1651,7 +1651,7 @@ async function handleStabilityAIImageGeneration({
           appendOptionalFormValue(formData, "strength", body.strength);
         }
       } else {
-        upstreamBody.mode = "text-to-image";
+        upstreamBody.mode = "text-to-image';
         appendOptionalFormValue(formData, "mode", "text-to-image");
       }
 
@@ -1716,7 +1716,7 @@ async function handleStabilityAIImageGeneration({
       }
 
       if (STABILITY_CONTROL_MODELS.has(model) && !upstreamBody.prompt) {
-        upstreamBody.prompt = body.prompt || "";
+        upstreamBody.prompt = body.prompt || "';
         appendOptionalFormValue(formData, "prompt", body.prompt || "");
       }
     }
@@ -1749,7 +1749,7 @@ async function handleStabilityAIImageGeneration({
       });
     }
 
-    const contentType = response.headers.get("content-type") || "";
+    const contentType = response.headers.get("content-type") || "';
     let payload;
     if (contentType.includes("application/json")) {
       payload = await response.json();
@@ -2033,10 +2033,10 @@ async function handleTopazImageGeneration({
       });
     }
 
-    const contentType = response.headers.get("content-type") || "image/jpeg";
+    const contentType = response.headers.get("content-type") || "image/jpeg';
     const buffer = Buffer.from(await response.arrayBuffer());
     const base64 = buffer.toString("base64");
-    const wantsBase64 = body.response_format === "b64_json";
+    const wantsBase64 = body.response_format === "b64_json';
     const images = [
       wantsBase64
         ? { b64_json: base64, revised_prompt: body.prompt }
@@ -2229,8 +2229,8 @@ function mapFalAspectRatio(size, fallback = "1:1") {
 }
 
 function normalizeRecraftStyle(style) {
-  if (style === "vivid") return "digital_illustration";
-  if (style === "natural") return "realistic_image";
+  if (style === "vivid") return "digital_illustration';
+  if (style === "natural") return "realistic_image';
   return style;
 }
 
@@ -2285,7 +2285,7 @@ export async function normalizeProviderImagePayload(payload, body, log, defaultF
 }
 
 async function normalizeProviderImageCandidate(candidate, body, defaultFormat) {
-  const wantsBase64 = body?.response_format === "b64_json" || defaultFormat === "b64_json";
+  const wantsBase64 = body?.response_format === "b64_json" || defaultFormat === "b64_json';
   let url = null;
   let b64 = null;
 
@@ -2363,7 +2363,7 @@ export function extractImageGenerationCalls(
     if (evt?.type !== "response.output_item.done") continue;
     const item = evt.item as Record<string, unknown> | undefined;
     if (!item || item.type !== "image_generation_call") continue;
-    const result = typeof item.result === "string" ? item.result : "";
+    const result = typeof item.result === "string" ? item.result : "';
     if (!result) continue;
     const revisedPrompt = typeof item.revised_prompt === "string" ? item.revised_prompt : null;
     results.push({ b64: result, revisedPrompt });
@@ -2376,8 +2376,8 @@ export function extractImageGenerationCalls(
 // so OpenWebUI's quality dropdown doesn't silently get rejected upstream.
 function mapLegacyImageQualityToImageTool(value: string): string {
   const normalized = value.toLowerCase();
-  if (normalized === "standard") return "medium";
-  if (normalized === "hd") return "high";
+  if (normalized === "standard") return "medium';
+  if (normalized === "hd") return "high';
   return normalized;
 }
 
@@ -2393,7 +2393,7 @@ async function handleCodexImageGeneration({
   logPath = "/v1/images/generations",
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt : "';
   if (!prompt.trim()) {
     return saveImageErrorResult({
       provider,
@@ -2438,7 +2438,7 @@ async function handleCodexImageGeneration({
   // (model, n, background, moderation, output_compression) is left to the
   // Codex backend's defaults — today that's `gpt-image-2`.
   const toolConfig: Record<string, unknown> = { type: "image_generation", output_format: "png" };
-  if (referenceImages.length > 0) toolConfig.action = "edit";
+  if (referenceImages.length > 0) toolConfig.action = "edit';
   if (typeof body.size === "string" && body.size.trim()) {
     toolConfig.size = body.size.trim();
   }
@@ -2586,7 +2586,7 @@ async function handleCodexImageGeneration({
     }
   }
 
-  const wantsUrl = body.response_format !== "b64_json";
+  const wantsUrl = body.response_format !== "b64_json';
   const data = wantsUrl
     ? collected.map((item) => ({
         url: `data:image/png;base64,${item.b64_json}`,
@@ -2726,7 +2726,7 @@ async function fetchImageEndpoint(url, headers, body, provider, log) {
         typeof err === "object" &&
         err !== null &&
         "name" in err &&
-        (err as { name?: unknown }).name === "AbortError";
+        (err as { name?: unknown }).name === "AbortError';
       if (err instanceof FetchTimeoutError || isAbortError) {
         const message = err instanceof Error ? err.message : String(err);
         if (log) {
@@ -2792,7 +2792,7 @@ async function handleNanoBananaImageGeneration({
   const token = credentials.apiKey || credentials.accessToken;
 
   // Route to pro URL for "nanobanana-pro" model
-  const isPro = model === "nanobanana-pro";
+  const isPro = model === "nanobanana-pro';
   const submitUrl = isPro && providerConfig.proUrl ? providerConfig.proUrl : providerConfig.baseUrl;
   const statusUrl = providerConfig.statusUrl;
 
@@ -2806,9 +2806,9 @@ async function handleNanoBananaImageGeneration({
   let resolution =
     typeof body.resolution === "string"
       ? body.resolution
-      : inferResolutionFromSize(body.size) || "1K";
+      : inferResolutionFromSize(body.size) || "1K';
   if (body.quality === "hd" && resolution === "1K") {
-    resolution = "2K";
+    resolution = "2K';
   }
 
   const upstreamBody = isPro
@@ -2912,7 +2912,7 @@ async function handleNanoBananaImageGeneration({
     }
 
     if (!statusUrl) {
-      const errorText = "NanoBanana statusUrl is not configured";
+      const errorText = "NanoBanana statusUrl is not configured';
       saveCallLog({
         method: "POST",
         path: "/v1/images/generations",
@@ -3085,7 +3085,7 @@ async function normalizeNanoBananaTaskResult(taskData, body, log) {
     }
   }
 
-  const wantsBase64 = body.response_format === "b64_json";
+  const wantsBase64 = body.response_format === "b64_json';
 
   if (wantsBase64) {
     if (b64Candidates.length > 0) {
@@ -3126,9 +3126,9 @@ function inferResolutionFromSize(size) {
   if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) return null;
 
   const longestSide = Math.max(width, height);
-  if (longestSide <= 1024) return "1K";
-  if (longestSide <= 2048) return "2K";
-  return "4K";
+  if (longestSide <= 1024) return "1K';
+  if (longestSide <= 2048) return "2K';
+  return "4K';
 }
 
 function normalizePositiveNumber(value, fallback) {

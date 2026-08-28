@@ -30,14 +30,14 @@
  * VPS validation (Hard Rule #18): the real model is exercised behind RUN_LLMLINGUA_INT.
  */
 
-import { Worker } from "node:worker_threads";
-import path from "node:path";
-import fs from "node:fs";
-import { pathToFileURL } from "node:url";
+import { Worker } from 'node:worker_threads';
+import path from 'node:path';
+import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
-import { LLMLINGUA_WORKER_TIMEOUT_MS, LLMLINGUA_WORKER_IDLE_MS } from "./constants.ts";
-import { resolveLlmlinguaModel } from "./modelStore.ts";
-import type { LlmlinguaBackend } from "./index.ts";
+import { LLMLINGUA_WORKER_TIMEOUT_MS, LLMLINGUA_WORKER_IDLE_MS } from './constants.ts';
+import { resolveLlmlinguaModel } from './modelStore.ts';
+import type { LlmlinguaBackend } from './index.ts';
 
 /** One-time model-load budget on the first call for a given model (tinybert ~2s, bert-base ~27s). */
 const FIRST_CALL_TIMEOUT_MS = 60000;

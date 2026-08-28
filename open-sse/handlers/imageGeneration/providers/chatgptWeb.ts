@@ -2,9 +2,9 @@
 // Family: chatgpt-web | Module: chatgptWeb | Lines: 1102-1282 (181 LOC)
 // Ref: see open-sse/handlers/imageGeneration.ts top-of-file comment for split rationale
 
-import { ChatGptWebExecutor } from "../../../executors/chatgpt-web.ts";
-import { getChatGptImage } from "../../../services/chatgptImageCache.ts";
-import { saveImageErrorResult, saveImageSuccessResult } from "../../imageGeneration.ts";
+import { ChatGptWebExecutor } from '../../../executors/chatgpt-web.ts';
+import { getChatGptImage } from '../../../services/chatgptImageCache.ts';
+import { saveImageErrorResult, saveImageSuccessResult } from '../../imageGeneration.ts';
 
 export const CHATGPT_WEB_IMAGE_MARKDOWN_RE = /!\[[^\]]*\]\(([^)\s]+)\)/g;
 export const CHATGPT_WEB_IMAGE_ID_RE =
@@ -48,7 +48,7 @@ export async function handleChatGptWebImageGeneration({
   executorFactory = () => new ChatGptWebExecutor(),
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (!prompt) {
     return saveImageErrorResult({
       provider,
@@ -91,7 +91,7 @@ export async function handleChatGptWebImageGeneration({
     );
   }
 
-  const wantsBase64 = body.response_format === "b64_json";
+  const wantsBase64 = body.response_format === "b64_json';
   const images: Array<{ url?: string; b64_json?: string }> = [];
   const requestBody = {
     model,
@@ -126,7 +126,7 @@ export async function handleChatGptWebImageGeneration({
       });
     }
 
-    let content = "";
+    let content = "';
     let imageResolutionFailed = false;
     try {
       const json = JSON.parse(responseText);

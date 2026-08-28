@@ -6,19 +6,19 @@
  * Override the DB path with the CURSOR_STATE_DB_PATH env var for non-standard installs.
  */
 
-import { homedir } from "os";
-import { join } from "path";
-import { createRequire } from "module";
+import { homedir } from 'os';
+import { join } from 'path';
+import { createRequire } from 'module';
 
 const CACHE_TTL_MS = 60 * 60 * 1000;
-const DB_KEY = "cursorupdate.lastUpdatedAndShown.version";
+const DB_KEY = "cursorupdate.lastUpdatedAndShown.version';
 /**
  * Version reported when the Cursor IDE state DB is unavailable (the common
  * case for a headless OmniRoute deployment). Kept in sync with
  * `CURSOR_REGISTRY_VERSION` in providerHeaderProfiles.ts. Exported so tests
  * assert against the single source of truth instead of a drifting literal.
  */
-export const FALLBACK_VERSION = "3.9";
+export const FALLBACK_VERSION = "3.9';
 
 let cachedVersion: string | null = null;
 let cachedAt = 0;

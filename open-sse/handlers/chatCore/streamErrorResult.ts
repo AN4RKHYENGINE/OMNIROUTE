@@ -8,7 +8,7 @@
  * module-level functions.
  */
 
-import { buildErrorBody } from "../../utils/error.ts";
+import { buildErrorBody } from '../../utils/error.ts';
 
 export function isSemaphoreCapacityError(error: unknown): error is Error & { code: string } {
   return (

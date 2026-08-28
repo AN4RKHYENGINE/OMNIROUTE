@@ -1,13 +1,13 @@
-import type { CompressionConfig, CompressionResult } from "./types.ts";
-import type { CachingDetectionContext } from "./cachingAware.ts";
-import type { RiskGateConfig } from "./riskGate/riskGate.ts";
-import { resolveRiskGate, withRiskGate } from "./riskGate/strategyWrap.ts";
+import type { CompressionConfig, CompressionResult } from './types.ts';
+import type { CachingDetectionContext } from './cachingAware.ts';
+import type { RiskGateConfig } from './riskGate/riskGate.ts';
+import { resolveRiskGate, withRiskGate } from './riskGate/strategyWrap.ts';
 import {
   resolveQuantumLock,
   quantumCachingContext,
   withQuantumLock,
   withQuantumLockAsync,
-} from "./quantumLock/index.ts";
+} from './quantumLock/index.ts';
 
 export interface CompressionEntrypointOptions {
   config?: CompressionConfig;

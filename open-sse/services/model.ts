@@ -1,6 +1,6 @@
-import { PROVIDER_ID_TO_ALIAS, PROVIDER_MODELS } from "../config/providerModels.ts";
-import { resolveWildcardAlias } from "./wildcardRouter.ts";
-import { getRegisteredProviderEffortBaseModelId } from "../utils/registeredEffortVariants.ts";
+import { PROVIDER_ID_TO_ALIAS, PROVIDER_MODELS } from '../config/providerModels.ts';
+import { resolveWildcardAlias } from './wildcardRouter.ts';
+import { getRegisteredProviderEffortBaseModelId } from '../utils/registeredEffortVariants.ts';
 
 type ProviderModelAliasMap = Record<string, Record<string, string>>;
 type ModelAliasValue = string | { provider?: string; model?: string };
@@ -42,22 +42,22 @@ for (const [id, alias] of Object.entries(PROVIDER_ID_TO_ALIAS)) {
 // These live outside the registry because they represent multiple providers
 // or backward-compatible slug changes, not a single provider's display name.
 // opencode/ → opencode-zen (the main free/open tier; opencode-go is a separate paid tier)
-ALIAS_TO_PROVIDER_ID["opencode"] = "opencode-zen";
+ALIAS_TO_PROVIDER_ID["opencode"] = "opencode-zen';
 // xiaomi/ is the user-visible prefix for MiMo models; register it so
 // parseModel("xiaomi/mimo-v2-flash") resolves provider = "xiaomi-mimo" instead
 // of falling through to the identity fallback ("xiaomi").
-ALIAS_TO_PROVIDER_ID["xiaomi"] = "xiaomi-mimo";
+ALIAS_TO_PROVIDER_ID["xiaomi"] = "xiaomi-mimo';
 // llamacpp/ is the user-visible alias for the llama-cpp self-hosted provider.
 // The canonical ID is "llama-cpp" (with a hyphen), but the catalog and user-facing
 // prefix is "llamacpp". Register it so parseModel("llamacpp/<model>") resolves
 // provider = "llama-cpp" instead of the identity fallback ("llamacpp").
-ALIAS_TO_PROVIDER_ID["llamacpp"] = "llama-cpp";
+ALIAS_TO_PROVIDER_ID["llamacpp"] = "llama-cpp';
 // agy/ is the short alias for antigravity provider.
-ALIAS_TO_PROVIDER_ID["agy"] = "antigravity";
+ALIAS_TO_PROVIDER_ID["agy"] = "antigravity';
 // aq/ is the user-visible prefix for the Amazon Q (AWS Builder ID) provider.
 // The canonical provider ID is "amazon-q". Register it so parseModel("aq/<model>")
 // resolves provider = "amazon-q" instead of falling through to the identity fallback.
-ALIAS_TO_PROVIDER_ID["aq"] = "amazon-q";
+ALIAS_TO_PROVIDER_ID["aq"] = "amazon-q';
 
 // Provider-scoped legacy model aliases. Used to normalize provider/model inputs
 // and keep backward compatibility when upstream IDs change.
@@ -235,7 +235,7 @@ export function resolveBareModelToConnectionDefault(
 
 function isCrossProxyModelCompatEnabled() {
   const raw = process.env.MODEL_ALIAS_COMPAT_ENABLED;
-  return raw !== "false" && raw !== "0";
+  return raw !== "false" && raw !== "0';
 }
 
 export function normalizeCrossProxyModelId(modelId: unknown): {

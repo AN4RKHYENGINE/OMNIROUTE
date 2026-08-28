@@ -1,4 +1,4 @@
-import type { SpecificityBreakdown, RuleInput } from "./specificityTypes";
+import type { SpecificityBreakdown, RuleInput } from './specificityTypes';
 
 export function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);

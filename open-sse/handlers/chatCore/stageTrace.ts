@@ -18,12 +18,12 @@ export function stageTrace(
   const { traceEnabled, startTime, traceId, log } = ctx;
   if (!traceEnabled) return;
   const elapsed = Date.now() - startTime;
-  let suffix = "";
+  let suffix = "';
   if (extra) {
     try {
       suffix = ` ${JSON.stringify(extra)}`;
     } catch {
-      suffix = " [unserializable]";
+      suffix = " [unserializable]';
     }
   }
   log?.info?.("STAGE_TRACE", `${traceId} ${label} t=${elapsed}ms${suffix}`);

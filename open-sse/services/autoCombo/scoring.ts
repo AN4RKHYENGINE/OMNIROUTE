@@ -4,9 +4,9 @@
  * Calculates a weighted score for each provider candidate.
  */
 
-import type { RoutingHint } from "../manifestAdapter";
-import { clamp01 } from "../../utils/number";
-import { classifyTier } from "../tierResolver";
+import type { RoutingHint } from '../manifestAdapter';
+import { clamp01 } from '../../utils/number';
+import { classifyTier } from '../tierResolver';
 
 export interface ScoringFactors {
   quota: number;
@@ -83,7 +83,7 @@ export interface ProviderCandidate {
   model: string;
   quotaRemaining: number; // percentage 0..100
   quotaTotal: number;
-  circuitBreakerState: "CLOSED" | "HALF_OPEN" | "OPEN";
+  circuitBreakerState: "CLOSED" | "HALF_OPEN" | "OPEN';
   costPer1MTokens: number;
   p95LatencyMs: number;
   /** Average time-to-first-token in ms, when stream telemetry is available. */
@@ -97,7 +97,7 @@ export interface ProviderCandidate {
   /** Optional provider/model observed failure rate. Falls back to errorRate. */
   failureRate?: number;
   /** T10: Optional account tier for priority boosting (Ultra > Pro > Free) */
-  accountTier?: "ultra" | "pro" | "standard" | "free";
+  accountTier?: "ultra" | "pro" | "standard" | "free';
   /** T10: Optional quota reset interval in seconds (shorter = higher priority when same quota) */
   quotaResetIntervalSecs?: number;
   /** Score [0..1] for staying on the current session's provider/account/model path. */

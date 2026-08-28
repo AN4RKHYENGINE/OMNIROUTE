@@ -8,8 +8,8 @@
  * provider leaf. usage.ts imports getNanoGptUsage (dispatcher). Behavior-preserving move.
  */
 
-import { toRecord, toNumber, clampPercentage } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+import { toRecord, toNumber, clampPercentage } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 const NANOGPT_CONFIG = {
   usageUrl: "https://nano-gpt.com/api/subscription/v1/usage",
@@ -39,18 +39,18 @@ export async function getNanoGptUsage(apiKey: string) {
     const quotas: Record<string, UsageQuota> = {};
 
     // active -> PRO, otherwise FREE
-    const plan = data.active ? "PRO" : "FREE";
+    const plan = data.active ? "PRO" : "FREE';
 
     if (data.active) {
       // 1. Tokens limit
       // dailyInputTokens if exists, else weeklyInputTokens
       let tokenQuota = toRecord(data.dailyInputTokens);
-      let tokenLabel = "Daily Tokens";
+      let tokenLabel = "Daily Tokens';
       if (!tokenQuota.resetAt) {
         const weeklyQuota = toRecord(data.weeklyInputTokens);
         if (weeklyQuota.remaining !== undefined) {
           tokenQuota = weeklyQuota;
-          tokenLabel = "Weekly Tokens";
+          tokenLabel = "Weekly Tokens';
         }
       }
 

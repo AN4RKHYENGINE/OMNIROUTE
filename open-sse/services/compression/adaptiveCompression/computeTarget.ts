@@ -1,4 +1,4 @@
-import type { ContextBudgetConfig, ContextBudgetPolicy } from "./types.ts";
+import type { ContextBudgetConfig, ContextBudgetPolicy } from './types.ts';
 
 /**
  * Pure target-token computation (design D-C1). No clock, no DB, no tokenizer.

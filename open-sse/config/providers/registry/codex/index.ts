@@ -1,10 +1,10 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 import {
   GPT_5_6_CODEX_CAPABILITIES,
   GPT_5_5_CODEX_CAPABILITIES,
   getCodexDefaultHeaders,
   resolvePublicCred,
-} from "../../shared.ts";
+} from '../../shared.ts';
 
 export const codexProvider: RegistryEntry = {
   id: "codex",

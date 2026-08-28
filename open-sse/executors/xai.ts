@@ -1,7 +1,7 @@
-import { BaseExecutor, type ExecutorLog, type ProviderCredentials } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { getModelTargetFormat } from "../config/providerModels.ts";
-import { isResponsesEndpointPath } from "../utils/responsesEndpoint.ts";
+import { BaseExecutor, type ExecutorLog, type ProviderCredentials } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { getModelTargetFormat } from '../config/providerModels.ts';
+import { isResponsesEndpointPath } from '../utils/responsesEndpoint.ts';
 
 type JsonRecord = Record<string, unknown>;
 

@@ -6,7 +6,7 @@
  * to a single browser identity for rate-limiting purposes.
  */
 
-import { type Fingerprint } from "./types.ts";
+import { type Fingerprint } from './types.ts';
 
 // ─── Profiles ──────────────────────────────────────────────────────────────
 
@@ -113,7 +113,7 @@ export class FingerprintRotator {
     };
     if (fingerprint.secChUa) {
       headers["Sec-CH-UA"] = fingerprint.secChUa;
-      headers["Sec-CH-UA-Mobile"] = fingerprint.secChUaMobile ?? "?0";
+      headers["Sec-CH-UA-Mobile"] = fingerprint.secChUaMobile ?? "?0';
       headers["Sec-CH-UA-Platform"] = fingerprint.secChUaPlatform ?? '"Windows"';
     }
     return headers;

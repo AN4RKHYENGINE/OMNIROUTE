@@ -1,9 +1,9 @@
-import { REGISTRY } from "./providers/index.ts";
+import { REGISTRY } from './providers/index.ts';
 import {
   generateProviderPluginManifestFromRegistry,
   getProviderPluginManifestEntryFromRegistry,
   type ProviderPluginManifestEntry,
-} from "./providerPluginManifest.ts";
+} from './providerPluginManifest.ts';
 
 export function generateProviderPluginManifest() {
   return generateProviderPluginManifestFromRegistry(REGISTRY);
@@ -18,7 +18,7 @@ export function getProviderPluginManifestEntryForModel(
 ): ProviderPluginManifestEntry | null {
   if (!model) return null;
 
-  const providerPrefix = model.includes("/") ? model.split("/", 1)[0] : "";
+  const providerPrefix = model.includes("/") ? model.split("/", 1)[0] : "';
   if (providerPrefix) {
     const prefixed = getProviderPluginManifestEntry(providerPrefix);
     if (prefixed) return prefixed;

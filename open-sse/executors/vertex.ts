@@ -1,6 +1,6 @@
-import { SignJWT, importPKCS8 } from "jose";
-import { BaseExecutor, ExecuteInput } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
+import { SignJWT, importPKCS8 } from 'jose';
+import { BaseExecutor, ExecuteInput } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
 
 interface ServiceAccount {
   type: string;
@@ -181,9 +181,9 @@ function toAnthropicBody(body: Record<string, unknown>): Record<string, unknown>
 // (open-sse/utils/jsonToSse.ts) which cannot represent Anthropic's native response shape at all.
 function synthesizeClaudeSse(response: Record<string, unknown>): string {
   const messageId = typeof response.id === "string" ? response.id : `msg_${Date.now()}`;
-  const model = typeof response.model === "string" ? response.model : "";
+  const model = typeof response.model === "string" ? response.model : "';
   const usage = (response.usage as Record<string, unknown>) || {};
-  const stopReason = typeof response.stop_reason === "string" ? response.stop_reason : "end_turn";
+  const stopReason = typeof response.stop_reason === "string" ? response.stop_reason : "end_turn';
   const stopSequence = (response.stop_sequence as string | null | undefined) ?? null;
   const content = Array.isArray(response.content) ? response.content : [];
 
@@ -304,7 +304,7 @@ export class VertexExecutor extends BaseExecutor {
       }
       // The rawPredict endpoint requires "anthropic_version" in the body (Vertex's substitute
       // for the "anthropic-version" header used by Anthropic's direct API).
-      body.anthropic_version ??= "vertex-2023-10-16";
+      body.anthropic_version ??= "vertex-2023-10-16';
       // Unlike Anthropic's direct API (which reads the model from the body), Vertex's
       // rawPredict endpoint already encodes project/region/model in the URL and 400s with
       // "model: Extra inputs are not permitted" if the translated request body still carries
@@ -317,14 +317,14 @@ export class VertexExecutor extends BaseExecutor {
     if (isClaudeModel(model) && stream) {
       const response = result instanceof Response ? result : result?.response;
       if (response?.ok) {
-        const contentType = response.headers.get("content-type") || "";
+        const contentType = response.headers.get("content-type") || "';
         if (contentType.includes("application/json") && !contentType.includes("text/event-stream")) {
           const jsonText = await response.text();
           let newBody = jsonText;
           let newContentType = contentType;
           try {
             newBody = synthesizeClaudeSse(JSON.parse(jsonText));
-            newContentType = "text/event-stream";
+            newContentType = "text/event-stream';
           } catch (err) {
             const message = err instanceof Error ? err.message : String(err);
             log?.warn?.("VERTEX", `Failed to synthesize Claude SSE stream: ${message}`);
@@ -355,12 +355,12 @@ export class VertexExecutor extends BaseExecutor {
         // Partner (Anthropic/etc.) models are not available via Express keys; best-effort.
         return `https://aiplatform.googleapis.com/v1/publishers/openapi/chat/completions?key=${expressKey}`;
       }
-      const op = stream ? "streamGenerateContent?alt=sse&" : "generateContent?";
+      const op = stream ? "streamGenerateContent?alt=sse&" : "generateContent?';
       return `https://aiplatform.googleapis.com/v1/publishers/google/models/${model}:${op}key=${expressKey}`;
     }
 
-    const region = credentials?.providerSpecificData?.region || "us-central1";
-    let project = "unknown-project";
+    const region = credentials?.providerSpecificData?.region || "us-central1';
+    let project = "unknown-project';
 
     if (credentials?.apiKey) {
       try {
@@ -391,7 +391,7 @@ export class VertexExecutor extends BaseExecutor {
     }
     // Express-mode keys are carried in the ?key= query parameter (see buildUrl), not a header.
     if (stream) {
-      headers["Accept"] = "text/event-stream";
+      headers["Accept"] = "text/event-stream';
     }
     return headers;
   }

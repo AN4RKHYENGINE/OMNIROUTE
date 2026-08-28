@@ -9,9 +9,9 @@
  * (used by the glm-coding-plan-monthly test). Behavior-preserving move.
  */
 
-import { toNumber, toRecord, toTitleCase, toPercentage } from "./scalars.ts";
-import { type UsageQuota } from "./quota.ts";
-import { buildGlmQuotaFetch, getGlmTeamQuotaConfig } from "../../config/glmProvider.ts";
+import { toNumber, toRecord, toTitleCase, toPercentage } from './scalars.ts';
+import { type UsageQuota } from './quota.ts';
+import { buildGlmQuotaFetch, getGlmTeamQuotaConfig } from '../../config/glmProvider.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -22,35 +22,35 @@ function getGlmTokenQuotaName(
   const unit = toNumber(limit.unit, 0);
   const number = toNumber(limit.number, 0);
 
-  if (unit === 3 && number === 5) return "session";
-  if (unit === 6 && number === 1) return "weekly";
-  if ((unit === 4 && number === 7) || (unit === 3 && number >= 24 * 7)) return "weekly";
+  if (unit === 3 && number === 5) return "session';
+  if (unit === 6 && number === 1) return "weekly';
+  if ((unit === 4 && number === 7) || (unit === 3 && number >= 24 * 7)) return "weekly';
 
-  return existingQuotas.session ? "weekly" : "session";
+  return existingQuotas.session ? "weekly" : "session';
 }
 
 function getGlmQuotaDisplayName(quotaName: string): string {
-  if (quotaName === "session") return "5 Hours Quota";
-  if (quotaName === "weekly") return "Weekly Quota";
+  if (quotaName === "session") return "5 Hours Quota';
+  if (quotaName === "weekly") return "Weekly Quota';
   return quotaName;
 }
 
 const GLM_QUOTA_ORDER = ["5 Hours Quota", "Weekly Quota", "Monthly Tools", "Tokens", "Time Limit"];
 
 function getGlmQuotaLabel(type: unknown, unit: unknown): string | null {
-  const normalized = typeof type === "string" ? type.trim().toUpperCase() : "";
+  const normalized = typeof type === "string" ? type.trim().toUpperCase() : "';
   const unitValue = toNumber(unit, -1);
 
   switch (normalized) {
     case "TOKENS_LIMIT":
     case "TOKEN_LIMIT":
-      if (unitValue === 3) return "5 Hours Quota";
-      if (unitValue === 6) return "Weekly Quota";
-      return "Tokens";
+      if (unitValue === 3) return "5 Hours Quota';
+      if (unitValue === 6) return "Weekly Quota';
+      return "Tokens';
     case "TIME_LIMIT":
     case "TIME_USAGE_LIMIT":
-      if (unitValue === 5) return "Monthly Tools";
-      return "Time Limit";
+      if (unitValue === 5) return "Monthly Tools';
+      return "Time Limit';
     default:
       return null;
   }
@@ -85,17 +85,17 @@ export function glmMonthlyRemainingPercentage(total: number, remaining: number):
 }
 
 function glmTeamQuotaIncompleteMessage(missing: "glmOrganizationId" | "glmProjectId"): string {
-  const fieldLabel = missing === "glmOrganizationId" ? "Organization ID" : "Project ID";
+  const fieldLabel = missing === "glmOrganizationId" ? "Organization ID" : "Project ID';
   return `GLM team plan quota requires both Organization ID and Project ID. Add the missing ${fieldLabel} on this connection.`;
 }
 
 function glmTeamQuotaHintMessage(): string {
-  return "This API key appears to be a GLM Coding team plan. Add Organization ID and Project ID on this connection to view usage.";
+  return "This API key appears to be a GLM Coding team plan. Add Organization ID and Project ID on this connection to view usage.';
 }
 
 function sanitizeGlmQuotaErrorMessage(msg: unknown): string {
   if (typeof msg !== "string" || !msg.trim()) {
-    return "Unable to fetch GLM quota.";
+    return "Unable to fetch GLM quota.';
   }
   return msg.trim();
 }
@@ -213,7 +213,7 @@ export async function getGlmUsage(apiKey: string, providerSpecificData?: Record<
       ? data.planName
       : typeof data.level === "string"
         ? data.level
-        : "";
+        : "';
   const plan = levelRaw ? toTitleCase(levelRaw.replace(/\s*plan$/i, "")) : null;
 
   return { plan, quotas: orderGlmQuotas(quotas) };

@@ -39,11 +39,11 @@
  * fields. Non-transient errors (400, 401, 403, 404, …) fail immediately — retrying
  * a bad-request or auth error wastes quota and will never succeed.
  */
-import { errorResponse } from "../utils/error.ts";
-import type { ComboLogger, HandleSingleModel, ResolvedComboTarget } from "./combo/types.ts";
+import { errorResponse } from '../utils/error.ts';
+import type { ComboLogger, HandleSingleModel, ResolvedComboTarget } from './combo/types.ts';
 // extractPanelText is a generic assistant-text extractor (OpenAI chat / Claude /
 // Gemini / Responses) — reused here to read each step's output, not fusion-specific.
-import { extractPanelText } from "./fusion.ts";
+import { extractPanelText } from './fusion.ts';
 
 type Body = Record<string, unknown>;
 
@@ -183,7 +183,7 @@ export async function handlePipelineChat({
     );
   }
 
-  let prevOutput = "";
+  let prevOutput = "';
   for (let i = 0; i < chain.length; i++) {
     const step = chain[i];
     const stepModel = getStepModel(step);

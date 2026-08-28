@@ -1,63 +1,63 @@
-import { extractRequestToolIdentityMap } from "./chatCore/requestToolIdentity.ts";
-import { injectMemoryAndSkills } from "./chatCore/memorySkillsInjection.ts";
-import { resolveChatCoreRequestSetup } from "./chatCore/requestSetup.ts";
-import { buildFailureUsageRecord } from "./chatCore/failureUsage.ts";
-import { estimateFinalInputTokens } from "./chatCore/contextEstimation.ts";
-import { extractSystemRoleMessages } from "./chatCore/claudeSystemRole.ts";
-export { extractSystemRoleMessages } from "./chatCore/claudeSystemRole.ts";
-import { checkIdempotencyCache } from "./chatCore/idempotency.ts";
-import { checkSemanticCache } from "./chatCore/semanticCache.ts";
-import { checkLifecycle, resolveLifecycle } from "./chatCore/modelLifecyclePolicy.ts";
+import { extractRequestToolIdentityMap } from './chatCore/requestToolIdentity.ts';
+import { injectMemoryAndSkills } from './chatCore/memorySkillsInjection.ts';
+import { resolveChatCoreRequestSetup } from './chatCore/requestSetup.ts';
+import { buildFailureUsageRecord } from './chatCore/failureUsage.ts';
+import { estimateFinalInputTokens } from './chatCore/contextEstimation.ts';
+import { extractSystemRoleMessages } from './chatCore/claudeSystemRole.ts';
+export { extractSystemRoleMessages } from './chatCore/claudeSystemRole.ts';
+import { checkIdempotencyCache } from './chatCore/idempotency.ts';
+import { checkSemanticCache } from './chatCore/semanticCache.ts';
+import { checkLifecycle, resolveLifecycle } from './chatCore/modelLifecyclePolicy.ts';
 import {
   shouldDefaultAllowClassifier,
   buildDefaultAllowClaudeMessage,
-} from "./chatCore/claudeClassifierCompat.ts";
-import { applyClientUsageBuffer } from "./chatCore/clientUsageBuffer.ts";
-import { buildPostCallGuardrailContext } from "./chatCore/postCallGuardrailContext.ts";
-import { storeSemanticCacheResponse } from "./chatCore/semanticCacheStore.ts";
-import { buildNonStreamingResponseHeaders } from "./chatCore/nonStreamingResponseHeaders.ts";
-import { buildNonStreamingJsonResponse } from "./chatCore/nonStreamingJsonResponse.ts";
-import { enforceOutputTokenBudget } from "./chatCore/outputTokenBudget.ts";
-import { maybeConvertJsonBodyToSse } from "./chatCore/jsonBodyToSse.ts";
-import { assembleStreamingResponseHeaders } from "./chatCore/streamingResponseHeaders.ts";
-import { storeStreamingSemanticCacheResponse } from "./chatCore/streamingSemanticCacheStore.ts";
-import { assembleStreamingPipeline } from "./chatCore/streamingPipeline.ts";
-import { sanitizeChatRequestBody } from "./chatCore/sanitization.ts";
-import { applyResponsesInputPolicy } from "../services/responsesInputPolicy.ts";
+} from './chatCore/claudeClassifierCompat.ts';
+import { applyClientUsageBuffer } from './chatCore/clientUsageBuffer.ts';
+import { buildPostCallGuardrailContext } from './chatCore/postCallGuardrailContext.ts';
+import { storeSemanticCacheResponse } from './chatCore/semanticCacheStore.ts';
+import { buildNonStreamingResponseHeaders } from './chatCore/nonStreamingResponseHeaders.ts';
+import { buildNonStreamingJsonResponse } from './chatCore/nonStreamingJsonResponse.ts';
+import { enforceOutputTokenBudget } from './chatCore/outputTokenBudget.ts';
+import { maybeConvertJsonBodyToSse } from './chatCore/jsonBodyToSse.ts';
+import { assembleStreamingResponseHeaders } from './chatCore/streamingResponseHeaders.ts';
+import { storeStreamingSemanticCacheResponse } from './chatCore/streamingSemanticCacheStore.ts';
+import { assembleStreamingPipeline } from './chatCore/streamingPipeline.ts';
+import { sanitizeChatRequestBody } from './chatCore/sanitization.ts';
+import { applyResponsesInputPolicy } from '../services/responsesInputPolicy.ts';
 import {
   getHeaderValueCaseInsensitive,
   isNoMemoryRequested,
   resolveCompressionHeader,
   isStripReasoningRequested,
-} from "./chatCore/headers.ts";
-import { markCodexScopeRateLimited } from "./chatCore/codexFailover.ts";
-import { isCodexOriginatedHeaders } from "../config/codexIdentity.ts";
-import { trackDevice, extractIpFromHeaders } from "../services/deviceTracker.ts";
-import { getCombosCached } from "./chatCore/comboContextCache.ts";
-export { clearCombosCache, clearUpstreamProxyConfigCache } from "./chatCore/comboContextCache.ts";
+} from './chatCore/headers.ts';
+import { markCodexScopeRateLimited } from './chatCore/codexFailover.ts';
+import { isCodexOriginatedHeaders } from '../config/codexIdentity.ts';
+import { trackDevice, extractIpFromHeaders } from '../services/deviceTracker.ts';
+import { getCombosCached } from './chatCore/comboContextCache.ts';
+export { clearCombosCache, clearUpstreamProxyConfigCache } from './chatCore/comboContextCache.ts';
 import {
   resolveAccountSemaphoreKey,
   resolveAccountSemaphoreMaxConcurrency,
   buildClaudePromptCacheLogMeta,
-} from "./chatCore/executorHelpers.ts";
+} from './chatCore/executorHelpers.ts';
 import {
   shouldUseNativeCodexPassthrough,
   shouldUseNativeXaiResponsesPassthrough,
   stampNativeResponsesPassthroughBody,
   redactPassthroughThinkingSignatures,
   isClaudeCodeSemanticPassthroughRequest,
-} from "./chatCore/passthroughHelpers.ts";
-import { recoverAnthropicThinkingSignature } from "./chatCore/thinkingSignatureRecovery.ts";
+} from './chatCore/passthroughHelpers.ts';
+import { recoverAnthropicThinkingSignature } from './chatCore/thinkingSignatureRecovery.ts';
 import {
   buildStreamingResponseHeaders,
   materializeDeduplicatedExecutionResult,
   stripNextMiddlewareControlHeaders,
   stripStaleForwardingHeaders,
-} from "./chatCore/responseHeaders.ts";
+} from './chatCore/responseHeaders.ts';
 import {
   forwardDashboardEventToLiveWs,
   maybeSyncClaudeExtraUsageState,
-} from "./chatCore/telemetryHelpers.ts";
+} from './chatCore/telemetryHelpers.ts';
 // Re-export the previously inline-defined helpers so existing importers of these
 // symbols from chatCore.ts (tests, sibling modules) keep resolving after the split.
 export {
@@ -72,97 +72,97 @@ import {
   extractMemoryTextFromResponse,
   extractMemoryTextFromRequestBody,
   resolveMemoryOwnerId,
-} from "./chatCore/memoryExtraction.ts";
-import { CORS_HEADERS } from "../utils/cors.ts";
-import { checkResourcePressureGuard } from "../utils/resourcePressure.ts";
-import { normalizeHeaders } from "../utils/headers.ts";
-import { resolveChatCoreRequestFormat } from "./chatCore/requestFormat.ts";
-import { resolveChatCoreTargetFormat } from "./chatCore/targetFormat.ts";
-import { stripStore, usesClaudeBridge } from "./chatCore/agentRouterProtocol.ts";
-import { defaultClaudeToolType } from "./chatCore/claudeToolDefaults.ts";
-import { injectSystemPrompt, injectCustomSystemPrompt } from "../services/systemPrompt.ts";
-import { translateRequest, needsTranslation } from "../translator/index.ts";
-import { FORMATS } from "../translator/formats.ts";
-import { collectCustomToolNamesForSourceFormat } from "../translator/request/openai-responses/additionalTools.ts";
-import { sanitizeKiroTools } from "../utils/kiroSanitizer.ts";
-import { splitMisplacedToolResults } from "../translator/helpers/claudeHelper.ts";
-import { ensureCacheControlOnLastUserMessage } from "../services/claudeCodeConstraints.ts";
+} from './chatCore/memoryExtraction.ts';
+import { CORS_HEADERS } from '../utils/cors.ts';
+import { checkResourcePressureGuard } from '../utils/resourcePressure.ts';
+import { normalizeHeaders } from '../utils/headers.ts';
+import { resolveChatCoreRequestFormat } from './chatCore/requestFormat.ts';
+import { resolveChatCoreTargetFormat } from './chatCore/targetFormat.ts';
+import { stripStore, usesClaudeBridge } from './chatCore/agentRouterProtocol.ts';
+import { defaultClaudeToolType } from './chatCore/claudeToolDefaults.ts';
+import { injectSystemPrompt, injectCustomSystemPrompt } from '../services/systemPrompt.ts';
+import { translateRequest, needsTranslation } from '../translator/index.ts';
+import { FORMATS } from '../translator/formats.ts';
+import { collectCustomToolNamesForSourceFormat } from '../translator/request/openai-responses/additionalTools.ts';
+import { sanitizeKiroTools } from '../utils/kiroSanitizer.ts';
+import { splitMisplacedToolResults } from '../translator/helpers/claudeHelper.ts';
+import { ensureCacheControlOnLastUserMessage } from '../services/claudeCodeConstraints.ts';
 import {
   createSSETransformStreamWithLogger,
   createPassthroughStreamWithLogger,
   COLORS,
   withBodyTimeout,
-} from "../utils/stream.ts";
-import { ensureStreamReadiness } from "../utils/streamReadiness.ts";
-import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from "../utils/thinkCloseMarker.ts";
-import { resolveStreamReadinessTimeout } from "../utils/streamReadinessPolicy.ts";
-import { resolveAgentGoalPolicy } from "../utils/agentGoalPolicy.ts";
-import { createStreamController } from "../utils/streamHandler.ts";
-import * as streamFailure from "../utils/streamFailureFinalization.ts";
-import { createSseHeartbeatTransform, shapeForClientFormat } from "../utils/sseHeartbeat.ts";
-import { addBufferToUsage, filterUsageForFormat, estimateUsage, sanitizeUsagePayloadForRequest } from "../utils/usageTracking.ts";
+} from '../utils/stream.ts';
+import { ensureStreamReadiness } from '../utils/streamReadiness.ts';
+import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from '../utils/thinkCloseMarker.ts';
+import { resolveStreamReadinessTimeout } from '../utils/streamReadinessPolicy.ts';
+import { resolveAgentGoalPolicy } from '../utils/agentGoalPolicy.ts';
+import { createStreamController } from '../utils/streamHandler.ts';
+import * as streamFailure from '../utils/streamFailureFinalization.ts';
+import { createSseHeartbeatTransform, shapeForClientFormat } from '../utils/sseHeartbeat.ts';
+import { addBufferToUsage, filterUsageForFormat, estimateUsage, sanitizeUsagePayloadForRequest } from '../utils/usageTracking.ts';
 import {
   refreshWithRetry,
   isUnrecoverableRefreshError,
   runWithOnPersist,
   runWithCasGuard,
-} from "../services/tokenRefresh.ts";
-import { createRequestLogger } from "../utils/requestLogger.ts";
-import { createPreparedRequestLogger, runWithCapture } from "../utils/providerRequestLogging.ts";
-import { summarizeToolSources } from "../utils/toolSources.ts";
-import { applyResponsesPreviousResponseIdPolicy } from "../utils/responsesStatePolicy.ts";
-import { applyClaudeEffortVariant } from "./chatCore/claudeEffortVariant.ts";
-import { DEFAULT_THINKING_CLAUDE_SIGNATURE } from "../config/defaultThinkingSignature.ts";
+} from '../services/tokenRefresh.ts';
+import { createRequestLogger } from '../utils/requestLogger.ts';
+import { createPreparedRequestLogger, runWithCapture } from '../utils/providerRequestLogging.ts';
+import { summarizeToolSources } from '../utils/toolSources.ts';
+import { applyResponsesPreviousResponseIdPolicy } from '../utils/responsesStatePolicy.ts';
+import { applyClaudeEffortVariant } from './chatCore/claudeEffortVariant.ts';
+import { DEFAULT_THINKING_CLAUDE_SIGNATURE } from '../config/defaultThinkingSignature.ts';
 import {
   getStripTypesForProviderModel,
   stripIncompatibleMessageContent,
-} from "../services/modelStrip.ts";
-import { normalizeMimoThinking } from "../services/mimoThinking.ts";
+} from '../services/modelStrip.ts';
+import { normalizeMimoThinking } from '../services/mimoThinking.ts';
 import {
   isOpencodeGoProvider,
   stripBooleanReasoning,
-} from "../services/opencodeReasoningSanitizer.ts";
+} from '../services/opencodeReasoningSanitizer.ts';
 import {
   normalizeClaudeAdaptiveThinking,
   normalizeClaudeDisabledThinkingEffort,
-} from "../services/claudeAdaptiveThinking.ts";
-import { shouldUseMidConversationSystem } from "../executors/claudeIdentity.ts";
-import { normalizeClaudeHaikuConstraints } from "../services/claudeHaikuConstraints.ts";
-import { applyDefaultReasoningEffort } from "../services/defaultReasoningEffort.ts";
-import { echoModelInObject } from "../services/responseModelEcho.ts";
+} from '../services/claudeAdaptiveThinking.ts';
+import { shouldUseMidConversationSystem } from '../executors/claudeIdentity.ts';
+import { normalizeClaudeHaikuConstraints } from '../services/claudeHaikuConstraints.ts';
+import { applyDefaultReasoningEffort } from '../services/defaultReasoningEffort.ts';
+import { echoModelInObject } from '../services/responseModelEcho.ts';
 import {
   stripGpt5SamplingWhenReasoning,
   stripGpt5ReasoningWhenTools,
-} from "../services/gpt5SamplingGuard.ts";
-import { getUnsupportedParams, REGISTRY } from "../config/providerRegistry.ts";
-import { stripUnsupportedParams } from "./chatCore/unsupportedParamsStrip.ts";
-import { checkToolCallingRequiredButUnsupported } from "./chatCore/toolCallingRequiredCheck.ts";
+} from '../services/gpt5SamplingGuard.ts';
+import { getUnsupportedParams, REGISTRY } from '../config/providerRegistry.ts';
+import { stripUnsupportedParams } from './chatCore/unsupportedParamsStrip.ts';
+import { checkToolCallingRequiredButUnsupported } from './chatCore/toolCallingRequiredCheck.ts';
 import {
   supportsMaxTokens,
   getResolvedModelCapabilities,
   getExplicitModelOutputCap,
   resolveInputTokenCapForGate,
-} from "@/lib/modelCapabilities.ts";
-import { checkRequestCapabilityFit, deriveRequestCapabilityRequirements, buildCapabilityMismatchMessage } from "@/shared/constants/capabilities/capabilityFilter.ts";
-import { isFeatureFlagEnabled } from "@/shared/utils/featureFlags.ts";
-import { toPositiveInteger } from "../services/reasoningTokenBuffer.ts";
-import { normalizeThinkingForModel } from "@/shared/constants/modelSpecs.ts";
+} from '@/lib/modelCapabilities.ts';
+import { checkRequestCapabilityFit, deriveRequestCapabilityRequirements, buildCapabilityMismatchMessage } from '@/shared/constants/capabilities/capabilityFilter.ts';
+import { isFeatureFlagEnabled } from '@/shared/utils/featureFlags.ts';
+import { toPositiveInteger } from '../services/reasoningTokenBuffer.ts';
+import { normalizeThinkingForModel } from '@/shared/constants/modelSpecs.ts';
 import {
   buildErrorBody,
   createErrorResult,
   parseUpstreamError,
   formatProviderError,
   sanitizeErrorMessage,
-} from "../utils/error.ts";
+} from '../utils/error.ts';
 import {
   reportMalformed200,
   detectMalformedNonStream,
   describeMalformedNonStream,
-} from "../utils/diagnostics.ts";
+} from '../utils/diagnostics.ts';
 import {
   checkTokenLimits,
   recordTokenUsage,
-} from "@omniroute/open-sse/services/tokenLimitCounter.ts";
+} from '../services/tokenLimitCounter.ts';
 import {
   COOLDOWN_MS,
   HTTP_STATUS,
@@ -175,209 +175,209 @@ import {
   STREAM_RECOVERY,
   DEFAULT_MAX_TOKENS,
   STREAM_DISCONNECT_GRACE_PERIOD_MS,
-} from "../config/constants.ts";
-import { createRecoverableStream, makeContinuationBody } from "../services/streamRecovery.ts";
+} from '../config/constants.ts';
+import { createRecoverableStream, makeContinuationBody } from '../services/streamRecovery.ts';
 import {
   resolveResilienceSettings,
   isStreamRecoveryExplicitlyConfigured,
-} from "@/lib/resilience/settings";
+} from '@/lib/resilience/settings';
 import {
   classifyProviderError,
   PROVIDER_ERROR_TYPES,
   isEmptyContentResponse,
-} from "../services/errorClassifier.ts";
-import { updateProviderConnection, getProviderConnectionById } from "@/lib/db/providers";
-import { wasRefreshTokenRotated } from "@omniroute/open-sse/services/refreshSerializer.ts";
-import { connectionHasExtraKeys } from "../services/apiKeyRotator.ts";
-import { recordKeyHealthStatus as recordKeyHealthStatusFor } from "./chatCore/keyHealth.ts";
-import { getSkillsModelIdForFormat } from "./chatCore/skillsFormat.ts";
-import { readNonStreamingResponseBody } from "./chatCore/nonStreamingResponseBody.ts";
+} from '../services/errorClassifier.ts';
+import { updateProviderConnection, getProviderConnectionById } from '@/lib/db/providers';
+import { wasRefreshTokenRotated } from '../services/refreshSerializer.ts';
+import { connectionHasExtraKeys } from '../services/apiKeyRotator.ts';
+import { recordKeyHealthStatus as recordKeyHealthStatusFor } from './chatCore/keyHealth.ts';
+import { getSkillsModelIdForFormat } from './chatCore/skillsFormat.ts';
+import { readNonStreamingResponseBody } from './chatCore/nonStreamingResponseBody.ts';
 import {
   isSemaphoreCapacityError,
   createStreamingErrorResult,
   getUpstreamErrorIdentifier,
-} from "./chatCore/streamErrorResult.ts";
-import { wrapReadableStreamWithFinalize } from "./chatCore/streamFinalize.ts";
-import { buildCacheUsageLogMeta } from "./chatCore/cacheUsageMeta.ts";
-import { buildExecutorClientHeaders } from "./chatCore/executorClientHeaders.ts";
-import { getExecutionConnectionId } from "./chatCore/executionCredentials.ts";
-import { resolveExecutionCredentials as resolveExecutionCredentialsFor } from "./chatCore/executionCredentials.ts";
-import { resolveExecutorWithProxy as resolveExecutorWithProxyFor } from "./chatCore/executorProxy.ts";
-import type { ClaudeMessage } from "./chatCore/claudeMessageTypes.ts";
-import { normalizeClaudeUpstreamMessages as normalizeClaudeUpstreamMessagesFor } from "./chatCore/claudeUpstreamMessages.ts";
+} from './chatCore/streamErrorResult.ts';
+import { wrapReadableStreamWithFinalize } from './chatCore/streamFinalize.ts';
+import { buildCacheUsageLogMeta } from './chatCore/cacheUsageMeta.ts';
+import { buildExecutorClientHeaders } from './chatCore/executorClientHeaders.ts';
+import { getExecutionConnectionId } from './chatCore/executionCredentials.ts';
+import { resolveExecutionCredentials as resolveExecutionCredentialsFor } from './chatCore/executionCredentials.ts';
+import { resolveExecutorWithProxy as resolveExecutorWithProxyFor } from './chatCore/executorProxy.ts';
+import type { ClaudeMessage } from './chatCore/claudeMessageTypes.ts';
+import { normalizeClaudeUpstreamMessages as normalizeClaudeUpstreamMessagesFor } from './chatCore/claudeUpstreamMessages.ts';
 import {
   persistAttemptLogs as persistAttemptLogsFor,
   type PersistAttemptLogsArgs,
-} from "./chatCore/attemptLogging.ts";
-import { stageTrace } from "./chatCore/stageTrace.ts";
-import { attachCompressionUsageReceiptAfterAnalytics as attachCompressionUsageReceiptAfterAnalyticsFor } from "./chatCore/compressionUsageReceipt.ts";
-import { prepareUpstreamBody } from "./chatCore/upstreamBody.ts";
-import { getQuotaScopeLabelForProvider } from "../services/antigravityQuotaFamily.ts";
+} from './chatCore/attemptLogging.ts';
+import { stageTrace } from './chatCore/stageTrace.ts';
+import { attachCompressionUsageReceiptAfterAnalytics as attachCompressionUsageReceiptAfterAnalyticsFor } from './chatCore/compressionUsageReceipt.ts';
+import { prepareUpstreamBody } from './chatCore/upstreamBody.ts';
+import { getQuotaScopeLabelForProvider } from '../services/antigravityQuotaFamily.ts';
 import {
   getCallLogPipelineCaptureStreamChunks,
   getCallLogPipelineMaxSizeBytes,
-} from "@/lib/logEnv";
-import { logAuditEvent } from "@/lib/compliance";
-import { emit } from "@/lib/events/eventBus";
-import { adaptBodyForCompression } from "../services/compression/bodyAdapter.ts";
-import { ensureEngineBreakdown } from "../services/compression/engineBreakdown.ts";
-import { handleBypassRequest } from "../utils/bypassHandler.ts";
-import { saveRequestUsage, trackPendingRequest, appendRequestLog } from "@/lib/usageDb";
-import { finalizePendingScope, updatePendingScope } from "@/lib/usage/pendingRequestScope";
-import { recordCost } from "@/domain/costRules";
-import { calculateCost } from "@/lib/usage/costCalculator";
+} from '@/lib/logEnv';
+import { logAuditEvent } from '@/lib/compliance';
+import { emit } from '@/lib/events/eventBus';
+import { adaptBodyForCompression } from '../services/compression/bodyAdapter.ts';
+import { ensureEngineBreakdown } from '../services/compression/engineBreakdown.ts';
+import { handleBypassRequest } from '../utils/bypassHandler.ts';
+import { saveRequestUsage, trackPendingRequest, appendRequestLog } from '@/lib/usageDb';
+import { finalizePendingScope, updatePendingScope } from '@/lib/usage/pendingRequestScope';
+import { recordCost } from '@/domain/costRules';
+import { calculateCost } from '@/lib/usage/costCalculator';
 import {
   buildClaudePassthroughToolNameMap,
   mergeResponseToolNameMap,
   normalizeOpenAIToolFinishReasons,
   restoreNonStreamingToolNames,
-} from "./chatCore/passthroughToolNames.ts";
-import { createDisabledCompressionConfig, resolveCompressionSettings } from "./chatCore/compressionSettings.ts";
-import type { EnforceDecision } from "@/lib/quota/types";
-import { isCompressionExcluded } from "../services/compression/exclusions.ts";
+} from './chatCore/passthroughToolNames.ts';
+import { createDisabledCompressionConfig, resolveCompressionSettings } from './chatCore/compressionSettings.ts';
+import type { EnforceDecision } from '@/lib/quota/types';
+import { isCompressionExcluded } from '../services/compression/exclusions.ts';
 import {
   isBuiltinStackedPipeline,
   isStackedCompressionCombo,
   type RuntimeCompressionCombo,
-} from "./chatCore/compressionComboPredicates.ts";
-import { emitOutputStyleTelemetry } from "./chatCore/outputStyleTelemetry.ts";
+} from './chatCore/compressionComboPredicates.ts';
+import { emitOutputStyleTelemetry } from './chatCore/outputStyleTelemetry.ts';
 import {
   writeCompressionAnalytics,
   writeCompressionSkip,
-} from "./chatCore/compressionAnalyticsWrite.ts";
-import { runPluginOnRequestHook } from "./chatCore/pluginOnRequest.ts";
-import { recordContextEditingTelemetryHook } from "./chatCore/contextEditingTelemetry.ts";
-import { recordCompressionCacheStats } from "./chatCore/compressionCacheStats.ts";
-import { writeCavemanOutputAnalytics } from "./chatCore/cavemanOutputAnalytics.ts";
-import { scheduleQuotaShareConsumption } from "./chatCore/quotaShareConsumption.ts";
-import { emitRequestGamificationEvent } from "./chatCore/gamificationEvent.ts";
+} from './chatCore/compressionAnalyticsWrite.ts';
+import { runPluginOnRequestHook } from './chatCore/pluginOnRequest.ts';
+import { recordContextEditingTelemetryHook } from './chatCore/contextEditingTelemetry.ts';
+import { recordCompressionCacheStats } from './chatCore/compressionCacheStats.ts';
+import { writeCavemanOutputAnalytics } from './chatCore/cavemanOutputAnalytics.ts';
+import { scheduleQuotaShareConsumption } from './chatCore/quotaShareConsumption.ts';
+import { emitRequestGamificationEvent } from './chatCore/gamificationEvent.ts';
 import {
   runPluginOnResponseHook,
   runPluginOnStreamCompleteHook,
-} from "./chatCore/pluginOnResponse.ts";
-import { scheduleStreamingQuotaShareConsumption } from "./chatCore/streamingQuotaShare.ts";
-import { recordStreamingUsageStats } from "./chatCore/streamingUsageStats.ts";
-import { recordStreamingCost } from "./chatCore/streamingCost.ts";
+} from './chatCore/pluginOnResponse.ts';
+import { scheduleStreamingQuotaShareConsumption } from './chatCore/streamingQuotaShare.ts';
+import { recordStreamingUsageStats } from './chatCore/streamingUsageStats.ts';
+import { recordStreamingCost } from './chatCore/streamingCost.ts';
 import {
   appendNonStreamingSseTerminalSignal,
   type NonStreamingSseTerminalState,
-} from "./chatCore/nonStreamingSse.ts";
-import { parseNonStreamingResponseBody } from "./chatCore/nonStreamingResponseParse.ts";
-import { unwrapClinepassEnvelope } from "../utils/clinepassEnvelope.ts";
-import { recordNonStreamingUsageStats } from "./chatCore/nonStreamingUsageStats.ts";
+} from './chatCore/nonStreamingSse.ts';
+import { parseNonStreamingResponseBody } from './chatCore/nonStreamingResponseParse.ts';
+import { unwrapClinepassEnvelope } from '../utils/clinepassEnvelope.ts';
+import { recordNonStreamingUsageStats } from './chatCore/nonStreamingUsageStats.ts';
 import {
   createBodyTimeoutError,
   readStreamChunkWithTimeout,
   computeBillableTokens,
   normalizeExecutorResult,
   executeWithUpstreamStartTimeout,
-} from "./chatCore/upstreamTimeouts.ts";
-import { getModelNormalizeToolCallId, getModelPreserveOpenAIDeveloperRole } from "@/lib/db/models";
-import { getProviderCredentials, extractSessionAffinityKey } from "@/sse/services/auth";
-import { deleteSessionAccountAffinity } from "@/lib/db/sessionAccountAffinity";
-import { getCacheControlSettings } from "@/lib/cacheControlSettings";
-import { guardrailRegistry } from "@/lib/guardrails";
+} from './chatCore/upstreamTimeouts.ts';
+import { getModelNormalizeToolCallId, getModelPreserveOpenAIDeveloperRole } from '@/lib/db/models';
+import { getProviderCredentials, extractSessionAffinityKey } from '@/sse/services/auth';
+import { deleteSessionAccountAffinity } from '@/lib/db/sessionAccountAffinity';
+import { getCacheControlSettings } from '@/lib/cacheControlSettings';
+import { guardrailRegistry } from '@/lib/guardrails';
 import {
   shouldPreserveCacheControl,
   resolveConnectionCacheOverride,
-} from "../utils/cacheControlPolicy.ts";
-import { getCachedSettings } from "@/lib/db/readCache";
-import { applyCodexGlobalFastServiceTier } from "@/lib/providers/codexFastTier";
-import { buildUpstreamHeadersForExecute as buildUpstreamHeadersForExecuteFor } from "./chatCore/upstreamExecuteHeaders.ts";
+} from '../utils/cacheControlPolicy.ts';
+import { getCachedSettings } from '@/lib/db/readCache';
+import { applyCodexGlobalFastServiceTier } from '@/lib/providers/codexFastTier';
+import { buildUpstreamHeadersForExecute as buildUpstreamHeadersForExecuteFor } from './chatCore/upstreamExecuteHeaders.ts';
 import {
   resolveEffectiveServiceTier as resolveEffectiveServiceTierFor,
   resolveReportedServiceTier as resolveReportedServiceTierFor,
   type EffectiveServiceTier,
-} from "./chatCore/serviceTier.ts";
-import { cacheReasoningFromAssistantMessage } from "../services/reasoningCache.ts";
-import { sanitizeOpenAITool } from "../services/toolSchemaSanitizer.ts";
-import { isCompactResponsesEndpoint } from "../executors/codex.ts";
-import { buildCodexQuotaPersistence } from "./chatCore/codexQuota.ts";
-import { invalidateCodexQuotaCache } from "../services/codexQuotaFetcher.ts";
-import { translateNonStreamingResponse } from "./responseTranslator.ts";
-import { unwrapClineNonStreamingEnvelope } from "./chatCore/clineResponseEnvelope.ts";
-import { extractUsageFromResponse } from "./usageExtractor.ts";
+} from './chatCore/serviceTier.ts';
+import { cacheReasoningFromAssistantMessage } from '../services/reasoningCache.ts';
+import { sanitizeOpenAITool } from '../services/toolSchemaSanitizer.ts';
+import { isCompactResponsesEndpoint } from '../executors/codex.ts';
+import { buildCodexQuotaPersistence } from './chatCore/codexQuota.ts';
+import { invalidateCodexQuotaCache } from '../services/codexQuotaFetcher.ts';
+import { translateNonStreamingResponse } from './responseTranslator.ts';
+import { unwrapClineNonStreamingEnvelope } from './chatCore/clineResponseEnvelope.ts';
+import { extractUsageFromResponse } from './usageExtractor.ts';
 import {
   sanitizeOpenAIResponse,
   sanitizeResponsesApiResponse,
   shouldParseTextualReasoningTags,
-} from "./responseSanitizer.ts";
+} from './responseSanitizer.ts';
 import {
   withRateLimit,
   updateFromHeaders,
   updateFromResponseBody,
   initializeRateLimits,
-} from "../services/rateLimitManager.ts";
-import * as localLimiterErrors from "../services/rateLimitManager/errors.ts";
+} from '../services/rateLimitManager.ts';
+import * as localLimiterErrors from '../services/rateLimitManager/errors.ts';
 import {
   acquire as acquireAccountSemaphore,
   markBlocked as markAccountSemaphoreBlocked,
-} from "../services/accountSemaphore.ts";
-import { lockModel, lockModelIfPerModelQuota } from "../services/accountFallback.ts";
-import { lockExactModel } from "../services/accountFallback.ts";
+} from '../services/accountSemaphore.ts';
+import { lockModel, lockModelIfPerModelQuota } from '../services/accountFallback.ts';
+import { lockExactModel } from '../services/accountFallback.ts';
 import {
   generateSignature,
   getCachedResponse,
   setCachedResponse,
   isCacheableForRead,
   isCacheableForWrite,
-} from "@/lib/semanticCache";
-import { saveIdempotency } from "@/lib/idempotencyLayer";
+} from '@/lib/semanticCache';
+import { saveIdempotency } from '@/lib/idempotencyLayer';
 import {
   isModelUnavailableError,
   getNextFamilyFallback,
   isContextOverflowError,
   findLargerContextModel,
   getModelFamily,
-} from "../services/modelFamilyFallback.ts";
-import { computeRequestHash, deduplicate, shouldDeduplicate } from "../services/requestDedup.ts";
+} from '../services/modelFamilyFallback.ts';
+import { computeRequestHash, deduplicate, shouldDeduplicate } from '../services/requestDedup.ts';
 import {
   compressContext,
   estimateTokens,
   getTokenLimit,
   getComboTargetTokenLimit,
   resolveComboContextLimit,
-} from "../services/contextManager.ts";
-import { resolveBackgroundTaskRedirect } from "./chatCore/backgroundRedirect.ts";
+} from '../services/contextManager.ts';
+import { resolveBackgroundTaskRedirect } from './chatCore/backgroundRedirect.ts';
 import type {
   CompressionConfig,
   CompressionPipelineStep,
   CompressionResult,
-} from "../services/compression/types.ts";
-import { generateSessionId } from "../services/sessionManager.ts";
-import { prepareWebSearchFallbackBody } from "../services/webSearchFallback.ts";
-import { prepareWebFetchFallbackBody } from "../services/webFetchInterception.ts";
-import { resolveInterceptSearch, resolveInterceptFetch } from "@/lib/db/interceptionRules";
+} from '../services/compression/types.ts';
+import { generateSessionId } from '../services/sessionManager.ts';
+import { prepareWebSearchFallbackBody } from '../services/webSearchFallback.ts';
+import { prepareWebFetchFallbackBody } from '../services/webFetchInterception.ts';
+import { resolveInterceptSearch, resolveInterceptFetch } from '@/lib/db/interceptionRules';
 import {
   resolveExplicitStreamAlias,
   resolveStreamFlag,
   stripMarkdownCodeFence,
-} from "../utils/aiSdkCompat.ts";
-import { generateRequestId } from "@/shared/utils/requestId";
-import { isLocalStreamLifecycleError } from "@/shared/utils/circuitBreaker";
-import { extractFacts } from "@/lib/memory/extraction";
-import { handleToolCallExecution } from "@/lib/skills/interception";
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
-import { getClaudeCodeCompatibleRequestDefaults } from "@/lib/providers/requestDefaults";
+} from '../utils/aiSdkCompat.ts';
+import { generateRequestId } from '@/shared/utils/requestId';
+import { isLocalStreamLifecycleError } from '@/shared/utils/circuitBreaker';
+import { extractFacts } from '@/lib/memory/extraction';
+import { handleToolCallExecution } from '@/lib/skills/interception';
+import { OMNIROUTE_RESPONSE_HEADERS } from '@/shared/constants/headers';
+import { getClaudeCodeCompatibleRequestDefaults } from '@/lib/providers/requestDefaults';
 import {
   buildClaudeCodeCompatibleRequest,
   resolveClaudeCodeCompatibleSessionId,
-} from "../services/claudeCodeCompatible.ts";
-import { setGeminiThoughtSignatureMode } from "../services/geminiThoughtSignatureStore.ts";
-import { fetchLiveProviderLimits } from "@/lib/usage/providerLimits";
-import { isClaudeExtraUsageBlockEnabled } from "@/lib/providers/claudeExtraUsage";
+} from '../services/claudeCodeCompatible.ts';
+import { setGeminiThoughtSignatureMode } from '../services/geminiThoughtSignatureStore.ts';
+import { fetchLiveProviderLimits } from '@/lib/usage/providerLimits';
+import { isClaudeExtraUsageBlockEnabled } from '@/lib/providers/claudeExtraUsage';
 import {
   classifyModelScope429,
   getModelScopeRetryDelayMs,
   isModelScopeProvider,
-} from "../services/modelscopePolicy.ts";
+} from '../services/modelscopePolicy.ts';
 import {
   incrementRequestCount,
   incrementTokenUsage,
   isTpmExhausted,
   isRpmExhausted,
-} from "../services/geminiRateLimitTracker.ts";
-import { isSmallEnoughForSemanticCache } from "../utils/estimateSize.ts";
+} from '../services/geminiRateLimitTracker.ts';
+import { isSmallEnoughForSemanticCache } from '../utils/estimateSize.ts';
 /**
  * Core chat handler - shared between SSE and Worker
  * Returns { success, response, status, error } for caller to handle fallback
@@ -457,7 +457,7 @@ export async function handleChatCore({
       comboName: comboName || undefined,
     });
   });
-  const traceEnabled = process.env.OMNIROUTE_TRACE === "true" || process.env.DEBUG === "true";
+  const traceEnabled = process.env.OMNIROUTE_TRACE === "true" || process.env.DEBUG === "true';
   // Stage trace extracted to chatCore/stageTrace.ts (#3501); bind the per-request inputs once so the
   // call sites stay byte-identical.
   const trace = (label: string, extra?: Record<string, unknown>) =>
@@ -530,7 +530,7 @@ export async function handleChatCore({
       `long-running goal mode enabled: readinessMax=${agentGoalPolicy.readinessMaxTimeoutMs}ms streamRecovery=${agentGoalPolicy.streamRecoveryEnabled}`
     );
   }
-  let effectiveServiceTier: EffectiveServiceTier = "standard";
+  let effectiveServiceTier: EffectiveServiceTier = "standard';
   // Codex service-tier resolvers extracted to chatCore/serviceTier.ts (#3501); bind the per-request
   // provider/credentials once and delegate so the existing call sites stay byte-identical.
   const resolveEffectiveServiceTier = (requestBody?: unknown): EffectiveServiceTier =>
@@ -917,7 +917,7 @@ export async function handleChatCore({
     typeof credentials.providerSpecificData === "object" &&
     typeof credentials.providerSpecificData.customUserAgent === "string"
       ? credentials.providerSpecificData.customUserAgent.trim()
-      : "";
+      : "';
 
   // #8369: connection-level custom upstream headers from provider_specific_data.
   const connectionCustomHeaders =
@@ -1214,15 +1214,15 @@ export async function handleChatCore({
           ["lite", "full", "ultra"].includes(compressionCombo.outputModeIntensity)
             ? compressionCombo.outputModeIntensity
             : (config.cavemanOutputMode?.intensity ?? "full")
-        ) as "lite" | "full" | "ultra";
+        ) as "lite" | "full" | "ultra';
         const comboDefaultLanguage =
           comboLanguagePacks.find((pack) => pack === config.languageConfig?.defaultLanguage) ??
           comboLanguagePacks[0] ??
           config.languageConfig?.defaultLanguage ??
-          "en";
+          "en';
         const comboOverrides = { ...(config.comboOverrides ?? {}) };
         for (const id of routingOverrideIds) {
-          if (id) comboOverrides[id] = "stacked";
+          if (id) comboOverrides[id] = "stacked';
         }
         config = {
           ...config,
@@ -1397,7 +1397,7 @@ export async function handleChatCore({
             const outputStyleLanguage =
               config.languageConfig?.enabled === true
                 ? config.languageConfig.defaultLanguage
-                : "en";
+                : "en';
             outputStyleResult = applyOutputStyles(
               body as Parameters<typeof applyOutputStyles>[0],
               selection,
@@ -1647,7 +1647,7 @@ export async function handleChatCore({
             // Compression was attempted (mode active, engines ran) but produced no
             // recordable saving — e.g. a Stacked RTK→Caveman pipeline on already-compact
             // context. Record a skip row so analytics can distinguish "ran but saved
-            // nothing" from "never ran" instead of dropping it silently (#4268).
+            // nothing" from 'never ran" instead of dropping it silently (#4268).
             compressionAnalyticsRecorded = true;
             compressionAnalyticsWritePromise = writeCompressionSkip(
               {
@@ -1819,7 +1819,7 @@ export async function handleChatCore({
         const layersInfo =
           stats && "layers" in stats && Array.isArray(stats.layers)
             ? ` (layers: ${stats.layers.map((l: { name: string }) => l.name).join(", ")})`
-            : "";
+            : "';
 
         log?.info?.(
           "CONTEXT",
@@ -2239,7 +2239,7 @@ export async function handleChatCore({
       Number.isInteger(parsedStatus) && parsedStatus >= 400 && parsedStatus <= 599
         ? parsedStatus
         : HTTP_STATUS.SERVER_ERROR;
-    const message = error?.message || "Invalid request";
+    const message = error?.message || "Invalid request';
     const errorType = typeof error?.errorType === "string" ? error.errorType : null;
 
     log?.warn?.("TRANSLATE", `Request translation failed: ${message}`);
@@ -3346,7 +3346,7 @@ export async function handleChatCore({
         connectionId,
         status: `FAILED ${error.code}`,
       }).catch(() => {});
-      const failureMessage = error.message || "Semaphore timeout";
+      const failureMessage = error.message || "Semaphore timeout';
       persistAttemptLogs({
         status: HTTP_STATUS.RATE_LIMITED,
         error: failureMessage,
@@ -3372,7 +3372,7 @@ export async function handleChatCore({
     // #8376: proxyFetch tags unreachable transport failures so they remain
     // distinguishable from ordinary provider 5xx responses.
     const isProxyUnreachableFailure =
-      !isRequestAborted && (error as { errorCode?: unknown })?.errorCode === "proxy_unreachable";
+      !isRequestAborted && (error as { errorCode?: unknown })?.errorCode === "proxy_unreachable';
     const errorCode = getUpstreamErrorIdentifier(error);
     const localRateLimitFailure = localLimiterErrors.getClientSafeLocalRateLimitError(error);
     const failureStatus = isRequestAborted
@@ -3459,7 +3459,7 @@ export async function handleChatCore({
   }
   let upstreamErrorParsed = false;
   let parsedStatusCode = providerResponse.status;
-  let parsedMessage = "";
+  let parsedMessage = "';
   let parsedRetryAfterMs: number | null = null;
   let upstreamErrorBody: unknown = null;
 
@@ -3510,7 +3510,7 @@ export async function handleChatCore({
     // connection's refresh_token past the one we presented — overwriting would revert it
     // and revoke the token family. No connectionId ⇒ no guard (behavior unchanged).
     const casConnectionId =
-      typeof credentials?.connectionId === "string" ? credentials.connectionId.trim() : "";
+      typeof credentials?.connectionId === "string" ? credentials.connectionId.trim() : "';
     const casReread = casConnectionId
       ? async () => {
           const latest = await getProviderConnectionById(casConnectionId);
@@ -3631,7 +3631,7 @@ export async function handleChatCore({
     trackPendingRequest(model, provider, connectionId, false);
 
     let statusCode = providerResponse.status;
-    let message = "";
+    let message = "';
     let retryAfterMs: number | null = null;
     let upstreamErrorCode: string | undefined;
     let upstreamErrorType: string | undefined;
@@ -4201,7 +4201,7 @@ export async function handleChatCore({
         connectionId,
         status: `FAILED ${HTTP_STATUS.BAD_GATEWAY}`,
       }).catch(() => {});
-      const emptyContentMessage = "Provider returned empty content";
+      const emptyContentMessage = "Provider returned empty content';
       persistAttemptLogs({
         status: HTTP_STATUS.BAD_GATEWAY,
         error: emptyContentMessage,
@@ -4478,7 +4478,7 @@ export async function handleChatCore({
       : 0;
 
     if (postCallGuardrails.blocked) {
-      const guardrailMessage = postCallGuardrails.message || "Response blocked by guardrail";
+      const guardrailMessage = postCallGuardrails.message || "Response blocked by guardrail';
       persistAttemptLogs({
         status: HTTP_STATUS.BAD_REQUEST,
         tokens: usage,

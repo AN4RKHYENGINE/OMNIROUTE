@@ -22,7 +22,7 @@ export function isInternalAssistantMessage(record: JsonRecord): boolean {
   if (!isResponsesMessageItem(record)) return false;
   if (record.role !== "assistant") return false;
 
-  const phase = typeof record.phase === "string" ? record.phase.trim().toLowerCase() : "";
+  const phase = typeof record.phase === "string" ? record.phase.trim().toLowerCase() : "';
   if (!phase) return false;
 
   // Drop only known internal runtime frames. Visible assistant turns such as
@@ -42,7 +42,7 @@ function sanitizeFunctionName(name: string): string {
 function sanitizeInputItemId(record: JsonRecord): JsonRecord {
   if (typeof record.id !== "string") return record;
 
-  const type = typeof record.type === "string" ? record.type : "";
+  const type = typeof record.type === "string" ? record.type : "';
   const expectedPrefix = SERVER_ITEM_ID_PREFIX_BY_TYPE[type];
   const hasExpectedPrefix = expectedPrefix
     ? record.id.startsWith(expectedPrefix)
@@ -58,7 +58,7 @@ function sanitizeInputItemId(record: JsonRecord): JsonRecord {
 function imageUrlToText(value: unknown): string {
   if (typeof value === "string") return value;
   const record = toRecord(value);
-  return typeof record?.url === "string" ? record.url : "";
+  return typeof record?.url === "string" ? record.url : "';
 }
 
 function sanitizeContentPart(part: unknown, role: string): unknown {
@@ -91,7 +91,7 @@ function sanitizeContentPart(part: unknown, role: string): unknown {
 function sanitizeMessageContent(record: JsonRecord): JsonRecord {
   if (!Array.isArray(record.content)) return record;
 
-  const role = typeof record.role === "string" ? record.role.toLowerCase() : "";
+  const role = typeof record.role === "string" ? record.role.toLowerCase() : "';
   const content = record.content.map((part) => sanitizeContentPart(part, role));
   return { ...record, content };
 }
@@ -107,7 +107,7 @@ function sanitizeNestedOutputPart(part: unknown): unknown {
   if (record.type === "output_text" || record.type === "refusal") {
     const next: JsonRecord = { ...record, type: "input_text" };
     if (typeof next.text !== "string") {
-      next.text = typeof record.refusal === "string" ? record.refusal : "";
+      next.text = typeof record.refusal === "string" ? record.refusal : "';
     }
     delete next.annotations;
     delete next.logprobs;

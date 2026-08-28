@@ -1,10 +1,10 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 import {
   getConfiguredLocalCorpusStatus,
   readConfiguredLocalCorpus,
   searchConfiguredLocalCorpus,
-} from "@lib/localCorpus/configured.ts";
+} from '@lib/localCorpus/configured.ts';
 
 export const localCorpusTools = [
   {

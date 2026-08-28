@@ -3,45 +3,45 @@ import type {
   CompressionMode,
   CompressionPipelineStep,
   CompressionResult,
-} from "./types.ts";
-import { applyHardBudget } from "./hardBudget.ts";
-import { type FidelityGateConfig } from "./fidelityGate.ts";
-import { gateAdvance } from "./fidelityGateStep.ts";
-import type { CompressionEngineApplyOptions } from "./engines/types.ts";
-import { applyLiteCompression } from "./lite.ts";
-import { cavemanCompress } from "./caveman.ts";
-import { compressAggressive } from "./aggressive.ts";
-import { ultraCompress, ultraCompressHeuristic } from "./ultra.ts";
-import { createCompressionStats } from "./stats.ts";
-import { applyStackedInflationGuard } from "./pipelineGuards.ts";
+} from './types.ts';
+import { applyHardBudget } from './hardBudget.ts';
+import { type FidelityGateConfig } from './fidelityGate.ts';
+import { gateAdvance } from './fidelityGateStep.ts';
+import type { CompressionEngineApplyOptions } from './engines/types.ts';
+import { applyLiteCompression } from './lite.ts';
+import { cavemanCompress } from './caveman.ts';
+import { compressAggressive } from './aggressive.ts';
+import { ultraCompress, ultraCompressHeuristic } from './ultra.ts';
+import { createCompressionStats } from './stats.ts';
+import { applyStackedInflationGuard } from './pipelineGuards.ts';
 import {
   resolvePipelineBreakerConfig,
   canRunEngine,
   recordEngineFailure,
   recordEngineSuccess,
   type PipelineCircuitBreakerConfig,
-} from "./pipelineEngineBreaker.ts";
+} from './pipelineEngineBreaker.ts';
 import {
   type BailoutConfig,
   type StackAccumulator,
   createStackAccumulator,
   decideStep,
   mergeStackStep,
-} from "./stackedStepCore.ts";
-import { resolveStepDetailConfig } from "./stepDetailConfig.ts";
-import { registerBuiltinCompressionEngines } from "./engines/index.ts";
-import { getCompressionEngine, getEngineEntry } from "./engines/registry.ts";
-import { codexResponsesEngine } from "./engines/codexResponses/index.ts";
-import { applyOmniglyphSingleMode } from "./engines/omniglyphSingleMode.ts";
-import { applyRtkCompression } from "./engines/rtk/index.ts";
-import { adaptBodyForCompression } from "./bodyAdapter.ts";
+} from './stackedStepCore.ts';
+import { resolveStepDetailConfig } from './stepDetailConfig.ts';
+import { registerBuiltinCompressionEngines } from './engines/index.ts';
+import { getCompressionEngine, getEngineEntry } from './engines/registry.ts';
+import { codexResponsesEngine } from './engines/codexResponses/index.ts';
+import { applyOmniglyphSingleMode } from './engines/omniglyphSingleMode.ts';
+import { applyRtkCompression } from './engines/rtk/index.ts';
+import { adaptBodyForCompression } from './bodyAdapter.ts';
 import {
   detectCachingContext,
   getCacheAwareStrategy,
   type CachingDetectionContext,
-} from "./cachingAware.ts";
-import { resolveCompressionPlan } from "./resolveCompressionPlan.ts";
-import { deriveDefaultPlan, type DerivedPlan } from "./deriveDefaultPlan.ts";
+} from './cachingAware.ts';
+import { resolveCompressionPlan } from './resolveCompressionPlan.ts';
+import { deriveDefaultPlan, type DerivedPlan } from './deriveDefaultPlan.ts';
 import {
   withSource,
   planFromHeader,
@@ -49,17 +49,17 @@ import {
   formatCompressionAnnotation,
   deriveDefaultPlanFromConfig,
   buildNamedComboLookup,
-} from "./planResolution.ts";
-import { resolveAdaptivePlan } from "./adaptiveCompression/resolveAdaptivePlan.ts";
-import type { AdaptiveTelemetry } from "./adaptiveCompression/types.ts";
-import type { RiskGateConfig } from "./riskGate/riskGate.ts";
-import { resolveRiskGate, withRiskGate, withRiskGateAsync } from "./riskGate/strategyWrap.ts";
+} from './planResolution.ts';
+import { resolveAdaptivePlan } from './adaptiveCompression/resolveAdaptivePlan.ts';
+import type { AdaptiveTelemetry } from './adaptiveCompression/types.ts';
+import type { RiskGateConfig } from './riskGate/riskGate.ts';
+import { resolveRiskGate, withRiskGate, withRiskGateAsync } from './riskGate/strategyWrap.ts';
 import {
   withCompressionEntrypointGuards,
   withCompressionEntrypointGuardsAsync,
-} from "./entrypointWrap.ts";
-import { makeMemoKey, memoLookup, memoStore, isDeterministicMode } from "./resultMemo.ts";
-export { resolveCacheAwareConfig } from "./cacheAwareConfig.ts";
+} from './entrypointWrap.ts';
+import { makeMemoKey, memoLookup, memoStore, isDeterministicMode } from './resultMemo.ts';
+export { resolveCacheAwareConfig } from './cacheAwareConfig.ts';
 
 // Re-export so existing importers (resolver test + chatCore dynamic import) keep resolving.
 export {
@@ -107,7 +107,7 @@ export function shouldAutoTrigger(config: CompressionConfig, estimatedTokens: nu
 /** True when the adaptive resolver owns automatic-by-size escalation (D-C4). */
 function adaptiveEnabled(config: CompressionConfig): boolean {
   const mode = config.contextBudget?.mode;
-  return mode === "floor" || mode === "replace-autotrigger";
+  return mode === "floor" || mode === "replace-autotrigger';
 }
 
 function resolveBasePlan(
@@ -144,7 +144,7 @@ function resolveBasePlan(
   }
 
   if (!adaptiveEnabled(config) && shouldAutoTrigger(config, estimatedTokens)) {
-    const mode = config.autoTriggerMode ?? "lite";
+    const mode = config.autoTriggerMode ?? "lite';
     return withSource(
       mode === "stacked"
         ? { mode, stackedPipeline: config.stackedPipeline ?? [] }
@@ -468,7 +468,7 @@ export async function applyCompressionAsync(
     model?: string;
     supportsVision?: boolean | null;
     /** Direct-to-provider vs. aggregator transport (gates transport-sensitive engines like omniglyph). */
-    providerTransport?: "direct" | "aggregator";
+    providerTransport?: "direct" | "aggregator';
     config?: CompressionConfig;
     principalId?: string;
     onEngineStep?: (step: StackedCompressionStep) => void;
@@ -487,7 +487,7 @@ async function runCompressionAsync(
     model?: string;
     supportsVision?: boolean | null;
     /** Direct-to-provider vs. aggregator transport (gates transport-sensitive engines like omniglyph). */
-    providerTransport?: "direct" | "aggregator";
+    providerTransport?: "direct" | "aggregator';
     config?: CompressionConfig;
     principalId?: string;
     onEngineStep?: (step: StackedCompressionStep) => void;
@@ -564,7 +564,7 @@ async function applyUltraAsync(
   }
 ): Promise<CompressionResult> {
   const ultraConfig = options?.config?.ultra;
-  const modelPath = typeof ultraConfig?.modelPath === "string" ? ultraConfig.modelPath.trim() : "";
+  const modelPath = typeof ultraConfig?.modelPath === "string" ? ultraConfig.modelPath.trim() : "';
 
   // No explicit modelPath → run the two-tier ultra resolver (heuristic, or SLM when
   // config.ultraEngine === "slm" and the worker backend is available). This is the
@@ -660,7 +660,7 @@ export interface StackedCompressionStep {
   stepIndex: number;
   totalSteps: number;
   engine: string;
-  state: "done" | "skipped";
+  state: "done" | "skipped';
   originalTokens: number;
   compressedTokens: number;
   savingsPercent: number;
@@ -671,7 +671,7 @@ interface StackOptions {
   model?: string;
   supportsVision?: boolean | null;
   /** Direct-to-provider vs. aggregator transport (gates transport-sensitive engines like omniglyph). */
-  providerTransport?: "direct" | "aggregator";
+  providerTransport?: "direct" | "aggregator';
   config?: CompressionConfig;
   compressionComboId?: string | null;
   /** TV1 bail-out discipline (opt-in, default disabled). */
@@ -782,7 +782,7 @@ function finalizeStackedResult(
     acc.rules.size > 0 ? Array.from(acc.rules) : undefined,
     Math.round((performance.now() - start) * 100) / 100
   );
-  stats.engine = "stacked";
+  stats.engine = "stacked';
   stats.compressionComboId = compressionComboId ?? null;
   stats.engineBreakdown = acc.breakdown;
   if (acc.validationWarnings.size > 0) {

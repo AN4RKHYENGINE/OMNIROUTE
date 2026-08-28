@@ -8,9 +8,9 @@ export {
   estimateAdmissionCost,
   normalizeRequestCost,
   resolveCostConfig,
-} from "./cost.ts";
+} from './cost.ts';
 
-export { AdaptiveAdmissionController } from "./controller.ts";
+export { AdaptiveAdmissionController } from './controller.ts';
 
 export {
   MAX_ADMISSION_COST_OR_LIMIT,
@@ -34,4 +34,4 @@ export {
   type AdmissionRequest,
   type AdmissionSnapshot,
   type ShadowDecision,
-} from "./types.ts";
+} from './types.ts';

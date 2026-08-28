@@ -11,12 +11,12 @@ import {
   AdobeFireflyError,
   resolveAdobeAccessToken,
   resolveAdobeSourceImageIds,
-} from "../../services/adobeFireflyClient.ts";
+} from '../../services/adobeFireflyClient.ts';
 import {
   adobeFireflyUpscaleImage,
   resolveAdobeUpscaleModel,
-} from "../../services/adobeFireflyUpscale.ts";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+} from '../../services/adobeFireflyUpscale.ts';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 import {
   extractUpscaleSourceImage,
   saveUpscaleErrorResult,
@@ -24,7 +24,7 @@ import {
   type UpscaleCredentials,
   type UpscaleHandlerResult,
   type UpscaleLogger,
-} from "./shared.ts";
+} from './shared.ts';
 
 export async function handleAdobeFireflyImageUpscale({
   model,

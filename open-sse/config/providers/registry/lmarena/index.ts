@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { LMARENA_DIRECT_MODELS } from "./directModels.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { LMARENA_DIRECT_MODELS } from './directModels.ts';
 
 /**
  * Arena (formerly LMArena) web-session provider — arena.ai.

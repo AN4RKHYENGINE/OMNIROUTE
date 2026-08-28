@@ -4,14 +4,14 @@ import {
   estimateTokens,
   type AnthropicTool,
   type DevinPrompt,
-} from "./types.ts";
-import { createHash } from "node:crypto";
+} from './types.ts';
+import { createHash } from 'node:crypto';
 
 export const MAX_TOOL_RESULT_CHARS = 65536;
 
 function stringifyContentValue(value: unknown): string {
   if (typeof value === "string") return value;
-  if (value == null) return "";
+  if (value == null) return "';
   return JSON.stringify(value);
 }
 
@@ -51,7 +51,7 @@ function serializeBlock(
 
   if (type === "text") return String(record.text || "");
   if (type === "thinking") return `[Thinking]\n${String(record.thinking || "")}`;
-  if (type === "redacted_thinking") return "[Redacted Thinking]";
+  if (type === "redacted_thinking") return "[Redacted Thinking]';
   if (type === "tool_use") {
     const id = String(record.id || "").trim();
     const name = String(record.name || "").trim();
@@ -120,7 +120,7 @@ function serializeMessage(
     );
   }
   // role was just narrowed to "user" | "assistant" by the guard above ("system" throws).
-  const label = role === "assistant" ? "Assistant" : "User";
+  const label = role === "assistant" ? "Assistant" : "User';
   const content = record.content;
 
   if (typeof content === "string") return `[${label}]\n${content}`;
@@ -139,7 +139,7 @@ function normalizeTools(tools: unknown): AnthropicTool[] {
 
   return tools.map((tool) => {
     const record = asRecord(tool);
-    const name = typeof record.name === "string" ? record.name.trim() : "";
+    const name = typeof record.name === "string" ? record.name.trim() : "';
     if (!name) {
       throw new DevinAgenticBridgeError("Anthropic tool is missing name", "invalid_tool_name");
     }

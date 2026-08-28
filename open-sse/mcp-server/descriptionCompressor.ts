@@ -1,9 +1,9 @@
-import { applyRulesToText } from "../services/compression/caveman.ts";
-import { getRulesForContext } from "../services/compression/cavemanRules.ts";
+import { applyRulesToText } from '../services/compression/caveman.ts';
+import { getRulesForContext } from '../services/compression/cavemanRules.ts';
 import {
   extractPreservedBlocks,
   restorePreservedBlocks,
-} from "../services/compression/preservation.ts";
+} from '../services/compression/preservation.ts';
 
 export interface DescriptionCompressionResult {
   compressed: string;

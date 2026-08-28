@@ -1,4 +1,4 @@
-import type { ContentKind, EvalRecord, EvalReport, KindSummary, RunStamps } from "./types.ts";
+import type { ContentKind, EvalRecord, EvalReport, KindSummary, RunStamps } from './types.ts';
 
 function pct(n: number, d: number): number {
   return d > 0 ? Math.round((n / d) * 1000) / 10 : 0;

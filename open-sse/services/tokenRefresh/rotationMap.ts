@@ -20,9 +20,9 @@
 //
 // Key format: `provider:sha256(oldRefreshToken)`
 // Value: { result: tokens, expiresAt: ms_since_epoch }
-import { pbkdf2Sync } from "node:crypto";
+import { pbkdf2Sync } from 'node:crypto';
 
-const CACHE_SECRET = "omniroute-token-cache";
+const CACHE_SECRET = "omniroute-token-cache';
 
 /**
  * Build the dedup/rotation cache key for a (provider, refreshToken) pair.

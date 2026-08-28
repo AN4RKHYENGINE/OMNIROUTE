@@ -28,23 +28,23 @@
  * contract that pipeline assumes.
  */
 
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { FORMATS } from "../translator/formats.ts";
-import { initState } from "../translator/index.ts";
-import { openaiToClaudeRequest } from "../translator/request/openai-to-claude.ts";
-import { openaiToGeminiRequest } from "../translator/request/openai-to-gemini.ts";
-import { openaiToOpenAIResponsesRequest } from "../translator/request/openai-responses/toResponses.ts";
-import { claudeToOpenAIResponse } from "../translator/response/claude-to-openai.ts";
-import { geminiToOpenAIResponse } from "../translator/response/gemini-to-openai.ts";
-import { openaiResponsesToOpenAIResponse } from "../translator/response/openai-responses.ts";
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { FORMATS } from '../translator/formats.ts';
+import { initState } from '../translator/index.ts';
+import { openaiToClaudeRequest } from '../translator/request/openai-to-claude.ts';
+import { openaiToGeminiRequest } from '../translator/request/openai-to-gemini.ts';
+import { openaiToOpenAIResponsesRequest } from '../translator/request/openai-responses/toResponses.ts';
+import { claudeToOpenAIResponse } from '../translator/response/claude-to-openai.ts';
+import { geminiToOpenAIResponse } from '../translator/response/gemini-to-openai.ts';
+import { openaiResponsesToOpenAIResponse } from '../translator/response/openai-responses.ts';
 import {
   ZED_HEADERS,
   resolveZedModels,
   zedLlmFetch,
   type ZedCredentials,
-} from "../shared/zedAuth.ts";
-import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from "../utils/thinkCloseMarker.ts";
+} from '../shared/zedAuth.ts';
+import { resolveSuppressThinkClose, THINKING_MARKER_HEADER } from '../utils/thinkCloseMarker.ts';
 
 const ZED_PROVIDER = {
   anthropic: "Anthropic",
@@ -214,7 +214,7 @@ function wrapZedCompletionStream(
     // #5245 / kimi-coding stray marker on /v1/responses).
     state.suppressThinkClose = true;
   }
-  let buffer = "";
+  let buffer = "';
   let done = false;
 
   const finish = (controller: SseEnqueueTarget) => {
@@ -264,7 +264,7 @@ function wrapZedCompletionStream(
         buffer += decoder.decode();
         if (buffer) {
           processLine(buffer, controller);
-          buffer = "";
+          buffer = "';
         }
         finish(controller);
       },
@@ -385,7 +385,7 @@ export class ZedHostedExecutor extends BaseExecutor {
     }
 
     const errorObj = (parsed?.error as Record<string, unknown>) || undefined;
-    const code = (parsed?.code as string) || (errorObj?.code as string) || "";
+    const code = (parsed?.code as string) || (errorObj?.code as string) || "';
     const rawMessage =
       (parsed?.message as string) ||
       (errorObj?.message as string) ||

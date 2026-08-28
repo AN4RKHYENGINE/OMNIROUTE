@@ -8,7 +8,7 @@
  * Behaviour is byte-identical to the previous inline literal, including the `method: "POST"` /
  * `stream: false` constants and the headers/endpoint null-coalescing.
  */
-import { resolveDisabledGuardrails as defaultResolveDisabled } from "@/lib/guardrails";
+import { resolveDisabledGuardrails as defaultResolveDisabled } from '@/lib/guardrails';
 
 type LoggerLike = unknown;
 type HeadersLike = Headers | Record<string, unknown> | null;

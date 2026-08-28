@@ -1,14 +1,14 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
+import { CORS_HEADERS } from '../utils/cors.ts';
 /**
  * Moderation Handler
  *
  * Handles POST /v1/moderations (OpenAI Moderations API format).
  */
 
-import { getModerationProvider, parseModerationModel } from "../config/moderationRegistry.ts";
-import { errorResponse } from "../utils/error.ts";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import { generateRequestId } from "@/shared/utils/requestId";
+import { getModerationProvider, parseModerationModel } from '../config/moderationRegistry.ts';
+import { errorResponse } from '../utils/error.ts';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import { generateRequestId } from '@/shared/utils/requestId';
 
 /**
  * Handle moderation request
@@ -26,7 +26,7 @@ export async function handleModeration({ body, credentials }) {
   }
 
   // Default to latest moderation model
-  const model = body.model || "omni-moderation-latest";
+  const model = body.model || "omni-moderation-latest';
   const { provider: providerId, model: modelId } = parseModerationModel(model);
   const providerConfig = providerId ? getModerationProvider(providerId) : null;
 

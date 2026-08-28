@@ -20,8 +20,8 @@
  *     both homogeneous and heterogeneous arrays.
  */
 
-import { encodeTabularBlock, wrapTabular, kindOf } from "./tabular.ts";
-import { encodeToonBlock, wrapToon } from "./toon.ts";
+import { encodeTabularBlock, wrapTabular, kindOf } from './tabular.ts';
+import { encodeToonBlock, wrapToon } from './toon.ts';
 
 /** Default minimum number of rows to trigger compaction. */
 export const DEFAULT_MIN_ROWS = 8;

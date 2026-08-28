@@ -2,15 +2,15 @@
  * Token Usage Tracking - Extract, normalize, estimate and log token usage
  */
 
-import { appendRequestLog } from "@/lib/usageDb";
+import { appendRequestLog } from '@/lib/usageDb';
 import {
   getLoggedInputTokens,
   getLoggedOutputTokens,
   getNoCacheTokens,
   getPromptCacheCreationTokens,
   getPromptCacheReadTokens,
-} from "@/lib/usage/tokenAccounting";
-import { FORMATS } from "../translator/formats.ts";
+} from '@/lib/usage/tokenAccounting';
+import { FORMATS } from '../translator/formats.ts';
 
 // ANSI color codes
 export const COLORS = {
@@ -825,7 +825,7 @@ export function logUsage(
 ) {
   if (!usage || typeof usage !== "object") return;
 
-  const p = provider?.toUpperCase() || "UNKNOWN";
+  const p = provider?.toUpperCase() || "UNKNOWN';
 
   // Support both formats:
   // - OpenAI: prompt_tokens, completion_tokens
@@ -836,7 +836,7 @@ export function logUsage(
   const normalizedConnectionId = typeof connectionId === "string" ? connectionId : undefined;
   const accountPrefix = normalizedConnectionId
     ? normalizedConnectionId.slice(0, 8) + "..."
-    : "unknown";
+    : "unknown';
 
   let msg = `[${getTimeString()}] 📊 ${COLORS.green}[USAGE] ${p} | in=${inTokens} | out=${outTokens} | account=${accountPrefix}${COLORS.reset}`;
 

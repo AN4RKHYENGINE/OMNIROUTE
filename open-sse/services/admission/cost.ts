@@ -2,7 +2,7 @@ import {
   MAX_ADMISSION_COST_OR_LIMIT,
   type AdmissionCostConfig,
   type AdmissionCostFeatures,
-} from "./types.ts";
+} from './types.ts';
 
 export { MAX_ADMISSION_COST_OR_LIMIT };
 

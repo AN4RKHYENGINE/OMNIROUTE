@@ -1,5 +1,5 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-export const CHATGPT_WEB_MODEL_ID = "gpt-5.6-sol";
+export const CHATGPT_WEB_MODEL_ID = "gpt-5.6-sol';
 
 export interface ChatGptWebCapabilities {
   localToolsEnabled: boolean;
@@ -8,9 +8,9 @@ export interface ChatGptWebCapabilities {
 
 export interface ChatGptWebModelMode {
   modelId: string;
-  effort: "low" | "medium" | "high" | "xhigh" | "max";
-  displayLabel: "Instant" | "Medium" | "High" | "Extra High" | "Pro";
-  uiEffortLabel: "Instant 5.5" | "Medium" | "High" | "Extra High" | "Pro";
+  effort: "low" | "medium" | "high" | "xhigh" | "max';
+  displayLabel: "Instant" | "Medium" | "High" | "Extra High" | "Pro';
+  uiEffortLabel: "Instant 5.5" | "Medium" | "High" | "Extra High" | "Pro';
   localTools: boolean;
 }
 
@@ -22,7 +22,7 @@ export function resolveChatGptWebModelMode(
   if (modelId !== CHATGPT_WEB_MODEL_ID) {
     throw new Error(`ChatGPT web model is not supported: ${modelId}`);
   }
-  const effort = reasoning ?? "high";
+  const effort = reasoning ?? "high';
   switch (effort) {
     case "low":
       return {

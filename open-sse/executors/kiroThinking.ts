@@ -51,14 +51,14 @@ export function splitInlineThinking(
   onReasoning: (s: string) => void
 ): void {
   let text = (state.pendingTag || "") + (raw || "");
-  state.pendingTag = "";
+  state.pendingTag = "';
 
   // Maximum length of an unfinished tag we might still complete on the next
   // frame: `</thinking>` is the longest at 11 chars.
   const PARTIAL_MAX = 11;
 
   while (text.length > 0) {
-    const target = state.thinkingMode ? "</thinking>" : "<thinking>";
+    const target = state.thinkingMode ? "</thinking>" : "<thinking>';
     const idx = text.indexOf(target);
 
     if (idx === -1) {
@@ -110,7 +110,7 @@ export function flushPendingThinking(
 ): void {
   if (!state.pendingTag) return;
   const leftover = state.pendingTag;
-  state.pendingTag = "";
+  state.pendingTag = "';
   if (state.thinkingMode) onReasoning(leftover);
   else onContent(leftover);
 }

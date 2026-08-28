@@ -8,8 +8,8 @@
  * keyed by provider ID (e.g. "nebius", "openai").
  */
 
-export type EmbeddingModality = "text" | "image" | "audio" | "video" | "document";
-export type StructuredEmbeddingProtocol = "jina-v1" | "gemini-embed-content";
+export type EmbeddingModality = "text" | "image" | "audio" | "video" | "document';
+export type StructuredEmbeddingProtocol = "jina-v1" | "gemini-embed-content';
 
 export interface EmbeddingModel {
   id: string;

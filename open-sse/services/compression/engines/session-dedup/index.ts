@@ -28,20 +28,20 @@
  *   from the reverse map attached as `__sessionDedupMap__` on the body object.
  */
 
-import crypto from "node:crypto";
-import { createCompressionStats } from "../../stats.ts";
-import { runFuzzyPass } from "./fuzzy.ts";
+import crypto from 'node:crypto';
+import { createCompressionStats } from '../../stats.ts';
+import { runFuzzyPass } from './fuzzy.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
 
 // ─── constants ────────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "session-dedup";
+const ENGINE_ID = "session-dedup';
 /** Minimum block character count to be a dedup candidate. */
 const DEFAULT_MIN_BLOCK_CHARS = 80;
 /** Minimum number of lines a block must span to be a dedup candidate. */

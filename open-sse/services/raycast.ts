@@ -7,14 +7,14 @@
  * - [2026-07-27] [Composer] - Initial Raycast Pro local-dev provider protocol
  */
 
-import { createHmac, createHash, randomUUID } from "node:crypto";
+import { createHmac, createHash, randomUUID } from 'node:crypto';
 
-import { resolvePublicCred } from "../utils/publicCreds.ts";
+import { resolvePublicCred } from '../utils/publicCreds.ts';
 
-export const RAYCAST_CHAT_URL = "https://backend.raycast.com/api/v1/ai/chat_completions";
-export const RAYCAST_MODELS_URL = "https://backend.raycast.com/api/v1/ai/models";
-export const RAYCAST_DEFAULT_USER_AGENT = "Raycast/1.104.20 (macOS Version 26.5.1 (Build 25F80))";
-export const RAYCAST_DEFAULT_EXPERIMENTAL = "chatBranching, mcpHTTPServer";
+export const RAYCAST_CHAT_URL = "https://backend.raycast.com/api/v1/ai/chat_completions';
+export const RAYCAST_MODELS_URL = "https://backend.raycast.com/api/v1/ai/models';
+export const RAYCAST_DEFAULT_USER_AGENT = "Raycast/1.104.20 (macOS Version 26.5.1 (Build 25F80))';
+export const RAYCAST_DEFAULT_EXPERIMENTAL = "chatBranching, mcpHTTPServer';
 
 /**
  * Community-extracted default; override via providerSpecificData.sigSecret or
@@ -154,7 +154,7 @@ export function contentToText(content: unknown): string {
       ) {
         return String((part as { text?: string }).text || "");
       }
-      return "";
+      return "';
     })
     .filter(Boolean)
     .join("\n");
@@ -164,7 +164,7 @@ export function convertOpenAiMessages(messages: ChatMessage[]): {
   raycastMessages: Array<{ author: string; content: { text: string } }>;
   systemInstruction: string;
 } {
-  let systemInstruction = "markdown";
+  let systemInstruction = "markdown';
   const raycastMessages: Array<{ author: string; content: { text: string } }> = [];
 
   for (const [index, message] of messages.entries()) {
@@ -241,7 +241,7 @@ export function buildRaycastChatBody(
 }
 
 export function parseRaycastSseText(responseText: string): string {
-  let fullText = "";
+  let fullText = "';
 
   for (const line of responseText.split("\n")) {
     if (!line.startsWith("data:")) continue;
@@ -260,7 +260,7 @@ export async function fetchRaycastModels(
   credentials: RaycastCredentials,
   options?: { includePremium?: boolean; includeDeprecated?: boolean }
 ): Promise<RaycastModelEntry[]> {
-  const payload = "{}";
+  const payload = "{}';
   const headers = buildRaycastHeaders(payload, credentials);
   const res = await fetch(RAYCAST_MODELS_URL, { method: "GET", headers });
   if (!res.ok) {

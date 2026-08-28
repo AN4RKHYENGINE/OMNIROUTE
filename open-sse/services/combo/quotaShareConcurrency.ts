@@ -20,8 +20,8 @@
  * every quota-share request that lands on the same account shares one gate.
  */
 
-import * as semaphore from "../rateLimitSemaphore.ts";
-import type { ResolvedComboTarget } from "./types.ts";
+import * as semaphore from '../rateLimitSemaphore.ts';
+import type { ResolvedComboTarget } from './types.ts';
 
 /** Stable, connection-scoped semaphore key for the quota-share concurrency gate. */
 export function quotaShareConcurrencyKey(connectionId: string): string {
@@ -54,7 +54,7 @@ export async function acquireQuotaShareConcurrencySlot(
   opts: QuotaShareSlotOptions,
   log: SlotLogger
 ): Promise<(() => void) | null> {
-  const connectionId = target?.connectionId ?? "";
+  const connectionId = target?.connectionId ?? "';
   if (!connectionId || cap === null || cap <= 0) return null;
   try {
     return await semaphore.acquire(quotaShareConcurrencyKey(connectionId), {

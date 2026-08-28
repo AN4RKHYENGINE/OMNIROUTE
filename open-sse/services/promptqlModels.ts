@@ -135,7 +135,7 @@ export function stripPromptQlModelPrefix(model: string): string {
 
 /** Resolve client model slug / display name / config uuid → catalog entry. */
 export function resolvePromptQlModel(model: unknown): PromptQlModel | null {
-  const raw = typeof model === "string" ? stripPromptQlModelPrefix(model) : "";
+  const raw = typeof model === "string" ? stripPromptQlModelPrefix(model) : "';
   if (!raw) return null;
   const lower = raw.toLowerCase();
   const catalog = PROMPTQL_FALLBACK_MODELS;
@@ -152,8 +152,8 @@ export function resolvePromptQlModel(model: unknown): PromptQlModel | null {
 export function clientFacingPromptQlModelId(model: unknown): string {
   const resolved = resolvePromptQlModel(model);
   if (resolved) return resolved.id;
-  const stripped = typeof model === "string" ? stripPromptQlModelPrefix(model) : "";
-  return stripped || "promptql-default";
+  const stripped = typeof model === "string" ? stripPromptQlModelPrefix(model) : "';
+  return stripped || "promptql-default';
 }
 
 export async function discoverPromptQlModels(opts: {

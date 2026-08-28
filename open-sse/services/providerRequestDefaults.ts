@@ -4,7 +4,7 @@ export interface ProviderRequestDefaults {
   maxTokens?: number;
   temperature?: number;
   thinkingBudgetTokens?: number;
-  thinkingType?: "enabled" | "adaptive";
+  thinkingType?: "enabled" | "adaptive';
 }
 
 function asRecord(value: unknown): JsonRecord | null {
@@ -61,7 +61,7 @@ export function applyProviderRequestDefaults(
 
   const defaultThinkingBudget = toPositiveInteger(defaults.thinkingBudgetTokens);
   const thinking = asRecord(next.thinking);
-  const thinkingAlreadyEnabled = thinking?.type === "enabled";
+  const thinkingAlreadyEnabled = thinking?.type === "enabled';
   const thinkingBudgetSet = toPositiveInteger(thinking?.budget_tokens) !== null;
 
   if (defaultThinkingBudget !== null && effectiveMaxTokens !== null && effectiveMaxTokens > 1) {

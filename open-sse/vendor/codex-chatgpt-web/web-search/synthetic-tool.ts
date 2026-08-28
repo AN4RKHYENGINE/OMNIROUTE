@@ -1,8 +1,8 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import type { CodexTool } from "../types";
+import type { CodexTool } from '../types';
 
 /** The function name the chat model sees + the name the loop intercepts. */
-export const WEB_SEARCH_TOOL_NAME = "web_search";
+export const WEB_SEARCH_TOOL_NAME = "web_search';
 
 /**
  * Find the hosted `{type:"web_search", ...}` entry in a Responses request's `tools[]` and return it

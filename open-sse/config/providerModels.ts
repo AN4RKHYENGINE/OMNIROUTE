@@ -1,4 +1,4 @@
-import { generateModels, generateAliasMap, type RegistryModel } from "./providerRegistry.ts";
+import { generateModels, generateAliasMap, type RegistryModel } from './providerRegistry.ts';
 
 // Lazy PROVIDER_MODELS: deferred until first property access to speed up startup.
 // The Proxy defers `generateModels()` from module-evaluation time to the first read.
@@ -175,7 +175,7 @@ export function getModelTargetFormat(aliasOrId: string, modelId: string): string
   const alias = PROVIDER_ID_TO_ALIAS[aliasOrId] || aliasOrId;
   const models = PROVIDER_MODELS[alias];
   // Strip provider prefix if present: "openai/gpt-5.6-luna" → "gpt-5.6-luna"
-  const prefix = alias + "/";
+  const prefix = alias + "/';
   const bareModelId =
     typeof modelId === "string" && modelId.startsWith(prefix)
       ? modelId.slice(prefix.length)
@@ -188,7 +188,7 @@ export function getModelTargetFormat(aliasOrId: string, modelId: string): string
   // covers dynamically-synced ids that post-date the catalog (same spirit as the gh
   // executor's /codex/i routing, 9router#102). Scoped to the openai alias so other
   // providers shipping *-pro ids keep their own endpoint semantics.
-  if (alias === "openai" && /-pro$/i.test(modelId)) return "openai-responses";
+  if (alias === "openai" && /-pro$/i.test(modelId)) return "openai-responses';
   // Model-level targetFormat is provider-scoped: a catalog entry declares how THIS
   // provider's endpoint serves the model. When the provider has its own catalog but
   // the model is not in it, do NOT import the global entry's tag — it encodes the
@@ -231,7 +231,7 @@ export function getModelTimeoutMs(aliasOrId: string, modelId: string): number | 
 
 const CLAUDE_MODEL_PATTERN = /(?:^|[\/._-])claude(?:[._-]|$)/;
 const CLAUDE_MAX_EFFORT_UNSUPPORTED_FAMILY_PATTERNS = [/(?:^|[\/._-])haiku(?:[._-]|$)/] as const;
-const ANTHROPIC_COMPATIBLE_PREFIX = "anthropic-compatible-";
+const ANTHROPIC_COMPATIBLE_PREFIX = "anthropic-compatible-';
 
 export function supportsClaudeMaxEffort(modelId: string | null | undefined): boolean {
   if (typeof modelId !== "string" || modelId.length === 0) return false;
@@ -266,7 +266,7 @@ export function splitClaudeEffortSuffix(model: unknown): {
   baseModel: string;
   effort: ClaudeEffortSuffix | null;
 } {
-  const id = typeof model === "string" ? model : "";
+  const id = typeof model === "string" ? model : "';
   const lower = id.toLowerCase();
   for (const level of CLAUDE_EFFORT_SUFFIXES) {
     if (lower.endsWith(`-${level}`)) {

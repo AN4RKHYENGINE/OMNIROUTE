@@ -8,7 +8,7 @@
  * affects the request. Behaviour is byte-identical to the previous inline block.
  */
 
-import type { ConnectionCacheOverride } from "../../utils/cacheControlPolicy.ts";
+import type { ConnectionCacheOverride } from '../../utils/cacheControlPolicy.ts';
 
 type LoggerLike = { debug?: (...args: unknown[]) => void } | null | undefined;
 

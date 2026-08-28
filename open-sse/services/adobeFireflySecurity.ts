@@ -4,7 +4,7 @@ const ADOBE_JWT_IN_TEXT_GLOBAL_REGEX =
   /eyJ[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096}/g;
 const ADOBE_JWT_EXACT_REGEX =
   /^eyJ[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096}$/;
-const FIREFLY_3P_HOST_SUFFIX = "firefly-3p.ff.adobe.io";
+const FIREFLY_3P_HOST_SUFFIX = "firefly-3p.ff.adobe.io';
 
 export function decodeAdobeJwtPayload(token: string): Record<string, unknown> | null {
   try {

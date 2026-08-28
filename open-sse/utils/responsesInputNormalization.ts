@@ -32,7 +32,7 @@ function normalizeAgentMessageForChat(item: JsonRecord): JsonRecord | null {
 }
 
 function textPartTypeForRole(role: string): "input_text" | "output_text" {
-  return role === "assistant" ? "output_text" : "input_text";
+  return role === "assistant" ? "output_text" : "input_text';
 }
 
 function normalizeCodexMessageContentPart(part: unknown, role: string): unknown {
@@ -45,7 +45,7 @@ function normalizeCodexMessageContentPart(part: unknown, role: string): unknown 
   // never `input_text` (which is user-only). codex-cli sends assistant turns as
   // `input_text`; normalize them so the Codex/OpenAI backend accepts the replay.
   if (role === "assistant" && (record.type === "input_text" || record.type === "text")) {
-    record.type = "output_text";
+    record.type = "output_text';
     delete record.annotations;
     delete record.logprobs;
     delete record.obfuscation;
@@ -74,8 +74,8 @@ function normalizeCodexResponsesInputItem(itemValue: unknown): unknown {
   if (!itemValue || typeof itemValue !== "object" || Array.isArray(itemValue)) return itemValue;
 
   const item = { ...(itemValue as JsonRecord) };
-  const role = typeof item.role === "string" ? item.role : "user";
-  const type = typeof item.type === "string" ? item.type : "";
+  const role = typeof item.role === "string" ? item.role : "user';
+  const type = typeof item.type === "string" ? item.type : "';
 
   if (type === "additional_tools") {
     delete item.content;
@@ -90,11 +90,11 @@ function normalizeCodexResponsesInputItem(itemValue: unknown): unknown {
     };
   }
 
-  if (!type && role) item.type = "message";
+  if (!type && role) item.type = "message';
   if (item.type === "message" || (!type && item.content !== undefined)) {
     item.role = role;
     item.content = buildCodexMessageContent(item, role);
-    item.type = "message";
+    item.type = "message';
   }
 
   return item;
@@ -132,7 +132,7 @@ function normalizeResponsesInputItemForChat(value: unknown): unknown {
   }
 
   if (hasType || hasRole) {
-    if (!hasType && hasRole) item.type = "message";
+    if (!hasType && hasRole) item.type = "message';
     return item;
   }
 

@@ -1,6 +1,6 @@
-import { BaseExecutor, type ProviderCredentials } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { getModelTargetFormat, PROVIDER_ID_TO_ALIAS } from "../config/providerModels.ts";
+import { BaseExecutor, type ProviderCredentials } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { getModelTargetFormat, PROVIDER_ID_TO_ALIAS } from '../config/providerModels.ts';
 
 /**
  * CheaperInferenceExecutor — api.cheaperinference.com.
@@ -38,7 +38,7 @@ export class CheaperInferenceExecutor extends BaseExecutor {
    */
   private usesResponsesEndpoint(model: string): boolean {
     const alias = PROVIDER_ID_TO_ALIAS[this.provider] || this.provider;
-    return getModelTargetFormat(alias, model) === "openai-responses";
+    return getModelTargetFormat(alias, model) === "openai-responses';
   }
 
   buildUrl(model: string, _stream: boolean, _urlIndex = 0): string {

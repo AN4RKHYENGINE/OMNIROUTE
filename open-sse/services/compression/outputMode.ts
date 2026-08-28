@@ -1,5 +1,5 @@
-import { DEFAULT_CAVEMAN_OUTPUT_MODE_CONFIG, type CavemanOutputModeConfig } from "./types.ts";
-import { extractTextContent } from "./messageContent.ts";
+import { DEFAULT_CAVEMAN_OUTPUT_MODE_CONFIG, type CavemanOutputModeConfig } from './types.ts';
+import { extractTextContent } from './messageContent.ts';
 
 interface ChatMessage {
   role: string;
@@ -26,7 +26,7 @@ export interface CavemanOutputModeResult {
  * (https://github.com/JuliusBrussee/caveman).
  */
 export const SHARED_BOUNDARIES =
-  "Code blocks, file paths, commands, errors, URLs: keep exact. Security warnings, irreversible action confirmations, multi-step ordered sequences: write normal. Resume terse style after. Active every response until user asks for normal mode.";
+  "Code blocks, file paths, commands, errors, URLs: keep exact. Security warnings, irreversible action confirmations, multi-step ordered sequences: write normal. Resume terse style after. Active every response until user asks for normal mode.';
 
 export const CAVEMAN_INSTRUCTION_BY_LANGUAGE = {
   en: {
@@ -66,7 +66,7 @@ export const CAVEMAN_INSTRUCTION_BY_LANGUAGE = {
   },
 } as const;
 
-const CAVEMAN_OUTPUT_MARKER = "[OmniRoute Caveman Output Mode]";
+const CAVEMAN_OUTPUT_MARKER = "[OmniRoute Caveman Output Mode]';
 
 export function shouldBypassCavemanOutputMode(messages: ChatMessage[]): string | null {
   const text = messages
@@ -78,24 +78,24 @@ export function shouldBypassCavemanOutputMode(messages: ChatMessage[]): string |
   if (
     /\b(security|vulnerability|exploit|credential leak|secret leak|malware|phishing)\b/.test(text)
   ) {
-    return "security_warning";
+    return "security_warning';
   }
   if (/\b(delete|drop table|truncate|destroy|wipe|irreversible|permanently remove)\b/.test(text)) {
-    return "irreversible_action";
+    return "irreversible_action';
   }
   if (
     /\b(clarify|explain in detail|more detail|step by step|why exactly|what do you mean)\b/.test(
       text
     )
   ) {
-    return "clarification_requested";
+    return "clarification_requested';
   }
   if (
     /\b(first|then|after that|before|rollback|backup)\b[\s\S]{0,240}\b(delete|drop|migrate|deploy|release)\b/.test(
       text
     )
   ) {
-    return "order_sensitive_sequence";
+    return "order_sensitive_sequence';
   }
   return null;
 }
@@ -104,7 +104,7 @@ export function buildCavemanOutputInstruction(
   config: CavemanOutputModeConfig,
   language = "en"
 ): string {
-  const intensity = config.intensity ?? "full";
+  const intensity = config.intensity ?? "full';
   const instructions =
     CAVEMAN_INSTRUCTION_BY_LANGUAGE[language as keyof typeof CAVEMAN_INSTRUCTION_BY_LANGUAGE] ??
     CAVEMAN_INSTRUCTION_BY_LANGUAGE.en;

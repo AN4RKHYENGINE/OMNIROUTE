@@ -1,11 +1,11 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
-import { BaseExecutor, type ExecuteInput, type ExecutorExecuteResult } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult } from "../utils/error.ts";
-import { initTinyCmsWasm, generateSecurePayload } from "./tinycmsSigner.ts";
+import { BaseExecutor, type ExecuteInput, type ExecutorExecuteResult } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult } from '../utils/error.ts';
+import { initTinyCmsWasm, generateSecurePayload } from './tinycmsSigner.ts';
 
-const CHAT_URL = "https://gov.freegpt.win/api/openai/oneapi/v1/chat/completions";
-const CHALLENGE_URL = "https://gov.freegpt.win/api/challenge";
+const CHAT_URL = "https://gov.freegpt.win/api/openai/oneapi/v1/chat/completions';
+const CHALLENGE_URL = "https://gov.freegpt.win/api/challenge';
 
 let publicIp: string | null = null;
 let lastIpFetch = 0;
@@ -22,7 +22,7 @@ async function getPublicIp(): Promise<string> {
     lastIpFetch = now;
     return publicIp;
   } catch {
-    return publicIp || "127.0.0.1";
+    return publicIp || "127.0.0.1';
   }
 }
 

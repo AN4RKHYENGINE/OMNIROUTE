@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, expect } from "vitest";
+import { describe, it, beforeEach, expect } from 'vitest';
 import {
   recordProviderUsage,
   calculateDiversityScore,
@@ -6,7 +6,7 @@ import {
   getDiversityReport,
   resetDiversity,
   configureDiversity,
-} from "../providerDiversity";
+} from '../providerDiversity';
 
 describe("providerDiversity", () => {
   beforeEach(() => {

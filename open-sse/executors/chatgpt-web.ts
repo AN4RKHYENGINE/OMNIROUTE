@@ -15,30 +15,30 @@
  * Response is the standard ChatGPT SSE format (cumulative `parts[0]` strings, not deltas).
  */
 
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
-import { describeChatGptWebHttpError } from "./chatgptWebErrors.ts";
-import { prepareToolMessages } from "../translator/webTools.ts";
-import { buildToolModeResponse } from "./chatgptWebTools.ts";
-import { createHash, randomUUID, randomBytes } from "node:crypto";
-import { sha3_512Hex } from "../utils/sha3-512.ts";
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
+import { describeChatGptWebHttpError } from './chatgptWebErrors.ts';
+import { prepareToolMessages } from '../translator/webTools.ts';
+import { buildToolModeResponse } from './chatgptWebTools.ts';
+import { createHash, randomUUID, randomBytes } from 'node:crypto';
+import { sha3_512Hex } from '../utils/sha3-512.ts';
 import {
   tlsFetchChatGpt,
   TlsClientUnavailableError,
   type TlsFetchResult,
-} from "../services/chatgptTlsClient.ts";
+} from '../services/chatgptTlsClient.ts';
 import {
   storeChatGptImage,
   getChatGptImageConversationContext,
   __resetChatGptImageCacheForTesting,
   type ChatGptImageConversationContext,
-} from "../services/chatgptImageCache.ts";
-import { isThinkingCapableModel, resolveChatGptModel } from "./chatgpt-web/models.ts";
-import { cleanChatGptText } from "./chatgpt-web/citations.ts";
-import { resumeChatGptHandoff, type FinalAssistantAnswer } from "./chatgpt-web/handoff.ts";
+} from '../services/chatgptImageCache.ts';
+import { isThinkingCapableModel, resolveChatGptModel } from './chatgpt-web/models.ts';
+import { cleanChatGptText } from './chatgpt-web/citations.ts';
+import { resumeChatGptHandoff, type FinalAssistantAnswer } from './chatgpt-web/handoff.ts';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const CHATGPT_BASE = "https://chatgpt.com";
+const CHATGPT_BASE = "https://chatgpt.com';
 const SESSION_URL = `${CHATGPT_BASE}/api/auth/session`;
 const SENTINEL_PREPARE_URL = `${CHATGPT_BASE}/backend-api/sentinel/chat-requirements/prepare`;
 const SENTINEL_CR_URL = `${CHATGPT_BASE}/backend-api/sentinel/chat-requirements`;
@@ -48,11 +48,11 @@ const DEFAULT_PRO_POLL_TIMEOUT_MS = 20 * 60_000;
 const DEFAULT_PRO_POLL_INTERVAL_MS = 4_000;
 
 const CHATGPT_USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:152.0) Gecko/20100101 Firefox/152.0";
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:152.0) Gecko/20100101 Firefox/152.0';
 
 // Captured from a real chatgpt.com browser session (April 2026).
-const OAI_CLIENT_VERSION = "prod-81e0c5cdf6140e8c5db714d613337f4aeab94029";
-const OAI_CLIENT_BUILD_NUMBER = "6128297";
+const OAI_CLIENT_VERSION = "prod-81e0c5cdf6140e8c5db714d613337f4aeab94029';
+const OAI_CLIENT_BUILD_NUMBER = "6128297';
 
 // Per-cookie device ID. The browser stores a persistent `oai-did` cookie that
 // uniquely identifies the device for OpenAI's risk model — we derive a stable
@@ -321,7 +321,7 @@ async function exchangeSession(
 class SessionAuthError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "SessionAuthError";
+    this.name = "SessionAuthError';
   }
 }
 
@@ -585,7 +585,7 @@ async function prepareChatRequirements(
 class SentinelBlockedError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "SentinelBlockedError";
+    this.name = "SentinelBlockedError';
   }
 }
 
@@ -628,7 +628,7 @@ async function fetchDpl(
     timeoutMs: 20_000,
     signal,
   });
-  const html = response.text || "";
+  const html = response.text || "';
   const dplMatch = html.match(/data-build="([^"]+)"/);
   const dpl = dplMatch ? `dpl=${dplMatch[1]}` : `dpl=${OAI_CLIENT_VERSION.replace(/^prod-/, "")}`;
   const scriptMatch = html.match(/<script[^>]+src="(https?:\/\/[^"]*\.js[^"]*)"/);
@@ -848,15 +848,15 @@ function findCachedImageContext(content: string): ChatGptImageConversationContex
 }
 
 function parseOpenAIMessages(messages: Array<Record<string, unknown>>): ParsedMessages {
-  let systemMsg = "";
+  let systemMsg = "';
   const history: Array<{ role: string; content: string }> = [];
   let latestImageContext: ChatGptImageConversationContext | null = null;
 
   for (const msg of messages) {
     let role = String(msg.role || "user");
-    if (role === "developer") role = "system";
+    if (role === "developer") role = "system';
 
-    let content = "";
+    let content = "';
     if (typeof msg.content === "string") {
       content = msg.content;
     } else if (Array.isArray(msg.content)) {
@@ -877,7 +877,7 @@ function parseOpenAIMessages(messages: Array<Record<string, unknown>>): ParsedMe
     }
   }
 
-  let currentMsg = "";
+  let currentMsg = "';
   if (history.length > 0 && history[history.length - 1].role === "user") {
     currentMsg = history.pop()!.content;
   }
@@ -1023,7 +1023,7 @@ function buildConversationBody(
 
   const currentUserContent = hasOpenWebUIImageContext(parsed)
     ? "Briefly acknowledge the image result described in the system context. Do not generate, edit, or request another image."
-    : parsed.currentMsg || "";
+    : parsed.currentMsg || "';
 
   messages.push({
     id: randomUUID(),
@@ -1092,7 +1092,7 @@ async function* readChatGptSseEvents(
 ): AsyncGenerator<ChatGptStreamEvent> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "";
+  let buffer = "';
   let dataLines: string[] = [];
   let eventName: string | null = null;
 
@@ -1106,7 +1106,7 @@ async function* readChatGptSseEvents(
     const sseEventName = eventName;
     eventName = null;
     const trimmed = payload.trim();
-    if (!trimmed || trimmed === "[DONE]") return "done";
+    if (!trimmed || trimmed === "[DONE]") return "done';
     try {
       const parsed = JSON.parse(trimmed) as ChatGptStreamEvent;
       if (sseEventName && !parsed.type) parsed.type = sseEventName;
@@ -1229,7 +1229,7 @@ async function* extractContent(
   // as a single already-finished event (instant/cached responses).
   let conversationId: string | null = null;
   let currentId: string | null = null;
-  let currentParts = "";
+  let currentParts = "';
   let currentMetadata: Record<string, unknown> | undefined;
   let emittedLen = 0;
   let isLive = false;
@@ -1247,7 +1247,7 @@ async function* extractContent(
       const msg =
         typeof event.error === "string"
           ? event.error
-          : event.error.message || "ChatGPT stream error";
+          : event.error.message || "ChatGPT stream error';
       yield { error: msg, done: true };
       return;
     }
@@ -1302,11 +1302,11 @@ async function* extractContent(
     if (m.author?.role !== "assistant") continue;
 
     const id = m.id ?? null;
-    const status = m.status ?? "";
+    const status = m.status ?? "';
 
     if (id && id !== currentId) {
       currentId = id;
-      currentParts = "";
+      currentParts = "';
       currentMetadata = undefined;
       emittedLen = 0;
       isLive = false;
@@ -1409,18 +1409,18 @@ interface ChatGptConversationDetail {
 
 function textFromContentPart(part: unknown): string {
   if (typeof part === "string") return part;
-  if (!part || typeof part !== "object") return "";
+  if (!part || typeof part !== "object") return "';
   const obj = part as Record<string, unknown>;
   for (const key of ["text", "content", "summary"]) {
     const value = obj[key];
     if (typeof value === "string") return value;
   }
-  return "";
+  return "';
 }
 
 function detailMessageText(message: ChatGptDetailMessage): string {
   const content = message.content;
-  if (!content) return "";
+  if (!content) return "';
   if (typeof content.text === "string") return content.text;
   const parts = content.parts ?? [];
   return parts.map(textFromContentPart).join("");
@@ -1436,7 +1436,7 @@ function extractFinalAssistantAnswer(
     const message = node.message;
     if (!message || message.author?.role !== "assistant") continue;
     if (message.metadata?.is_visually_hidden === true) continue;
-    const contentType = message.content?.content_type ?? "";
+    const contentType = message.content?.content_type ?? "';
     if (contentType.includes("thought") || contentType.includes("reasoning")) continue;
 
     const text = detailMessageText(message).trim();
@@ -1479,7 +1479,7 @@ function delayWithAbort(ms: number, signal?: AbortSignal | null): Promise<void> 
 }
 
 function decodeUtf8DataUrl(text: string): string {
-  const marker = ";base64,";
+  const marker = ";base64,';
   if (!text.startsWith("data:") || !text.includes(marker)) return text;
   const base64 = text.slice(text.indexOf(marker) + marker.length);
   return new TextDecoder().decode(Buffer.from(base64, "base64"));
@@ -1613,7 +1613,7 @@ export function detectImageResolutionFailure(pointerCount: number, resolvedCount
 
 /** Build the final markdown block for a list of resolved image URLs. */
 function imageMarkdown(urls: string[]): string {
-  if (urls.length === 0) return "";
+  if (urls.length === 0) return "';
   // Two leading newlines → ensure separation from any prior text the model
   // produced ("Here is your kitten:\n\n![image](...)"). One image per line.
   return "\n\n" + urls.map((u) => `![image](${u})`).join("\n\n");
@@ -1692,7 +1692,7 @@ function buildStreamingResponse(
           let imageGenAsync = false;
           let handoff = false;
           let resumeToken: string | null = null;
-          let emittedText = "";
+          let emittedText = "';
           let polledFinalAnswer: FinalAssistantAnswer | null = null;
           let parentCandidateMessageId: string | null = null;
 
@@ -1741,7 +1741,7 @@ function buildStreamingResponse(
             if (!finalTrimmed) return;
             const emittedTrimmed = emittedText.trim();
             if (emittedTrimmed === finalTrimmed || emittedTrimmed.endsWith(finalTrimmed)) return;
-            const prefix = emittedTrimmed && !emittedText.endsWith("\n") ? "\n\n" : "";
+            const prefix = emittedTrimmed && !emittedText.endsWith("\n") ? "\n\n" : "';
             emitRenderedDelta(`${prefix}${cleaned}`);
           };
 
@@ -2016,7 +2016,7 @@ async function buildNonStreamingResponse(
   log: { warn?: (tag: string, msg: string) => void } | null,
   signal?: AbortSignal | null
 ): Promise<Response> {
-  let fullAnswer = "";
+  let fullAnswer = "';
   let conversationId: string | null = null;
   let imagePointers: ImagePointerRef[] | undefined;
   let imageGenAsync = false;
@@ -2176,7 +2176,7 @@ function firstForwardedValue(value?: string | null): string | null {
 function isLocalBaseUrl(baseUrl: string): boolean {
   try {
     const host = new URL(baseUrl).hostname.toLowerCase();
-    return host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "0.0.0.0";
+    return host === "localhost" || host === "127.0.0.1" || host === "::1" || host === "0.0.0.0';
   } catch {
     console.warn("[chatgpt-web] URL parse failed, falling back to regex");
     return /\b(?:localhost|127\.0\.0\.1|0\.0\.0\.0)\b/i.test(baseUrl);
@@ -2252,8 +2252,8 @@ function derivePublicBaseUrl(
 // usually sufficient for the user to view the image in their UI right after
 // generation. Persistent storage can be layered on later if needed.
 
-const FILE_SERVICE_PREFIX = "file-service://";
-const SEDIMENT_PREFIX = "sediment://";
+const FILE_SERVICE_PREFIX = "file-service://';
+const SEDIMENT_PREFIX = "sediment://';
 
 interface ResolverContext {
   accessToken: string;
@@ -2368,13 +2368,13 @@ async function imageUrlToCachedImageUrl(
   if (/^data:[^;]{1,256};base64,/.test(response.text)) {
     const commaIdx = response.text.indexOf(",");
     const header = response.text.slice(5, commaIdx); // strip "data:"
-    mime = header.split(";")[0] || "image/png";
+    mime = header.split(";")[0] || "image/png';
     bytes = Buffer.from(response.text.slice(commaIdx + 1), "base64");
   } else {
     // Plain-text body (shouldn't happen for binary downloads with
     // byteResponse:true, but handle defensively).
     bytes = Buffer.from(response.text, "binary");
-    mime = response.headers.get("content-type")?.split(";")[0]?.trim() || "image/png";
+    mime = response.headers.get("content-type")?.split(";")[0]?.trim() || "image/png';
   }
   if (bytes.length === 0 || bytes.length > IMAGE_DOWNLOAD_MAX_BYTES) {
     if (bytes.length > IMAGE_DOWNLOAD_MAX_BYTES) {
@@ -2781,7 +2781,7 @@ function makeImageResolver(ctx: ResolverContext): ImageResolver {
     if (finalUrl) {
       const preview = finalUrl.startsWith("data:")
         ? `data:... (${finalUrl.length} chars)`
-        : finalUrl.slice(0, 80) + "...";
+        : finalUrl.slice(0, 80) + "...';
       ctx.log?.debug?.("CGPT-WEB", `Resolved ${assetPointer} → ${preview}`);
     }
     return finalUrl;

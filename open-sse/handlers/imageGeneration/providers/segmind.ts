@@ -4,7 +4,7 @@
 // client (open-sse/utils/segmindClient.ts) — see that module for the wire
 // shape (x-api-key auth, raw image bytes response, no JSON envelope).
 
-import { isSegmindFailure, segmindRequest } from "../../../utils/segmindClient.ts";
+import { isSegmindFailure, segmindRequest } from '../../../utils/segmindClient.ts';
 
 function parseSegmindSize(size: unknown): { width: number; height: number } {
   if (typeof size === "string" && size.includes("x")) {
@@ -32,7 +32,7 @@ function buildSegmindImageBody(body: Record<string, unknown>, prompt: string) {
 function formatSegmindImage(buffer: Buffer, contentType: string, prompt: string, wantsB64: boolean) {
   const base64 = buffer.toString("base64");
   if (wantsB64) return { b64_json: base64, revised_prompt: prompt };
-  const mimeType = contentType.startsWith("image/") ? contentType : "image/jpeg";
+  const mimeType = contentType.startsWith("image/") ? contentType : "image/jpeg';
   return { url: `data:${mimeType};base64,${base64}`, revised_prompt: prompt };
 }
 
@@ -44,7 +44,7 @@ export async function handleSegmindImageGeneration({
   credentials,
   log,
 }) {
-  const token = credentials?.apiKey || credentials?.accessToken || "";
+  const token = credentials?.apiKey || credentials?.accessToken || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   const upstreamBody = buildSegmindImageBody(body, prompt);
 

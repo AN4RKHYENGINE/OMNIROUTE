@@ -8,7 +8,7 @@
  * the request. Behaviour is byte-identical to the previous inline block.
  */
 
-import { type OutputStylesResult } from "../../services/compression/outputStyles/apply.ts";
+import { type OutputStylesResult } from '../../services/compression/outputStyles/apply.ts';
 
 type LoggerLike = { debug?: (...args: unknown[]) => void } | null | undefined;
 

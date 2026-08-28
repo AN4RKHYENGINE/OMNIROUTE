@@ -1,5 +1,5 @@
-import { runCompressionEval, type CompressFn, type EvalCase, type EvalReport } from "./runner.ts";
-import { extractTextContent, type ChatMessageLike } from "../messageContent.ts";
+import { runCompressionEval, type CompressFn, type EvalCase, type EvalReport } from './runner.ts';
+import { extractTextContent, type ChatMessageLike } from '../messageContent.ts';
 
 /**
  * Replay-bench over real transcripts (TV3). Instead of synthetic prompts, feed

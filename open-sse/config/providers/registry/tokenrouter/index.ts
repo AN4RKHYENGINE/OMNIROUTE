@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // TokenRouter (#3841) — OpenAI-compatible aggregator. Author @FerLuisxd confirmed
 // Bearer auth, OpenAI-compatible, working `/v1/models`, and a free `minimax 3`

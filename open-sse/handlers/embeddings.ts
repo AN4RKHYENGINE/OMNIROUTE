@@ -20,21 +20,21 @@ import {
   parseEmbeddingModel,
   type EmbeddingModality,
   type EmbeddingProvider,
-} from "../config/embeddingRegistry.ts";
-import { saveCallLog } from "@/lib/usageDb";
-import { createRequestLogger } from "../utils/requestLogger.ts";
-import { isDetailedLoggingEnabled } from "@/lib/db/detailedLogs";
-import { getCallLogPipelineCaptureStreamChunks } from "@/lib/logEnv";
-import { toJsonErrorPayload } from "@/shared/utils/upstreamError";
-import { stripStaleEncodingHeaders } from "../utils/upstreamResponseHeaders.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
-import { stripTrailingSlashes } from "../utils/urlSanitize.ts";
-import { fetchRemoteImage } from "@/shared/network/remoteImageFetch";
+} from '../config/embeddingRegistry.ts';
+import { saveCallLog } from '@/lib/usageDb';
+import { createRequestLogger } from '../utils/requestLogger.ts';
+import { isDetailedLoggingEnabled } from '@/lib/db/detailedLogs';
+import { getCallLogPipelineCaptureStreamChunks } from '@/lib/logEnv';
+import { toJsonErrorPayload } from '@/shared/utils/upstreamError';
+import { stripStaleEncodingHeaders } from '../utils/upstreamResponseHeaders.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
+import { stripTrailingSlashes } from '../utils/urlSanitize.ts';
+import { fetchRemoteImage } from '@/shared/network/remoteImageFetch';
 import {
   hasStructuredEmbeddingInput,
   prepareStructuredEmbeddingRequest,
-} from "./embeddingStructuredInput.ts";
-import { MAX_EMBEDDING_INLINE_ITEM_BYTES } from "@/shared/validation/schemas/apiV1";
+} from './embeddingStructuredInput.ts';
+import { MAX_EMBEDDING_INLINE_ITEM_BYTES } from '@/shared/validation/schemas/apiV1';
 
 interface ClientRawRequest {
   endpoint: string;

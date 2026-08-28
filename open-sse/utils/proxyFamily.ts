@@ -1,10 +1,10 @@
-import { isIP } from "node:net";
+import { isIP } from 'node:net';
 
-export type ProxyFamily = "auto" | "ipv4" | "ipv6";
+export type ProxyFamily = "auto" | "ipv4" | "ipv6';
 
 /** Remove the surrounding brackets from an IPv6 literal host (`[::1]` -> `::1`). */
 export function stripIpv6Brackets(host: string): string {
-  if (typeof host !== "string") return "";
+  if (typeof host !== "string") return "';
   if (host.startsWith("[") && host.endsWith("]")) {
     return host.slice(1, -1);
   }
@@ -20,5 +20,5 @@ export function detectIpLiteralFamily(host: string): 4 | 6 | null {
 
 /** Normalize a stored family directive; anything unknown means "auto". */
 export function parseProxyFamily(value: unknown): ProxyFamily {
-  return value === "ipv4" || value === "ipv6" ? value : "auto";
+  return value === "ipv4" || value === "ipv6" ? value : "auto';
 }

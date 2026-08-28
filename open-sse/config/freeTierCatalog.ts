@@ -9,7 +9,7 @@
  * not granted): tencent, siliconflow, nvidia, baidu, publicai, sparkdesk.
  * One-time signup credits and discontinued tiers are excluded (do not recur).
  */
-export type TosVerdict = "ok" | "caution" | "ambiguous" | "avoid" | "unknown";
+export type TosVerdict = "ok" | "caution" | "ambiguous" | "avoid" | "unknown';
 
 export const FREE_TIER_BUDGETS: Record<string, number> = {
   mistral: 1_000_000_000,
@@ -67,7 +67,7 @@ export interface FreeTierTotals {
 }
 
 function billions(n: number): string {
-  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M";
+  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M';
 }
 
 /**

@@ -1,8 +1,8 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 import {
   NOTION_WEB_FALLBACK_MODELS,
   withFriendlyNotionAliases,
-} from "../../../../services/notionWebModels.ts";
+} from '../../../../services/notionWebModels.ts';
 
 // Notion AI Web (Unofficial/Experimental) — see open-sse/executors/notion-web.ts.
 // Live catalog comes from cookie-auth POST /api/v3/getAvailableModels (models route).

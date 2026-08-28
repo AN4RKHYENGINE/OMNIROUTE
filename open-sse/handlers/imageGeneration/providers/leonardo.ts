@@ -2,9 +2,9 @@
 // Family: leonardo | Module: leonardo | Lines: 3427-3558 (132 LOC)
 // Ref: see open-sse/handlers/imageGeneration.ts top-of-file comment for split rationale
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sleep } from "../../../utils/sleep.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sleep } from '../../../utils/sleep.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 export async function handleLeonardoImageGeneration({
   model,
@@ -15,7 +15,7 @@ export async function handleLeonardoImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "";
+  const token = credentials?.apiKey || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   if (log) {
     log.info("IMAGE", `${provider}/${model} (leonardo) | prompt: "${prompt.slice(0, 60)}..."`);

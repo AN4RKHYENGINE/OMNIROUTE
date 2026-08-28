@@ -1,11 +1,11 @@
 // Pure Claude-web payload construction (types + transforms + default tools/style).
 // Extracted verbatim from claude-web.ts. No host state, no fetch/auth.
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 
 // Default model when not specified
-export const DEFAULT_CLAUDE_MODEL = "claude-sonnet-4-6";
+export const DEFAULT_CLAUDE_MODEL = "claude-sonnet-4-6';
 
-export type ClaudeWebOperation = "completion" | "retry_completion";
+export type ClaudeWebOperation = "completion" | "retry_completion';
 
 export interface ClaudeWebTurnFields {
   operation: ClaudeWebOperation;
@@ -176,7 +176,7 @@ export function wantsExtendedThinking(body: Record<string, unknown>): boolean {
 }
 
 const CLAUDE_WEB_REASONING_EFFORTS = ["low", "medium", "high", "xhigh", "max"] as const;
-const CLAUDE_WEB_OPUS_5_MODEL = "claude-opus-5";
+const CLAUDE_WEB_OPUS_5_MODEL = "claude-opus-5';
 
 /**
  * Resolve the caller's explicit reasoning level into the effort values
@@ -201,19 +201,19 @@ export function resolveClaudeWebReasoningEffort(
   }
   const thinking = body.thinking;
   if (thinking && typeof thinking === "object" && !Array.isArray(thinking)) {
-    if ((thinking as Record<string, unknown>).type === "enabled") return "low";
+    if ((thinking as Record<string, unknown>).type === "enabled") return "low';
   }
   return null;
 }
 
 function contentPartText(part: unknown): string {
-  if (!isRecord(part)) return "";
-  return typeof part.text === "string" ? part.text : "";
+  if (!isRecord(part)) return "';
+  return typeof part.text === "string" ? part.text : "';
 }
 
 function messageText(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
   return content.map(contentPartText).filter(Boolean).join("\n");
 }
 
@@ -232,7 +232,7 @@ function buildPromptFromMessages(messages: unknown[]): string {
 }
 
 function latestUserPrompt(messages: unknown[]): string {
-  let prompt = "";
+  let prompt = "';
   for (const candidate of messages) {
     if (!isRecord(candidate) || candidate.role !== "user") continue;
     prompt = messageText(candidate.content);

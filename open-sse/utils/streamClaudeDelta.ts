@@ -1,4 +1,4 @@
-import { appendBoundedText } from "./streamHelpers.ts";
+import { appendBoundedText } from './streamHelpers.ts';
 
 type ClaudeDeltaState = {
   accumulatedContent?: string;

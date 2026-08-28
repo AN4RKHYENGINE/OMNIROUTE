@@ -1,15 +1,15 @@
 // open-sse/services/compression/engines/ionizer/index.ts
-import { createCompressionStats } from "../../stats.ts";
-import { runIonizerPass } from "./sample.ts";
+import { createCompressionStats } from '../../stats.ts';
+import { runIonizerPass } from './sample.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
 
-const ENGINE_ID = "ionizer";
+const ENGINE_ID = "ionizer';
 
 type MessageLike = { role?: string; content?: unknown; [key: string]: unknown };
 

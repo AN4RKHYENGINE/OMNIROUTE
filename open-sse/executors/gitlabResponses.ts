@@ -105,7 +105,7 @@ export function buildToolJsonCompletion(
   id: string,
   created: number
 ): Response {
-  const contentForEstimate = typeof message.content === "string" ? message.content : "";
+  const contentForEstimate = typeof message.content === "string" ? message.content : "';
   const estimated = Math.max(1, Math.ceil(contentForEstimate.length / 4));
   return new Response(
     JSON.stringify({

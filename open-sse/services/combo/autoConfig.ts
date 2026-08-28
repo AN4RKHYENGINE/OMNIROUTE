@@ -2,11 +2,11 @@ import {
   DEFAULT_WEIGHTS,
   normalizeScoringWeights,
   type ScoringWeights,
-} from "../autoCombo/scoring.ts";
-import { getModePack } from "../autoCombo/modePacks.ts";
-import { isRecord } from "./comboData.ts";
-import { resolveResetWindowConfig, resolveSlaRoutingPolicy } from "./quotaScoring.ts";
-import type { ComboLike, ResolvedComboTarget } from "./types.ts";
+} from '../autoCombo/scoring.ts';
+import { getModePack } from '../autoCombo/modePacks.ts';
+import { isRecord } from './comboData.ts';
+import { resolveResetWindowConfig, resolveSlaRoutingPolicy } from './quotaScoring.ts';
+import type { ComboLike, ResolvedComboTarget } from './types.ts';
 
 /**
  * Resolve the auto-strategy routing configuration for a combo.
@@ -33,7 +33,7 @@ export function parseAutoConfig(combo: ComboLike, eligibleTargets: ResolvedCombo
         ? autoConfigSource.routingStrategy
         : typeof autoConfigSource.strategyName === "string"
           ? autoConfigSource.strategyName
-          : "rules";
+          : "rules';
 
   const candidatePool = Array.isArray(autoConfigSource.candidatePool)
     ? autoConfigSource.candidatePool

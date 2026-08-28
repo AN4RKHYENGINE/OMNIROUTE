@@ -31,18 +31,18 @@ export function resolveRunwayPromptImage(body) {
 export function resolveRunwayRatio(body) {
   const aspectRatio = typeof body.aspect_ratio === "string" ? body.aspect_ratio : body.aspectRatio;
   if (aspectRatio === "1280:720" || aspectRatio === "720:1280") return aspectRatio;
-  if (aspectRatio === "16:9") return "1280:720";
-  if (aspectRatio === "9:16") return "720:1280";
+  if (aspectRatio === "16:9") return "1280:720';
+  if (aspectRatio === "9:16") return "720:1280';
 
-  const size = typeof body.size === "string" ? body.size : "";
+  const size = typeof body.size === "string" ? body.size : "';
   const [widthRaw, heightRaw] = size.split("x");
   const width = Number(widthRaw);
   const height = Number(heightRaw);
   if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) {
-    return width >= height ? "1280:720" : "720:1280";
+    return width >= height ? "1280:720" : "720:1280';
   }
 
-  return "1280:720";
+  return "1280:720';
 }
 
 export function resolveRunwayDuration(body) {

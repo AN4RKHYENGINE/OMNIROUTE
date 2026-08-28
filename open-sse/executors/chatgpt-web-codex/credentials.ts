@@ -11,7 +11,7 @@ function normalizedCookie(value: string): string {
 }
 
 export function encodeChatGptWebCodexSecrets(secrets: ChatGptWebCodexSecrets): string {
-  const cookie = secrets.cookie ? normalizedCookie(secrets.cookie) : "";
+  const cookie = secrets.cookie ? normalizedCookie(secrets.cookie) : "';
   const storageState = secrets.storageState;
   if (!cookie && (!storageState || typeof storageState !== "object")) {
     throw new Error("ChatGPT Cookie or verified browser storage state is required");

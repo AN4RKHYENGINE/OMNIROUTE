@@ -8,9 +8,9 @@
 // Docs: https://ai.google.dev/gemini-api/docs/imagen  (Imagen requires a billing-
 // enabled Google project; free-tier keys get 403 / quota 0.)
 
-import { saveCallLog } from "@/lib/usageDb";
-import { mapImageSize } from "../../../translator/image/sizeMapper.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { mapImageSize } from '../../../translator/image/sizeMapper.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 // Only the Imagen family routes through :predict. Other gemini image models
 // (gemini-*-flash-image / nano-banana) use generateContent and belong on the chat
@@ -61,7 +61,7 @@ export async function handleGoogleImagenGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || credentials?.accessToken || "";
+  const token = credentials?.apiKey || credentials?.accessToken || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
 
   if (!isImagenModel(model)) {

@@ -22,12 +22,12 @@
  * Cache: 60s in-memory TTL keyed by connectionId.
  */
 
-import { registerQuotaFetcher, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
-import { toNumberOrNull } from "@/shared/utils/numeric";
+import { registerQuotaFetcher, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
+import { toNumberOrNull } from '@/shared/utils/numeric';
 
-const CREDIT_USAGE_URL = "https://api.firecrawl.dev/v2/team/credit-usage";
+const CREDIT_USAGE_URL = "https://api.firecrawl.dev/v2/team/credit-usage';
 const CACHE_TTL_MS = 60_000;
 const REQUEST_TIMEOUT_MS = 8_000;
 

@@ -9,11 +9,11 @@
  *   - Streamable HTTP: POST /api/mcp/stream (messages)  +  GET /api/mcp/stream (SSE stream)  +  DELETE /api/mcp/stream (session end)
  */
 
-import { randomUUID } from "node:crypto";
-import { createMcpServer } from "./server.ts";
-import { resolveMcpCallerAuthInfo, withMcpHttpAuthContext } from "./httpAuthContext.ts";
-import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { randomUUID } from 'node:crypto';
+import { createMcpServer } from './server.ts';
+import { resolveMcpCallerAuthInfo, withMcpHttpAuthContext } from './httpAuthContext.ts';
+import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 let _sseServer: McpServer | null = null;
 let _sseTransport: WebStandardStreamableHTTPServerTransport | null = null;
@@ -129,7 +129,7 @@ async function isInitializeRequest(request: Request): Promise<boolean> {
 
   try {
     const body = (await request.clone().json()) as { method?: unknown };
-    return body?.method === "initialize";
+    return body?.method === "initialize';
   } catch {
     return false;
   }

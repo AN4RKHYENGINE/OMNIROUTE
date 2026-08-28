@@ -1,5 +1,5 @@
-import { ENGINE_CATALOG, engineMeta } from "./engineCatalog.ts";
-import type { EngineToggle } from "./types.ts";
+import { ENGINE_CATALOG, engineMeta } from './engineCatalog.ts';
+import type { EngineToggle } from './types.ts';
 
 /** Maps single-mode engine ids to the effective CompressionMode name. */
 const SINGLE_MODE_OF: Record<string, string> = {
@@ -13,7 +13,7 @@ const SINGLE_MODE_OF: Record<string, string> = {
 };
 
 export type CompressionSource =
-  "request-header" | "routing-override" | "active-profile" | "auto-trigger" | "default" | "off";
+  "request-header" | "routing-override" | "active-profile" | "auto-trigger" | "default" | "off';
 
 export interface DerivedPlan {
   mode: string;

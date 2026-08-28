@@ -1,10 +1,10 @@
 // Claude helper functions for translator
-import { DEFAULT_THINKING_CLAUDE_SIGNATURE } from "../../config/defaultThinkingSignature.ts";
-import { lookupReasoning, recordReplay } from "../../services/reasoningCache.ts";
-import { getModelTargetFormat } from "../../config/providerModels.ts";
-import { NON_ANTHROPIC_THINKING_PLACEHOLDER } from "../../utils/reasoningPlaceholder.ts";
+import { DEFAULT_THINKING_CLAUDE_SIGNATURE } from '../../config/defaultThinkingSignature.ts';
+import { lookupReasoning, recordReplay } from '../../services/reasoningCache.ts';
+import { getModelTargetFormat } from '../../config/providerModels.ts';
+import { NON_ANTHROPIC_THINKING_PLACEHOLDER } from '../../utils/reasoningPlaceholder.ts';
 
-export { NON_ANTHROPIC_THINKING_PLACEHOLDER } from "../../utils/reasoningPlaceholder.ts";
+export { NON_ANTHROPIC_THINKING_PLACEHOLDER } from '../../utils/reasoningPlaceholder.ts';
 
 // MiniMax exposes a Claude-compatible endpoint but rejects Anthropic's extended
 // `output_config` parameter (used to steer reasoning effort and structured output)
@@ -257,7 +257,7 @@ export function fixToolUseOrdering(messages: ClaudeMessage[]): ClaudeMessage[] {
         continue;
       }
 
-      const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "";
+      const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "';
       if (validIds.has(toolUseId) && !pairedById.has(toolUseId)) {
         pairedById.set(toolUseId, block);
         continue;
@@ -364,7 +364,7 @@ export function prepareClaudeRequest(
   // In passthrough mode, preserve existing cache_control markers
   const supportsPromptCaching =
     provider === "claude" || provider?.startsWith?.("anthropic-compatible-");
-  const isKimiCoding = provider === "kimi-coding" || provider === "kimi-coding-apikey";
+  const isKimiCoding = provider === "kimi-coding" || provider === "kimi-coding-apikey';
 
   // Non-Anthropic Claude-shape providers (kimi-coding, glmt, zai, …) cannot
   // validate the synthetic redacted_thinking.data blob — they're not Anthropic
@@ -380,7 +380,7 @@ export function prepareClaudeRequest(
   // When the specific model targets Claude format, it's hitting a real Anthropic
   // endpoint that validates signatures — so it needs redacted_thinking too.
   const modelTargetsClaude =
-    !!provider && !!model && getModelTargetFormat(provider, model) === "claude";
+    !!provider && !!model && getModelTargetFormat(provider, model) === "claude';
   const supportsRedactedThinking = !isKimiCoding && (supportsPromptCaching || modelTargetsClaude);
 
   const systemBlocks = body.system;
@@ -412,7 +412,7 @@ export function prepareClaudeRequest(
       }
 
       // Keep final assistant even if empty, otherwise check valid content
-      const isFinalAssistant = i === len - 1 && msg.role === "assistant";
+      const isFinalAssistant = i === len - 1 && msg.role === "assistant';
       if (isFinalAssistant || hasValidContent(msg)) {
         filtered.push(msg);
       }
@@ -476,7 +476,7 @@ export function prepareClaudeRequest(
 
     // Check if thinking is enabled AND last message is from user
     const lastMessage = filtered[filtered.length - 1];
-    const lastMessageIsUser = lastMessage?.role === "user";
+    const lastMessageIsUser = lastMessage?.role === "user';
     const thinkingEnabled = body.thinking?.type === "enabled" && lastMessageIsUser;
 
     // Claude Code-style prompt caching:
@@ -622,13 +622,13 @@ export function prepareClaudeRequest(
           if (block.type === "thinking" || block.type === "redacted_thinking") {
             if (isKimiCoding) {
               if (block.type === "redacted_thinking") {
-                block.type = "thinking";
-                block.thinking = typeof block.thinking === "string" ? block.thinking : "";
+                block.type = "thinking';
+                block.thinking = typeof block.thinking === "string" ? block.thinking : "';
               }
               delete block.data;
               delete block.signature;
             } else if (supportsRedactedThinking) {
-              block.type = "redacted_thinking";
+              block.type = "redacted_thinking';
               block.data = DEFAULT_THINKING_CLAUDE_SIGNATURE;
               delete block.thinking;
               delete block.signature;
@@ -636,7 +636,7 @@ export function prepareClaudeRequest(
               const existing =
                 typeof block.thinking === "string" && block.thinking.length > 0
                   ? block.thinking
-                  : "";
+                  : "';
               let text = existing;
               // For the latest assistant message on non-Anthropic upstreams,
               // preserve the thinking text verbatim when it is already present.
@@ -653,11 +653,11 @@ export function prepareClaudeRequest(
                     }
                   }
                 }
-                block.type = "thinking";
+                block.type = "thinking';
                 block.thinking = text || NON_ANTHROPIC_THINKING_PLACEHOLDER;
               } else {
                 // latestHasExistingThinking + non-empty text: preserve text, still clean up fields
-                block.type = "thinking";
+                block.type = "thinking';
               }
               delete block.data;
               delete block.signature;
@@ -685,7 +685,7 @@ export function prepareClaudeRequest(
               thinking: "",
             });
           } else {
-            let text = "";
+            let text = "';
             const firstToolUseId = toolUseIds[0];
             if (firstToolUseId) {
               const cached = lookupReasoning(firstToolUseId);

@@ -4,8 +4,8 @@
  * protocols, so its dynamic target format must override the connection's default Claude wire image.
  */
 
-import { isClaudeCodeCompatibleProvider } from "../../services/claudeCodeCompatible.ts";
-import { FORMATS } from "../../translator/formats.ts";
+import { isClaudeCodeCompatibleProvider } from '../../services/claudeCodeCompatible.ts';
+import { FORMATS } from '../../translator/formats.ts';
 
 export function usesClaudeBridge(
   provider: string,

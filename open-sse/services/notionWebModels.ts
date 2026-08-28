@@ -10,7 +10,7 @@
 import {
   NOTION_WEB_FALLBACK_MODELS,
   type NotionDiscoveredModel,
-} from "./notionWebFallbackModels.ts";
+} from './notionWebFallbackModels.ts';
 
 export { NOTION_WEB_FALLBACK_MODELS };
 export type { NotionDiscoveredModel };
@@ -18,14 +18,14 @@ export type { NotionDiscoveredModel };
 // Browser AI surface uses app.notion.com (live capture 2026-07-19). www.notion.so
 // still works for many paths but can return a different space default / cookie
 // domain behavior — prefer the same host the web picker uses.
-const NOTION_APP_ORIGIN = "https://app.notion.com";
-const NOTION_LEGACY_ORIGIN = "https://www.notion.so";
+const NOTION_APP_ORIGIN = "https://app.notion.com';
+const NOTION_LEGACY_ORIGIN = "https://www.notion.so';
 const NOTION_MODELS_URL = `${NOTION_APP_ORIGIN}/api/v3/getAvailableModels`;
 const NOTION_SPACES_URL = `${NOTION_APP_ORIGIN}/api/v3/getSpaces`;
 const NOTION_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 /** Recent Notion web client version — accepted loosely but required by some paths. */
-const NOTION_CLIENT_VERSION = "23.13.20260719.1125";
+const NOTION_CLIENT_VERSION = "23.13.20260719.1125';
 /** Cap how many workspaces we probe for AI models when space_id is omitted. */
 const NOTION_MAX_SPACE_PROBE = 8;
 /** Cache auto-selected workspace per token so chat/inference reuses discovery. */
@@ -57,16 +57,16 @@ function notionTokenCacheKey(cookie: string): string {
 /** Normalize a pasted credential to a Cookie header string. */
 export function normalizeNotionWebCookie(raw: string): string {
   const trimmed = String(raw || "").trim();
-  if (!trimmed) return "";
+  if (!trimmed) return "';
   return trimmed.includes("=") ? trimmed : `token_v2=${trimmed}`;
 }
 
 /** Read `name=value` from a cookie header (case-insensitive name). */
 export function readCookieValue(cookie: string, name: string): string {
-  if (!cookie || !name) return "";
+  if (!cookie || !name) return "';
   const re = new RegExp(`(?:^|;\\s*)${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}=([^;]*)`, "i");
   const m = cookie.match(re);
-  if (!m) return "";
+  if (!m) return "';
   const raw = m[1].trim();
   // Malformed % sequences in cookie values must not throw (Gemini review).
   try {
@@ -77,7 +77,7 @@ export function readCookieValue(cookie: string, name: string): string {
 }
 
 export function extractSpaceIdFromNotionCookie(cookie: string): string {
-  return readCookieValue(cookie, "space_id") || readCookieValue(cookie, "spaceId") || "";
+  return readCookieValue(cookie, "space_id") || readCookieValue(cookie, "spaceId") || "';
 }
 
 export function extractNotionUserIdFromCookie(cookie: string): string {
@@ -151,14 +151,14 @@ export function listNotionDisabledModels(data: unknown): NotionDisabledModelSumm
     if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
     const row = entry as Record<string, unknown>;
     if (row.isDisabled !== true) continue;
-    const codename = typeof row.model === "string" ? row.model.trim() : "";
+    const codename = typeof row.model === "string" ? row.model.trim() : "';
     if (!codename || seen.has(codename)) continue;
     seen.add(codename);
     const name = trimmedOrFallback(row.modelMessage, codename);
     const reason =
       typeof row.disabledReason === "string" && row.disabledReason.trim()
         ? row.disabledReason.trim()
-        : "disabled";
+        : "disabled';
     out.push({
       id: catalogIdForNotionModel(codename, name),
       name,
@@ -173,7 +173,7 @@ export function listNotionDisabledModels(data: unknown): NotionDisabledModelSumm
 export function formatNotionDisabledModelsWarning(
   disabled: readonly NotionDisabledModelSummary[]
 ): string {
-  if (!disabled.length) return "";
+  if (!disabled.length) return "';
   const parts = disabled.map((d) => {
     const reason = d.reason.replace(/_/g, " ");
     return `${d.name} (${reason})`;
@@ -204,7 +204,7 @@ function parseNotionModelEntry(entry: unknown, seen: Set<string>): NotionDiscove
   // Listing them in /v1/models would invite failed chat requests.
   if (row.isDisabled === true) return null;
 
-  const codename = typeof row.model === "string" ? row.model.trim() : "";
+  const codename = typeof row.model === "string" ? row.model.trim() : "';
   if (!codename) return null;
 
   const name = trimmedOrFallback(row.modelMessage, codename);
@@ -311,13 +311,13 @@ export type NotionWorkspaceCandidates = {
  * space ids into `spaceIds` and returning the userId it carries (if any).
  */
 function collectUserSpaceEntry(key: string, value: unknown, spaceIds: string[]): string {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return "";
+  if (!value || typeof value !== "object" || Array.isArray(value)) return "';
   const spaceMap = (value as Record<string, unknown>).space;
-  if (!spaceMap || typeof spaceMap !== "object" || Array.isArray(spaceMap)) return "";
+  if (!spaceMap || typeof spaceMap !== "object" || Array.isArray(spaceMap)) return "';
   for (const id of Object.keys(spaceMap as Record<string, unknown>)) {
     if (id && !spaceIds.includes(id)) spaceIds.push(id);
   }
-  return key && !key.includes(" ") ? key : "";
+  return key && !key.includes(" ") ? key : "';
 }
 
 /** Fallback spaceId extraction from the flat `{ spaces: [] }` / `{ spaceIds: [] }` shapes. */
@@ -334,7 +334,7 @@ export function parseNotionGetSpaces(data: unknown): NotionWorkspaceCandidates {
   }
   const root = data as Record<string, unknown>;
   const spaceIds: string[] = [];
-  let userId = "";
+  let userId = "';
 
   for (const [key, value] of Object.entries(root)) {
     const entryUserId = collectUserSpaceEntry(key, value, spaceIds);
@@ -350,28 +350,28 @@ export function parseNotionGetSpaces(data: unknown): NotionWorkspaceCandidates {
 
 /** Common shape: { [userId]: { space_view: { ... }, space: { [spaceId]: ... } } } */
 function pickSpaceIdFromUserMap(root: Record<string, unknown>): string {
-  return parseNotionGetSpaces(root).spaceIds[0] || "";
+  return parseNotionGetSpaces(root).spaceIds[0] || "';
 }
 
 /** Flat shape: { spaces: [{ id }] } */
 function pickSpaceIdFromSpacesArray(spaces: unknown): string {
-  if (!Array.isArray(spaces)) return "";
+  if (!Array.isArray(spaces)) return "';
   for (const s of spaces) {
     if (s && typeof s === "object" && typeof (s as { id?: string }).id === "string") {
       return (s as { id: string }).id;
     }
   }
-  return "";
+  return "';
 }
 
 /** Flat shape: { spaceIds: [] } */
 function pickSpaceIdFromSpaceIdsArray(spaceIds: unknown): string {
-  return Array.isArray(spaceIds) && typeof spaceIds[0] === "string" ? spaceIds[0] : "";
+  return Array.isArray(spaceIds) && typeof spaceIds[0] === "string" ? spaceIds[0] : "';
 }
 
 /** Best-effort spaceId extraction from getSpaces response shapes. */
 export function pickFirstSpaceId(data: unknown): string {
-  return parseNotionGetSpaces(data).spaceIds[0] || "";
+  return parseNotionGetSpaces(data).spaceIds[0] || "';
 }
 
 function buildNotionBrowserHeaders(cookie: string, userId?: string): Record<string, string> {
@@ -428,7 +428,7 @@ export async function resolveNotionSpaceIdFromGetSpaces(
   fetchImpl: typeof fetch = fetch
 ): Promise<string> {
   const { spaceIds } = await fetchNotionWorkspaceCandidates(cookie, fetchImpl);
-  return spaceIds[0] || "";
+  return spaceIds[0] || "';
 }
 
 /**
@@ -642,7 +642,7 @@ export async function discoverNotionWebModels(opts: {
 }): Promise<{
   models: NotionDiscoveredModel[];
   spaceId: string;
-  source: "api";
+  source: "api';
   /** Populated when Notion returned plan-locked / disabled models (e.g. Fable 5). */
   warning?: string;
   disabledModels?: NotionDisabledModelSummary[];
@@ -690,7 +690,7 @@ export async function discoverNotionWebModels(opts: {
 
 /** Effective food codename for a catalog model entry. */
 export function notionCodenameOf(model: NotionDiscoveredModel): string {
-  if (!model?.id || model.id === "notion-ai") return "";
+  if (!model?.id || model.id === "notion-ai") return "';
   return (model.notionCodename || model.id).trim();
 }
 
@@ -732,12 +732,12 @@ export function resolveNotionCodename(
   model: string | undefined | null,
   extraModels: readonly NotionDiscoveredModel[] = []
 ): string {
-  let m = typeof model === "string" ? model.trim() : "";
-  if (!m || m === "notion-ai") return "";
+  let m = typeof model === "string" ? model.trim() : "';
+  if (!m || m === "notion-ai") return "';
   // Strip provider prefixes added by /v1/models catalog.
   if (m.startsWith("notion-web/")) m = m.slice("notion-web/".length);
   else if (m.startsWith("nw/")) m = m.slice(3);
-  if (!m || m === "notion-ai") return "";
+  if (!m || m === "notion-ai") return "';
 
   const map = buildNotionFriendlyToCodenameMap([...NOTION_WEB_FALLBACK_MODELS, ...extraModels]);
   // Unknown ids pass through as-is so a freshly discovered codename still works

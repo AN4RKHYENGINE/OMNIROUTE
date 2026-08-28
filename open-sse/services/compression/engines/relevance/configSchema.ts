@@ -1,5 +1,5 @@
-import type { EngineConfigField, EngineValidationResult } from "../types.ts";
-import type { RelevanceConfig } from "../../types.ts";
+import type { EngineConfigField, EngineValidationResult } from '../types.ts';
+import type { RelevanceConfig } from '../../types.ts';
 
 export const RELEVANCE_SCHEMA: EngineConfigField[] = [
   {

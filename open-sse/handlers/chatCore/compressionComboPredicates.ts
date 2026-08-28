@@ -7,7 +7,7 @@
  * No handler state is captured; behaviour is byte-identical to the previous inline closures.
  */
 
-import type { CompressionConfig } from "../../services/compression/types.ts";
+import type { CompressionConfig } from '../../services/compression/types.ts';
 
 export type RuntimeCompressionCombo = {
   id: string;

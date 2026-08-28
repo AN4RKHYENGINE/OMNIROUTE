@@ -20,9 +20,9 @@
 // caller still receives the new accessToken — upstream already authenticated
 // the request; only the DB write is skipped. No active guard ⇒ behavior is
 // byte-identical to before (opt-in).
-import { AsyncLocalStorage } from "node:async_hooks";
-import { wasRefreshTokenRotated } from "../refreshSerializer.ts";
-import type { RefreshLogger } from "./shared.ts";
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { wasRefreshTokenRotated } from '../refreshSerializer.ts';
+import type { RefreshLogger } from './shared.ts';
 
 type CasGuard = {
   /** The refresh_token the caller presented for this refresh (CAS version token). */

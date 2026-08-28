@@ -21,60 +21,60 @@ import {
   recordProviderFailure,
   recordProviderSuccess,
   selectLockoutCooldownMs,
-} from "./accountFallback.ts";
+} from './accountFallback.ts';
 import {
   errorResponse,
   unavailableResponse,
   errorResponseWithComboDiagnostics,
-} from "../utils/error.ts";
-import type { ComboDiagnostics } from "../utils/error.ts";
+} from '../utils/error.ts';
+import type { ComboDiagnostics } from '../utils/error.ts';
 import {
   COMBO_FAILURE_THRESHOLD,
   clearComboFailureTracking,
   recordComboFailure,
-} from "./combo/failureTracker.ts";
-import { buildNoUpstreamResponseDiagnostics, buildRecoveryHint } from "./combo/pinRecovery.ts";
-import { buildTargetTimeoutRunner } from "./combo/targetTimeoutRunner.ts";
-import { recordComboRequest, recordComboShadowRequest, getComboMetrics } from "./comboMetrics.ts";
+} from './combo/failureTracker.ts';
+import { buildNoUpstreamResponseDiagnostics, buildRecoveryHint } from './combo/pinRecovery.ts';
+import { buildTargetTimeoutRunner } from './combo/targetTimeoutRunner.ts';
+import { recordComboRequest, recordComboShadowRequest, getComboMetrics } from './comboMetrics.ts';
 import {
   expandComboSystemPromptIfPresent,
   resolveTargetFingerprint,
-} from "./comboAgentMiddleware.ts";
+} from './comboAgentMiddleware.ts';
 import {
   resolveComboConfig,
   getDefaultComboConfig,
   resolveComboQueueDepth,
   isComboCooldownWaitEligible,
-} from "./comboConfig.ts";
+} from './comboConfig.ts';
 import {
   maybeGenerateHandoff,
   maybeGenerateUniversalHandoff,
   injectUniversalHandoffBody,
   SKIP_UNIVERSAL_HANDOFF_FLAG,
   type MessageLike,
-} from "./contextHandoff.ts";
+} from './contextHandoff.ts';
 import {
   recordSessionModelUsage,
   getLastSessionModel,
   getHandoff,
 } from '@lib/db/contextHandoffs.ts';
-import { extractSessionAffinityKey } from "@/sse/services/auth";
-import { getHiddenModelsByProvider } from "@/models";
+import { extractSessionAffinityKey } from '@/sse/services/auth';
+import { getHiddenModelsByProvider } from '@/models';
 import { resolveModelLockoutSettings } from '@lib/resilience/modelLockoutSettings';
-import { fetchCodexQuota } from "./codexQuotaFetcher.ts";
-import { evaluateQuotaCutoff, getQuotaFetcher, type QuotaInfo } from "./quotaPreflight.ts";
-import * as semaphore from "./rateLimitSemaphore.ts";
+import { fetchCodexQuota } from './codexQuotaFetcher.ts';
+import { evaluateQuotaCutoff, getQuotaFetcher, type QuotaInfo } from './quotaPreflight.ts';
+import * as semaphore from './rateLimitSemaphore.ts';
 import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
-import { parseModel } from "./model.ts";
-import { createComboContext } from "./combo/context.ts";
-import { phaseComboSetup } from "./combo/comboSetup.ts";
-import { checkCredentialGate, logCredentialSkip } from "./credentialGate.ts";
+import { parseModel } from './model.ts';
+import { createComboContext } from './combo/context.ts';
+import { phaseComboSetup } from './combo/comboSetup.ts';
+import { checkCredentialGate, logCredentialSkip } from './credentialGate.ts';
 import { emit } from '@lib/events/eventBus';
 import { notifyWebhookEvent } from '@lib/webhookDispatcher';
-import { type ProviderCandidate } from "./autoCombo/scoring.ts";
-import { estimateTokens } from "./contextManager.ts";
-import { getSessionConnection } from "./sessionManager.ts";
-import { getOAuthSessionAvailability } from "./oauthSessionOccupancy.ts";
+import { type ProviderCandidate } from './autoCombo/scoring.ts';
+import { estimateTokens } from './contextManager.ts';
+import { getSessionConnection } from './sessionManager.ts';
+import { getOAuthSessionAvailability } from './oauthSessionOccupancy.ts';
 import {
   applySessionStickiness,
   normalizeStickinessMessages,
@@ -82,26 +82,26 @@ import {
   clearStickyBinding,
   peekStickyConnectionId,
   resolveDisableSessionStickiness,
-} from "./combo/sessionStickiness.ts";
-import { selectQuotaShareTarget } from "./combo/quotaShareStrategy.ts";
-import { makeConnectionConcurrencyResolver, lookupPositiveCap } from "./combo/concurrencyCaps.ts";
-import { acquireQuotaShareConcurrencySlot } from "./combo/quotaShareConcurrency.ts";
-import { orderTargetsByEvalScores } from "./evalRouting.ts";
+} from './combo/sessionStickiness.ts';
+import { selectQuotaShareTarget } from './combo/quotaShareStrategy.ts';
+import { makeConnectionConcurrencyResolver, lookupPositiveCap } from './combo/concurrencyCaps.ts';
+import { acquireQuotaShareConcurrencySlot } from './combo/quotaShareConcurrency.ts';
+import { orderTargetsByEvalScores } from './evalRouting.ts';
 import {
   applyPromptCacheAffinity,
   expandPromptCacheAffinityTargets,
   expandPromptCacheAffinityTargetsFromConnections,
   resolvePromptCacheAffinityKey,
-} from "./combo/promptCacheAffinity.ts";
-import type { CompressionMode } from "./compression/types.ts";
+} from './combo/promptCacheAffinity.ts';
+import type { CompressionMode } from './compression/types.ts';
 import { getCachedProviderConnections } from '@lib/db/readCache';
-import { isProviderInCooldown, recordProviderCooldown } from "./providerCooldownTracker.ts";
+import { isProviderInCooldown, recordProviderCooldown } from './providerCooldownTracker.ts';
 import {
   resolveResilienceSettings,
   type ResilienceSettings,
 } from '@lib/resilience/settings';
-import { resolveReasoningBufferedMaxTokens, toPositiveInteger } from "./reasoningTokenBuffer.ts";
-import { RESET_WINDOW_NAMES } from "./combo/types.ts";
+import { resolveReasoningBufferedMaxTokens, toPositiveInteger } from './reasoningTokenBuffer.ts';
+import { RESET_WINDOW_NAMES } from './combo/types.ts';
 import type {
   ComboLike,
   ComboRetryAfter,
@@ -112,7 +112,7 @@ import type {
   ResolvedComboTarget,
   AutoProviderCandidate,
   HistoricalLatencyStatsEntry,
-} from "./combo/types.ts";
+} from './combo/types.ts';
 
 import {
   MAX_RR_COUNTERS,
@@ -125,22 +125,22 @@ import {
   getStickyWeightedExecutionKey,
   recordStickyWeightedSuccess,
   resolveComboStickyRoundRobinLimit,
-} from "./combo/rrState.ts";
+} from './combo/rrState.ts';
 import {
   validateResponseQuality,
   releaseQualityClone,
   releaseRejectedQualityResponse,
   toRetryAfterDisplayValue,
-} from "./combo/validateQuality.ts";
+} from './combo/validateQuality.ts';
 import {
   resolveComboCooldownWaitDecision,
   ResolveComboCooldownDecisionResult,
-} from "./combo/comboCooldownRetry.ts";
+} from './combo/comboCooldownRetry.ts';
 import {
   computeClosestRetryAfter,
   waitForCooldownAwareRetry,
-} from "../../src/sse/services/cooldownAwareRetry.ts";
-import { dispatchChaosFromCombo, type ChaosTuning } from "./autoCombo/chaosEngine.ts";
+} from '../../src/sse/services/cooldownAwareRetry.ts';
+import { dispatchChaosFromCombo, type ChaosTuning } from './autoCombo/chaosEngine.ts';
 import {
   TRANSIENT_FOR_SEMAPHORE,
   MAX_FALLBACK_WAIT_MS,
@@ -169,42 +169,42 @@ import {
   isContextOverflow400,
   isParamValidation400,
   isModelScoped400,
-} from "./combo/comboPredicates.ts";
+} from './combo/comboPredicates.ts';
 export {
   getConnectionStatusQuotaCutoffReason,
   isContextOverflow400,
   isParamValidation400,
   isModelScoped400,
 };
-import { applyComboTargetExhaustion } from "./combo/targetExhaustion.ts";
+import { applyComboTargetExhaustion } from './combo/targetExhaustion.ts';
 import {
   applyNativeCodexTurnPin,
   getNativeCodexTurnPin,
   pinNativeCodexTurn,
-} from "./combo/nativeCodexTurnPin.ts";
+} from './combo/nativeCodexTurnPin.ts';
 import {
   pinIsDurablyUnhealthy,
   tryFusionDispatch,
   tryPinnedModelDispatch,
   tryPipelineDispatch,
   tryRuntimeUnitDispatch,
-} from "./combo/dispatchPrelude.ts";
-import { isRetryAfterEligibleStatus } from "./combo/unavailableRetryGate.ts";
-import { isRecord } from "./combo/comboData.ts";
+} from './combo/dispatchPrelude.ts';
+import { isRetryAfterEligibleStatus } from './combo/unavailableRetryGate.ts';
+import { isRecord } from './combo/comboData.ts';
 import {
   expandProviderWildcardsInCombo,
   expandProviderWildcardsInCollection,
-} from "./combo/providerWildcard.ts";
-import { resolveShadowTargets, scheduleShadowRouting } from "./combo/shadowRouting.ts";
-import { attemptCompatRejectedFallback } from "./combo/comboCompatFallback.ts";
+} from './combo/providerWildcard.ts';
+import { resolveShadowTargets, scheduleShadowRouting } from './combo/shadowRouting.ts';
+import { attemptCompatRejectedFallback } from './combo/comboCompatFallback.ts';
 import {
   computeCompatRejectedTargets,
   describeCapabilityFilterExhaustion,
   filterTargetsByRequestCompatibility,
   resolveComboRuntimeUnits,
   resolveComboTargets,
-} from "./combo/comboStructure.ts";
-import { getKnownContextOverflow } from "./combo/knownContextOverflow.ts";
+} from './combo/comboStructure.ts';
+import { getKnownContextOverflow } from './combo/knownContextOverflow.ts';
 import {
   QUOTA_SOFT_DEPRIORITIZE_FACTOR,
   setCandidateQuotaSoftPenalty,
@@ -214,24 +214,24 @@ import {
   scoreAutoTargets,
   expandAutoComboCandidatePool,
   deriveSpeedTelemetry,
-} from "./combo/autoStrategy.ts";
+} from './combo/autoStrategy.ts';
 import {
   resolveResetWindowConfig,
   calculateResetWindowAffinity,
   type ResetWindowConfig,
-} from "./combo/quotaScoring.ts";
-import { fetchResetAwareQuotaWithCache, preScreenTargets } from "./combo/quotaStrategies.ts";
+} from './combo/quotaScoring.ts';
+import { fetchResetAwareQuotaWithCache, preScreenTargets } from './combo/quotaStrategies.ts';
 import {
   buildAutoQuotaThresholds,
   resolveQuotaExhaustionCutoffForTarget,
-} from "./combo/quotaExhaustionCutoff.ts";
-import { expandTargetsByFingerprints } from "./combo/fingerprintExpansion.ts";
-import { resolveComboTargetPipeline } from "./combo/targetResolution.ts";
+} from './combo/quotaExhaustionCutoff.ts';
+import { expandTargetsByFingerprints } from './combo/fingerprintExpansion.ts';
+import { resolveComboTargetPipeline } from './combo/targetResolution.ts';
 import {
   isQuotaExhaustionResponse,
   recordQuotaExhaustionClassification,
   withQuotaExhaustionClassification,
-} from "./combo/quotaExhaustion.ts";
+} from './combo/quotaExhaustion.ts';
 
 export { RESET_WINDOW_NAMES, QUOTA_SOFT_DEPRIORITIZE_FACTOR, setCandidateQuotaSoftPenalty };
 export { scoreAutoTargets, expandAutoComboCandidatePool };
@@ -258,7 +258,7 @@ export {
   resolveNestedComboModels,
   resolveNestedComboTargets,
   validateComboDAG,
-} from "./combo/comboStructure.ts";
+} from './combo/comboStructure.ts';
 
 /**
  * #6692: release a session-stickiness pin the moment its bound connection is
@@ -379,7 +379,7 @@ export async function buildAutoCandidates(
     connectionById,
     (t) => {
       const parsed = parseModel(t.modelStr);
-      return t.provider || parsed.provider || parsed.providerAlias || "unknown";
+      return t.provider || parsed.provider || parsed.providerAlias || "unknown';
     }
   );
 
@@ -387,7 +387,7 @@ export async function buildAutoCandidates(
     fingerprintExpandedTargets.map(async (target) => {
       const modelStr = target.modelStr;
       const parsed = parseModel(modelStr);
-      const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown";
+      const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown';
       const model = parsed.model || modelStr;
       const historicalKey = `${provider}/${model}`;
       const historicalModelMetric = historicalLatencyStats[historicalKey] || null;
@@ -450,7 +450,7 @@ export async function buildAutoCandidates(
 
       const breakerStateRaw = getCircuitBreaker(provider)?.getStatus?.()?.state;
       const circuitBreakerState: ProviderCandidate["circuitBreakerState"] =
-        breakerStateRaw === "OPEN" || breakerStateRaw === "HALF_OPEN" ? breakerStateRaw : "CLOSED";
+        breakerStateRaw === "OPEN" || breakerStateRaw === "HALF_OPEN" ? breakerStateRaw : "CLOSED';
       const contextAffinity = calculateTargetContextAffinity(target, sessionId);
       let resetWindowAffinity = 0.5;
       let quotaRemaining = 100;
@@ -513,7 +513,7 @@ export async function buildAutoCandidates(
           );
           if (!cutoffDecision.proceed) {
             quotaCutoffBlocked = true;
-            quotaCutoffReason = cutoffDecision.reason || "quota_exhausted";
+            quotaCutoffReason = cutoffDecision.reason || "quota_exhausted';
           }
         }
       }
@@ -1133,7 +1133,7 @@ export async function handleComboChat({
             const reasoningExhausted = /reasoning consumed \d+\/\d+ tokens/.test(lastError || "");
             const failureReason = reasoningExhausted
               ? "reasoning_budget_exhausted"
-              : "max_attempts_exceeded";
+              : "max_attempts_exceeded';
             recordComboFailure(effectiveSessionId, combo.name);
             return {
               ok: false,
@@ -1303,7 +1303,7 @@ export async function handleComboChat({
               result.headers?.get("X-OmniRoute-Selected-Connection-Id") ||
               result.headers?.get("x-omniroute-selected-connection-id") ||
               undefined;
-            const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
+            const effectiveConnectionId = selectedConnectionId || target.connectionId || "';
 
             // Clone BEFORE quality check — validateResponseQuality reads the body
             // via getReader() which locks the stream. The clone's body is consumed
@@ -1585,7 +1585,7 @@ export async function handleComboChat({
           }
 
           // Extract error info from response
-          let errorText = result.statusText || "";
+          let errorText = result.statusText || "';
           let errorBody: ComboErrorBody = null;
           let retryAfter: ComboRetryAfter | null = null;
           try {
@@ -2245,7 +2245,7 @@ export async function handleComboChat({
               .join(", ") +
             (comboErrors.length > 5 ? `... (+${comboErrors.length - 5})` : "") +
             "]"
-          : "";
+          : "';
       const msg = (lastError || "All combo models unavailable") + comboErrorSummary;
 
       // Cooldown-aware retry: instead of crystallizing a transient failure, wait
@@ -2273,7 +2273,7 @@ export async function handleComboChat({
           // orderedTargets[0] behavior), but heterogeneous combos carry a
           // different model per target.
           lookupLock: (provider, connectionId, target) => {
-            const rawModel = parseModel(target?.modelStr ?? "").model || "";
+            const rawModel = parseModel(target?.modelStr ?? "").model || "';
             if (!rawModel) return null;
             return getModelLockoutInfo(provider, connectionId, rawModel);
           },
@@ -2882,7 +2882,7 @@ async function handleRoundRobinCombo({
             result.headers?.get("X-OmniRoute-Selected-Connection-Id") ||
             result.headers?.get("x-omniroute-selected-connection-id") ||
             undefined;
-          const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
+          const effectiveConnectionId = selectedConnectionId || target.connectionId || "';
 
           const rawModel = parseModel(modelStr).model || modelStr;
           if (provider && rawModel) {
@@ -2945,7 +2945,7 @@ async function handleRoundRobinCombo({
         }
 
         // Extract error info
-        let errorText = result.statusText || "";
+        let errorText = result.statusText || "';
         let retryAfter: ComboRetryAfter | null = null;
         let errorBody: ComboErrorBody = null;
         try {
@@ -3258,7 +3258,7 @@ async function handleRoundRobinCombo({
   }
 
   const status = lastStatus;
-  const msg = lastError || "All round-robin combo models unavailable";
+  const msg = lastError || "All round-robin combo models unavailable';
 
   if (earliestRetryAfter && isRetryAfterEligibleStatus(status)) {
     const retryHuman = formatRetryAfter(toRetryAfterDisplayValue(earliestRetryAfter));

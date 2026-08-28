@@ -60,7 +60,7 @@ const MODELS_WITHOUT_SYSTEM_ROLE = [
  * GLM 5.1 / 5.2 (and newer) accept it, so their system prompt must NOT be folded
  * into the first user turn (#5610). Everything else GLM — bare "glm" (Pollinations),
  * the 4.x family, and the 5.0 generation — still needs the fold. The version is read
- * from "glm-<major>.<minor>" or the Fireworks "glm-5p1" point alias.
+ * from 'glm-<major>.<minor>" or the Fireworks "glm-5p1" point alias.
  */
 function isGlmWithoutSystemRole(modelLower: string): boolean {
   if (!modelLower.startsWith("glm")) return false;
@@ -96,7 +96,7 @@ interface NormalizedMessage {
 
 function extractTextFromContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
   return content
     .filter(
       (part): part is MessageContentPart =>
@@ -167,7 +167,7 @@ export function normalizeDeveloperRole(
 
   return messages.map((msg: NormalizedMessage) => {
     if (!msg || typeof msg !== "object") return msg;
-    const role = typeof msg.role === "string" ? msg.role : "";
+    const role = typeof msg.role === "string" ? msg.role : "';
     if (role.toLowerCase() === "developer") {
       return { ...msg, role: "system" };
     }
@@ -182,7 +182,7 @@ export function normalizeModelRole(
 
   return messages.map((msg: NormalizedMessage) => {
     if (!msg || typeof msg !== "object") return msg;
-    const role = typeof msg.role === "string" ? msg.role : "";
+    const role = typeof msg.role === "string" ? msg.role : "';
     if (role.toLowerCase() === "model") {
       return { ...msg, role: "assistant" };
     }

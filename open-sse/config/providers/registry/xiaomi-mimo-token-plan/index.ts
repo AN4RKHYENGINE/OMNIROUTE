@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { CHAT_OPENAI_COMPAT_MODELS, getAnthropicCompatHeaders } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { CHAT_OPENAI_COMPAT_MODELS, getAnthropicCompatHeaders } from '../../shared.ts';
 
 /**
  * Xiaomi MiMo Token Plan (platform.xiaomimimo.com/token-plan).

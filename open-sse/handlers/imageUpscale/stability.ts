@@ -24,8 +24,8 @@ import {
   type UpscaleCredentials,
   type UpscaleHandlerResult,
   type UpscaleLogger,
-} from "./shared.ts";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+} from './shared.ts';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 
 const UPSCALE_ENDPOINTS: Record<string, string> = {
   fast: "/v2beta/stable-image/upscale/fast",
@@ -100,7 +100,7 @@ export async function handleStabilityImageUpscale({
     });
   }
 
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (PROMPT_REQUIRED.has(model) && !prompt) {
     return saveUpscaleErrorResult({
       provider,
@@ -200,7 +200,7 @@ export async function handleStabilityImageUpscale({
       });
     }
 
-    const base64 = typeof finalPayload.image === "string" ? finalPayload.image : "";
+    const base64 = typeof finalPayload.image === "string" ? finalPayload.image : "';
     if (!base64) {
       return saveUpscaleErrorResult({
         provider,
@@ -294,8 +294,8 @@ async function pollStabilityResult(opts: {
 
 function normalizeOutputFormat(value: unknown): string {
   const raw = String(value ?? "").trim().toLowerCase();
-  if (raw === "jpg") return "jpeg";
-  return ALLOWED_OUTPUT_FORMATS.includes(raw) ? raw : "png";
+  if (raw === "jpg") return "jpeg';
+  return ALLOWED_OUTPUT_FORMATS.includes(raw) ? raw : "png';
 }
 
 /**

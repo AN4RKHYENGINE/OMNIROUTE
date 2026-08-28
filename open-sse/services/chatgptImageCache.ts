@@ -17,7 +17,7 @@
  * the conversation in a few hours the URLs will 404; that's expected.
  */
 
-import { createHash, randomUUID } from "node:crypto";
+import { createHash, randomUUID } from 'node:crypto';
 
 interface CachedImage {
   bytes: Buffer;

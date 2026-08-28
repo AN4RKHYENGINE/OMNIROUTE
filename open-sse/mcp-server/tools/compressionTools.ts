@@ -7,19 +7,19 @@
  *   3. CCR lifecycle tools             — Store, retrieve, inspect, list, delete, and stats
  */
 
-import { logToolCall } from "../audit.ts";
+import { logToolCall } from '../audit.ts';
 import {
   getCompressionSettings,
   updateCompressionSettings,
-} from "@lib/db/compression.ts";
-import { getCompressionAnalyticsSummary } from "@lib/db/compressionAnalytics.ts";
-import { getCacheStatsSummary } from "@lib/db/compressionCacheStats.ts";
-import { listCompressionCombos } from "@lib/db/compressionCombos.ts";
-import type { McpToolExtraLike } from "../scopeEnforcement.ts";
+} from '@lib/db/compression.ts';
+import { getCompressionAnalyticsSummary } from '@lib/db/compressionAnalytics.ts';
+import { getCacheStatsSummary } from '@lib/db/compressionCacheStats.ts';
+import { listCompressionCombos } from '@lib/db/compressionCombos.ts';
+import type { McpToolExtraLike } from '../scopeEnforcement.ts';
 import {
   getMcpDescriptionCompressionStats,
   snapshotMcpDescriptionCompressionStats,
-} from "../descriptionCompressor.ts";
+} from '../descriptionCompressor.ts';
 
 /**
  * Handle compression_status tool: return current compression config, analytics, and cache stats
@@ -65,7 +65,7 @@ export async function handleCompressionStatus(
       estimatedTokensSaved: number;
       persistedEstimatedTokensSaved: number;
       persistedSnapshots: number;
-      source: "mcp_metadata_estimate";
+      source: "mcp_metadata_estimate';
       notProviderUsage: true;
     };
   };
@@ -235,7 +235,7 @@ export async function handleCompressionConfigure(
   }
 }
 
-import { z } from "zod";
+import { z } from 'zod';
 import {
   compressionStatusInput,
   compressionConfigureInput,
@@ -248,7 +248,7 @@ import {
   ccrListInput,
   ccrDeleteInput,
   ccrStatsInput,
-} from "../schemas/tools.ts";
+} from '../schemas/tools.ts';
 import {
   MAX_CCR_MCP_FULL_BYTES,
   buildCcrReference,
@@ -259,15 +259,15 @@ import {
   isCcrStoreRejection,
   listCcrBlocks,
   tryStoreBlock,
-} from "../../services/compression/engines/ccr/index.ts";
+} from '../../services/compression/engines/ccr/index.ts';
 import {
   listRtkCommandSamples,
   discoverRepeatedNoise,
   suggestFilter,
   commandToId,
-} from "../../services/compression/engines/rtk/index.ts";
-import { resolveCallerScopeContext } from "../scopeEnforcement.ts";
-import { resolveMcpCallerApiKeyId } from "../mcpCallerIdentity.ts";
+} from '../../services/compression/engines/rtk/index.ts';
+import { resolveCallerScopeContext } from '../scopeEnforcement.ts';
+import { resolveMcpCallerApiKeyId } from '../mcpCallerIdentity.ts';
 
 async function resolveCcrPrincipal(
   extra: McpToolExtraLike | undefined,

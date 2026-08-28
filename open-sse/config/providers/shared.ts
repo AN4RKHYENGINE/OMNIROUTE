@@ -6,9 +6,9 @@
  * is auto-generated from this registry.
  */
 
-import { ANTIGRAVITY_RUNTIME_BASE_URLS } from "../antigravityUpstream.ts";
-import { ANTIGRAVITY_PUBLIC_MODELS } from "../antigravityModelAliases.ts";
-import { AGY_PUBLIC_MODELS } from "../agyModels.ts";
+import { ANTIGRAVITY_RUNTIME_BASE_URLS } from '../antigravityUpstream.ts';
+import { ANTIGRAVITY_PUBLIC_MODELS } from '../antigravityModelAliases.ts';
+import { AGY_PUBLIC_MODELS } from '../agyModels.ts';
 import {
   ANTHROPIC_BETA_API_KEY,
   ANTHROPIC_BETA_CLAUDE_OAUTH,
@@ -16,16 +16,16 @@ import {
   CLAUDE_CLI_STAINLESS_PACKAGE_VERSION,
   CLAUDE_CLI_STAINLESS_RUNTIME_VERSION,
   CLAUDE_CLI_USER_AGENT,
-} from "../anthropicHeaders.ts";
-import { getCodexDefaultHeaders } from "../codexClient.ts";
+} from '../anthropicHeaders.ts';
+import { getCodexDefaultHeaders } from '../codexClient.ts';
 import {
   GLM_REQUEST_DEFAULTS,
   GLMT_REQUEST_DEFAULTS,
   GLM_TIMEOUT_MS,
   GLMT_TIMEOUT_MS,
   GLM_SHARED_MODELS,
-} from "../glmProvider.ts";
-import { MARITALK_DEFAULT_BASE_URL } from "../maritalk.ts";
+} from '../glmProvider.ts';
+import { MARITALK_DEFAULT_BASE_URL } from '../maritalk.ts';
 import {
   CURSOR_REGISTRY_VERSION,
   getAntigravityProviderHeaders,
@@ -35,10 +35,10 @@ import {
   getQoderDefaultHeaders,
   getRuntimePlatform,
   getRuntimeArch,
-} from "../providerHeaderProfiles.ts";
-import type { ProviderRequestDefaults } from "../../services/providerRequestDefaults.ts";
-import { resolvePublicCred } from "../../utils/publicCreds.ts";
-import { buildGitLabOAuthEndpoints, GITLAB_DUO_DEFAULT_BASE_URL } from "@/lib/oauth/gitlab";
+} from '../providerHeaderProfiles.ts';
+import type { ProviderRequestDefaults } from '../../services/providerRequestDefaults.ts';
+import { resolvePublicCred } from '../../utils/publicCreds.ts';
+import { buildGitLabOAuthEndpoints, GITLAB_DUO_DEFAULT_BASE_URL } from '@/lib/oauth/gitlab';
 
 // ── Types ─────────────────────────────────────────────────────────────────
 
@@ -673,11 +673,11 @@ export const CHAT_OPENAI_COMPAT_MODELS: Record<string, RegistryModel[]> = {
 export function mapStainlessOs() {
   switch (getRuntimePlatform()) {
     case "darwin":
-      return "MacOS";
+      return "MacOS';
     case "win32":
-      return "Windows";
+      return "Windows';
     case "linux":
-      return "Linux";
+      return "Linux';
     default:
       return `Other::${getRuntimePlatform()}`;
   }
@@ -686,11 +686,11 @@ export function mapStainlessOs() {
 export function mapStainlessArch() {
   switch (getRuntimeArch()) {
     case "x64":
-      return "x64";
+      return "x64';
     case "arm64":
-      return "arm64";
+      return "arm64';
     case "ia32":
-      return "x86";
+      return "x86';
     default:
       return `other::${getRuntimeArch()}`;
   }
@@ -754,6 +754,6 @@ export function getAnthropicCompatHeaders(): Record<string, string> {
 }
 
 export function buildAntigravityUrl(base: string, model: string, stream: boolean): string {
-  const path = stream ? "/v1internal:streamGenerateContent?alt=sse" : "/v1internal:generateContent";
+  const path = stream ? "/v1internal:streamGenerateContent?alt=sse" : "/v1internal:generateContent';
   return `${base}${path}`;
 }

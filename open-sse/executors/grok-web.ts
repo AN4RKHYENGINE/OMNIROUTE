@@ -18,21 +18,21 @@ import {
   mergeAbortSignals,
   type ExecuteInput,
   type ExecutorLog,
-} from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { buildGrokCookieHeader } from "@/lib/providers/webCookieAuth";
+} from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { buildGrokCookieHeader } from '@/lib/providers/webCookieAuth';
 import {
   tlsFetchGrok,
   TlsClientUnavailableError,
   isCloudflareChallenge,
   type TlsFetchResult,
-} from "../services/grokTlsClient.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+} from '../services/grokTlsClient.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 import {
   shouldUseGrokBrowserBacked,
   acquireFreshGrokClearance,
-} from "../services/grokClearance.ts";
-import type { GrokStreamEvent } from "./grok-web/types.ts";
+} from '../services/grokClearance.ts';
+import type { GrokStreamEvent } from './grok-web/types.ts';
 import {
   type OpenAIToolCall,
   type GrokToolRegistry,
@@ -40,20 +40,20 @@ import {
   buildGrokMessage,
   parseClientToolCallMarkup,
   hasOpenToolCallMarkup,
-} from "./grok-web/tool-bridge.ts";
-import { mapGrokNativeToolToOpenAI } from "./grok-web/native-tools.ts";
+} from './grok-web/tool-bridge.ts';
+import { mapGrokNativeToolToOpenAI } from './grok-web/native-tools.ts';
 import {
   GrokMarkupFilter,
   cleanGrokContentText,
   cleanGrokThinkingText,
   extractStructuredReasoning,
-} from "./grok-web/text-cleanup.ts";
+} from './grok-web/text-cleanup.ts';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const GROK_CHAT_API = "https://grok.com/rest/app-chat/conversations/new";
+const GROK_CHAT_API = "https://grok.com/rest/app-chat/conversations/new';
 const GROK_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // ─── Model mappings ─────────────────────────────────────────────────────────
 // Grok Web exposes UI modes, not stable public model IDs. Keep OmniRoute model
@@ -86,8 +86,8 @@ const MODEL_MAP: Record<string, GrokModelInfo> = {
 function randomString(length: number, alphanumeric = false): string {
   const chars = alphanumeric
     ? "abcdefghijklmnopqrstuvwxyz0123456789"
-    : "abcdefghijklmnopqrstuvwxyz";
-  let result = "";
+    : "abcdefghijklmnopqrstuvwxyz';
+  let result = "';
   for (let i = 0; i < length; i++) {
     result += chars[Math.floor(Math.random() * chars.length)];
   }
@@ -118,7 +118,7 @@ async function* readGrokNdjsonEvents(
 ): AsyncGenerator<GrokStreamEvent> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "";
+  let buffer = "';
 
   try {
     while (true) {
@@ -177,11 +177,11 @@ async function* extractContent(
   signal?: AbortSignal | null,
   suppressThinkingAfterVisibleContent = false
 ): AsyncGenerator<ContentChunk> {
-  let fingerprint = "";
-  let responseId = "";
+  let fingerprint = "';
+  let responseId = "';
   const contentFilter = new GrokMarkupFilter();
   const thinkingFilter = new GrokMarkupFilter();
-  let emittedThinking = "";
+  let emittedThinking = "';
   let emittedVisibleContent = false;
 
   for await (const event of readGrokNdjsonEvents(eventStream, signal)) {
@@ -216,7 +216,7 @@ async function* extractContent(
     if (resp.modelResponse) {
       const mr = resp.modelResponse;
 
-      const finalThinking = isThinkingModel ? extractStructuredReasoning(mr) : "";
+      const finalThinking = isThinkingModel ? extractStructuredReasoning(mr) : "';
       if ((!suppressThinkingAfterVisibleContent || !emittedVisibleContent) && finalThinking) {
         const cleanedThinking = thinkingFilter.feed(finalThinking);
         const thinkingDelta = cleanedThinking.startsWith(emittedThinking)
@@ -243,7 +243,7 @@ async function* extractContent(
     }
 
     // Streaming token
-    const thinking = isThinkingModel ? extractStructuredReasoning(resp) : "";
+    const thinking = isThinkingModel ? extractStructuredReasoning(resp) : "';
     if ((!suppressThinkingAfterVisibleContent || !emittedVisibleContent) && thinking) {
       const cleanedThinking = thinkingFilter.feed(thinking);
       const thinkingDelta = cleanedThinking.startsWith(emittedThinking)
@@ -370,8 +370,8 @@ function buildStreamingResponse(
             )
           );
 
-          let fp = "";
-          let buffered = "";
+          let fp = "';
+          let buffered = "';
 
           for await (const chunk of extractContent(
             eventStream,
@@ -550,8 +550,8 @@ async function buildNonStreamingResponse(
   toolRegistry: GrokToolRegistry,
   signal?: AbortSignal | null
 ): Promise<Response> {
-  let fullContent = "";
-  let fingerprint = "";
+  let fullContent = "';
+  let fingerprint = "';
   const thinkingParts: string[] = [];
 
   for await (const chunk of extractContent(eventStream, isThinkingModel, toolRegistry, signal)) {
@@ -665,7 +665,7 @@ async function buildNonStreamingResponse(
 // tries one browser-backed cf_clearance refresh + retry before giving up.
 
 export interface GrokNullBodyError {
-  type: "cloudflare_challenge" | "authentication_error" | "rate_limit_error" | "upstream_error";
+  type: "cloudflare_challenge" | "authentication_error" | "rate_limit_error" | "upstream_error';
   code: string;
   message: string;
 }
@@ -685,7 +685,7 @@ export function classifyGrokNullBodyError(
       code: "cf_mitigated_challenge",
       message:
         "Grok returned a Cloudflare bot-management challenge instead of a real response. " +
-        "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from " +
+        "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from ' +
         "a datacenter/sandbox egress. Probe from a residential IP, or use the official xAI API " +
         "(provider: 'grok') instead.",
     };

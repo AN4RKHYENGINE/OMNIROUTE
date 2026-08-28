@@ -17,11 +17,11 @@
  * `fetchAntigravityUserQuotaCached` pattern.
  */
 
-import { ANTIGRAVITY_RUNTIME_BASE_URLS } from "../../config/antigravityUpstream.ts";
-import { toRecord, toNumber } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
-import { getAntigravityContentHeaders } from "../antigravityHeaders.ts";
-import type { AntigravityClientProfile } from "../antigravityClientProfile.ts";
+import { ANTIGRAVITY_RUNTIME_BASE_URLS } from '../../config/antigravityUpstream.ts';
+import { toRecord, toNumber } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
+import { getAntigravityContentHeaders } from '../antigravityHeaders.ts';
+import type { AntigravityClientProfile } from '../antigravityClientProfile.ts';
 
 type JsonRecord = Record<string, unknown>;
 

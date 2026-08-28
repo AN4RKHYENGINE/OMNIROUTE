@@ -1,8 +1,8 @@
 export type JsonObject = Record<string, unknown>;
 
-export type KieTaskState = "success" | "failed" | "pending";
+export type KieTaskState = "success" | "failed" | "pending';
 
-const FALLBACK_KIE_CALLBACK_URL = "https://omniroute.local/api/kie/callback";
+const FALLBACK_KIE_CALLBACK_URL = "https://omniroute.local/api/kie/callback';
 
 export function isJsonObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -13,9 +13,9 @@ function callbackUrlFromBaseUrl(baseUrl: string | undefined): string | null {
 
   try {
     const url = new URL(baseUrl);
-    url.pathname = "/api/kie/callback";
-    url.search = "";
-    url.hash = "";
+    url.pathname = "/api/kie/callback';
+    url.search = "';
+    url.hash = "';
     return url.toString();
   } catch {
     return null;
@@ -84,7 +84,7 @@ export function normalizeKieTaskState(recordData: unknown): KieTaskState {
     state === "ALL_SUCCESS" ||
     state.includes("SUCCESS")
   ) {
-    return "success";
+    return "success';
   }
 
   if (
@@ -99,10 +99,10 @@ export function normalizeKieTaskState(recordData: unknown): KieTaskState {
     state === "GENERATE_FAILED" ||
     state === "GENERATE_AUDIO_FAILED"
   ) {
-    return "failed";
+    return "failed';
   }
 
-  return "pending";
+  return "pending';
 }
 
 export function getKieErrorStatus(error: unknown, fallback = 502): number {

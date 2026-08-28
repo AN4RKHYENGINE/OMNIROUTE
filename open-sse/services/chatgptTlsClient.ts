@@ -12,11 +12,11 @@
  * a singleton TLSClient. Process exit hooks stop the sidecar cleanly.
  */
 
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { mkdtemp, open, unlink, rmdir, stat, readFile } from "node:fs/promises";
-import { randomUUID } from "node:crypto";
-import { buildNativeTlsClientOptions } from "./tlsClientDownloadDir.ts";
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { mkdtemp, open, unlink, rmdir, stat, readFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { buildNativeTlsClientOptions } from './tlsClientDownloadDir.ts';
 
 let clientPromise: Promise<unknown> | null = null;
 let exitHookInstalled = false;
@@ -69,7 +69,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError";
+    this.name = "TlsClientHangError';
   }
 }
 
@@ -167,12 +167,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError";
+    this.name = "TlsClientUnavailableError';
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -214,8 +214,8 @@ export interface TlsFetchOptions {
   proxyUrl?: string;
 }
 
-import { resolveProxyForRequest } from "../utils/proxyFetch.ts";
-import { resolveTlsClientProxyUrl } from "./tlsClientProxy.ts";
+import { resolveProxyForRequest } from '../utils/proxyFetch.ts';
+import { resolveTlsClientProxyUrl } from './tlsClientProxy.ts';
 
 /**
  * Resolve the proxy URL for a tls-client request. Per-call value wins;
@@ -331,7 +331,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError";
+  err.name = "AbortError';
   return err;
 }
 
@@ -472,7 +472,7 @@ async function readTextFileIfExists(path: string): Promise<string> {
   try {
     return await readFile(path, "utf8");
   } catch {
-    return "";
+    return "';
   }
 }
 

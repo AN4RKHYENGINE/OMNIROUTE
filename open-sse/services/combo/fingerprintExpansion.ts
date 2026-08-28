@@ -12,13 +12,13 @@
  * `candidates` scoring pass in `combo.ts`.
  */
 
-import type { ResolvedComboTarget } from "./types.ts";
+import type { ResolvedComboTarget } from './types.ts';
 
 /** Providers whose `providerSpecificData.fingerprints` array should be expanded. */
 const FINGERPRINT_PROVIDERS: ReadonlySet<string> = new Set(["mimocode", "mcode", "opencode"]);
 
 /** Separator the combo builder UI uses to encode an account pin (#6087). */
-const FP_PIN_SEPARATOR = "|fp|";
+const FP_PIN_SEPARATOR = "|fp|';
 
 /** Check whether a provider uses fingerprint-based multi-account. */
 export function isFingerprintProvider(provider: string): boolean {

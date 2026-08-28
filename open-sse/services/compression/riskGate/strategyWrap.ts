@@ -1,7 +1,7 @@
-import type { CompressionResult } from "../types.ts";
-import type { CompressionConfig } from "../types.ts";
-import { applyRiskMask, restoreRiskBlocks } from "./riskGateStep.ts";
-import type { RiskGateConfig } from "./riskGate.ts";
+import type { CompressionResult } from '../types.ts';
+import type { CompressionConfig } from '../types.ts';
+import { applyRiskMask, restoreRiskBlocks } from './riskGateStep.ts';
+import type { RiskGateConfig } from './riskGate.ts';
 
 /** Resolve the effective risk-gate config (explicit option wins over config); enabled-gated. */
 export function resolveRiskGate(options?: {

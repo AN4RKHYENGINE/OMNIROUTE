@@ -15,7 +15,7 @@
  * handed — see `buildHeaders()`).
  */
 
-import type { ProviderCredentials } from "../../executors/base.ts";
+import type { ProviderCredentials } from '../../executors/base.ts';
 
 type ExecutorInput = {
   credentials: ProviderCredentials;

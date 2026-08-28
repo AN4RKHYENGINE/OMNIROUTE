@@ -1,11 +1,11 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { createHash } from "node:crypto";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import * as z from "zod/v4";
-import { namespacedToolName, type CodexTool } from "../../types";
-import type { ChatGptTurnEnvironment } from "./environment";
-import { callTurnBroker, type BrokerToolResult } from "./turn-broker";
+import { createHash } from 'node:crypto';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import * as z from 'zod/v4';
+import { namespacedToolName, type CodexTool } from '../../types';
+import type { ChatGptTurnEnvironment } from './environment';
+import { callTurnBroker, type BrokerToolResult } from './turn-broker';
 
 interface ClaimedTurn {
   bindingId: string;
@@ -273,7 +273,7 @@ export async function runChatGptMcpServer(options: { brokerSocketPath: string })
       console.error(`[chatgpt-web-mcp] codex_exec scope=${requestScopeSummary(extra)}`);
       const bound = await environment(binding_id);
       const tool = exactTool(bound, "exec_command") ?? exactTool(bound, "shell_command");
-      const commandName = tool?.name ?? "exec_command";
+      const commandName = tool?.name ?? "exec_command';
       const args =
         commandName === "exec_command"
           ? {

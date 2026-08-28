@@ -2,15 +2,15 @@
 // Family: comfyui | Module: comfyUI | Lines: 3213-3314 (102 LOC)
 // Ref: see open-sse/handlers/imageGeneration.ts top-of-file comment for split rationale
 
-import { randomUUID } from "crypto";
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { randomUUID } from 'crypto';
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 import {
   submitComfyWorkflow,
   pollComfyResult,
   fetchComfyOutput,
   extractComfyOutputFiles,
-} from "../../../utils/comfyuiClient.ts";
+} from '../../../utils/comfyuiClient.ts';
 
 export async function handleComfyUIImageGeneration({ model, provider, providerConfig, body, log }) {
   const startTime = Date.now();

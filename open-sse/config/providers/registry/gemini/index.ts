@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { resolvePublicCred } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { resolvePublicCred } from '../../shared.ts';
 
 export const geminiProvider: RegistryEntry = {
   id: "gemini",
@@ -8,7 +8,7 @@ export const geminiProvider: RegistryEntry = {
   executor: "default",
   baseUrl: "https://generativelanguage.googleapis.com/v1beta/models",
   urlBuilder: (base, model, stream) => {
-    const action = stream ? "streamGenerateContent?alt=sse" : "generateContent";
+    const action = stream ? "streamGenerateContent?alt=sse" : "generateContent';
     return `${base}/${model}:${action}`;
   },
   authType: "apikey",

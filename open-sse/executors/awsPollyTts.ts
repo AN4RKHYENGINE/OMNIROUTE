@@ -10,10 +10,10 @@
  * Secret Access Key; providerSpecificData.accessKeyId stores AWS Access Key
  * ID, with optional region/baseUrl/defaultVoice/sessionToken.
  */
-import { stripTrailingSlashes } from "../utils/urlSanitize.ts";
-import { signAwsRequest } from "../utils/awsSigV4.ts";
-import { errorResponse } from "../utils/error.ts";
-import { audioStreamResponse, upstreamErrorResponse } from "../utils/audioResponse.ts";
+import { stripTrailingSlashes } from '../utils/urlSanitize.ts';
+import { signAwsRequest } from '../utils/awsSigV4.ts';
+import { errorResponse } from '../utils/error.ts';
+import { audioStreamResponse, upstreamErrorResponse } from '../utils/audioResponse.ts';
 
 function getStringValue(value: unknown): string | null {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
@@ -44,8 +44,8 @@ function resolveAwsPollyBaseUrl(providerSpecificData, region) {
 }
 
 function normalizeAwsPollyEngine(modelId) {
-  const engine = getStringValue(modelId) || "standard";
-  return ["standard", "neural", "long-form", "generative"].includes(engine) ? engine : "standard";
+  const engine = getStringValue(modelId) || "standard';
+  return ["standard", "neural", "long-form", "generative"].includes(engine) ? engine : "standard';
 }
 
 function normalizeAwsPollyOutputFormat(responseFormat) {
@@ -53,28 +53,28 @@ function normalizeAwsPollyOutputFormat(responseFormat) {
   switch (format) {
     case "pcm":
     case "wav":
-      return "pcm";
+      return "pcm';
     case "opus":
     case "ogg_opus":
-      return "ogg_opus";
+      return "ogg_opus';
     case "ogg":
     case "ogg_vorbis":
-      return "ogg_vorbis";
+      return "ogg_vorbis';
     case "json":
-      return "json";
+      return "json';
     case "mp3":
     default:
-      return "mp3";
+      return "mp3';
   }
 }
 
 function normalizeAwsPollyTextType(body) {
   const explicitTextType = getStringValue(body.text_type || body.textType)?.toLowerCase();
-  if (explicitTextType === "ssml") return "ssml";
-  if (explicitTextType === "text") return "text";
+  if (explicitTextType === "ssml") return "ssml';
+  if (explicitTextType === "text") return "text';
 
-  const input = getStringValue(body.input) || "";
-  return input.trim().startsWith("<speak") ? "ssml" : "text";
+  const input = getStringValue(body.input) || "';
+  return input.trim().startsWith("<speak") ? "ssml" : "text';
 }
 
 function getAwsPollySampleRate(responseFormat, sampleRate) {
@@ -82,8 +82,8 @@ function getAwsPollySampleRate(responseFormat, sampleRate) {
   if (explicit) return explicit;
 
   const outputFormat = normalizeAwsPollyOutputFormat(responseFormat);
-  if (outputFormat === "ogg_opus") return "48000";
-  if (outputFormat === "pcm") return "16000";
+  if (outputFormat === "ogg_opus") return "48000';
+  if (outputFormat === "pcm") return "16000';
   return undefined;
 }
 

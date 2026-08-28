@@ -12,8 +12,8 @@ import {
   registerQuotaFetcher,
   resolveDynamicQuotaFetcher,
   type QuotaFetcher,
-} from "./quotaPreflight.ts";
-import { getSessionInfo } from "./sessionManager.ts";
+} from './quotaPreflight.ts';
+import { getSessionInfo } from './sessionManager.ts';
 
 export { registerQuotaFetcher };
 export type { QuotaFetcher };
@@ -31,7 +31,7 @@ interface MonitorState {
   accountId: string;
   connectionSnapshot: Record<string, unknown> | null;
   sessionBound: boolean;
-  status: "starting" | "idle" | "healthy" | "warning" | "exhausted" | "error";
+  status: "starting" | "idle" | "healthy" | "warning" | "exhausted" | "error';
   startedAt: number;
   lastPolledAt: number | null;
   lastSuccessAt: number | null;
@@ -53,7 +53,7 @@ export interface QuotaMonitorSnapshot {
   sessionId: string;
   provider: string;
   accountId: string;
-  status: "starting" | "idle" | "healthy" | "warning" | "exhausted" | "error";
+  status: "starting" | "idle" | "healthy" | "warning" | "exhausted" | "error';
   startedAt: string;
   lastPolledAt: string | null;
   lastSuccessAt: string | null;
@@ -135,10 +135,10 @@ function toIsoTimestamp(value: number | null): string | null {
 }
 
 function getMonitorStatus(percentUsed: number | null): MonitorState["status"] {
-  if (!Number.isFinite(percentUsed)) return "idle";
-  if ((percentUsed as number) >= EXHAUSTION_THRESHOLD) return "exhausted";
-  if ((percentUsed as number) >= WARN_THRESHOLD) return "warning";
-  return "healthy";
+  if (!Number.isFinite(percentUsed)) return "idle';
+  if ((percentUsed as number) >= EXHAUSTION_THRESHOLD) return "exhausted';
+  if ((percentUsed as number) >= WARN_THRESHOLD) return "warning';
+  return "healthy';
 }
 
 function toPublicSnapshot(sessionId: string, state: MonitorState): QuotaMonitorSnapshot {
@@ -265,7 +265,7 @@ function scheduleNextPoll(sessionId: string, intervalMs: number): void {
       current.lastErrorAt = Date.now();
       current.lastError = error instanceof Error ? error.message : String(error);
       current.consecutiveFailures += 1;
-      current.status = "error";
+      current.status = "error';
       scheduleNextPoll(sessionId, NORMAL_INTERVAL_MS);
     }
   }, intervalMs);

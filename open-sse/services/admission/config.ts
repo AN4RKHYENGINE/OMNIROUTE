@@ -1,11 +1,11 @@
-import { resolveCostConfig } from "./cost.ts";
+import { resolveCostConfig } from './cost.ts';
 import {
   MAX_ADMISSION_COST_OR_LIMIT,
   MAX_ADMISSION_WINDOW_MS,
   type AdaptiveAdmissionConfig,
   type AdmissionMode,
-} from "./types.ts";
-import type { AdaptationParams } from "./adaptation.ts";
+} from './types.ts';
+import type { AdaptationParams } from './adaptation.ts';
 
 export { MAX_ADMISSION_COST_OR_LIMIT, MAX_ADMISSION_WINDOW_MS };
 
@@ -60,7 +60,7 @@ function requireDecreaseFactor(name: string, value: unknown, fallback: number): 
 }
 
 function resolveMode(mode: AdaptiveAdmissionConfig["mode"]): AdmissionMode {
-  if (mode === undefined) return "shadow";
+  if (mode === undefined) return "shadow';
   if (mode !== "off" && mode !== "shadow" && mode !== "enforce") {
     throw new RangeError("mode must be off|shadow|enforce");
   }

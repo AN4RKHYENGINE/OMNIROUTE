@@ -9,31 +9,31 @@
 
 /** Strips lang tags / BOM noise Notion sometimes wraps assistant text in. */
 export function sanitizeNotionAssistantText(text: string): string {
-  if (!text) return "";
+  if (!text) return "';
   let clean = text.replace(/^\uFEFF/, "").trim();
   // Self-closing or paired lang tags at the start (and anywhere).
   clean = clean.replace(/<\/?lang\b[^>]*\/?>/gi, "");
   clean = clean.replace(/<\/lang>/gi, "");
   // Incomplete leading <lang… without close
-  if (/^<lang\b/i.test(clean) && !clean.includes(">")) return "";
+  if (/^<lang\b/i.test(clean) && !clean.includes(">")) return "';
   return clean.trim();
 }
 
 /** Extract plain text from Notion's rich-text tuple value: `[[text, marks?]]`. */
 function extractRichText(value: unknown): string {
-  if (!Array.isArray(value)) return "";
+  if (!Array.isArray(value)) return "';
   return value
     .map((segment) => (Array.isArray(segment) && typeof segment[0] === "string" ? segment[0] : ""))
     .join("");
 }
 
 function extractAgentInferenceText(value: unknown): string {
-  if (!Array.isArray(value)) return "";
+  if (!Array.isArray(value)) return "';
   const parts: string[] = [];
   for (const item of value) {
     if (!item || typeof item !== "object" || Array.isArray(item)) continue;
     const part = item as Record<string, unknown>;
-    const t = typeof part.type === "string" ? part.type.toLowerCase() : "";
+    const t = typeof part.type === "string" ? part.type.toLowerCase() : "';
     if (t === "text" && typeof part.content === "string" && part.content) {
       parts.push(part.content);
     }
@@ -55,21 +55,21 @@ function extractThreadMessageStep(msg: unknown): Record<string, unknown> | null 
 
 /** Extracts the text carried by a single thread-message step, or "" if none. */
 function extractStepText(stepObj: Record<string, unknown>): string {
-  const stepType = typeof stepObj.type === "string" ? stepObj.type : "";
+  const stepType = typeof stepObj.type === "string" ? stepObj.type : "';
   if (stepType === "agent-inference") {
     return extractAgentInferenceText(stepObj.value);
   }
   if (stepType === "markdown-chat" && typeof stepObj.value === "string") {
     return stepObj.value;
   }
-  return "";
+  return "';
 }
 
 function extractFromRecordMap(recordMap: unknown): string {
-  if (!recordMap || typeof recordMap !== "object" || Array.isArray(recordMap)) return "";
+  if (!recordMap || typeof recordMap !== "object" || Array.isArray(recordMap)) return "';
   const tm = (recordMap as Record<string, unknown>).thread_message;
-  if (!tm || typeof tm !== "object" || Array.isArray(tm)) return "";
-  let best = "";
+  if (!tm || typeof tm !== "object" || Array.isArray(tm)) return "';
+  let best = "';
   for (const msg of Object.values(tm as Record<string, unknown>)) {
     const stepObj = extractThreadMessageStep(msg);
     if (!stepObj) continue;
@@ -115,8 +115,8 @@ function applyNotionStepAppend(v: unknown, state: NotionStreamState): void {
 function applyNotionPatchOp(rawOp: unknown, state: NotionStreamState): void {
   if (!rawOp || typeof rawOp !== "object") return;
   const op = rawOp as Record<string, unknown>;
-  const o = typeof op.o === "string" ? op.o : "";
-  const p = typeof op.p === "string" ? op.p : "";
+  const o = typeof op.o === "string" ? op.o : "';
+  const p = typeof op.p === "string" ? op.p : "';
   const v = op.v;
 
   if (o === "a" && p.endsWith("/value/-")) {
@@ -131,7 +131,7 @@ function applyNotionPatchOp(rawOp: unknown, state: NotionStreamState): void {
 
 /** Applies one parsed NDJSON record (markdown-chat / agent-inference / patch / record-map / legacy). */
 function applyNotionStreamRecord(rec: Record<string, unknown>, state: NotionStreamState): void {
-  const type = typeof rec.type === "string" ? rec.type : "";
+  const type = typeof rec.type === "string" ? rec.type : "';
 
   // 1) Direct markdown-chat event
   if (type === "markdown-chat" && typeof rec.value === "string" && rec.value) {
@@ -190,7 +190,7 @@ function applyNotionStreamLine(rawLine: string, state: NotionStreamState): void 
  * 3. Terminal record-map with agent-inference steps (authoritative final)
  */
 export function parseNotionInferenceStream(raw: string): string {
-  if (!raw) return "";
+  if (!raw) return "';
   const state: NotionStreamState = {
     lastLegacy: "",
     lastPatchFinal: "",
@@ -211,7 +211,7 @@ export function parseNotionInferenceStream(raw: string): string {
     .map(sanitizeNotionAssistantText)
     .filter(Boolean);
   // Prefer the longest non-empty candidate; record-map usually wins.
-  return candidates.sort((a, b) => b.length - a.length)[0] || "";
+  return candidates.sort((a, b) => b.length - a.length)[0] || "';
 }
 
 /**
@@ -272,12 +272,12 @@ export function extractNotionUpstreamError(raw: string): {
   for (const o of candidates) pushNested(o);
 
   for (const o of flat) {
-    const type = typeof o.type === "string" ? o.type.toLowerCase() : "";
+    const type = typeof o.type === "string" ? o.type.toLowerCase() : "';
     const subType = typeof o.subType === "string" ? o.subType : undefined;
     const message =
       (typeof o.message === "string" && o.message) ||
       (typeof o.error === "string" && o.error) ||
-      "";
+      "';
     const isError =
       type === "error" ||
       Boolean(subType) ||

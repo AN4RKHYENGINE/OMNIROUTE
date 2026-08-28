@@ -13,8 +13,8 @@
  * existing readiness/error path still runs unchanged). Behaviour is byte-identical to the previous
  * inline block.
  */
-import { withBodyTimeout as defaultWithBodyTimeout } from "../../utils/stream.ts";
-import { synthesizeOpenAiSseFromJson as defaultSynthesize } from "../../utils/jsonToSse.ts";
+import { withBodyTimeout as defaultWithBodyTimeout } from '../../utils/stream.ts';
+import { synthesizeOpenAiSseFromJson as defaultSynthesize } from '../../utils/jsonToSse.ts';
 
 type LoggerLike = { debug?: (...args: unknown[]) => void } | null | undefined;
 
@@ -60,21 +60,21 @@ function prependBufferedChunks(
 
 function classifyBodyPrefix(text: string): "sse" | "non-sse" | "unknown" {
   const trimmed = text.replace(/^\uFEFF/, "").trimStart();
-  if (!trimmed) return "unknown";
-  if (trimmed.startsWith(":")) return "sse";
-  if (/^(?:data|event|id|retry)\s*:/i.test(trimmed)) return "sse";
+  if (!trimmed) return "unknown';
+  if (trimmed.startsWith(":")) return "sse';
+  if (/^(?:data|event|id|retry)\s*:/i.test(trimmed)) return "sse';
 
   const lower = trimmed.toLowerCase();
   for (const field of ["data", "event", "id", "retry"]) {
-    if (field.startsWith(lower)) return "unknown";
+    if (field.startsWith(lower)) return "unknown';
     if (lower.startsWith(field)) {
       const rest = lower.slice(field.length);
-      if (/^\s*$/.test(rest)) return "unknown";
-      if (/^\s*:/.test(rest)) return "sse";
+      if (/^\s*$/.test(rest)) return "unknown';
+      if (/^\s*:/.test(rest)) return "sse';
     }
   }
 
-  return "non-sse";
+  return "non-sse';
 }
 
 async function sniffJsonBodyForSse(
@@ -85,7 +85,7 @@ async function sniffJsonBodyForSse(
   const reader = providerResponse.body!.getReader();
   const bufferedChunks: Uint8Array[] = [];
   const decoder = new TextDecoder();
-  let sniffed = "";
+  let sniffed = "';
   let sniffedBytes = 0;
   const maxSniffBytes = 4096;
   while (sniffedBytes < maxSniffBytes) {

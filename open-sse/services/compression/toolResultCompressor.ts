@@ -1,8 +1,8 @@
-import type { ToolStrategiesConfig } from "./types.ts";
+import type { ToolStrategiesConfig } from './types.ts';
 
 export interface CompressionResult {
   compressed: string;
-  strategy: "fileContent" | "grepSearch" | "shellOutput" | "json" | "errorMessage" | "none";
+  strategy: "fileContent" | "grepSearch" | "shellOutput" | "json" | "errorMessage" | "none';
   saved: number;
 }
 
@@ -148,7 +148,7 @@ function compressJson(content: string): string | null {
 function compressErrorMessage(content: string): string | null {
   if (!hasErrorLikeOutput(content)) return null;
   const lines = content.split("\n");
-  const errorLine = lines[0] || "";
+  const errorLine = lines[0] || "';
   const stackLines = lines.slice(1);
   const head = stackLines.slice(0, 10);
   const tail = stackLines.length > 10 ? stackLines.slice(-3) : [];
@@ -163,7 +163,7 @@ function estimateTokens(text: string): number {
 
 /** Minimal shape of an Anthropic `tool_result` content block. */
 export interface AnthropicToolResultBlock {
-  type: "tool_result";
+  type: "tool_result';
   tool_use_id?: string;
   content?: string | Array<{ type?: string; text?: string; [key: string]: unknown }>;
   [key: string]: unknown;

@@ -1,38 +1,38 @@
-import { AutoComboConfig } from "./engine";
-import { MODE_PACKS } from "./modePacks";
-import { DEFAULT_WEIGHTS, ScoringWeights } from "./scoring";
-import { getCachedProviderConnections } from "@/lib/db/readCache";
-import { getSettings } from "@/lib/db/settings";
-import { getProviderRegistry } from "./providerRegistryAccessor";
-import type { ConnectionFields } from "@/lib/db/encryption";
-import { NOAUTH_PROVIDERS } from "@/shared/constants/providers";
-import { hasUsableWebSessionCredential } from "@/shared/providers/webSessionCredentials";
-import { defaultLogger as log } from "@omniroute/open-sse/utils/logger";
-import { getTokenLimit } from "../contextManager";
+import { AutoComboConfig } from './engine';
+import { MODE_PACKS } from './modePacks';
+import { DEFAULT_WEIGHTS, ScoringWeights } from './scoring';
+import { getCachedProviderConnections } from '@/lib/db/readCache';
+import { getSettings } from '@/lib/db/settings';
+import { getProviderRegistry } from './providerRegistryAccessor';
+import type { ConnectionFields } from '@/lib/db/encryption';
+import { NOAUTH_PROVIDERS } from '@/shared/constants/providers';
+import { hasUsableWebSessionCredential } from '@/shared/providers/webSessionCredentials';
+import { defaultLogger as log } from '../../utils/logger';
+import { getTokenLimit } from '../contextManager';
 import {
   createModelCapabilityResolutionSnapshot,
   getResolvedModelCapabilities,
   type ModelCapabilityResolutionSnapshot,
-} from "@/lib/modelCapabilities";
+} from '@/lib/modelCapabilities';
 import {
   buildAutoCandidateFilter,
   tierToWeightVariant,
   type AutoCategory,
   type AutoTier,
-} from "./suffixComposition";
-import type { AutoVariant } from "./autoPrefix";
-import { buildFamilyCandidateFilter, type ModelFamily } from "./modelFamily";
-import { getHiddenModelsByProvider } from "@/models";
-import { filterPaidOnlyCandidates } from "./paidModelFilter";
-import { isModelExcludedByConnection } from "@/domain/connectionModelRules";
-import { filterExcludedCandidates } from "./candidateOverrides";
-import { getExcludedConnectionIds } from "@/lib/db/autoCandidateOverrides";
+} from './suffixComposition';
+import type { AutoVariant } from './autoPrefix';
+import { buildFamilyCandidateFilter, type ModelFamily } from './modelFamily';
+import { getHiddenModelsByProvider } from '@/models';
+import { filterPaidOnlyCandidates } from './paidModelFilter';
+import { isModelExcludedByConnection } from '@/domain/connectionModelRules';
+import { filterExcludedCandidates } from './candidateOverrides';
+import { getExcludedConnectionIds } from '@/lib/db/autoCandidateOverrides';
 import {
   filterResilienceBlockedCandidates,
   SYNTHETIC_NOAUTH_CONNECTION_ID as RESILIENCE_NOAUTH_CONNECTION_ID,
   type ConnectionResilienceView,
-} from "./resilienceCandidateFilter";
-import type { ChaosTuning } from "./chaosEngine";
+} from './resilienceCandidateFilter';
+import type { ChaosTuning } from './chaosEngine';
 
 /** #4235 Phase B: optional category/tier overlay for `auto/<category>:<tier>` combos.
  * #6453: optional `family` overlay for `auto/<family>` combos (e.g. `auto/glm`) —
@@ -78,10 +78,10 @@ export interface VirtualAutoComboCandidate {
 }
 
 type VirtualAutoCombo = AutoComboConfig & {
-  strategy: "auto";
+  strategy: "auto';
   models: Array<{
     id: string;
-    kind: "model";
+    kind: "model';
     model: string;
     providerId: string;
     connectionId: string | null;
@@ -754,7 +754,7 @@ export async function createVirtualAutoComboFromPrepared(
   // Provider diversity: when multiple candidates from the same provider exist, only
   // the highest-scored model per provider is included. This prevents a single
   // provider from monopolizing the panel and gives the IDE truly diverse answers.
-  const isChaos = variant === "chaos";
+  const isChaos = variant === "chaos';
   const CHAOS_MAX_PANEL = (() => {
     const env = process.env.OMNIROUTE_CHAOS_MAX_PANEL;
     const parsed = env ? parseInt(env, 10) : 5;

@@ -6,7 +6,7 @@
  * — logic unchanged, re-exported from combo.ts for backward compatibility.
  */
 
-import type { ProviderCandidate } from "../autoCombo/scoring.ts";
+import type { ProviderCandidate } from '../autoCombo/scoring.ts';
 
 export const RESET_WINDOW_NAMES = ["weekly", "session", "monthly"] as const;
 
@@ -85,7 +85,7 @@ export type ComboRelayOptions = {
   [key: string]: unknown;
 };
 
-export type NestedComboMode = "flatten" | "execute";
+export type NestedComboMode = "flatten" | "execute';
 
 export type ComboNestingContext = {
   depth: number;
@@ -159,7 +159,7 @@ export type AutoProviderCandidate = ProviderCandidate & {
 };
 
 export type ResolvedComboTarget = {
-  kind: "model";
+  kind: "model';
   stepId: string;
   executionKey: string;
   modelStr: string;
@@ -173,7 +173,7 @@ export type ResolvedComboTarget = {
   prompt?: string | null;
   failoverBeforeRetry?: unknown;
   fallbackOnlyOnQuotaExhaustion?: boolean;
-  trafficType?: "production" | "shadow";
+  trafficType?: "production" | "shadow';
   /**
    * Fingerprint-based account pin resolved from a combo builder composite
    * connectionId (`${rowId}|fp|${fingerprint}`, see
@@ -193,7 +193,7 @@ export type ShadowRoutingConfig = {
 };
 
 export type ResolvedComboRefTarget = {
-  kind: "combo-ref";
+  kind: "combo-ref';
   stepId: string;
   executionKey: string;
   comboName: string;

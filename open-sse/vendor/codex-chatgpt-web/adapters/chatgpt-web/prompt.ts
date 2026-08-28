@@ -4,12 +4,12 @@ import type {
   CodexContentPart,
   CodexMessage,
   CodexParsedRequest,
-} from "../../types";
-import { isReadableCompactionSummaryText } from "../../responses/compaction";
-import { resolveChatGptWebModelMode, type ChatGptWebCapabilities } from "./model";
+} from '../../types';
+import { isReadableCompactionSummaryText } from '../../responses/compaction';
+import { resolveChatGptWebModelMode, type ChatGptWebCapabilities } from './model';
 
-export const CHATGPT_INTERNAL_COMPACTION_MARKER = "[[CODEX_INTERNAL_CONTEXT_COMPACTED]]";
-const CHATGPT_INTERNAL_COMPACTION_PREFIX = "[[CODEX_INTERNAL_CONTEXT_COMPACT";
+export const CHATGPT_INTERNAL_COMPACTION_MARKER = "[[CODEX_INTERNAL_CONTEXT_COMPACTED]]';
+const CHATGPT_INTERNAL_COMPACTION_PREFIX = "[[CODEX_INTERNAL_CONTEXT_COMPACT';
 
 export function containsChatGptCompactionMarker(text: string): boolean {
   const trimmed = text.trim();
@@ -23,7 +23,7 @@ export function stripChatGptTransportMarkers(text: string): string {
   let stripped = text.replace(/\[\[CODEX_INTERNAL_CONTEXT_COMPACT(?:ED)?(?:\]\])?/g, "");
   const trimmed = stripped.trim();
   if (trimmed.startsWith("[[CODEX_") && CHATGPT_INTERNAL_COMPACTION_MARKER.startsWith(trimmed))
-    stripped = "";
+    stripped = "';
   return stripped.replace(/\n{3,}/g, "\n\n").trim();
 }
 
@@ -38,7 +38,7 @@ export interface CompiledChatGptWebPrompt {
   images: ChatGptWebPromptImage[];
   contextAttachments: Array<{
     name: string;
-    mimeType: "application/x-ndjson";
+    mimeType: "application/x-ndjson';
     buffer: Buffer;
   }>;
 }

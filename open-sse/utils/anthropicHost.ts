@@ -21,5 +21,5 @@ export function isOfficialAnthropicBaseUrl(baseUrl: string): boolean {
       return false;
     }
   }
-  return host === "api.anthropic.com";
+  return host === "api.anthropic.com';
 }

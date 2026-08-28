@@ -26,7 +26,7 @@ import {
   getDefaultThinkingBudget,
   getResolvedModelCapabilities,
   supportsReasoning,
-} from "@/lib/modelCapabilities";
+} from '@/lib/modelCapabilities';
 
 // Effort → budget token mapping
 export const EFFORT_BUDGETS: Record<string, number> = {
@@ -65,7 +65,7 @@ export const DEFAULT_THINKING_CONFIG = {
 // boot hydration would land on the instrumentation graph's copy and never reach
 // base.ts — exactly the #5312 fix-A break proven on the VPS. Mirrors the same
 // globalThis pattern systemPrompt.ts already uses for the Global System Prompt (#2470).
-const GLOBAL_KEY = "__omniroute_thinkingBudget_config__";
+const GLOBAL_KEY = "__omniroute_thinkingBudget_config__';
 const _store = globalThis as unknown as Record<string, ThinkingBudgetConfig | undefined>;
 
 function getConfig(): ThinkingBudgetConfig {
@@ -81,7 +81,7 @@ function toRecord(value: unknown): JsonRecord {
 
 function getStringField(record: JsonRecord, key: string): string {
   const value = record[key];
-  return typeof value === "string" ? value : "";
+  return typeof value === "string" ? value : "';
 }
 
 /**
@@ -217,7 +217,7 @@ export function applyThinkingBudget(
   // Early exit: strip ALL reasoning/thinking params for models that don't support them.
   // Provider-specific Cloud Code restrictions should be handled at the executor boundary.
   const bodyRecord = body as JsonRecord;
-  const modelStr = typeof bodyRecord.model === "string" ? bodyRecord.model : "";
+  const modelStr = typeof bodyRecord.model === "string" ? bodyRecord.model : "';
   if (modelStr && !supportsReasoning(modelStr)) {
     return stripThinkingConfig(body);
   }
@@ -303,13 +303,13 @@ function setCustomBudget(body: unknown, budget: number) {
       delete result.reasoning_effort;
       delete result.reasoning;
     } else if (budget <= 1024) {
-      result.reasoning_effort = "low";
+      result.reasoning_effort = "low';
     } else if (budget <= 10240) {
-      result.reasoning_effort = "medium";
+      result.reasoning_effort = "medium';
     } else if (budget < 131072) {
-      result.reasoning_effort = "high";
+      result.reasoning_effort = "high';
     } else {
-      result.reasoning_effort = "xhigh";
+      result.reasoning_effort = "xhigh';
     }
   }
 

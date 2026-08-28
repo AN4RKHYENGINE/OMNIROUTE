@@ -1,10 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
-import crypto from "node:crypto";
-import { detectCommandType } from "./commandDetector.ts";
-import { validateRtkFilter, type RtkFilterDefinition } from "./filterSchema.ts";
-import { parseRtkTomlV1, RtkTomlCompatibilityError } from "./tomlCompatibility.ts";
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import crypto from 'node:crypto';
+import { detectCommandType } from './commandDetector.ts';
+import { validateRtkFilter, type RtkFilterDefinition } from './filterSchema.ts';
+import { parseRtkTomlV1, RtkTomlCompatibilityError } from './tomlCompatibility.ts';
 
 let cache: RtkFilterDefinition[] | null = null;
 let cacheKey: string | null = null;
@@ -29,18 +29,18 @@ function cachedMatchPattern(pattern: string, value: string): boolean {
 }
 
 export interface RtkFilterLoadDiagnostic {
-  source: "project" | "global" | "builtin";
-  format?: "omniroute-json" | "rtk-toml-v1";
+  source: "project" | "global" | "builtin';
+  format?: "omniroute-json" | "rtk-toml-v1';
   path?: string;
-  level: "warning" | "error";
+  level: "warning" | "error';
   message: string;
 }
 
 interface FilterSource {
-  source: "project" | "global" | "builtin";
+  source: "project" | "global" | "builtin';
   path: string;
   trusted: boolean;
-  format: "omniroute-json" | "rtk-toml-v1";
+  format: "omniroute-json" | "rtk-toml-v1';
 }
 
 interface RtkFilterLoadOptions {
@@ -109,7 +109,7 @@ function projectFiltersTrusted(
           ? trust.trustedFiltersSha256
           : null;
     if (!trustedHash) return false;
-    return trustedHash === filtersHash ? true : "changed";
+    return trustedHash === filtersHash ? true : "changed';
   } catch {
     return false;
   }
@@ -306,7 +306,7 @@ export function matchRtkFilter(
   options: RtkFilterLoadOptions = {}
 ): RtkFilterDefinition | null {
   const detection = detectCommandType(text, command);
-  const detectedCommand = detection.command ?? command ?? "";
+  const detectedCommand = detection.command ?? command ?? "';
   const filters = loadRtkFilters(options);
   for (const source of ["project", "global", "builtin"] as const) {
     const scoped = filters.filter((filter) => (filter.source ?? "builtin") === source);

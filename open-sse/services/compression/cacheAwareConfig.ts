@@ -1,16 +1,16 @@
-import type { CompressionConfig } from "./types.ts";
-import type { CachingDetectionContext } from "./cachingAware.ts";
-import { detectCachingContext, getCacheAwareStrategy } from "./cachingAware.ts";
+import type { CompressionConfig } from './types.ts';
+import type { CachingDetectionContext } from './cachingAware.ts';
+import { detectCachingContext, getCacheAwareStrategy } from './cachingAware.ts';
 import {
   normalizePreserveSystemPromptMode,
   resolvePreserveSystemPrompt,
-} from "./preserveSystemPromptMode.ts";
+} from './preserveSystemPromptMode.ts';
 import {
   resolvePrefixFreezeConfig,
   extractStablePrefixHash,
   observePrefix,
   isPrefixFrozen,
-} from "./prefixFreeze.ts";
+} from './prefixFreeze.ts';
 
 /**
  * T08/H5 — augment the static cache signal with usage-observed prefix freeze. Opt-in

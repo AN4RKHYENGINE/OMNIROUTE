@@ -7,10 +7,10 @@
  * handler exposes.
  */
 
-import { saveCallLog } from "@/lib/usageDb";
-import { fetchRemoteImage } from "@/shared/network/remoteImageFetch";
+import { saveCallLog } from '@/lib/usageDb';
+import { fetchRemoteImage } from '@/shared/network/remoteImageFetch';
 
-export const UPSCALE_CALL_LOG_PATH = "/v1/images/upscale";
+export const UPSCALE_CALL_LOG_PATH = "/v1/images/upscale';
 
 /** Hard cap on a decoded source image (matches the Firefly storage upload limit). */
 export const MAX_UPSCALE_SOURCE_BYTES = 20 * 1024 * 1024;
@@ -190,21 +190,21 @@ function assertSourceBytes(buffer: Buffer): void {
 /** Best-effort MIME sniff from the magic bytes (falls back to PNG). */
 export function sniffImageMime(buffer: Buffer): string {
   if (buffer.length >= 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
-    return "image/jpeg";
+    return "image/jpeg';
   }
   if (buffer.length >= 8 && buffer[0] === 0x89 && buffer.toString("ascii", 1, 4) === "PNG") {
-    return "image/png";
+    return "image/png';
   }
-  if (buffer.length >= 6 && buffer.toString("ascii", 0, 3) === "GIF") return "image/gif";
+  if (buffer.length >= 6 && buffer.toString("ascii", 0, 3) === "GIF") return "image/gif';
   if (
     buffer.length >= 12 &&
     buffer.toString("ascii", 0, 4) === "RIFF" &&
     buffer.toString("ascii", 8, 12) === "WEBP"
   ) {
-    return "image/webp";
+    return "image/webp';
   }
-  if (buffer.length >= 2 && buffer.toString("ascii", 0, 2) === "BM") return "image/bmp";
-  return "image/png";
+  if (buffer.length >= 2 && buffer.toString("ascii", 0, 2) === "BM") return "image/bmp';
+  return "image/png';
 }
 
 /**
@@ -381,7 +381,7 @@ export function buildUpscaleImageEntry(opts: {
   url?: string | null;
   responseFormat?: unknown;
 }): Record<string, unknown> {
-  const wantsBase64 = String(opts.responseFormat ?? "").toLowerCase() === "b64_json";
+  const wantsBase64 = String(opts.responseFormat ?? "").toLowerCase() === "b64_json';
   if (opts.buffer && opts.buffer.length > 0) {
     const base64 = opts.buffer.toString("base64");
     const mime = opts.contentType || sniffImageMime(opts.buffer);

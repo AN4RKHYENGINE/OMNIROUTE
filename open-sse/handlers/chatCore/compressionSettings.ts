@@ -8,7 +8,7 @@
  * inline try/catch. Behaviour is byte-identical.
  */
 
-import type { CompressionConfig } from "../../services/compression/types.ts";
+import type { CompressionConfig } from '../../services/compression/types.ts';
 
 type LoggerLike = { warn?: (...args: unknown[]) => void } | null | undefined;
 

@@ -7,7 +7,7 @@
 
 import { MAX_TIMER_TIMEOUT_MS } from '@shared/utils/runtimeTimeouts.ts';
 import type { ComboCooldownWaitSettings } from '@lib/resilience/settings.ts';
-import type { ResponseValidationConfig } from "./combo/responseValidation.ts";
+import type { ResponseValidationConfig } from './combo/responseValidation.ts';
 
 /**
  * Maximum number of concurrent pre-screen checks (provider profile + availability)
@@ -181,7 +181,7 @@ const DEFAULT_COMBO_CONFIG = {
         minContextWindow?: number;
         maxContextWindow?: number;
         preferLargeContext?: boolean;
-        contextFilterMode?: "strict" | "lenient";
+        contextFilterMode?: "strict" | "lenient';
       }
     | undefined,
 };

@@ -1,4 +1,4 @@
-import type { RegistryModel } from "../../shared.ts";
+import type { RegistryModel } from '../../shared.ts';
 
 export const DEVIN_MODEL_CATALOG: RegistryModel[] = [
   // Cognition / SWE — default model family recommended for coding tasks

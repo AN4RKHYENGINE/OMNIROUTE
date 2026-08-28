@@ -14,7 +14,7 @@
  * transformation helpers are fully unit-tested (google-flow-video-4569.test.ts).
  */
 
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 import {
   GOOGLE_FLOW_POLL_PATH,
   GOOGLE_FLOW_SUBMIT_PATH,
@@ -24,7 +24,7 @@ import {
   parseFlowOperationResult,
   resolveFlowAccessToken,
   resolveFlowProjectId,
-} from "./googleFlow.ts";
+} from './googleFlow.ts';
 
 interface GoogleFlowHandlerArgs {
   model: string;

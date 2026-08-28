@@ -1,6 +1,6 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { adjustMaxTokens } from "../helpers/maxTokensHelper.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { adjustMaxTokens } from '../helpers/maxTokensHelper.ts';
 
 type JsonRecord = Record<string, unknown>;
 const TOOL_CHOICE_ANY = ["a", "n", "y"].join("");
@@ -14,7 +14,7 @@ const TOOL_CHOICE_ANY = ["a", "n", "y"].join("");
  * Strip it from each system entry before assembling the OpenAI request.
  */
 function stripAnthropicBillingHeader(text: unknown): string {
-  if (typeof text !== "string") return "";
+  if (typeof text !== "string") return "';
   return text.replace(/^x-anthropic-billing-header:[^\n]*(?:\r?\n)?/i, "");
 }
 
@@ -143,7 +143,7 @@ export function claudeToOpenAIRequest(model, body, stream, credentials: unknown 
           // body.system may be a mixed array — handle string elements (and
           // null/non-object) defensively so we never drop text or throw.
           if (typeof s === "string") return { type: "text", text: stripAnthropicBillingHeader(s) };
-          const rawText = s && typeof s === "object" ? (s as JsonRecord).text || "" : "";
+          const rawText = s && typeof s === "object" ? (s as JsonRecord).text || "" : "';
           const block: JsonRecord = { type: "text", text: stripAnthropicBillingHeader(rawText) };
           if (s && typeof s === "object" && (s as JsonRecord).cache_control !== undefined) {
             block.cache_control = (s as JsonRecord).cache_control;
@@ -203,7 +203,7 @@ export function claudeToOpenAIRequest(model, body, stream, credentials: unknown 
 
         if (!tool || typeof tool !== "object" || Array.isArray(tool)) return null;
         const record = tool as JsonRecord;
-        const name = typeof record.name === "string" ? record.name.trim() : "";
+        const name = typeof record.name === "string" ? record.name.trim() : "';
         if (!name) return null; // skip tools with empty/invalid name
 
         return {
@@ -233,7 +233,7 @@ export function claudeToOpenAIRequest(model, body, stream, credentials: unknown 
   // Reasoning effort: map Claude-side thinking controls to OpenAI reasoning_effort.
   // Priority: output_config.effort (Claude Code) > thinking.budget_tokens (Claude native).
   // Budget buckets match the reverse mapping in thinkingBudget.ts::setCustomBudget.
-  const outputEffort = normalizeOpenAIReasoningEffort(body.output_config?.effort) || "";
+  const outputEffort = normalizeOpenAIReasoningEffort(body.output_config?.effort) || "';
   if (outputEffort) {
     result.reasoning_effort = outputEffort;
   } else if (body.thinking?.type === "enabled" && typeof body.thinking.budget_tokens === "number") {
@@ -241,13 +241,13 @@ export function claudeToOpenAIRequest(model, body, stream, credentials: unknown 
     if (budget <= 0) {
       // disabled — leave reasoning_effort unset
     } else if (budget <= 1024) {
-      result.reasoning_effort = "low";
+      result.reasoning_effort = "low';
     } else if (budget <= 10240) {
-      result.reasoning_effort = "medium";
+      result.reasoning_effort = "medium';
     } else if (budget < 131072) {
-      result.reasoning_effort = "high";
+      result.reasoning_effort = "high';
     } else {
-      result.reasoning_effort = "xhigh";
+      result.reasoning_effort = "xhigh';
     }
   }
 
@@ -356,7 +356,7 @@ function convertClaudeMessage(msg, preserveCacheControl = false) {
       ? "user"
       : msg.role === "system"
         ? "system"
-        : "assistant";
+        : "assistant';
 
   // Simple string content
   if (typeof msg.content === "string") {
@@ -402,12 +402,12 @@ function convertClaudeMessage(msg, preserveCacheControl = false) {
           break;
 
         case "thinking":
-          reasoningContent = block.thinking || block.text || "";
+          reasoningContent = block.thinking || block.text || "';
           break;
 
         case "redacted_thinking":
           if (reasoningContent == null) {
-            reasoningContent = "";
+            reasoningContent = "';
           }
           break;
 
@@ -424,7 +424,7 @@ function convertClaudeMessage(msg, preserveCacheControl = false) {
           break;
 
         case "tool_result":
-          let resultContent = "";
+          let resultContent = "';
           if (typeof block.content === "string") {
             resultContent = block.content;
           } else if (Array.isArray(block.content)) {
@@ -517,21 +517,21 @@ function convertClaudeMessage(msg, preserveCacheControl = false) {
 
 // Convert tool choice
 function convertToolChoice(choice, hasServerWebSearch = false) {
-  if (!choice) return "auto";
+  if (!choice) return "auto';
   if (typeof choice === "string") return choice;
 
   switch (choice.type) {
     case "auto":
-      return "auto";
+      return "auto';
     case TOOL_CHOICE_ANY:
-      return "required";
+      return "required';
     case "tool":
       if (hasServerWebSearch && choice.name === "web_search") {
         return { type: "web_search" };
       }
       return { type: "function", function: { name: choice.name } };
     default:
-      return "auto";
+      return "auto';
   }
 }
 

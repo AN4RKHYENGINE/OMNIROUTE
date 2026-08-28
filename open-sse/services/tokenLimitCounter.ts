@@ -20,7 +20,7 @@ import {
   getTokenLimitsForRequest,
   logTokenLimitReset,
   type TokenLimit,
-} from "@/lib/localDb";
+} from '@/lib/localDb';
 
 interface CacheEntry {
   windowStart: string;

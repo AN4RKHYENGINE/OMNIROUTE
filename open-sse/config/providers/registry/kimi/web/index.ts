@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../../shared.ts";
+import type { RegistryEntry } from '../../../shared.ts';
 
 export const KIMI_WEB_STATIC_MODELS = [
   { id: "k3", name: "K3", supportsReasoning: true },

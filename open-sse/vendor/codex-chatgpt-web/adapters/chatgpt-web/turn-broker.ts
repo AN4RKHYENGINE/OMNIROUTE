@@ -1,9 +1,9 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { randomBytes } from "node:crypto";
-import { chmodSync, existsSync, lstatSync, mkdirSync, unlinkSync } from "node:fs";
-import { createConnection, createServer, type Server, type Socket } from "node:net";
-import { dirname } from "node:path";
-import type { ChatGptTurnEnvironment } from "./environment";
+import { randomBytes } from 'node:crypto';
+import { chmodSync, existsSync, lstatSync, mkdirSync, unlinkSync } from 'node:fs';
+import { createConnection, createServer, type Server, type Socket } from 'node:net';
+import { dirname } from 'node:path';
+import type { ChatGptTurnEnvironment } from './environment';
 
 interface PendingTurn extends ChatGptTurnEnvironment {
   expiresAt: number;
@@ -49,7 +49,7 @@ interface TurnChannel {
 
 interface BrokerRequest {
   id: string;
-  method: "claim" | "resolve" | "release" | "invoke";
+  method: "claim" | "resolve" | "release" | "invoke';
   token?: string;
   bindingId?: string;
   wireName?: string;
@@ -242,7 +242,7 @@ export class TurnBroker {
   }
 
   private handleSocket(socket: Socket): void {
-    let buffered = "";
+    let buffered = "';
     let handled = false;
     socket.setEncoding("utf8");
     socket.on("error", () => {});
@@ -444,7 +444,7 @@ export async function callTurnBroker<T>(
   const id = opaqueId("request");
   return new Promise<T>((resolveCall, rejectCall) => {
     const socket = createConnection(socketPath);
-    let buffered = "";
+    let buffered = "';
     let settled = false;
     const finishError = (error: Error) => {
       if (settled) return;

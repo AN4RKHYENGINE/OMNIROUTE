@@ -10,7 +10,7 @@
  * stays under the complexity cap.
  */
 
-import { type CompressionStats } from "../../services/compression/types.ts";
+import { type CompressionStats } from '../../services/compression/types.ts';
 
 type LoggerLike =
   | {
@@ -97,7 +97,7 @@ function buildEngineBreakdownRows(stats: CompressionStats, requestId: string) {
 /**
  * Record an attempted-but-no-op compression run (#4268). The pipeline ran (mode
  * active, engines executed) but produced no recordable saving — without this, the
- * row is dropped and "ran but saved nothing" is indistinguishable from "never ran".
+ * row is dropped and "ran but saved nothing" is indistinguishable from 'never ran".
  * Writes a single skip row (tokens_saved = 0, skip_reason set); no engine breakdown,
  * to keep skips out of the saving aggregates.
  */

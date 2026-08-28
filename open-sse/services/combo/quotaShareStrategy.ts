@@ -31,9 +31,9 @@
  * Part of: Quota Sharing Engine — Phase 3 (#9 dedicated quota-share strategy).
  */
 
-import { isBucketSaturated } from "@lib/quota/accountBuckets.ts";
-import { incrementInflight, decrementInflight, getInflight } from "./quotaShareInflight.ts";
-import type { ResolvedComboTarget } from "./types.ts";
+import { isBucketSaturated } from '@lib/quota/accountBuckets.ts';
+import { incrementInflight, decrementInflight, getInflight } from './quotaShareInflight.ts';
+import type { ResolvedComboTarget } from './types.ts';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -71,7 +71,7 @@ function getDrrDeficits(comboName: string): Map<string, number> {
 // Mechanism 1 — per-model bucket gating
 // ---------------------------------------------------------------------------
 
-/** Extract the bare model name from "<provider>/<model>" (or pass through). */
+/** Extract the bare model name from '<provider>/<model>" (or pass through). */
 function bareModelName(modelStr: string): string {
   const slash = modelStr.indexOf("/");
   return slash >= 0 ? modelStr.slice(slash + 1) : modelStr;
@@ -89,7 +89,7 @@ function filterEligibleBySaturation(
   const modelName = bareModelName(modelStr);
 
   const eligible = targets.filter((target) => {
-    const connId = target.connectionId ?? "";
+    const connId = target.connectionId ?? "';
     if (connId === "") return true; // no connection → cannot be saturation-scored
     const saturated =
       isBucketSaturated(connId, "5h", nowMs) ||
@@ -142,7 +142,7 @@ function partitionByConcurrencyCap(
   const atCap: ResolvedComboTarget[] = [];
 
   for (const target of targets) {
-    const connId = target.connectionId ?? "";
+    const connId = target.connectionId ?? "';
     const cap = resolveConnectionCap(connId, caps);
     if (cap === null) {
       withRoom.push(target); // no limit → always has room
@@ -314,7 +314,7 @@ export function selectQuotaShareTarget(
   }
 
   // Reserve the winner's in-flight slot immediately.
-  const winnerConnectionId = winner.connectionId ?? "";
+  const winnerConnectionId = winner.connectionId ?? "';
   if (winnerConnectionId) incrementInflight(winnerConnectionId, undefined, nowMs);
 
   // Fallback order: winner → remaining-with-room → at-cap → saturated. Both

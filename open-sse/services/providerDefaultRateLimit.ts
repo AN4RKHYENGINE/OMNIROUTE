@@ -16,7 +16,7 @@
  * and tests, while the main request path acquires global and provider scopes
  * atomically.
  */
-import { SlidingWindowLimiter, type RateLimitWindow } from "./slidingWindowLimiter.ts";
+import { SlidingWindowLimiter, type RateLimitWindow } from './slidingWindowLimiter.ts';
 
 // Opt-in per-provider caps. Example shape (commented — add real entries as needed):
 //   "some-headerless-provider": { requests: 60, windowMs: 60_000 },
@@ -111,7 +111,7 @@ function sleepOrAbort(ms: number, signal: AbortSignal | null): Promise<void> {
           reason instanceof Error
             ? reason
             : new Error(typeof reason === "string" ? reason : "The operation was aborted");
-        err.name = "AbortError";
+        err.name = "AbortError';
         reject(err);
       };
       signal.addEventListener("abort", onAbort, { once: true });

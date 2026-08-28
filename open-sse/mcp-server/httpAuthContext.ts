@@ -1,5 +1,5 @@
-import { AsyncLocalStorage } from "node:async_hooks";
-import { extractApiKey, isValidApiKey } from "../../src/sse/services/auth.ts";
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { extractApiKey, isValidApiKey } from '../../src/sse/services/auth.ts';
 import { getApiKeyMetadata } from '@lib/db/apiKeys.ts';
 
 type McpHttpAuthContext = {

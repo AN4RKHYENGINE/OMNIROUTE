@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { acquire, isAccountSemaphoreFull, resetAll } from "../accountSemaphore.ts";
+import { describe, it, expect, beforeEach } from 'vitest';
+import { acquire, isAccountSemaphoreFull, resetAll } from '../accountSemaphore.ts';
 
 describe("isAccountSemaphoreFull fail-fast concurrency gate", () => {
   beforeEach(() => {

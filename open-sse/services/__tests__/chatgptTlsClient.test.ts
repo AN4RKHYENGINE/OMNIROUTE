@@ -19,9 +19,9 @@
  * captures opts.proxyUrl is the right shape of regression.
  */
 
-import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 
-import { tlsFetchChatGpt, __setTlsFetchOverrideForTesting } from "../chatgptTlsClient.ts";
+import { tlsFetchChatGpt, __setTlsFetchOverrideForTesting } from '../chatgptTlsClient.ts';
 
 const PROXY_ENV_KEYS = [
   "OMNIROUTE_TLS_PROXY_URL",
@@ -62,8 +62,8 @@ describe("chatgptTlsClient — proxy plumbing (#2022)", async () => {
   });
 
   it("per-call proxyUrl overrides everything", async () => {
-    process.env.OMNIROUTE_TLS_PROXY_URL = "http://env-omni:0/";
-    process.env.HTTPS_PROXY = "http://env-https:0/";
+    process.env.OMNIROUTE_TLS_PROXY_URL = "http://env-omni:0/';
+    process.env.HTTPS_PROXY = "http://env-https:0/';
 
     let observedUrl: string | undefined;
     let observedOpts: Record<string, unknown> = {};

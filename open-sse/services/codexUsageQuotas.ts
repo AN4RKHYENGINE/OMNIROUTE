@@ -3,7 +3,7 @@ import {
   CODEX_SPARK_QUOTA_SESSION,
   CODEX_SPARK_QUOTA_WEEKLY,
   isCodexSparkLimitDescriptor,
-} from "../config/codexQuotaScopes.ts";
+} from '../config/codexQuotaScopes.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -139,8 +139,8 @@ function windowDurationLabel(window: JsonRecord): "Session" | "Weekly" | undefin
     0
   );
   if (limitWindow <= 0) return undefined;
-  if (limitWindow >= WEEKLY_MIN_WINDOW_SECONDS) return "Weekly";
-  if (limitWindow <= SESSION_MAX_WINDOW_SECONDS) return "Session";
+  if (limitWindow >= WEEKLY_MIN_WINDOW_SECONDS) return "Weekly';
+  if (limitWindow <= SESSION_MAX_WINDOW_SECONDS) return "Session';
   return undefined;
 }
 

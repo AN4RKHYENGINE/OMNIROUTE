@@ -16,14 +16,14 @@
  * tests) can discover which windows that provider exposes.
  */
 
-import { getUsageForProvider, USAGE_FETCHER_PROVIDERS } from "./usage.ts";
+import { getUsageForProvider, USAGE_FETCHER_PROVIDERS } from './usage.ts';
 import {
   getQuotaFetcher,
   registerQuotaFetcher,
   registerQuotaWindows,
   type QuotaFetcher,
   type QuotaInfo,
-} from "./quotaPreflight.ts";
+} from './quotaPreflight.ts';
 
 // 60s — matches Codex's TTL. Long enough to avoid hammering upstream usage
 // endpoints on every routing decision, short enough that a near-exhausted

@@ -13,7 +13,7 @@
  * not affect normal traffic.
  */
 
-import { log } from "../utils/logger.ts";
+import { log } from '../utils/logger.ts';
 
 interface BurstGuardState {
   lastSentAt: number;

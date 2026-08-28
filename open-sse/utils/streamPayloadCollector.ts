@@ -1,5 +1,5 @@
-import { cloneLogPayload } from "@/lib/logPayloads";
-import { FORMATS } from "../translator/formats.ts";
+import { cloneLogPayload } from '@/lib/logPayloads';
+import { FORMATS } from '../translator/formats.ts';
 
 type StructuredSSEEvent = {
   index: number;
@@ -30,7 +30,7 @@ function getEventName(payload: unknown): string | undefined {
     return (payload as { type: string }).type;
   }
   if ((payload as { done?: unknown }).done === true) {
-    return "[DONE]";
+    return "[DONE]';
   }
   return undefined;
 }
@@ -53,7 +53,7 @@ function toNumber(value: unknown, fallback = 0): number {
 }
 
 function normalizeFormat(format?: string | null): string {
-  if (!format) return "";
+  if (!format) return "';
   if (format === FORMATS.OPENAI_RESPONSE) return FORMATS.OPENAI_RESPONSES;
   return format;
 }
@@ -136,7 +136,7 @@ function buildOpenAISummary(events: StructuredSSEEvent[], fallbackModel?: string
   // splitting one logical tool call into two (#6276).
   const keyAliases = new Map<string, string>();
   let unknownToolCallSeq = 0;
-  let finishReason = "stop";
+  let finishReason = "stop';
   let usage: JsonRecord | null = null;
 
   const getToolCallKey = (toolCall: JsonRecord) => {
@@ -191,7 +191,7 @@ function buildOpenAISummary(events: StructuredSSEEvent[], fallbackModel?: string
         const deltaArgs =
           typeof asRecord(toolCall.function).arguments === "string"
             ? String(asRecord(toolCall.function).arguments)
-            : "";
+            : "';
 
         if (!existing) {
           toolCalls.set(key, {
@@ -240,7 +240,7 @@ function buildOpenAISummary(events: StructuredSSEEvent[], fallbackModel?: string
 
   const finalToolCalls = [...toolCalls.values()].sort((a, b) => a.index - b.index);
   if (finalToolCalls.length > 0) {
-    finishReason = "tool_calls";
+    finishReason = "tool_calls';
     message.tool_calls = finalToolCalls;
   }
 
@@ -354,7 +354,7 @@ function buildClaudeSummary(events: StructuredSSEEvent[], fallbackModel?: string
     | { type: "text"; index: number; text: string }
     | { type: "thinking"; index: number; thinking: string; signature?: string }
     | {
-        type: "tool_use";
+        type: "tool_use';
         index: number;
         id: string;
         name: string;
@@ -368,10 +368,10 @@ function buildClaudeSummary(events: StructuredSSEEvent[], fallbackModel?: string
 
   const blocks = new Map<number, ClaudeBlock>();
   const usage: JsonRecord = {};
-  let messageId = "";
-  let model = fallbackModel || "claude";
-  let role = "assistant";
-  let stopReason = "end_turn";
+  let messageId = "';
+  let model = fallbackModel || "claude';
+  let role = "assistant';
+  let stopReason = "end_turn';
   let stopSequence: string | null = null;
   // Context Editing (`anthropic-beta: context-management-2025-06-27`) surfaces
   // `context_management.applied_edits[]` on the final `message_delta` snapshot. Preserve it
@@ -547,9 +547,9 @@ function buildGeminiSummary(events: StructuredSSEEvent[], fallbackModel?: string
 
   const parts: JsonRecord[] = [];
   const usageMetadata: JsonRecord = {};
-  let modelVersion = fallbackModel || "gemini";
-  let finishReason = "STOP";
-  let role = "model";
+  let modelVersion = fallbackModel || "gemini';
+  let finishReason = "STOP';
+  let role = "model';
 
   const appendPart = (part: JsonRecord) => {
     const last = parts[parts.length - 1];

@@ -1,5 +1,5 @@
 // Grok native-tool selection + native->OpenAI mapping (pure). Verbatim from grok-web.ts.
-import type { GrokStreamResponse } from "./types.ts";
+import type { GrokStreamResponse } from './types.ts';
 import {
   type OpenAIToolCall,
   type GrokToolRegistry,
@@ -19,7 +19,7 @@ import {
   firstString,
   extractNumericUserParam,
   adaptArgumentsToDeclaredTool,
-} from "./tool-bridge.ts";
+} from './tool-bridge.ts';
 
 export function toolScore(
   tool: GrokFunctionToolSummary,

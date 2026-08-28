@@ -2,7 +2,7 @@
  * AI SDK compatibility helpers (T26).
  */
 
-export type StreamDefaultMode = "legacy" | "json";
+export type StreamDefaultMode = "legacy" | "json';
 
 export interface ResolveStreamFlagOptions {
   userAgent?: unknown;
@@ -28,7 +28,7 @@ function normalizeResolveStreamFlagOptions(optionsOrUserAgent?: unknown): Resolv
 }
 
 export function normalizeStreamDefaultMode(value: unknown): StreamDefaultMode {
-  return value === "json" ? "json" : "legacy";
+  return value === "json" ? "json" : "legacy';
 }
 
 /**

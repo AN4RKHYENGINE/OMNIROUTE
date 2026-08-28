@@ -1,4 +1,4 @@
-import type { AdmissionPressure, AdmissionReleaseOutcome } from "./types.ts";
+import type { AdmissionPressure, AdmissionReleaseOutcome } from './types.ts';
 
 export interface AdaptationParams {
   minLimit: number;
@@ -147,7 +147,7 @@ export function closeAdaptationWindow(
   state.windowStartMs = nowMs;
   state.freezeGrowth = false;
   state.criticalDecreaseConsumed = false;
-  state.pressure = "normal";
+  state.pressure = "normal';
 }
 
 export function sampleActiveIntegral(

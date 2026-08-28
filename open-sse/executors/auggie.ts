@@ -23,15 +23,15 @@
  *   5. ~/.auggie/bin/auggie                  (alternate installer layout)
  */
 
-import { spawn } from "node:child_process";
-import path from "node:path";
-import os from "node:os";
-import fs from "node:fs";
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
-import { buildErrorBody, errorResponse, sanitizeErrorMessage } from "../utils/error.ts";
-import { auggieProvider } from "../config/providers/registry/auggie/index.ts";
+import { spawn } from 'node:child_process';
+import path from 'node:path';
+import os from 'node:os';
+import fs from 'node:fs';
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
+import { buildErrorBody, errorResponse, sanitizeErrorMessage } from '../utils/error.ts';
+import { auggieProvider } from '../config/providers/registry/auggie/index.ts';
 
-const AUGGIE_URL = "auggie://cli/stdio";
+const AUGGIE_URL = "auggie://cli/stdio';
 
 // ─── Model allowlist (argument-injection defense) ─────────────────────────────
 // The `model` value is forwarded straight into the `auggie` argv, so it is an
@@ -44,7 +44,7 @@ const AUGGIE_URL = "auggie://cli/stdio";
 // finds — this lets the allowlist stay current when auggie adds or renames
 // models without a code update.
 const AUGGIE_MODEL_ALLOWLIST: ReadonlySet<string> = new Set(auggieProvider.models.map((m) => m.id));
-const DEFAULT_AUGGIE_MODEL = auggieProvider.models[0]?.id ?? "claude-sonnet-4.6";
+const DEFAULT_AUGGIE_MODEL = auggieProvider.models[0]?.id ?? "claude-sonnet-4.6';
 // ─── Model alias map (backward compat for saved combos) ─────────────────────
 // Old model IDs from before the v0.32.0 registry update; each maps to the
 // equivalent v0.32.0 ID so existing combos continue to work after the rename.
@@ -171,7 +171,7 @@ function isAuggieModelFailure(
  * sees live-discovered models (the executor's `execute()` does this).
  */
 export function resolveAuggieModel(model: unknown): AuggieModelResolution {
-  const requested = typeof model === "string" ? model.trim() : "";
+  const requested = typeof model === "string" ? model.trim() : "';
   if (!requested) return { ok: true, model: DEFAULT_AUGGIE_MODEL };
   if (requested.startsWith("-")) {
     return {
@@ -237,7 +237,7 @@ export function resolveAuggieBin(): string {
   const envBin = (process.env.AUGGIE_BIN || process.env.CLI_AUGGIE_BIN || "").trim();
   if (envBin) return envBin;
 
-  const isWin = process.platform === "win32";
+  const isWin = process.platform === "win32';
 
   // 2. Windows installer default: %LOCALAPPDATA%\auggie\bin\auggie.exe
   if (isWin) {
@@ -256,7 +256,7 @@ export function resolveAuggieBin(): string {
   }
 
   // Fallback — rely on PATH
-  return isWin ? "auggie.cmd" : "auggie";
+  return isWin ? "auggie.cmd" : "auggie';
 }
 
 // ─── Multi-turn message → single prompt builder ───────────────────────────────
@@ -267,7 +267,7 @@ export function buildAuggiePrompt(messages: OpenAIMsg[]): string {
   const lines: string[] = [];
   for (const m of messages) {
     const role = String(m.role || "user");
-    let text = "";
+    let text = "';
     if (typeof m.content === "string") {
       text = m.content;
     } else if (Array.isArray(m.content)) {
@@ -287,7 +287,7 @@ export function buildAuggiePrompt(messages: OpenAIMsg[]): string {
       lines.push(`[User]\n${text}`);
     }
   }
-  return lines.join("\n\n") || "(empty)";
+  return lines.join("\n\n") || "(empty)';
 }
 
 function isEnoentLike(message: string): boolean {
@@ -329,7 +329,7 @@ export function checkAuggieCliVersion(timeoutMs = 5000): Promise<AuggieCliVersio
       settle({ ok: false, error: "Auggie CLI version check timed out" });
     }, timeoutMs);
 
-    let stdout = "";
+    let stdout = "';
     child.stdout?.on("data", (chunk: Buffer) => {
       stdout += chunk.toString("utf8");
     });
@@ -566,7 +566,7 @@ export class AuggieExecutor extends BaseExecutor {
           );
         });
 
-        let stderrTail = "";
+        let stderrTail = "';
         child.stdout?.on("data", (chunk: Buffer) => {
           emitDelta(chunk.toString("utf8"));
         });
@@ -626,8 +626,8 @@ export class AuggieExecutor extends BaseExecutor {
         return;
       }
 
-      let stdout = "";
-      let stderrTail = "";
+      let stdout = "';
+      let stderrTail = "';
       let settled = false;
 
       const settle = (response: Response) => {

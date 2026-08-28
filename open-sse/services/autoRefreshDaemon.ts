@@ -10,7 +10,7 @@
  * what to do (e.g., fallback to another provider, prompt user to re-login).
  */
 
-import { TOKEN_EXTRACTION_CONFIGS } from "./tokenExtractionConfig";
+import { TOKEN_EXTRACTION_CONFIGS } from './tokenExtractionConfig';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 

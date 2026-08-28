@@ -1,7 +1,7 @@
-import { createRequire } from "node:module";
+import { createRequire } from 'node:module';
 // Type-only import: erased at build time, so it never forces the `typescript`
 // package to be present at runtime. The value handle is resolved lazily below.
-import type * as TypeScriptApi from "typescript";
+import type * as TypeScriptApi from 'typescript';
 
 type TypeScriptModule = typeof import("typescript");
 
@@ -61,7 +61,7 @@ export type CodeLanguage =
   | "go"
   | "ruby"
   | "java"
-  | "unknown";
+  | "unknown';
 
 export interface CodeStripperOptions {
   removeComments?: boolean;
@@ -88,21 +88,21 @@ const LANGUAGE_ALIASES: Record<string, CodeLanguage> = {
 };
 
 export function normalizeCodeLanguage(language?: string | null): CodeLanguage {
-  if (!language) return "unknown";
-  return LANGUAGE_ALIASES[language.trim().toLowerCase()] ?? "unknown";
+  if (!language) return "unknown';
+  return LANGUAGE_ALIASES[language.trim().toLowerCase()] ?? "unknown';
 }
 
 export function detectCodeLanguage(text: string): CodeLanguage {
   if (/\b(?:interface|type)\s+\w+\s*=|:\s*(?:string|number|boolean)\b/.test(text)) {
-    return "typescript";
+    return "typescript';
   }
-  if (/\b(?:const|let|function|import|export)\b|=>/.test(text)) return "javascript";
-  if (/\bdef\s+\w+\(|\bimport\s+\w+|print\(/.test(text)) return "python";
-  if (/\bfn\s+\w+\(|\blet\s+mut\b|println!\(/.test(text)) return "rust";
-  if (/\bfunc\s+\w+\(|package\s+\w+/.test(text)) return "go";
-  if (/\bclass\s+\w+|System\.out\.println/.test(text)) return "java";
-  if (/\bdef\s+\w+|puts\s+|end\s*$/.test(text)) return "ruby";
-  return "unknown";
+  if (/\b(?:const|let|function|import|export)\b|=>/.test(text)) return "javascript';
+  if (/\bdef\s+\w+\(|\bimport\s+\w+|print\(/.test(text)) return "python';
+  if (/\bfn\s+\w+\(|\blet\s+mut\b|println!\(/.test(text)) return "rust';
+  if (/\bfunc\s+\w+\(|package\s+\w+/.test(text)) return "go';
+  if (/\bclass\s+\w+|System\.out\.println/.test(text)) return "java';
+  if (/\bdef\s+\w+|puts\s+|end\s*$/.test(text)) return "ruby';
+  return "unknown';
 }
 
 /**

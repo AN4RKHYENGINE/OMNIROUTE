@@ -16,7 +16,7 @@
  * No changes to classifyError, lockModel, or updateProviderConnection needed.
  */
 
-import type { ConfiguredErrorReason } from "./errorConfig.ts";
+import type { ConfiguredErrorReason } from './errorConfig.ts';
 
 export type ProviderErrorRule = {
   id: string;
@@ -30,7 +30,7 @@ export type ProviderErrorRule = {
 export type ProviderErrorRuleMatch = {
   reason: ConfiguredErrorReason;
   /** Default "provider" — lock the whole connection so other providers take over. */
-  scope: "model" | "provider" | "connection";
+  scope: "model" | "provider" | "connection';
   /** Optional explicit cooldown; falls back to the existing per-reason defaults. */
   cooldownMs?: number;
 };

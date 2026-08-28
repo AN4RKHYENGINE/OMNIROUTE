@@ -7,7 +7,7 @@
  * success envelope — masking the real error. Route non-ok responses through
  * `buildErrorBody` instead so the client sees a proper error (hard rule #12).
  */
-import { buildErrorBody } from "../utils/error.ts";
+import { buildErrorBody } from '../utils/error.ts';
 
 export function buildAntigravityUpstreamError(
   status: number,
@@ -20,6 +20,6 @@ export function buildAntigravityUpstreamError(
   } catch {
     // upstream body is not JSON (e.g. HTML error page) — omit structured details
   }
-  const suffix = statusText ? `: ${statusText}` : "";
+  const suffix = statusText ? `: ${statusText}` : "';
   return buildErrorBody(status, `Antigravity upstream error (${status})${suffix}`, upstreamDetails);
 }

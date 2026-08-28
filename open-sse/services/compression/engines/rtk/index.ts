@@ -1,19 +1,19 @@
-import { createCompressionStats, estimateCompressionTokens } from "../../stats.ts";
-import { DEFAULT_RTK_CONFIG, type CompressionResult, type RtkConfig } from "../../types.ts";
-import type { CompressionEngine } from "../types.ts";
-import { detectCommandType } from "./commandDetector.ts";
-import { RTK_SCHEMA, validateRtkEngineConfig } from "./configSchema.ts";
-import { deduplicateRepeatedLines } from "./deduplicator.ts";
-import { groupSimilarLines } from "./grouper.ts";
-import { matchRtkFilter } from "./filterLoader.ts";
-import { applyLineFilter } from "./lineFilter.ts";
-import { smartTruncate } from "./smartTruncate.ts";
-import { normalizeCodeLanguage, stripCode } from "./codeStripper.ts";
-import { maybePersistRtkRawOutput, type RtkRawOutputPointer } from "./rawOutput.ts";
-import { applyRenderer } from "./renderers/index.ts";
-import { isTextBlock } from "../../messageContent.ts";
-import { adaptBodyForCompression } from "../../bodyAdapter.ts";
-import { isAnthropicToolResultBlock } from "../../toolResultCompressor.ts";
+import { createCompressionStats, estimateCompressionTokens } from '../../stats.ts';
+import { DEFAULT_RTK_CONFIG, type CompressionResult, type RtkConfig } from '../../types.ts';
+import type { CompressionEngine } from '../types.ts';
+import { detectCommandType } from './commandDetector.ts';
+import { RTK_SCHEMA, validateRtkEngineConfig } from './configSchema.ts';
+import { deduplicateRepeatedLines } from './deduplicator.ts';
+import { groupSimilarLines } from './grouper.ts';
+import { matchRtkFilter } from './filterLoader.ts';
+import { applyLineFilter } from './lineFilter.ts';
+import { smartTruncate } from './smartTruncate.ts';
+import { normalizeCodeLanguage, stripCode } from './codeStripper.ts';
+import { maybePersistRtkRawOutput, type RtkRawOutputPointer } from './rawOutput.ts';
+import { applyRenderer } from './renderers/index.ts';
+import { isTextBlock } from '../../messageContent.ts';
+import { adaptBodyForCompression } from '../../bodyAdapter.ts';
+import { isAnthropicToolResultBlock } from '../../toolResultCompressor.ts';
 
 type Message = {
   role: string;
@@ -561,7 +561,7 @@ export function applyRtkCompression(
         if (!id) continue;
         const fn = tc.function as Record<string, unknown> | undefined;
         if (!fn || typeof fn !== "object") continue;
-        const toolName = typeof fn.name === "string" ? fn.name : "";
+        const toolName = typeof fn.name === "string" ? fn.name : "';
         let command: string | null = null;
         if (typeof fn.arguments === "string") {
           try {
@@ -585,7 +585,7 @@ export function applyRtkCompression(
         if (!part || typeof part !== "object" || part.type !== "tool_use") continue;
         const id = typeof part.id === "string" ? part.id : null;
         if (!id) continue;
-        const toolName = typeof part.name === "string" ? part.name : "";
+        const toolName = typeof part.name === "string" ? part.name : "';
         const input = part.input as Record<string, unknown> | undefined;
         let command: string | null = null;
         if (input && typeof input === "object") {
@@ -644,7 +644,7 @@ export function applyRtkCompression(
     allRules.length > 0 ? [...new Set(allRules)] : undefined,
     Math.round((performance.now() - start) * 100) / 100
   );
-  stats.engine = "rtk";
+  stats.engine = "rtk';
   if (rawOutputPointers.length > 0) {
     stats.rtkRawOutputPointers = rawOutputPointers;
   }
@@ -693,14 +693,14 @@ export {
   detectCommandFromText,
   detectCommandOutput,
   detectCommandType,
-} from "./commandDetector.ts";
-export { runRtkFilterTests } from "./verify.ts";
+} from './commandDetector.ts';
+export { runRtkFilterTests } from './verify.ts';
 export {
   maybePersistRtkRawOutput,
   readRtkRawOutput,
   redactRtkRawOutput,
   listRtkCommandSamples,
-} from "./rawOutput.ts";
+} from './rawOutput.ts';
 // RTK learn/discover: the sample-source adapter (rawOutput) feeds these pure miners.
-export { discoverRepeatedNoise, type NoiseCandidate, type CommandSample } from "./discover.ts";
-export { suggestFilter, commandToId, type SuggestedFilter } from "./learn.ts";
+export { discoverRepeatedNoise, type NoiseCandidate, type CommandSample } from './discover.ts';
+export { suggestFilter, commandToId, type SuggestedFilter } from './learn.ts';

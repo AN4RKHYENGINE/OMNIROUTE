@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 
 type GigachatTokenResult = {
   accessToken: string;
@@ -12,8 +12,8 @@ type GigachatTokenOptions = {
   signal?: AbortSignal;
 };
 
-const DEFAULT_GIGACHAT_AUTH_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth";
-const DEFAULT_GIGACHAT_SCOPE = "GIGACHAT_API_PERS";
+const DEFAULT_GIGACHAT_AUTH_URL = "https://ngw.devices.sberbank.ru:9443/api/v2/oauth';
+const DEFAULT_GIGACHAT_SCOPE = "GIGACHAT_API_PERS';
 const CACHE_SKEW_MS = 60_000;
 
 const tokenCache = new Map<string, GigachatTokenResult>();
@@ -91,7 +91,7 @@ export async function getGigachatAccessToken(
         ? data.tok
         : typeof data.access_token === "string"
           ? data.access_token
-          : "";
+          : "';
     if (!accessToken) {
       throw new Error("GigaChat token response missing access token");
     }

@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeEach, vi } from "vitest";
+import { describe, expect, it, beforeEach, vi } from 'vitest';
 import {
   getAntigravityQuotaFamily,
   getQuotaScopedModelForProvider,
-} from "@omniroute/open-sse/services/antigravityQuotaFamily.ts";
+} from '../../services/antigravityQuotaFamily.ts';
 import {
   clearAllModelLockouts,
   getModelLockoutInfo,
@@ -11,9 +11,9 @@ import {
   lockExactModel,
   recordModelLockoutFailure,
   clearModelLock,
-} from "@omniroute/open-sse/services/accountFallback.ts";
+} from '../../services/accountFallback.ts';
 
-const provider = "antigravity";
+const provider = "antigravity';
 
 describe("Antigravity account quota-family cooldown", () => {
   beforeEach(() => {

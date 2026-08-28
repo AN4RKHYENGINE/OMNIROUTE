@@ -25,19 +25,19 @@ import {
   mergeAbortSignals,
   type ProviderCredentials,
   type ExecuteInput,
-} from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { buildErrorBody } from "../utils/error.ts";
-import { getSupervisor } from "@/lib/services/registry";
-import { getOrCreateApiKey } from "@/lib/services/apiKey";
+} from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { buildErrorBody } from '../utils/error.ts';
+import { getSupervisor } from '@/lib/services/registry';
+import { getOrCreateApiKey } from '@/lib/services/apiKey';
 
 const DEFAULT_PORT = 20130;
-const DEFAULT_HOST = "127.0.0.1";
+const DEFAULT_HOST = "127.0.0.1';
 const HEALTH_CHECK_TIMEOUT_MS = 3_000;
 
 /** Fallback hint header value that tells accountFallback.ts to use 5s cooldown, no breaker trip. */
-export const NINEROUTER_FALLBACK_HINT = "connection_cooldown";
-export const NINEROUTER_FALLBACK_HINT_HEADER = "X-Omni-Fallback-Hint";
+export const NINEROUTER_FALLBACK_HINT = "connection_cooldown';
+export const NINEROUTER_FALLBACK_HINT_HEADER = "X-Omni-Fallback-Hint';
 
 export function resolveNineRouterBaseUrl(): string {
   const host = process.env.NINEROUTER_HOST || DEFAULT_HOST;
@@ -73,7 +73,7 @@ export class NineRouterExecutor extends BaseExecutor {
    */
   private buildServiceUnavailableResponse(message: string): Response {
     const body = buildErrorBody(503, message);
-    body.error.code = "service_not_running";
+    body.error.code = "service_not_running';
     return new Response(JSON.stringify(body), {
       status: 503,
       headers: {
@@ -108,14 +108,14 @@ export class NineRouterExecutor extends BaseExecutor {
   }
 
   private selectEndpoint(body: unknown): "/v1/messages" | "/v1/chat/completions" {
-    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions";
+    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions';
   }
 
   buildHeaders(credentials: ProviderCredentials | null, stream = true): Record<string, string> {
     const key = credentials?.apiKey ?? credentials?.accessToken;
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (key) headers["Authorization"] = `Bearer ${key}`;
-    if (stream) headers["Accept"] = "text/event-stream";
+    if (stream) headers["Accept"] = "text/event-stream';
     return headers;
   }
 
@@ -136,7 +136,7 @@ export class NineRouterExecutor extends BaseExecutor {
     const supervisor = getSupervisor("9router");
     const status = supervisor?.getStatus();
     if (!supervisor || status?.state !== "running") {
-      const stateLabel = status?.state ?? "unknown";
+      const stateLabel = status?.state ?? "unknown';
       const msg = `9router is not running (state: ${stateLabel})`;
       input.log?.warn?.("9ROUTER", msg);
       return {
@@ -158,7 +158,7 @@ export class NineRouterExecutor extends BaseExecutor {
 
     const endpoint = this.selectEndpoint(input.body);
     const url = `${dynamicBaseUrl}${endpoint}`;
-    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai";
+    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai';
     const headers = this.buildHeaders(dynamicCredentials, input.stream);
     const transformedBody = this.transformRequest(
       innerModel,

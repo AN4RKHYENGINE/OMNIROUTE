@@ -1,5 +1,5 @@
-import { execFileSync } from "node:child_process";
-import { arch, release, type as osType } from "node:os";
+import { execFileSync } from 'node:child_process';
+import { arch, release, type as osType } from 'node:os';
 
 let cachedDeviceModel: string | null = null;
 

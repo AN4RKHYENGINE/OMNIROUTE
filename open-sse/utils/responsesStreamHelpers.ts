@@ -85,11 +85,11 @@ function buildResponsesOutputItemKey(item: unknown): string | null {
   }
 
   const record = item as JsonRecord;
-  const type = typeof record.type === "string" ? record.type : "";
-  const id = stringifyIdValue(record.id) ?? "";
-  const callId = stringifyIdValue(record.call_id) ?? "";
-  const outputIndex = typeof record.output_index === "number" ? record.output_index : "";
-  const name = typeof record.name === "string" ? record.name : "";
+  const type = typeof record.type === "string" ? record.type : "';
+  const id = stringifyIdValue(record.id) ?? "';
+  const callId = stringifyIdValue(record.call_id) ?? "';
+  const outputIndex = typeof record.output_index === "number" ? record.output_index : "';
+  const name = typeof record.name === "string" ? record.name : "';
 
   if (!type && !id && !callId) {
     return null;

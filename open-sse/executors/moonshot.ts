@@ -1,5 +1,5 @@
-import { DefaultExecutor } from "./default.ts";
-import type { ProviderCredentials } from "./base.ts";
+import { DefaultExecutor } from './default.ts';
+import type { ProviderCredentials } from './base.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -79,7 +79,7 @@ function normalizeK2Thinking(body: JsonRecord, preservedThinkingOnly: boolean): 
     return;
   }
 
-  const requested = typeof requestedEffort === "string" ? requestedEffort.toLowerCase() : "";
+  const requested = typeof requestedEffort === "string" ? requestedEffort.toLowerCase() : "';
   const explicitlyDisabled = isK2ThinkingDisabled(requested, enableThinking, existingThinking);
   const explicitlyEnabled = isK2ThinkingEnabled(requested, enableThinking, existingThinking);
 
@@ -119,12 +119,12 @@ export function normalizeMoonshotRequest(model: string, body: unknown): unknown 
     delete next.thinking;
     delete next.enable_thinking;
     delete next.reasoning;
-    next.reasoning_effort = "max";
+    next.reasoning_effort = "max';
     return next;
   }
 
   normalizeK2Thinking(next, isK27);
-  if ((isK27 || isK26) && next.tool_choice === "required") next.tool_choice = "auto";
+  if ((isK27 || isK26) && next.tool_choice === "required") next.tool_choice = "auto';
   return next;
 }
 

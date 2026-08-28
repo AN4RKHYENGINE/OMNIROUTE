@@ -3,7 +3,7 @@
 // returns a 400, without depending on executor instance state (no `this`).
 // Extracted from antigravity.ts (file-size cap) -- mirrors the existing
 // antigravity/sseCollect.ts submodule pattern.
-import type { ExecuteInput } from "../base.ts";
+import type { ExecuteInput } from '../base.ts';
 
 /** Shape of one execute()/executeOnce() result (kept local to avoid importing the class). */
 export type AntigravityExecuteResult = {

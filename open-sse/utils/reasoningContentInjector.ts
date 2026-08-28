@@ -13,9 +13,9 @@
  * that proxy to thinking-mode models.
  */
 
-import { requiresReasoningReplay } from "../services/reasoningCache.ts";
+import { requiresReasoningReplay } from '../services/reasoningCache.ts';
 
-const PLACEHOLDER = " ";
+const PLACEHOLDER = " ';
 
 type JsonRecord = Record<string, unknown>;
 

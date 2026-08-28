@@ -18,10 +18,10 @@
  */
 
 /** Dated strategy id that clears old tool-use / tool-result pairs. */
-export const CLEAR_TOOL_USES_STRATEGY = "clear_tool_uses_20250919";
+export const CLEAR_TOOL_USES_STRATEGY = "clear_tool_uses_20250919';
 
 /** Dated strategy id that clears old extended-thinking turns. */
-export const CLEAR_THINKING_STRATEGY = "clear_thinking_20251015";
+export const CLEAR_THINKING_STRATEGY = "clear_thinking_20251015';
 
 /** Default token threshold that triggers clearing (Anthropic default is 100k). */
 export const CONTEXT_EDITING_DEFAULT_TRIGGER_TOKENS = 100000;

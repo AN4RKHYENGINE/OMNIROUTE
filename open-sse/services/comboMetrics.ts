@@ -4,7 +4,7 @@
  * Provides API for reading metrics from the dashboard.
  */
 
-import { recordProviderUsage } from "./autoCombo/providerDiversity";
+import { recordProviderUsage } from './autoCombo/providerDiversity';
 
 interface ModelMetrics {
   requests: number;
@@ -145,12 +145,12 @@ function applyMetricOutcome(
 
   if (success) {
     metric.successes++;
-    metric.lastStatus = "ok";
+    metric.lastStatus = "ok';
     return;
   }
 
   metric.failures++;
-  metric.lastStatus = "error";
+  metric.lastStatus = "error';
 }
 
 function buildTargetMetric(

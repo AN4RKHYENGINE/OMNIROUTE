@@ -57,9 +57,9 @@ export const ANTHROPIC_PING_FRAME = ENCODER.encode('event: ping\ndata: {"type":"
 // real upstream response — once it arrives — starts its own independent
 // response.created lifecycle from scratch; this placeholder item never
 // carries a response_id and isn't meant to be continued.
-const RESPONSES_STARTUP_ITEM_ID = "rs_keepalive";
+const RESPONSES_STARTUP_ITEM_ID = "rs_keepalive';
 // Brand-neutral placeholder — clients persist this as visible reasoning.
-const STARTUP_THINKING_TEXT = "✨";
+const STARTUP_THINKING_TEXT = "✨';
 export const RESPONSES_STARTUP_THINKING_FRAME = ENCODER.encode(
   [
     {
@@ -328,7 +328,7 @@ export async function withEarlyStreamKeepalive(
             // committed to a 200 event-stream, so the HTTP status can no longer
             // change. Frame the (already-sanitized) body as an in-band error event
             // instead of forwarding raw JSON, which would be malformed SSE.
-            const text = response.body ? await response.text().catch(() => "") : "";
+            const text = response.body ? await response.text().catch(() => "") : "';
             const dataLine =
               text.trim() ||
               JSON.stringify({ error: { message: "stream_error", type: "stream_error" } });

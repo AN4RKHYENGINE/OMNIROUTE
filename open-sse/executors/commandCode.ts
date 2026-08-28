@@ -1,12 +1,12 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from 'node:crypto';
 
-import { isVisionModelId } from "@/shared/constants/visionModels";
-import { REGISTRY } from "../config/providerRegistry.ts";
-import { BaseExecutor, mergeUpstreamExtraHeaders, type ExecuteInput } from "./base.ts";
+import { isVisionModelId } from '@/shared/constants/visionModels';
+import { REGISTRY } from '../config/providerRegistry.ts';
+import { BaseExecutor, mergeUpstreamExtraHeaders, type ExecuteInput } from './base.ts';
 
 type JsonRecord = Record<string, unknown>;
 
-export const COMMAND_CODE_VERSION = process.env.COMMAND_CODE_VERSION?.trim() || "1.15.1";
+export const COMMAND_CODE_VERSION = process.env.COMMAND_CODE_VERSION?.trim() || "1.15.1';
 // Hard server-side ceiling enforced by Command Code's /alpha/generate endpoint:
 // any request with params.max_tokens > 200_000 is rejected with a 400
 // "Too big: expected number to be <=200000 at params.max_tokens". We only use
@@ -63,9 +63,9 @@ function toolCallArgumentsString(value: unknown): string {
       const parsed: unknown = JSON.parse(value);
       if (isRecord(parsed)) return value;
     } catch {
-      return "{}";
+      return "{}';
     }
-    return "{}";
+    return "{}';
   }
   return JSON.stringify(recordOrEmpty(value));
 }
@@ -179,7 +179,7 @@ function extractImageUrl(part: JsonRecord): string | undefined {
     const source = isRecord(part.source) ? part.source : null;
     if (source) {
       if (source.type === "base64") {
-        const mediaType = stringValue(source.media_type) || "image/png";
+        const mediaType = stringValue(source.media_type) || "image/png';
         const data = stringValue(source.data);
         if (data) return `data:${mediaType};base64,${data}`;
       }
@@ -311,7 +311,7 @@ function convertMessages(
       if (text) parts.push({ type: "text", text });
 
       for (const call of asRecordArray(message.tool_calls)) {
-        const id = stringValue(call.id) || "";
+        const id = stringValue(call.id) || "';
         if (!id || !pairedToolCallIds.has(id)) continue;
         const fn = isRecord(call.function) ? call.function : {};
         const parsedInput = recordOrEmpty(fn.arguments);
@@ -334,7 +334,7 @@ function convertMessages(
     }
 
     if (role === "tool") {
-      const toolCallId = stringValue(message.tool_call_id) || "";
+      const toolCallId = stringValue(message.tool_call_id) || "';
       if (!toolCallId || !pairedToolCallIds.has(toolCallId)) continue;
       const toolName = wireToolName(
         stringValue(message.name) || toolCallNames.get(toolCallId) || "unknown",
@@ -402,7 +402,7 @@ function buildCommandCodeBody(
     typeof input.model === "string" && input.model.trim().length > 0 ? input.model : model;
 
   const converted = convertMessages(input.messages, resolvedModel, toolNameMap);
-  const explicitSystem = typeof input.system === "string" ? input.system : "";
+  const explicitSystem = typeof input.system === "string" ? input.system : "';
   const system = [converted.system, explicitSystem].filter(Boolean).join("\n\n");
 
   const params: JsonRecord = {
@@ -473,16 +473,16 @@ function parseStreamLine(line: string): unknown | undefined {
 
 function mapFinishReason(reason: unknown): "stop" | "length" | "tool_calls" {
   if (reason === "tool-calls" || reason === "tool_calls" || reason === "toolUse")
-    return "tool_calls";
+    return "tool_calls';
   if (
     reason === "length" ||
     reason === "max_tokens" ||
     reason === "max-tokens" ||
     reason === "max_output_tokens"
   ) {
-    return "length";
+    return "length';
   }
-  return "stop";
+  return "stop';
 }
 
 function chatCompletionChunk(
@@ -508,7 +508,7 @@ type AggregateState = {
   content: string;
   reasoning: string;
   toolCalls: JsonRecord[];
-  finishReason: "stop" | "length" | "tool_calls";
+  finishReason: "stop" | "length" | "tool_calls';
   usage: JsonRecord | null;
 };
 
@@ -573,10 +573,10 @@ function applyEventToAggregate(
 
   switch (event.type) {
     case "text-delta":
-      state.content += stringValue(event.text) || "";
+      state.content += stringValue(event.text) || "';
       break;
     case "reasoning-delta":
-      state.reasoning += stringValue(event.text) || "";
+      state.reasoning += stringValue(event.text) || "';
       break;
     case "tool-call": {
       const args = recordOrEmpty(event.input ?? event.args ?? event.arguments);
@@ -697,7 +697,7 @@ function createStreamResponse(
   const id = `chatcmpl-${randomUUID()}`;
   const reader = upstream.body?.getReader();
   const decoder = new TextDecoder();
-  let buffer = "";
+  let buffer = "';
   let sentRole = false;
   let closed = false;
   const state: AggregateState = {
@@ -732,13 +732,13 @@ function createStreamResponse(
 
         switch (event.type) {
           case "text-delta": {
-            const text = stringValue(event.text) || "";
+            const text = stringValue(event.text) || "';
             if (text) controller.enqueue(sse(chatCompletionChunk(id, model, { content: text })));
             state.content += text;
             break;
           }
           case "reasoning-delta": {
-            const text = stringValue(event.text) || "";
+            const text = stringValue(event.text) || "';
             if (text) {
               controller.enqueue(sse(chatCompletionChunk(id, model, { reasoning_content: text })));
               state.reasoning += text;
@@ -811,7 +811,7 @@ function createStreamResponse(
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "";
+            buffer = lines.pop() || "';
             for (const line of lines) emitEvent(parseStreamLine(line));
           }
           if (buffer.trim()) emitEvent(parseStreamLine(buffer));
@@ -861,7 +861,7 @@ async function createJsonResponse(
   if (!reader) throw new Error("Command Code response missing body");
 
   const decoder = new TextDecoder();
-  let buffer = "";
+  let buffer = "';
   const state: AggregateState = {
     content: "",
     reasoning: "",
@@ -877,7 +877,7 @@ async function createJsonResponse(
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split("\n");
-      buffer = lines.pop() || "";
+      buffer = lines.pop() || "';
       for (const line of lines) {
         const event = parseStreamLine(line);
         if (!isRecord(event)) continue;
@@ -965,7 +965,7 @@ export class CommandCodeExecutor extends BaseExecutor {
     if (!upstream.ok) {
       const errorText = await upstream.text().catch(() => {
         console.warn("[commandCode] upstream text failed");
-        return "";
+        return "';
       });
       return {
         response: new Response(errorText || `Command Code API error ${upstream.status}`, {

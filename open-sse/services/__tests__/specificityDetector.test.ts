@@ -1,11 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from 'vitest';
 import {
   analyzeSpecificity,
   getSpecificityLevel,
   getRecommendedMinTier,
   isHighSpecificity,
   isLowSpecificity,
-} from "../specificityDetector.ts";
+} from '../specificityDetector.ts';
 
 describe("SpecificityDetector", () => {
   describe("analyzeSpecificity - trivial query", () => {

@@ -1,4 +1,4 @@
-import type { CompressionConfig, PreserveSystemPromptMode } from "./types.ts";
+import type { CompressionConfig, PreserveSystemPromptMode } from './types.ts';
 
 /**
  * T05/C5 — system-prompt preservation mode.
@@ -42,7 +42,7 @@ export function normalizePreserveSystemPromptMode(
   if (isPreserveSystemPromptMode(config.preserveSystemPromptMode)) {
     return config.preserveSystemPromptMode;
   }
-  return config.preserveSystemPrompt === false ? "whenNoCache" : "always";
+  return config.preserveSystemPrompt === false ? "whenNoCache" : "always';
 }
 
 /**

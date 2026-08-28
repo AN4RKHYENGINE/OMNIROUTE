@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 export const ant_lingProvider: RegistryEntry = {
   id: "ant-ling",

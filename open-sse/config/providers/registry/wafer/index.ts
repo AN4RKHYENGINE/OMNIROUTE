@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { getAnthropicCompatHeaders } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { getAnthropicCompatHeaders } from '../../shared.ts';
 
 export const waferProvider: RegistryEntry = {
   id: "wafer",

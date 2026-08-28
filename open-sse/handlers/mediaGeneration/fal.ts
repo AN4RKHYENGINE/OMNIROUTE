@@ -1,12 +1,12 @@
-import { saveCallLog } from "@/lib/usageDb";
+import { saveCallLog } from '@/lib/usageDb';
 import {
   FetchTimeoutError,
   fetchWithTimeout,
   getConfiguredTimeout,
-} from "@shared/utils/fetchTimeout.ts";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+} from '@shared/utils/fetchTimeout.ts';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 
-type MediaKind = "video" | "music";
+type MediaKind = "video" | "music';
 
 type FalBody = Record<string, unknown>;
 
@@ -130,7 +130,7 @@ function resolveFalModel(model: string, body: FalBody, kind: MediaKind): string 
     ? "reference-to-video"
     : typeof body.image_url === "string"
       ? "image-to-video"
-      : "text-to-video";
+      : "text-to-video';
   return `xai/grok-imagine-video/${suffix}`;
 }
 
@@ -180,7 +180,7 @@ function extensionFromMedia(item: Record<string, unknown>, kind: MediaKind): str
 
   const fileName = stringValue(item.file_name);
   const url = stringValue(item.url);
-  const candidate = fileName || url || "";
+  const candidate = fileName || url || "';
   const extension = candidate.match(/\.([a-z0-9]+)(?:\?|$)/i)?.[1]?.toLowerCase();
   return extension || (kind === "video" ? "mp4" : "wav");
 }
@@ -358,7 +358,7 @@ async function runFalQueue({
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     const isTimeout =
-      error instanceof FetchTimeoutError || (error as { name?: string })?.name === "AbortError";
+      error instanceof FetchTimeoutError || (error as { name?: string })?.name === "AbortError';
     const status = isTimeout ? 504 : 502;
     log?.error?.("MEDIA", `${provider} ${kind} request failed: ${sanitizeErrorMessage(message)}`);
     return {

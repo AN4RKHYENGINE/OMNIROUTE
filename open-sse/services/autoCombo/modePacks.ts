@@ -8,7 +8,7 @@
  *   - offline-friendly: Prioritize quota availability
  */
 
-import type { ScoringWeights } from "./scoring";
+import type { ScoringWeights } from './scoring';
 
 export const MODE_PACKS: Record<string, ScoringWeights> = {
   // Prioritize latency → health. tierPriority replaces 0.05 from stability.

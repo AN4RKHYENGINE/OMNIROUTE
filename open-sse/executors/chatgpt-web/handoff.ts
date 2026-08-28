@@ -1,6 +1,6 @@
-import { tlsFetchChatGpt } from "../../services/chatgptTlsClient.ts";
+import { tlsFetchChatGpt } from '../../services/chatgptTlsClient.ts';
 
-const CONVERSATION_RESUME_URL = "https://chatgpt.com/backend-api/f/conversation/resume";
+const CONVERSATION_RESUME_URL = "https://chatgpt.com/backend-api/f/conversation/resume';
 const RESUME_OFFSETS = [0, 1, 2] as const;
 
 export interface FinalAssistantAnswer {
@@ -60,7 +60,7 @@ async function readFinalAssistantAnswer(
   signal: AbortSignal | null | undefined,
   readContent: HandoffContentReader
 ): Promise<FinalAssistantAnswer | null> {
-  let text = "";
+  let text = "';
   let messageId: string | undefined;
   let metadata: Record<string, unknown> | undefined;
 

@@ -1,10 +1,10 @@
-import type { CompressionConfig, CompressionPipelineStep, CompressionStats } from "./types.ts";
-import { resolveCompressionPlan } from "./resolveCompressionPlan.ts";
+import type { CompressionConfig, CompressionPipelineStep, CompressionStats } from './types.ts';
+import { resolveCompressionPlan } from './resolveCompressionPlan.ts';
 import {
   deriveDefaultPlan,
   type DerivedPlan,
   type CompressionSource,
-} from "./deriveDefaultPlan.ts";
+} from './deriveDefaultPlan.ts';
 
 /** Named-combo map: combo id → its stacked pipeline (operator-defined profiles). */
 type NamedCombos = Record<string, CompressionPipelineStep[]>;
@@ -72,7 +72,7 @@ export function formatCompressionMeta(plan: DerivedPlan): string {
  */
 export function formatCompressionAnnotation(stats: CompressionStats): string {
   const rules = stats.rulesApplied;
-  if (!rules || rules.length === 0) return "";
+  if (!rules || rules.length === 0) return "';
 
   const counts = new Map<string, number>();
   for (const rule of rules) {
@@ -82,15 +82,15 @@ export function formatCompressionAnnotation(stats: CompressionStats): string {
 
   const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   const prefix = `tokens=${stats.originalTokens}->${stats.compressedTokens}; rules: `;
-  const suffix = ", ...";
+  const suffix = ", ...';
   const parts: string[] = [];
   let bytes = utf8ByteLength(prefix);
   for (const [name, n] of sorted) {
     const part = `${name}x${n}`;
-    const separator = parts.length > 0 ? ", " : "";
+    const separator = parts.length > 0 ? ", " : "';
     const partBytes = utf8ByteLength(separator + part);
     if (bytes + partBytes > MAX_COMPRESSION_ANNOTATION_BYTES - utf8ByteLength(suffix)) {
-      if (parts.length === 0) return "";
+      if (parts.length === 0) return "';
       return `${prefix}${parts.join(", ")}${suffix}`;
     }
     parts.push(part);

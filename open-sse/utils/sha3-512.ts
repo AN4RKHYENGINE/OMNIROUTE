@@ -13,7 +13,7 @@
 // runtime's crypto lacks SHA-3. The pure-JS path is validated bit-for-bit
 // against the native digest and the published FIPS-202 vectors in the unit test.
 
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 // ─── Keccak-f[1600] (BigInt lanes — correctness-first; only the fallback runs it) ──
 

@@ -1,7 +1,7 @@
-import { ANTHROPIC_VERSION_HEADER } from "../../../../anthropicHeaders.ts";
-import type { RegistryEntry, RegistryModel } from "../../../shared.ts";
-import { resolvePublicCred } from "../../../shared.ts";
-import { KIMI_CODING_ANTHROPIC_URL } from "./runtime.ts";
+import { ANTHROPIC_VERSION_HEADER } from '../../../../anthropicHeaders.ts';
+import type { RegistryEntry, RegistryModel } from '../../../shared.ts';
+import { resolvePublicCred } from '../../../shared.ts';
+import { KIMI_CODING_ANTHROPIC_URL } from './runtime.ts';
 
 export const KIMI_CODING_MODELS: RegistryModel[] = [
   {

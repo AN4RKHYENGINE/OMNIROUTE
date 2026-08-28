@@ -5,10 +5,10 @@
  * Supports local providers plus hosted task-based APIs such as Runway.
  */
 
-import { parseModelFromRegistry } from "./registryUtils.ts";
-import { RUNWAYML_SUPPORTED_VIDEO_MODELS } from "./runway.ts";
-import { SEGMIND_VIDEO_MODELS } from "./providers/registry/segmind/videoModels.ts";
-import { toRegistryVideoModels } from "../services/adobeFireflyModels.ts";
+import { parseModelFromRegistry } from './registryUtils.ts';
+import { RUNWAYML_SUPPORTED_VIDEO_MODELS } from './runway.ts';
+import { SEGMIND_VIDEO_MODELS } from './providers/registry/segmind/videoModels.ts';
+import { toRegistryVideoModels } from '../services/adobeFireflyModels.ts';
 
 interface VideoModel {
   id: string;

@@ -12,10 +12,10 @@
  * optional log line are returned for the handler to apply.
  */
 
-import { splitClaudeEffortSuffix } from "../../config/providerModels.ts";
-import { isClaudeCodeCompatibleProvider } from "../../services/claudeCodeCompatible.ts";
-import { FORMATS } from "../../translator/formats.ts";
-import { isKnownClaudeEffortBaseModel } from "../../utils/claudeEffortVariants.ts";
+import { splitClaudeEffortSuffix } from '../../config/providerModels.ts';
+import { isClaudeCodeCompatibleProvider } from '../../services/claudeCodeCompatible.ts';
+import { FORMATS } from '../../translator/formats.ts';
+import { isKnownClaudeEffortBaseModel } from '../../utils/claudeEffortVariants.ts';
 
 /**
  * True when the client already supplied an explicit reasoning effort (top-level reasoning_effort,

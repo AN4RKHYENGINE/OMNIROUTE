@@ -1,8 +1,8 @@
-import { createCompressionStats } from "../../stats.ts";
-import type { CompressionResult } from "../../types.ts";
-import type { CompressionEngine } from "../types.ts";
-import { RELEVANCE_SCHEMA, validateRelevanceConfig, resolveRelevanceConfig } from "./configSchema.ts";
-import { scoreSentences } from "./scorer.ts";
+import { createCompressionStats } from '../../stats.ts';
+import type { CompressionResult } from '../../types.ts';
+import type { CompressionEngine } from '../types.ts';
+import { RELEVANCE_SCHEMA, validateRelevanceConfig, resolveRelevanceConfig } from './configSchema.ts';
+import { scoreSentences } from './scorer.ts';
 
 // Sentence-level "never drop" guard. We canNOT reuse ultraHeuristic's FORCE_PRESERVE_RE
 // here: that token-level pattern includes `[._/\\]`, which matches the period ending EVERY
@@ -25,11 +25,11 @@ function extractText(content: unknown): string {
         if (block && typeof block === "object" && "text" in block) {
           return String((block as { text: unknown }).text);
         }
-        return "";
+        return "';
       })
       .join(" ");
   }
-  return "";
+  return "';
 }
 
 function splitSentences(text: string): string[] {
@@ -108,7 +108,7 @@ export const relevanceEngine: CompressionEngine = {
 
       const cfg = resolveRelevanceConfig((options?.stepConfig as Record<string, unknown>) ?? {});
 
-      let query = "";
+      let query = "';
       for (let i = messages.length - 1; i >= 0; i--) {
         const msg = messages[i] as Record<string, unknown>;
         if (msg.role === "user") {

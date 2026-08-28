@@ -2,34 +2,34 @@
  * Translator: OpenAI Chat Completions → OpenAI Responses API (response)
  * Converts streaming chunks from Chat Completions to Responses API events
  */
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { appendToolCallArgumentDelta } from "../../utils/toolCallArguments.ts";
-import { fallbackToolCallId } from "../helpers/toolCallHelper.ts";
-import { shouldParseTextualReasoningTags } from "../../handlers/responseSanitizer.ts";
-import { getReadableReasoningValue } from "../../utils/reasoningFields.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { appendToolCallArgumentDelta } from '../../utils/toolCallArguments.ts';
+import { fallbackToolCallId } from '../helpers/toolCallHelper.ts';
+import { shouldParseTextualReasoningTags } from '../../handlers/responseSanitizer.ts';
+import { getReadableReasoningValue } from '../../utils/reasoningFields.ts';
 import {
   isInternalReasoningPlaceholder,
   stripInternalReasoningPlaceholder,
-} from "../../utils/reasoningPlaceholder.ts";
+} from '../../utils/reasoningPlaceholder.ts';
 import {
   normalizeToolName,
   stripEmptyOptionalToolArgs,
   normalizeOutputIndex,
   normalizeUpstreamFailure,
   getVisibleResponsesReasoningSummaryText,
-} from "./openai-responses/pureHelpers.ts";
-import { createEventEmitter } from "./openai-responses/eventEmitter.ts";
-import { buildResponsesToolCallItem } from "./responsesToolItem.ts";
-import { resolveRequestToolIdentity } from "./openai-responses/requestToolIdentity.ts";
+} from './openai-responses/pureHelpers.ts';
+import { createEventEmitter } from './openai-responses/eventEmitter.ts';
+import { buildResponsesToolCallItem } from './responsesToolItem.ts';
+import { resolveRequestToolIdentity } from './openai-responses/requestToolIdentity.ts';
 import {
   synthesizeCompletedToolCalls,
   computeFinishReason,
   withAssistantRoleOnFirstDelta,
-} from "./openai-responses/synthesizeCompletedToolCalls.ts";
+} from './openai-responses/synthesizeCompletedToolCalls.ts';
 
 // normalizeUpstreamFailure is re-exported for external importers (tests).
-export { normalizeUpstreamFailure } from "./openai-responses/pureHelpers.ts";
+export { normalizeUpstreamFailure } from './openai-responses/pureHelpers.ts';
 
 /** Carries escapeJsonStringValues's scan state (whether we're inside a JSON
  * string, and whether the fragment ended mid-escape-sequence) across calls
@@ -66,7 +66,7 @@ function createJsonStringEscapeState(): JsonStringEscapeState {
  * breaking generated code (e.g. Python) that embeds multi-line content.
  */
 function escapeJsonStringValues(json: string, escapeState: JsonStringEscapeState): string {
-  let result = "";
+  let result = "';
   let { inString, pendingEscape } = escapeState;
 
   for (let i = 0; i < json.length; i++) {
@@ -99,7 +99,7 @@ function escapeJsonStringValues(json: string, escapeState: JsonStringEscapeState
 
     // Escape control characters only inside string values
     if (inString && (ch === "\n" || ch === "\r" || ch === "\t")) {
-      result += ch === "\n" ? "\\n" : ch === "\r" ? "\\r" : "\\t";
+      result += ch === "\n" ? "\\n" : ch === "\r" ? "\\r" : "\\t';
       continue;
     }
 
@@ -445,14 +445,14 @@ function emitTextContent(state, emit, idx, content) {
     logprobs: [],
   });
 
-  if (!state.msgTextBuf[idx]) state.msgTextBuf[idx] = "";
+  if (!state.msgTextBuf[idx]) state.msgTextBuf[idx] = "';
   state.msgTextBuf[idx] += content;
 }
 
 function closeMessage(state, emit, idx) {
   if (state.msgItemAdded[idx] && !state.msgItemDone[idx]) {
     state.msgItemDone[idx] = true;
-    const fullText = state.msgTextBuf[idx] || "";
+    const fullText = state.msgTextBuf[idx] || "';
     const normalizedIndex = normalizeOutputIndex(idx);
     const msgId = `msg_${state.responseId}_${normalizedIndex}`;
 
@@ -528,7 +528,7 @@ function emitToolCall(state, emit, tc) {
 
   // Custom tools are surfaced as custom_tool_call items and stream raw input instead of the
   // function_call_arguments.* events used for regular function tools. (#1007)
-  const toolName = state.funcNames[tcIdx] || funcName || "";
+  const toolName = state.funcNames[tcIdx] || funcName || "';
   const isCustomTool =
     toolName === "apply_patch" || state.customToolNames?.has?.(toolName) === true;
 
@@ -552,7 +552,7 @@ function emitToolCall(state, emit, tc) {
     });
     state.funcItemAdded[tcIdx] = true;
 
-    const bufferedArgs = state.funcArgsBuf[tcIdx] || "";
+    const bufferedArgs = state.funcArgsBuf[tcIdx] || "';
     if (bufferedArgs && !isCustomTool) {
       emit("response.function_call_arguments.delta", {
         type: "response.function_call_arguments.delta",
@@ -563,11 +563,11 @@ function emitToolCall(state, emit, tc) {
     }
   }
 
-  if (!state.funcArgsBuf[tcIdx]) state.funcArgsBuf[tcIdx] = "";
+  if (!state.funcArgsBuf[tcIdx]) state.funcArgsBuf[tcIdx] = "';
 
   if (tc.function?.arguments) {
     const refCallId = state.funcCallIds[tcIdx] || newCallId;
-    const existingArgs = state.funcArgsBuf[tcIdx] || "";
+    const existingArgs = state.funcArgsBuf[tcIdx] || "';
     if (!state.funcArgsEscapeState) state.funcArgsEscapeState = {};
     if (!state.funcArgsEscapeState[tcIdx]) {
       state.funcArgsEscapeState[tcIdx] = createJsonStringEscapeState();
@@ -595,8 +595,8 @@ function closeToolCall(state, emit, idx, recordAsCompleted = true) {
   const callId = state.funcCallIds[idx];
   if (callId && !state.funcItemDone[idx]) {
     const normalizedIndex = toolCallOutputIndexBase(state) + normalizeOutputIndex(idx);
-    const args = state.funcArgsBuf[idx] || "{}";
-    const toolName = state.funcNames[idx] || "";
+    const args = state.funcArgsBuf[idx] || "{}';
+    const toolName = state.funcNames[idx] || "';
     const isCustomTool =
       toolName === "apply_patch" || state.customToolNames?.has?.(toolName) === true;
 
@@ -774,7 +774,7 @@ function flushEvents(state) {
 // global fallback for streams whose deltas carry no item_id.
 function markResponsesReasoningDeltaEmitted(state, itemId) {
   state.reasoningDeltaEmitted = true;
-  const id = itemId != null ? String(itemId) : "";
+  const id = itemId != null ? String(itemId) : "';
   if (!id) return;
   if (!(state.reasoningItemsWithDelta instanceof Set)) {
     state.reasoningItemsWithDelta = new Set();
@@ -789,7 +789,7 @@ function markResponsesReasoningDeltaEmitted(state, itemId) {
 // in pureHelpers.ts) because it reads and mutates stream state, which the pure
 // leaf must not hold.
 function buildResponsesReasoningSummaryDelta(state, data, reasoningDelta) {
-  const itemId = data.item_id != null ? String(data.item_id) : "";
+  const itemId = data.item_id != null ? String(data.item_id) : "';
   const summaryIndex = typeof data.summary_index === "number" ? data.summary_index : null;
   if (!(state.reasoningSummaryIndex instanceof Map)) {
     state.reasoningSummaryIndex = new Map();
@@ -859,10 +859,10 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
       );
       const argsStr =
         typeof argsToEmit === "string" ? argsToEmit : JSON.stringify(argsToEmit ?? {});
-      state.currentToolCallArgsBuffer = "";
+      state.currentToolCallArgsBuffer = "';
       state.currentToolCallNeedsNormalization = false;
       state.finishReasonSent = true;
-      state.finishReason = "tool_calls";
+      state.finishReason = "tool_calls';
       const common = {
         id: state.chatId,
         object: "chat.completion.chunk",
@@ -937,7 +937,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
 
   // Text content delta
   if (eventType === "response.output_text.delta") {
-    const delta = data.delta || "";
+    const delta = data.delta || "';
     if (!delta) return null;
 
     return {
@@ -974,7 +974,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
     const toolName = normalizeToolName(item.name);
     state.currentToolName = toolName; // track for schema lookup at done time
     state.currentToolCallName = toolName;
-    state.currentToolCallNeedsNormalization = toolName === "Agent";
+    state.currentToolCallNeedsNormalization = toolName === "Agent';
     if (!toolName) {
       // Some Responses providers briefly emit placeholder/empty tool names.
       // Defer emission until output_item.done in case the final name is populated there.
@@ -1014,7 +1014,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
   // should have them. Including `id` on every chunk causes openai-to-claude.ts to emit
   // a new content_block_start for each delta, breaking Claude Code ACP sessions.
   if (eventType === "response.function_call_arguments.delta") {
-    const argsDelta = data.delta || "";
+    const argsDelta = data.delta || "';
     if (!argsDelta) return null;
 
     state.currentToolCallArgsBuffer = (state.currentToolCallArgsBuffer || "") + argsDelta;
@@ -1030,12 +1030,12 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
   // carry the complete arguments only in output_item.done (no preceding delta events).
   if (eventType === "response.output_item.done" && data.item?.type === "function_call") {
     const item = data.item;
-    const buffered = state.currentToolCallArgsBuffer || "";
+    const buffered = state.currentToolCallArgsBuffer || "';
     const currentIndex = state.toolCallIndex; // capture before increment
     const callId = item.call_id || state.currentToolCallId || fallbackToolCallId();
     const toolName = normalizeToolName(item.name);
     const toolSchema = state.toolSchemas?.get(toolName);
-    const shouldNormalizeArguments = toolName === "Agent";
+    const shouldNormalizeArguments = toolName === "Agent';
     state.currentToolCallNeedsNormalization = shouldNormalizeArguments;
 
     // Track this call_id so response.completed doesn't synthesize a duplicate
@@ -1044,7 +1044,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
 
     if (state.currentToolCallDeferred) {
       state.currentToolCallDeferred = false;
-      state.currentToolCallArgsBuffer = "";
+      state.currentToolCallArgsBuffer = "';
       state.currentToolCallId = null;
 
       if (!toolName) {
@@ -1100,7 +1100,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
     state.currentToolCallId = null;
     const needsNormalization = state.currentToolCallNeedsNormalization === true;
     state.currentToolCallNeedsNormalization = false;
-    state.currentToolCallName = "";
+    state.currentToolCallName = "';
 
     // Nullable omission sentinels must be normalized before any argument bytes reach the client.
     // Other tool calls retain immediate argument streaming.
@@ -1267,7 +1267,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
     eventType === "response.reasoning_content_text.delta" ||
     eventType === "response.reasoning_text.delta"
   ) {
-    const reasoningDelta = data.delta || "";
+    const reasoningDelta = data.delta || "';
     if (!reasoningDelta) return null;
     markResponsesReasoningDeltaEmitted(state, data.item_id);
     return {
@@ -1290,7 +1290,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
   // (OpenCode, Claude Code, Cursor, etc.) render in their thinking panel. A nested
   // `delta.reasoning.summary` object is swallowed by most stream mergers.
   if (eventType === "response.reasoning_summary_text.delta") {
-    const reasoningDelta = data.delta || "";
+    const reasoningDelta = data.delta || "';
     if (!reasoningDelta) return null;
     markResponsesReasoningDeltaEmitted(state, data.item_id);
     const deltaText = buildResponsesReasoningSummaryDelta(state, data, reasoningDelta);
@@ -1305,7 +1305,7 @@ function openaiResponsesToOpenAIResponseStream(chunk, state) {
   // delta streams are never duplicated.
   if (eventType === "response.output_item.done" && data.item?.type === "reasoning") {
     const item = data.item;
-    const itemId = item.id != null ? String(item.id) : "";
+    const itemId = item.id != null ? String(item.id) : "';
     const emittedForItem =
       state.reasoningItemsWithDelta instanceof Set &&
       itemId &&

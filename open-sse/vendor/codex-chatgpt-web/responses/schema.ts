@@ -1,5 +1,5 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import * as z from "zod/v4";
+import * as z from 'zod/v4';
 
 const inputTextSchema = z.object({ type: z.literal("input_text"), text: z.string() });
 const plainTextSchema = z.object({ type: z.literal("text"), text: z.string() });

@@ -28,11 +28,11 @@
  *   FREEMODEL_7D_REQUEST_LIMIT (default 2000)
  */
 
-import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
+import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
 
-export const FREEMODEL_WINDOW_5H = "window5h";
-export const FREEMODEL_WINDOW_7D = "window7d";
+export const FREEMODEL_WINDOW_5H = "window5h';
+export const FREEMODEL_WINDOW_7D = "window7d';
 
 const FIVE_HOURS_MS = 5 * 60 * 60 * 1000;
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;

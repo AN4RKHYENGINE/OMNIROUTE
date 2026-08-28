@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import {
   MCP_TOOLS,
   MCP_TOOL_MAP,
@@ -8,8 +8,8 @@ import {
   cacheFlushInput,
   cacheStatsTool,
   cacheFlushTool,
-} from "../schemas/tools.ts";
-import { createMcpServer } from "../server.ts";
+} from '../schemas/tools.ts';
+import { createMcpServer } from '../server.ts';
 
 vi.mock("../audit.ts", () => ({
   logToolCall: vi.fn().mockResolvedValue(undefined),

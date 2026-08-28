@@ -72,7 +72,7 @@ const DEFAULT_DEGRADATION_MAP: Record<string, string> = {
 // is duplicated per graph, so the operator's opt-in (`enabled:true`) applied at boot
 // never reaches the request path — the degradation silently never fires (the
 // #5312-class module-graph bug). Mirrors systemPrompt.ts (#2470) and thinkingBudget.ts.
-const GLOBAL_KEY = "__omniroute_backgroundDegradation_config__";
+const GLOBAL_KEY = "__omniroute_backgroundDegradation_config__';
 const _store = globalThis as unknown as Record<string, DegradationConfig | undefined>;
 
 function getConfig(): DegradationConfig {
@@ -148,9 +148,9 @@ function toFiniteNumber(value: unknown): number | null {
 }
 
 function headerValue(headers: Record<string, string> | null, key: string): string {
-  if (!headers) return "";
+  if (!headers) return "';
   const value = headers[key] ?? headers[key.toLowerCase()] ?? headers[key.toUpperCase()];
-  return typeof value === "string" ? value.trim() : "";
+  return typeof value === "string" ? value.trim() : "';
 }
 
 /**
@@ -174,7 +174,7 @@ export function getBackgroundTaskReason(
     const initiator = headerValue(headers, "x-initiator");
     const explicitValue = [taskType, priority, initiator].find(Boolean);
     if (explicitValue && explicitValue.toLowerCase() === "background") {
-      return "header_background";
+      return "header_background';
     }
   }
 
@@ -183,7 +183,7 @@ export function getBackgroundTaskReason(
     typedBody.max_tokens ?? typedBody.max_completion_tokens ?? typedBody.max_output_tokens
   );
   if (maxTokens !== null && maxTokens > 0 && maxTokens < 50) {
-    return "low_max_tokens";
+    return "low_max_tokens';
   }
 
   // 3. Check system prompt for background task patterns
@@ -195,7 +195,7 @@ export function getBackgroundTaskReason(
   const systemMsg = messages.find(
     (message: BackgroundMessage) => message.role === "system" || message.role === "developer"
   );
-  let systemContent = "";
+  let systemContent = "';
   if (systemMsg && typeof systemMsg.content === "string") {
     systemContent = systemMsg.content.toLowerCase();
   } else if (!systemMsg) {
@@ -229,7 +229,7 @@ export function getBackgroundTaskReason(
   const userMessages = messages.filter((message: BackgroundMessage) => message.role === "user");
   if (userMessages.length > 3) return null; // Too many turns for a background task
 
-  return "system_prompt_pattern";
+  return "system_prompt_pattern';
 }
 
 /**

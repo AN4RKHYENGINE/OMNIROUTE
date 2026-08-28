@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { buildOpenAiCompatibleRegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { buildOpenAiCompatibleRegistryEntry } from '../../shared.ts';
 
 // International endpoint; audited free access is limited to non-commercial use.
 export const chatanywhereProvider: RegistryEntry = buildOpenAiCompatibleRegistryEntry({

@@ -52,7 +52,7 @@ function stripAndCollectToolResults(
     }
 
     if (!collectMatchedToolResult(block, assistantByToolUseId, resultsByAssistant)) {
-      const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "";
+      const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "';
       const serialized =
         typeof block.content === "string"
           ? block.content
@@ -74,7 +74,7 @@ function collectMatchedToolResult(
   assistantByToolUseId: Map<string, ClaudeMessage>,
   resultsByAssistant: Map<ClaudeMessage, ClaudeContentBlock[]>
 ): boolean {
-  const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "";
+  const toolUseId = typeof block.tool_use_id === "string" ? block.tool_use_id : "';
   const assistant = toolUseId ? assistantByToolUseId.get(toolUseId) : undefined;
   if (!assistant) return false;
 

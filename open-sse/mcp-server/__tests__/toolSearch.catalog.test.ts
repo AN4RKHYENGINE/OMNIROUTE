@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { getAllToolDefinitions } from "../toolSearch/catalog.ts";
+import { describe, it, expect } from 'vitest';
+import { getAllToolDefinitions } from '../toolSearch/catalog.ts';
 
 describe("getAllToolDefinitions", () => {
   const all = getAllToolDefinitions();

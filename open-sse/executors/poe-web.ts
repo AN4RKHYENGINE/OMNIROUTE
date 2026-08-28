@@ -7,13 +7,13 @@
  * Endpoint: POST https://www.poe.com/api/gql_POST
  * Auth: p-b cookie from poe.com
  */
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from '../utils/error.ts';
 
-const BASE_URL = "https://www.poe.com";
+const BASE_URL = "https://www.poe.com';
 const GQL_URL = `${BASE_URL}/api/gql_POST`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // Model name mapping: OmniRoute ID -> Poe bot name
 const MODEL_MAP: Record<string, string> = {
@@ -44,12 +44,12 @@ export class PoeWebExecutor extends BaseExecutor {
     const pbCookie = extractPbCookie(rawCookie);
 
     const messages = (bodyObj.messages as Array<{ role: string; content: string }>) || [];
-    const requestedModel = (bodyObj.model as string) || "poe-default";
+    const requestedModel = (bodyObj.model as string) || "poe-default';
     const botName = MODEL_MAP[requestedModel] || requestedModel;
 
     // Build Poe GraphQL query for chat
     const lastUserMsg = messages.filter((m) => m.role === "user").pop();
-    const prompt = lastUserMsg?.content || "";
+    const prompt = lastUserMsg?.content || "';
 
     const gqlBody = {
       operationName: "ChatViewQuery",
@@ -98,7 +98,7 @@ export class PoeWebExecutor extends BaseExecutor {
     const data = (await upstream.json()) as Record<string, unknown>;
     const inner = (data.data ?? {}) as Record<string, unknown>;
     const chatData = (inner.chatWithBot ?? {}) as Record<string, unknown>;
-    const text = (chatData.text as string) || "";
+    const text = (chatData.text as string) || "';
 
     if (!wantStream) {
       return {

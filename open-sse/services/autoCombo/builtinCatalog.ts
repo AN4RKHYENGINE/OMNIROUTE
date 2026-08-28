@@ -1,8 +1,8 @@
-import type { AutoVariant } from "./autoPrefix";
-import { VALID_VARIANTS } from "./autoPrefix";
-import type { PreparedVirtualAutoComboInputs } from "./virtualFactory";
-import { parseAutoSuffix, type AutoCategory, type AutoTier } from "./suffixComposition";
-import { isValidModelFamily, AUTO_FAMILY_IDS } from "./modelFamily";
+import type { AutoVariant } from './autoPrefix';
+import { VALID_VARIANTS } from './autoPrefix';
+import type { PreparedVirtualAutoComboInputs } from './virtualFactory';
+import { parseAutoSuffix, type AutoCategory, type AutoTier } from './suffixComposition';
+import { isValidModelFamily, AUTO_FAMILY_IDS } from './modelFamily';
 
 export { AUTO_FAMILY_IDS };
 
@@ -110,7 +110,7 @@ export function isPaidTierAutoId(autoId: string): boolean {
   const suffix = autoId.slice("auto/".length);
   if (suffix.startsWith("pro-")) return true;
   const parsed = parseAutoSuffix(suffix);
-  return parsed.valid && parsed.tier === "pro";
+  return parsed.valid && parsed.tier === "pro';
 }
 
 /**

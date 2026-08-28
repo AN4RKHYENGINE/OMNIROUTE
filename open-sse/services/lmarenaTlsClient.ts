@@ -15,18 +15,18 @@
  * create-evaluation; TLS alone is necessary but not always sufficient.
  */
 
-import { tmpdir } from "node:os";
-import { join, dirname } from "node:path";
-import { mkdtemp, open, unlink, rmdir, stat } from "node:fs/promises";
-import { randomUUID } from "node:crypto";
-import { buildNativeTlsClientOptions } from "./tlsClientDownloadDir.ts";
+import { tmpdir } from 'node:os';
+import { join, dirname } from 'node:path';
+import { mkdtemp, open, unlink, rmdir, stat } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
+import { buildNativeTlsClientOptions } from './tlsClientDownloadDir.ts';
 
 let clientPromise: Promise<unknown> | null = null;
 let exitHookInstalled = false;
 
 // Newest Chrome JA3 profile shipped by tls-client-node (no chrome_147+ yet).
 // HTTP User-Agent / Sec-Ch-Ua track Chrome 150 separately in models.ts.
-const LMARENA_PROFILE = "chrome_146";
+const LMARENA_PROFILE = "chrome_146';
 // Fixed timeouts (same defaults as other TLS sidecars). No extra env knobs —
 // env-doc-sync must not grow for provider-local constants.
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -71,7 +71,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError";
+    this.name = "TlsClientHangError';
   }
 }
 
@@ -169,12 +169,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError";
+    this.name = "TlsClientUnavailableError';
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -204,8 +204,8 @@ export interface TlsFetchOptions {
   proxyUrl?: string;
 }
 
-import { resolveProxyForRequest } from "../utils/proxyFetch.ts";
-import { resolveTlsClientProxyUrl } from "./tlsClientProxy.ts";
+import { resolveProxyForRequest } from '../utils/proxyFetch.ts';
+import { resolveTlsClientProxyUrl } from './tlsClientProxy.ts';
 
 /**
  * Resolve the proxy URL for a tls-client request. Per-call value wins;
@@ -317,7 +317,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError";
+  err.name = "AbortError';
   return err;
 }
 
@@ -522,10 +522,10 @@ async function drainRemaining(
 ): Promise<"closed" | "drained"> {
   while (true) {
     const { bytesRead } = await fd.read(buf, 0, buf.length, offsetRef.offset);
-    if (bytesRead === 0) return "drained";
+    if (bytesRead === 0) return "drained';
     const chunk = buf.subarray(0, bytesRead);
     offsetRef.offset += bytesRead;
-    if (enqueueChunkMaybeEof(controller, chunk, eofSymbol)) return "closed";
+    if (enqueueChunkMaybeEof(controller, chunk, eofSymbol)) return "closed';
   }
 }
 

@@ -13,11 +13,11 @@
  * `resolveShadowTargets`, never during module init.
  */
 
-import { secureRandomFloat } from "@shared/utils/secureRandom";
-import { recordComboShadowRequest } from "../comboMetrics.ts";
-import { isRecord } from "./comboData.ts";
-import { filterVisibleComboTargets, resolveNestedComboTargets } from "./comboStructure.ts";
-import { toRecordedTarget } from "./comboPredicates.ts";
+import { secureRandomFloat } from '@shared/utils/secureRandom';
+import { recordComboShadowRequest } from '../comboMetrics.ts';
+import { isRecord } from './comboData.ts';
+import { filterVisibleComboTargets, resolveNestedComboTargets } from './comboStructure.ts';
+import { toRecordedTarget } from './comboPredicates.ts';
 import type {
   ComboLike,
   ComboCollectionLike,
@@ -27,7 +27,7 @@ import type {
   IsModelAvailable,
   ResolvedComboTarget,
   ShadowRoutingConfig,
-} from "./types.ts";
+} from './types.ts';
 
 function normalizeShadowRoutingConfig(config: Record<string, unknown>): ShadowRoutingConfig {
   const raw = isRecord(config.shadowRouting) ? config.shadowRouting : {};

@@ -29,13 +29,13 @@ import {
   getRuntimeProviderProfile,
   isAccountUnavailable,
   type ProviderProfile,
-} from "../accountFallback.ts";
-import { PRE_SCREEN_CONCURRENCY } from "../comboConfig.ts";
-import { getQuotaFetcher } from "../quotaPreflight.ts";
-import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
-import { getCachedProviderConnections } from "@lib/db/readCache";
-import { MAX_RR_COUNTERS, rrCounters } from "./rrState.ts";
-import type { ResolvedComboTarget, IsModelAvailable } from "./types.ts";
+} from '../accountFallback.ts';
+import { PRE_SCREEN_CONCURRENCY } from '../comboConfig.ts';
+import { getQuotaFetcher } from '../quotaPreflight.ts';
+import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
+import { getCachedProviderConnections } from '@lib/db/readCache';
+import { MAX_RR_COUNTERS, rrCounters } from './rrState.ts';
+import type { ResolvedComboTarget, IsModelAvailable } from './types.ts';
 import {
   resolveResetAwareConfig,
   resolveResetWindowConfig,
@@ -43,10 +43,10 @@ import {
   scoreResetAwareQuota,
   getResetWindowRemainingMs,
   type QuotaFetchCacheConfig,
-} from "./quotaScoring.ts";
-import { rankByHeadroom, type HeadroomSaturation } from "./headroomRanking.ts";
-import { preferAntigravityConnectionsWithStoredProject } from "../antigravityProjectPersist.ts";
-import { isQuotaExhaustedForRequest } from "../../../src/domain/quotaCache.ts";
+} from './quotaScoring.ts';
+import { rankByHeadroom, type HeadroomSaturation } from './headroomRanking.ts';
+import { preferAntigravityConnectionsWithStoredProject } from '../antigravityProjectPersist.ts';
+import { isQuotaExhaustedForRequest } from '../../../src/domain/quotaCache.ts';
 
 const RESET_AWARE_CONNECTION_CACHE_TTL_MS = 30_000;
 const RESET_AWARE_QUOTA_FETCH_CONCURRENCY = 5;

@@ -1,11 +1,11 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
 } from '@lib/combos/steps.ts';
-import { registerToolSearchTool } from "./toolSearch/register.ts";
+import { registerToolSearchTool } from './toolSearch/register.ts';
 import {
   MCP_TOOLS,
   getHealthInput,
@@ -36,17 +36,17 @@ import {
   oneproxyFetchInput,
   oneproxyRotateInput,
   oneproxyStatsInput,
-} from "./schemas/tools.ts";
-import { startMcpHeartbeat } from "./runtimeHeartbeat.ts";
-import { countUniqueMcpTools } from "./toolCount.ts";
-import { z } from "zod";
-import { closeAuditDb, logToolCall } from "./audit.ts";
+} from './schemas/tools.ts';
+import { startMcpHeartbeat } from './runtimeHeartbeat.ts';
+import { countUniqueMcpTools } from './toolCount.ts';
+import { z } from 'zod';
+import { closeAuditDb, logToolCall } from './audit.ts';
 import {
   evaluateToolScopes,
   resolveCallerScopeContext,
   type McpToolExtraLike,
-} from "./scopeEnforcement.ts";
-import { getMcpHttpAuthHeadersForInternalFetch } from "./httpAuthContext.ts";
+} from './scopeEnforcement.ts';
+import { getMcpHttpAuthHeadersForInternalFetch } from './httpAuthContext.ts';
 import { getInternalServiceAuthHeaders } from '@lib/api/internalServiceAuth.ts';
 import {
   handleSimulateRoute,
@@ -65,38 +65,38 @@ import {
   handleOneproxyFetch,
   handleOneproxyRotate,
   handleOneproxyStats,
-} from "./tools/advancedTools.ts";
-import { handlePickFastestModel } from "./tools/pickFastestModel.ts";
-import { memoryTools } from "./tools/memoryTools.ts";
-import { skillTools } from "./tools/skillTools.ts";
-import { agentSkillTools } from "./tools/agentSkillTools.ts";
-import { githubSkillTools } from "./tools/githubSkillTools.ts";
+} from './tools/advancedTools.ts';
+import { handlePickFastestModel } from './tools/pickFastestModel.ts';
+import { memoryTools } from './tools/memoryTools.ts';
+import { skillTools } from './tools/skillTools.ts';
+import { agentSkillTools } from './tools/agentSkillTools.ts';
+import { githubSkillTools } from './tools/githubSkillTools.ts';
 import { skillRegistry } from '@lib/skills/registry.ts';
 import { skillExecutor } from '@lib/skills/executor.ts';
-import { pluginTools } from "./tools/pluginTools.ts";
-import { compressionTools } from "./tools/compressionTools.ts";
-import { poolTools } from "./tools/poolTools.ts";
-import { gamificationTools } from "./tools/gamificationTools.ts";
-import { notionTools } from "./tools/notionTools.ts";
-import { obsidianTools } from "./tools/obsidianTools.ts";
-import { localCorpusTools } from "./tools/localCorpusTools.ts";
-import { compressMcpRegistryMetadata } from "./descriptionCompressor.ts";
-import { reduceToolManifest, readMcpToolProfileFromEnv } from "./toolCardinality.ts";
-import { smartFilterText } from "../services/compression/engines/mcpAccessibility/index.ts";
+import { pluginTools } from './tools/pluginTools.ts';
+import { compressionTools } from './tools/compressionTools.ts';
+import { poolTools } from './tools/poolTools.ts';
+import { gamificationTools } from './tools/gamificationTools.ts';
+import { notionTools } from './tools/notionTools.ts';
+import { obsidianTools } from './tools/obsidianTools.ts';
+import { localCorpusTools } from './tools/localCorpusTools.ts';
+import { compressMcpRegistryMetadata } from './descriptionCompressor.ts';
+import { reduceToolManifest, readMcpToolProfileFromEnv } from './toolCardinality.ts';
+import { smartFilterText } from '../services/compression/engines/mcpAccessibility/index.ts';
 import {
   DEFAULT_MCP_ACCESSIBILITY_CONFIG,
   clampMcpAccessibilityConfig,
   type McpAccessibilityConfig,
-} from "../services/compression/engines/mcpAccessibility/constants.ts";
+} from '../services/compression/engines/mcpAccessibility/constants.ts';
 import { getDbInstance } from '@lib/db/core.ts';
 import { normalizeQuotaResponse } from '@shared/contracts/quota.ts';
 import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts';
-import { sanitizeErrorMessage } from "../utils/error.ts";
-import { getMcpModelsCatalog } from "./catalog.ts";
-export { getMcpModelsCatalog } from "./catalog.ts";
+import { sanitizeErrorMessage } from '../utils/error.ts';
+import { getMcpModelsCatalog } from './catalog.ts';
+export { getMcpModelsCatalog } from './catalog.ts';
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
-const MCP_ENFORCE_SCOPES = process.env.OMNIROUTE_MCP_ENFORCE_SCOPES === "true";
+const MCP_ENFORCE_SCOPES = process.env.OMNIROUTE_MCP_ENFORCE_SCOPES === "true';
 const MCP_ALLOWED_SCOPES = new Set(
   (process.env.OMNIROUTE_MCP_SCOPES || "")
     .split(",")
@@ -192,7 +192,7 @@ function normalizeComboModels(
 }
 
 function getOmniRouteApiKey(): string {
-  return process.env.OMNIROUTE_API_KEY || "";
+  return process.env.OMNIROUTE_API_KEY || "';
 }
 
 export async function omniRouteFetch(path: string, options: RequestInit = {}): Promise<unknown> {
@@ -236,8 +236,8 @@ function withScopeEnforcement(
     );
     if (!scopeCheck.allowed) {
       const missingScopes =
-        scopeCheck.missing.length > 0 ? scopeCheck.missing.join(", ") : "unavailable";
-      const reason = scopeCheck.reason || "scope_check_failed";
+        scopeCheck.missing.length > 0 ? scopeCheck.missing.join(", ") : "unavailable';
+      const reason = scopeCheck.reason || "scope_check_failed';
       const msg =
         `Insufficient MCP scopes for ${toolName}. ` +
         `Missing: ${missingScopes}. ` +
@@ -276,7 +276,7 @@ function withScopeEnforcement(
 function toUptimeString(value: unknown): string {
   if (typeof value === "string") return value;
   if (typeof value === "number" && Number.isFinite(value)) return String(value);
-  return "unknown";
+  return "unknown';
 }
 
 async function handleGetHealth() {
@@ -445,7 +445,7 @@ async function handleCreateCombo(args: {
 async function handleCheckQuota(args: { provider?: string; connectionId?: string }) {
   const start = Date.now();
   try {
-    let path = "/api/usage/quota";
+    let path = "/api/usage/quota';
     if (args.connectionId) path += `?connectionId=${encodeURIComponent(args.connectionId)}`;
     else if (args.provider) path += `?provider=${encodeURIComponent(args.provider)}`;
 
@@ -538,14 +538,14 @@ async function handleRouteRequest(args: {
 async function handleCostReport(args: { period?: string }) {
   const start = Date.now();
   try {
-    const period = args.period || "session";
+    const period = args.period || "session';
     const rangeMap: Record<string, string> = {
       session: "1d",
       day: "1d",
       week: "7d",
       month: "30d",
     };
-    const range = rangeMap[period] || "30d";
+    const range = rangeMap[period] || "30d';
     const raw = toRecord(
       await omniRouteFetch(`/api/usage/analytics?range=${encodeURIComponent(range)}`)
     );
@@ -600,7 +600,7 @@ async function handleListModelsCatalog(args: { provider?: string; capability?: s
 async function handleWebSearch(args: {
   query: string;
   max_results?: number;
-  search_type?: "web" | "news";
+  search_type?: "web" | "news';
   provider?:
     | "serper-search"
     | "brave-search"
@@ -610,7 +610,7 @@ async function handleWebSearch(args: {
     | "google-pse-search"
     | "linkup-search"
     | "searchapi-search"
-    | "searxng-search";
+    | "searxng-search';
 }) {
   const start = Date.now();
   try {
@@ -637,8 +637,8 @@ async function handleWebSearch(args: {
 
 async function handleWebFetch(args: {
   url: string;
-  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish";
-  format?: "markdown" | "html" | "links" | "screenshot";
+  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish';
+  format?: "markdown" | "html" | "links" | "screenshot';
   include_metadata?: boolean;
   depth?: number;
   wait_for_selector?: string;
@@ -1392,7 +1392,7 @@ export function createMcpServer(): McpServer {
           toolName,
           async (args, extra) => {
             const scopeContext = resolveCallerScopeContext(extra, Array.from(MCP_ALLOWED_SCOPES));
-            const apiKeyId = scopeContext.callerId || "mcp";
+            const apiKeyId = scopeContext.callerId || "mcp';
             try {
               const execution = await skillExecutor.execute(
                 skill.name,
@@ -1436,7 +1436,7 @@ export async function startMcpStdio(): Promise<void> {
   // createMcpServer()'s tool registration, earlier than any code placed here could catch).
   const server = createMcpServer();
   const transport = new StdioServerTransport();
-  const version = process.env.npm_package_version || "1.8.1";
+  const version = process.env.npm_package_version || "1.8.1';
   const stopHeartbeat = startMcpHeartbeat({
     version,
     scopesEnforced: MCP_ENFORCE_SCOPES,

@@ -1,11 +1,11 @@
-import { FORMATS } from "../../translator/formats.ts";
+import { FORMATS } from '../../translator/formats.ts';
 import {
   parseSSEToResponsesOutput,
   parseSSEToClaudeResponse,
   parseSSEToOpenAIResponse,
-} from "../sseParser.ts";
-import { parseSSEToGeminiResponse } from "../sseParser/geminiResponse.ts";
-import { getHeaderValueCaseInsensitive } from "./headers.ts";
+} from '../sseParser.ts';
+import { parseSSEToGeminiResponse } from '../sseParser/geminiResponse.ts';
+import { getHeaderValueCaseInsensitive } from './headers.ts';
 
 export function parseNonStreamingSSEPayload(
   rawBody: string,
@@ -133,7 +133,7 @@ function processNonStreamingSseTerminalLine(
   const trimmed = rawLine.trim();
   if (!trimmed || trimmed.startsWith(":")) {
     const terminalEventOnly = !trimmed && isNonStreamingSseTerminalType(state.currentEvent);
-    if (!trimmed) state.currentEvent = "";
+    if (!trimmed) state.currentEvent = "';
     return terminalEventOnly;
   }
 
@@ -192,7 +192,7 @@ export function appendNonStreamingSseTerminalSignal(
   chunk: string
 ): boolean {
   const lines = `${state.pendingLine}${chunk}`.split(/\r?\n/);
-  state.pendingLine = lines.pop() ?? "";
+  state.pendingLine = lines.pop() ?? "';
 
   for (const rawLine of lines) {
     if (processNonStreamingSseTerminalLine(state, rawLine)) return true;

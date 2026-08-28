@@ -24,8 +24,8 @@
  *     surfaces raw per-model outputs.
  */
 
-import { errorResponse } from "../../utils/error.ts";
-import type { ComboLogger, HandleSingleModel } from "../combo/types.ts";
+import { errorResponse } from '../../utils/error.ts';
+import type { ComboLogger, HandleSingleModel } from '../combo/types.ts';
 
 export const CHAOS_DEFAULTS = {
   /** Absolute cap on wall time for the whole panel. */
@@ -109,8 +109,8 @@ function withTimeout<T>(
 }
 
 /** Encoded SSE string builder — avoids re-encoding the same separator. */
-const SSE_SEP = "\n\n";
-const SSE_DONE = "data: [DONE]\n\n";
+const SSE_SEP = "\n\n';
+const SSE_DONE = "data: [DONE]\n\n';
 
 /**
  * Build a standard OpenAI-style chat.completion.chunk SSE data line.
@@ -245,7 +245,7 @@ async function extractText(res: Response): Promise<string> {
   try {
     raw = await res.clone().text();
   } catch {
-    return "";
+    return "';
   }
   const trimmed = raw.trim();
   if (trimmed.startsWith("{")) {
@@ -262,11 +262,11 @@ async function extractText(res: Response): Promise<string> {
   }
   const sse = concatSseText(raw);
   if (sse) return sse;
-  return trimmed.length > 0 && !trimmed.startsWith("data:") ? trimmed : "";
+  return trimmed.length > 0 && !trimmed.startsWith("data:") ? trimmed : "';
 }
 
 function firstTextFromOpenAI(obj: unknown): string {
-  if (!obj || typeof obj !== "object") return "";
+  if (!obj || typeof obj !== "object") return "';
   const o = obj as Record<string, unknown>;
   const choices = o.choices as Array<Record<string, unknown>> | undefined;
   if (Array.isArray(choices) && choices.length > 0) {
@@ -276,7 +276,7 @@ function firstTextFromOpenAI(obj: unknown): string {
     if (delta && typeof delta.content === "string") return delta.content;
   }
   if (typeof o.content === "string") return o.content;
-  return "";
+  return "';
 }
 
 /**
@@ -410,7 +410,7 @@ export async function handleChaosChat(opts: {
       }
 
       if (successes.length === 0) {
-        const errText = "All chaos panel models failed";
+        const errText = "All chaos panel models failed';
         await safeEnqueue(chatChunk(chunkId, panel[0], errText));
         await safeEnqueue(SSE_DONE);
         await enqueueChain;

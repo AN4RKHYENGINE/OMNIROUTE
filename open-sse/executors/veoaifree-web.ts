@@ -6,21 +6,21 @@
  *
  * No auth required. Rate limited to 6 requests/hour per IP.
  */
-import dns from "node:dns";
-import { isIP } from "node:net";
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import dns from 'node:dns';
+import { isIP } from 'node:net';
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 import {
   OutboundUrlGuardError,
   isPrivateHost,
   parseAndValidatePublicUrl,
-} from "@/shared/network/outboundUrlGuard";
+} from '@/shared/network/outboundUrlGuard';
 
-const BASE_URL = "https://veoaifree.com";
+const BASE_URL = "https://veoaifree.com';
 const AJAX_URL = `${BASE_URL}/wp-admin/admin-ajax.php`;
 const TTS_URL = `${BASE_URL}/video/googletts.php`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 const POLL_INTERVAL_MS = 20_000;
 const MAX_POLLS = 30; // 10 minutes max
 const FETCH_TIMEOUT_MS = 30_000;
@@ -30,7 +30,7 @@ const ARTIFACT_READY_RETRY_INTERVAL_MS = 5_000;
 const ARTIFACT_READY_MAX_ATTEMPTS = 12;
 const RETRYABLE_ARTIFACT_STATUSES = new Set([202, 404, 409, 425]);
 
-type ToolIntent = "video" | "image" | "tts" | "enhance";
+type ToolIntent = "video" | "image" | "tts" | "enhance';
 
 type VeoSessionContext = {
   cookieHeader: string;
@@ -47,7 +47,7 @@ class VeoArtifactError extends Error {
 
   constructor(code: string, message: string, status = 502, options?: { retryable?: boolean }) {
     super(message);
-    this.name = "VeoArtifactError";
+    this.name = "VeoArtifactError';
     this.code = code;
     this.status = status;
     this.retryable = options?.retryable === true;
@@ -251,16 +251,16 @@ function buildSessionContext(signal?: AbortSignal): VeoSessionContext {
 
 export function detectIntent(model?: string, prompt?: string): ToolIntent {
   const m = (model || "").toLowerCase();
-  if (m.includes("tts") || m.includes("speech") || m.includes("audio")) return "tts";
-  if (m.includes("image") || m.includes("banana") || m.includes("imagen")) return "image";
-  if (m.includes("enhance") || m.includes("prompt")) return "enhance";
-  if (m.includes("video") || m.includes("veo") || m.includes("seedance")) return "video";
+  if (m.includes("tts") || m.includes("speech") || m.includes("audio")) return "tts';
+  if (m.includes("image") || m.includes("banana") || m.includes("imagen")) return "image';
+  if (m.includes("enhance") || m.includes("prompt")) return "enhance';
+  if (m.includes("video") || m.includes("veo") || m.includes("seedance")) return "video';
   const p = (prompt || "").toLowerCase();
   if (p.startsWith("generate image") || p.startsWith("create image") || p.startsWith("draw ")) {
-    return "image";
+    return "image';
   }
-  if (p.startsWith("enhance") || p.startsWith("improve prompt")) return "enhance";
-  return "video";
+  if (p.startsWith("enhance") || p.startsWith("improve prompt")) return "enhance';
+  return "video';
 }
 
 async function handleImage(
@@ -296,8 +296,8 @@ async function handleTTS(
   signal?: AbortSignal
 ): Promise<Response> {
   const text = prompt;
-  const selectedVoice = voice || "en-US-AvaNeural";
-  const selectedLang = lang || "en-US";
+  const selectedVoice = voice || "en-US-AvaNeural';
+  const selectedLang = lang || "en-US';
 
   const res = await fetchWithTimeout(
     TTS_URL,
@@ -324,7 +324,7 @@ async function handleTTS(
     return errResp(`TTS failed (${res.status})`);
   }
 
-  const contentType = res.headers.get("content-type") || "";
+  const contentType = res.headers.get("content-type") || "';
   if (
     contentType.includes("audio") ||
     contentType.includes("octet-stream") ||
@@ -711,13 +711,13 @@ export class VeoAIFreeWebExecutor extends BaseExecutor {
     transformedBody: unknown;
   }> {
     const body = input.body as Record<string, unknown> | undefined;
-    const model = input.model || (body?.model as string) || "veo-3.1";
+    const model = input.model || (body?.model as string) || "veo-3.1';
 
     const messages = (body?.messages as Array<Record<string, unknown>>) || [];
     const userMsg = messages.filter((m) => m.role === "user").pop();
     const systemMsg = messages.filter((m) => m.role === "system").pop();
-    const prompt = (userMsg?.content as string) || "";
-    const systemText = (systemMsg?.content as string) || "";
+    const prompt = (userMsg?.content as string) || "';
+    const systemText = (systemMsg?.content as string) || "';
 
     if (!prompt.trim()) {
       return {
@@ -743,7 +743,7 @@ export class VeoAIFreeWebExecutor extends BaseExecutor {
     try {
       nonce = await fetchNonce(context);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to get nonce";
+      const msg = err instanceof Error ? err.message : "Failed to get nonce';
       return {
         response: errResp(sanitizeErrorMessage(msg), 502, "upstream_error"),
         url: BASE_URL,
@@ -753,7 +753,7 @@ export class VeoAIFreeWebExecutor extends BaseExecutor {
     }
 
     const arMatch = systemText.match(/aspect[_-]?ratio:\s*(\S+)/i);
-    const aspectRatio = arMatch?.[1] || "VIDEO_ASPECT_RATIO_LANDSCAPE";
+    const aspectRatio = arMatch?.[1] || "VIDEO_ASPECT_RATIO_LANDSCAPE';
 
     let resp: Response;
     switch (intent) {

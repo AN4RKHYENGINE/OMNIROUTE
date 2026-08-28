@@ -9,25 +9,25 @@
 // designer.microsoft.com frontend sends on every session (not a secret) —
 // routed through resolvePublicCred() per Hard Rule #11 / docs/security/PUBLIC_CREDS.md.
 
-import { randomUUID, randomBytes } from "node:crypto";
-import { resolvePublicCred } from "../../../utils/publicCreds.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
-import { saveImageErrorResult, saveImageSuccessResult } from "../../imageGeneration.ts";
+import { randomUUID, randomBytes } from 'node:crypto';
+import { resolvePublicCred } from '../../../utils/publicCreds.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
+import { saveImageErrorResult, saveImageSuccessResult } from '../../imageGeneration.ts';
 
 const DESIGNER_WEB_POLL_TIMEOUT_MS_DEFAULT = 60000;
 const DESIGNER_WEB_POLL_INTERVAL_MS_DEFAULT = 2000;
-const DESIGNER_WEB_BATCH_SIZE = "4";
+const DESIGNER_WEB_BATCH_SIZE = "4';
 
 /** Maps an OpenAI-style "WxH" size string to the closest Designer aspect ratio bucket. */
 export function mapDesignerWebImageSize(size: unknown): "1_1" | "16_9" | "9_16" {
-  if (typeof size !== "string" || !size.includes("x")) return "1_1";
+  if (typeof size !== "string" || !size.includes("x")) return "1_1';
   const [wRaw, hRaw] = size.split("x");
   const w = Number(wRaw);
   const h = Number(hRaw);
-  if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return "1_1";
-  if (w > h * 1.2) return "16_9";
-  if (h > w * 1.2) return "9_16";
-  return "1_1";
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return "1_1';
+  if (w > h * 1.2) return "16_9';
+  if (h > w * 1.2) return "9_16';
+  return "1_1';
 }
 
 /** Builds the fixed + per-request headers Microsoft Designer expects on every call. */
@@ -60,7 +60,7 @@ export function buildDesignerWebFormBody(prompt: string, size: unknown): URLSear
 }
 
 interface DesignerWebParsedResponse {
-  status: "ready" | "pending" | "empty";
+  status: "ready" | "pending" | "empty';
   imageUrls: string[];
   pollIntervalMs: number | null;
 }
@@ -120,7 +120,7 @@ function resolveDesignerWebRequest(
   body: { prompt?: unknown; size?: unknown; timeout_ms?: unknown; poll_interval_ms?: unknown },
   credentials: { apiKey?: string; accessToken?: string }
 ): DesignerWebRequestResolution {
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (!prompt) {
     return {
       state: "invalid",

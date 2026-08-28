@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from "vitest";
-import { A2ATaskManager } from "@lib/a2a/taskManager.ts";
-import { executeA2ATaskWithState } from "@lib/a2a/taskExecution.ts";
+import { afterEach, describe, expect, it } from 'vitest';
+import { A2ATaskManager } from '@lib/a2a/taskManager.ts';
+import { executeA2ATaskWithState } from '@lib/a2a/taskExecution.ts';
 
 const managers: A2ATaskManager[] = [];
 

@@ -1,9 +1,9 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 import {
   GPT_5_5_CODEX_CAPABILITIES,
   getGitHubCopilotChatHeaders,
   resolvePublicCred,
-} from "../../shared.ts";
+} from '../../shared.ts';
 
 export const gheCopilotProvider: RegistryEntry = {
   id: "ghe-copilot",

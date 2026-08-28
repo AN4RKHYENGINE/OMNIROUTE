@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../../shared.ts";
+import type { RegistryEntry } from '../../../shared.ts';
 
 export const HAILUO_WEB_STATIC_MODELS = [
   // The Hailuo web client does not expose a model selector in its chat API —

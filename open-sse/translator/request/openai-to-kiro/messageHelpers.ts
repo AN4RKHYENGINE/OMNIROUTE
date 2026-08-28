@@ -75,17 +75,17 @@ export function normalizeKiroToolSchema(schema: unknown): Record<string, unknown
 
 export function serializeToolResultContent(content: unknown): string {
   if (typeof content === "string") {
-    return content || "(no output)";
+    return content || "(no output)';
   }
   if (!Array.isArray(content)) {
     if (content !== null && content !== undefined) {
       try {
         return JSON.stringify(content);
       } catch {
-        return "(no output)";
+        return "(no output)';
       }
     }
-    return "(no output)";
+    return "(no output)';
   }
   const parts: string[] = [];
   for (const block of content as Array<Record<string, unknown>>) {
@@ -94,7 +94,7 @@ export function serializeToolResultContent(content: unknown): string {
       if (block.text) parts.push(block.text);
     } else if (block.type === "image" || block.type === "image_url") {
       const src = block.source as Record<string, unknown> | undefined;
-      const mediaType = src?.media_type ?? block.media_type ?? "image";
+      const mediaType = src?.media_type ?? block.media_type ?? "image';
       parts.push(`[image: ${mediaType}]`);
     } else {
       try {
@@ -105,5 +105,5 @@ export function serializeToolResultContent(content: unknown): string {
       }
     }
   }
-  return parts.join("\n") || "(no output)";
+  return parts.join("\n") || "(no output)';
 }

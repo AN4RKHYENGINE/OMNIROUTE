@@ -2,13 +2,13 @@ import {
   generateSignature,
   getCachedResponse,
   isCacheableForRead,
-} from "@/lib/semanticCache";
-import { calculateCost } from "@/lib/usage/costCalculator";
-import { trackPendingRequest } from "@/lib/usageDb";
-import { synthesizeOpenAiSseFromJson } from "../../utils/jsonToSse.ts";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import { extractUsageFromResponse } from "../usageExtractor.ts";
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
+} from '@/lib/semanticCache';
+import { calculateCost } from '@/lib/usage/costCalculator';
+import { trackPendingRequest } from '@/lib/usageDb';
+import { synthesizeOpenAiSseFromJson } from '../../utils/jsonToSse.ts';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import { extractUsageFromResponse } from '../usageExtractor.ts';
+import { OMNIROUTE_RESPONSE_HEADERS } from '@/shared/constants/headers';
 
 export async function checkSemanticCache({
   semanticCacheEnabled,
@@ -75,7 +75,7 @@ export async function checkSemanticCache({
         cacheSource: "semantic",
       });
       trackPendingRequest(model, provider, connectionId, false);
-      const cachedSse = stream ? synthesizeOpenAiSseFromJson(JSON.stringify(cached)) : "";
+      const cachedSse = stream ? synthesizeOpenAiSseFromJson(JSON.stringify(cached)) : "';
       const headers: Record<string, string> = {
         "Content-Type": cachedSse ? "text/event-stream" : "application/json",
         [OMNIROUTE_RESPONSE_HEADERS.cache]: "HIT",

@@ -1,7 +1,7 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { createHash } from "node:crypto";
-import { resolve } from "node:path";
-import { expandUserPath, getConfigDir } from "../../config";
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+import { expandUserPath, getConfigDir } from '../../config';
 import {
   namespacedToolName,
   type AdapterEvent,
@@ -10,14 +10,14 @@ import {
   type CodexProviderConfig,
   type CodexToolResultMessage,
   type CodexUsage,
-} from "../../types";
-import type { ProviderAdapter } from "../base";
-import { parseDataUrl } from "../image";
-import { ChatGptBrowserWorker, DEFAULT_CHATGPT_TURN_TIMEOUT_MS } from "./browser-worker";
-import { extractChatGptTurnEnvironment, extractChatGptTurnIdentity } from "./environment";
-import { resolveChatGptWebModelMode, type ChatGptWebCapabilities } from "./model";
-import { chatGptReadOnlyContextWarning, compileChatGptWebPrompt } from "./prompt";
-import { TurnBroker, type BrokerToolRequest, type BrokerToolResult } from "./turn-broker";
+} from '../../types';
+import type { ProviderAdapter } from '../base';
+import { parseDataUrl } from '../image';
+import { ChatGptBrowserWorker, DEFAULT_CHATGPT_TURN_TIMEOUT_MS } from './browser-worker';
+import { extractChatGptTurnEnvironment, extractChatGptTurnIdentity } from './environment';
+import { resolveChatGptWebModelMode, type ChatGptWebCapabilities } from './model';
+import { chatGptReadOnlyContextWarning, compileChatGptWebPrompt } from './prompt';
+import { TurnBroker, type BrokerToolRequest, type BrokerToolResult } from './turn-broker';
 import {
   ChatGptTextFeed,
   ChatGptTraceFeed,
@@ -27,9 +27,9 @@ import {
   type ChatGptTraceEvent,
   type ChatGptTurnRuntime,
   type ChatGptTurnSession,
-} from "./turn-execution";
-import { estimateChatGptWebUsage } from "./usage";
-import { ChatGptThreadEnvironmentStore } from "./thread-environment";
+} from './turn-execution';
+import { estimateChatGptWebUsage } from './usage';
+import { ChatGptThreadEnvironmentStore } from './thread-environment';
 
 function brokerSocketPath(provider: CodexProviderConfig): string {
   const configured = provider.chatgptWeb?.brokerSocketPath?.trim();

@@ -1,5 +1,5 @@
-import { FORMATS } from "../translator/formats.ts";
-import { buildErrorBody } from "./error.ts";
+import { FORMATS } from '../translator/formats.ts';
+import { buildErrorBody } from './error.ts';
 
 /**
  * Upstream stream-failure normalization + client-format error framing.
@@ -53,14 +53,14 @@ export function normalizeStreamFailurePayload(payload: unknown): StreamFailurePa
     : Object.keys(asRecord(record.error)).length
       ? asRecord(record.error)
       : record;
-  const code = typeof error.code === "string" ? error.code : "upstream_error";
+  const code = typeof error.code === "string" ? error.code : "upstream_error';
   const type = typeof error.type === "string" ? error.type : undefined;
   const message =
     typeof error.message === "string" && error.message.trim()
       ? error.message
       : typeof record.message === "string" && record.message.trim()
         ? record.message
-        : "Upstream failure";
+        : "Upstream failure';
   const status =
     toStreamFailureStatus(error.status_code) ??
     toStreamFailureStatus(error.status) ??

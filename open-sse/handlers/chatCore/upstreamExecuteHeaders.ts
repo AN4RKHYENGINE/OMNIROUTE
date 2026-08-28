@@ -9,10 +9,10 @@
  * Side-effect-free; behaviour is byte-identical to the previous inline closure.
  */
 
-import { getModelUpstreamExtraHeaders } from "@/lib/db/models";
-import { resolveModelAlias } from "../../services/modelDeprecation.ts";
-import { CPA_FORCE_FAST_MODE_HEADER, shouldRequestClaudeFastMode } from "@/lib/providers/claudeFastMode";
-import { isForbiddenCustomHeaderName } from "@/shared/constants/upstreamHeaders";
+import { getModelUpstreamExtraHeaders } from '@/lib/db/models';
+import { resolveModelAlias } from '../../services/modelDeprecation.ts';
+import { CPA_FORCE_FAST_MODE_HEADER, shouldRequestClaudeFastMode } from '@/lib/providers/claudeFastMode';
+import { isForbiddenCustomHeaderName } from '@/shared/constants/upstreamHeaders';
 
 export function buildUpstreamHeadersForExecute(opts: {
   modelToCall: string;
@@ -84,7 +84,7 @@ export function buildUpstreamHeadersForExecute(opts: {
     typeof settings !== "undefined" &&
     shouldRequestClaudeFastMode(settings, modelToCall)
   ) {
-    upstreamHeaders[CPA_FORCE_FAST_MODE_HEADER] = "1";
+    upstreamHeaders[CPA_FORCE_FAST_MODE_HEADER] = "1';
   }
 
   return upstreamHeaders;

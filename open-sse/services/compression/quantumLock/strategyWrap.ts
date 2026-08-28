@@ -1,7 +1,7 @@
-import { detectCachingContext, type CachingDetectionContext } from "../cachingAware.ts";
-import type { CompressionConfig, CompressionResult, CompressionStats } from "../types.ts";
-import { applyQuantumLock } from "./quantumLockStep.ts";
-import type { QuantumLockConfig, QuantumLockStats } from "./quantumPatterns.ts";
+import { detectCachingContext, type CachingDetectionContext } from '../cachingAware.ts';
+import type { CompressionConfig, CompressionResult, CompressionStats } from '../types.ts';
+import { applyQuantumLock } from './quantumLockStep.ts';
+import type { QuantumLockConfig, QuantumLockStats } from './quantumPatterns.ts';
 
 /** The QuantumLock config to apply, or undefined when absent/disabled. */
 export function resolveQuantumLock(options?: { config?: CompressionConfig }): QuantumLockConfig | undefined {

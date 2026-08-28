@@ -1,6 +1,6 @@
-import { getAllToolDefinitions } from "./catalog.ts";
-import { searchTools } from "./search.ts";
-import { zodToTsSignature } from "./signature.ts";
+import { getAllToolDefinitions } from './catalog.ts';
+import { searchTools } from './search.ts';
+import { zodToTsSignature } from './signature.ts';
 
 export function handleToolSearch(args: { query: string; limit?: number }) {
   const entries = getAllToolDefinitions().filter((t) => t.name !== "omniroute_tool_search");

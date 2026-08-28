@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
-import type { EvalCase, ContentKind } from "./types.ts";
+import { createHash } from 'node:crypto';
+import type { EvalCase, ContentKind } from './types.ts';
 
 const KINDS: ContentKind[] = ["tool-output-json", "logs", "code", "prose", "multi-turn"];
 

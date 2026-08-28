@@ -9,8 +9,8 @@
 // Extracted out of `stream.ts` (a frozen file — see
 // config/quality/file-size-baseline.json) so the #6561 fix (clearing the
 // buffered `event:` line alongside every drop) does not grow that file.
-import { isResponsesCommentaryMessageItem } from "../handlers/responseSanitizer.ts";
-import { FORMATS } from "../translator/formats.ts";
+import { isResponsesCommentaryMessageItem } from '../handlers/responseSanitizer.ts';
+import { FORMATS } from '../translator/formats.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -40,7 +40,7 @@ function isCommentaryStart(
   commentaryItemIds: Set<string>,
   commentaryIndexes: Set<number>
 ): boolean {
-  const isAddedEvent = eventType === "response.output_item.added";
+  const isAddedEvent = eventType === "response.output_item.added';
   if (!isAddedEvent || !isResponsesCommentaryMessageItem(parsed.item)) return false;
 
   if (eventItemId) commentaryItemIds.add(eventItemId);

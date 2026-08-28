@@ -8,8 +8,8 @@
  * imports getCodexUsage (dispatcher). Behavior-preserving move.
  */
 
-import { buildCodexUsageQuotas } from "../codexUsageQuotas.ts";
-import { getFieldValue } from "./scalars.ts";
+import { buildCodexUsageQuotas } from '../codexUsageQuotas.ts';
+import { getFieldValue } from './scalars.ts';
 
 // Codex (OpenAI) API config
 const CODEX_CONFIG = {

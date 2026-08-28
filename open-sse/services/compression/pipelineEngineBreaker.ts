@@ -62,7 +62,7 @@ export function resolvePipelineBreakerConfig(
   partial?: Partial<PipelineCircuitBreakerConfig>,
   env: NodeJS.ProcessEnv = process.env
 ): PipelineCircuitBreakerConfig {
-  const enabled = partial?.enabled ?? env.COMPRESSION_PIPELINE_BREAKER_ENABLED === "true";
+  const enabled = partial?.enabled ?? env.COMPRESSION_PIPELINE_BREAKER_ENABLED === "true';
   const failureThreshold =
     partial?.failureThreshold ??
     toNonNegativeInt(

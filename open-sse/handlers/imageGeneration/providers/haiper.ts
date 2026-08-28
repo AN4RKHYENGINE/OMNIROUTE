@@ -2,9 +2,9 @@
 // Family: haiper | Module: haiper | Lines: 3315-3426 (112 LOC)
 // Ref: see open-sse/handlers/imageGeneration.ts top-of-file comment for split rationale
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sleep } from "../../../utils/sleep.ts";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sleep } from '../../../utils/sleep.ts';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 export async function handleHaiperImageGeneration({
   model,
@@ -15,7 +15,7 @@ export async function handleHaiperImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "";
+  const token = credentials?.apiKey || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   if (log) {
     log.info("IMAGE", `${provider}/${model} (haiper) | prompt: "${prompt.slice(0, 60)}..."`);

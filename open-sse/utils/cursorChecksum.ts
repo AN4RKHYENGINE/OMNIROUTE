@@ -5,10 +5,10 @@
  * Based on the JavaScript implementation from Cursor IDE.
  */
 
-import crypto from "crypto";
-import { v5 as uuidv5 } from "uuid";
-import { getCursorUserAgent } from "../config/providerHeaderProfiles.ts";
-import { getCursorVersion } from "./cursorVersionDetector.ts";
+import crypto from 'crypto';
+import { v5 as uuidv5 } from 'uuid';
+import { getCursorUserAgent } from '../config/providerHeaderProfiles.ts';
+import { getCursorVersion } from './cursorVersionDetector.ts';
 
 /**
  * Generate SHA-256 hash like generateHashed64Hex
@@ -67,8 +67,8 @@ export function generateCursorChecksum(machineId) {
   }
 
   // URL-safe base64 encode (without padding)
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
-  let encoded = "";
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  let encoded = "';
 
   for (let i = 0; i < byteArray.length; i += 3) {
     const a = byteArray[i];

@@ -13,8 +13,8 @@
 import {
   findWorkingProxy,
   clearProxyFallbackCache,
-} from "@omniroute/open-sse/utils/proxyFallback.ts";
-import { isFeatureFlagEnabled } from "@/shared/utils/featureFlags";
+} from '../utils/proxyFallback.ts';
+import { isFeatureFlagEnabled } from '@/shared/utils/featureFlags';
 
 // ---------------------------------------------------------------------------
 // Public API

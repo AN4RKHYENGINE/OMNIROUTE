@@ -2,9 +2,9 @@ import {
   fetchWithTimeout,
   FetchTimeoutError,
   getConfiguredTimeout,
-} from "@/shared/utils/fetchTimeout";
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+} from '@/shared/utils/fetchTimeout';
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 
 interface LogLike {
   info?: (tag: string, msg: string, meta?: unknown) => void;
@@ -67,7 +67,7 @@ async function fetchVideoEndpoint(
     };
   } catch (err) {
     const message = err?.message;
-    const isTimeout = err instanceof FetchTimeoutError || err?.name === "AbortError";
+    const isTimeout = err instanceof FetchTimeoutError || err?.name === "AbortError';
     log?.error?.(
       "VIDEO",
       `${isTimeout ? "Timeout" : "Request error"} for ${url}: ${sanitizeErrorMessage(message || err)}`

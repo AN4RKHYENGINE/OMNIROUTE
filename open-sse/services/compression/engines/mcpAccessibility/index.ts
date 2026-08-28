@@ -1,5 +1,5 @@
-import { collapseRepeated } from "./collapseRepeated.ts";
-import { MCP_ACCESSIBILITY_TAIL_RESERVE, type McpAccessibilityConfig } from "./constants.ts";
+import { collapseRepeated } from './collapseRepeated.ts';
+import { MCP_ACCESSIBILITY_TAIL_RESERVE, type McpAccessibilityConfig } from './constants.ts';
 
 // Per-line (non-global, anchored) noise matchers. Used to DELETE whole noise lines rather than
 // blank them: `replace(pattern, "")` would leave empty strings behind, and a blank line between two
@@ -44,9 +44,9 @@ export function smartFilterText(text: string, config: McpAccessibilityConfig): s
   return out;
 }
 
-export type { McpAccessibilityConfig } from "./constants.ts";
+export type { McpAccessibilityConfig } from './constants.ts';
 export {
   DEFAULT_MCP_ACCESSIBILITY_CONFIG,
   clampMcpAccessibilityConfig,
   MCP_ACCESSIBILITY_TAIL_RESERVE,
-} from "./constants.ts";
+} from './constants.ts';

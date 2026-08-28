@@ -1,4 +1,4 @@
-import { extractPreservedBlocks } from "./preservation.ts";
+import { extractPreservedBlocks } from './preservation.ts';
 
 export interface FidelityGateConfig {
   enabled: boolean;
@@ -12,7 +12,7 @@ export interface FidelityGateConfig {
   checkDiffHunks?: boolean;
 }
 
-export type FidelityInvariant = "protected-tokens" | "numeric" | "json-keys" | "diff-hunks";
+export type FidelityInvariant = "protected-tokens" | "numeric" | "json-keys" | "diff-hunks';
 
 export interface FidelityResult {
   passed: boolean;

@@ -8,22 +8,22 @@
  *
  * #9239
  */
-import { getComboByName, getCombos } from "@/lib/db/combos";
-import { resolveComboTargets } from "@omniroute/open-sse/services/combo.ts";
-import { getImageModelEntry, parseImageModel } from "@omniroute/open-sse/config/imageRegistry.ts";
+import { getComboByName, getCombos } from '@/lib/db/combos';
+import { resolveComboTargets } from '../services/combo.ts';
+import { getImageModelEntry, parseImageModel } from '../config/imageRegistry.ts';
 import {
   getProviderCredentialsWithQuotaPreflight,
   clearRecoveredProviderState,
-} from "@/sse/services/auth";
-import { isAllRateLimitedCredentials } from "@/app/api/v1/_shared/rateLimit";
-import { handleImageGeneration } from "@omniroute/open-sse/handlers/imageGeneration.ts";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import { generateRequestId } from "@/shared/utils/requestId";
-import { calculateModalCost } from "@/lib/usage/costCalculator";
-import { toJsonErrorPayload } from "@/shared/utils/upstreamError";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import * as logger from "@/sse/utils/logger";
+} from '@/sse/services/auth';
+import { isAllRateLimitedCredentials } from '@/app/api/v1/_shared/rateLimit';
+import { handleImageGeneration } from '../handlers/imageGeneration.ts';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import { generateRequestId } from '@/shared/utils/requestId';
+import { calculateModalCost } from '@/lib/usage/costCalculator';
+import { toJsonErrorPayload } from '@/shared/utils/upstreamError';
+import { HTTP_STATUS } from '../config/constants.ts';
+import { errorResponse } from '../utils/error.ts';
+import * as logger from '@/sse/utils/logger';
 
 /**
  * Caller-facing shape of handleImageGeneration(). The handler is untyped and
@@ -90,8 +90,8 @@ export async function executeImageCombo(
   let lastError: { status: number; error: string } | null = null;
   let successResult: { data: unknown; provider: string; model: string } | null = null;
   let fallbackCount = 0;
-  let selectedProvider = "";
-  let selectedModel = "";
+  let selectedProvider = "';
+  let selectedModel = "';
 
   for (const target of imageTargets) {
     const { provider: targetProvider, model: targetModel } = parseImageModel(target.modelStr);
@@ -149,7 +149,7 @@ export async function executeImageCombo(
 
     // Classify the failure
     const status = result.status || 500;
-    const error = typeof result.error === "string" ? result.error : "Image generation failed";
+    const error = typeof result.error === "string" ? result.error : "Image generation failed';
 
     // Terminal failures (400 bad model, 403 banned, etc.) — stop iterating
     // Non-terminal failures (429, 5xx) — try next target

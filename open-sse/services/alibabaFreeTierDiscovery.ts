@@ -23,18 +23,18 @@ import {
   isAlibabaModelStudioProvider,
   mergeAlibabaFreeDrainedModels,
   type AlibabaBillingMode,
-} from "./alibabaFreeTier.ts";
+} from './alibabaFreeTier.ts';
 import {
   getAlibabaBuiltinFreeTierTextCapableModels,
   getAlibabaBuiltinNoFreeTierTextModels,
-} from "./alibabaFreeTierAllowlist.ts";
+} from './alibabaFreeTierAllowlist.ts';
 import {
   buildAlibabaFreeTierTextFilterContext,
   getAlibabaFreeTierQuotaLastSyncAt,
-} from "./alibabaFreeTierQuotaFetcher.ts";
+} from './alibabaFreeTierQuotaFetcher.ts';
 
 export type AlibabaFreeTierProbeVerdict =
-  "capable_available" | "capable_drained" | "not_capable" | "unknown";
+  "capable_available" | "capable_drained" | "not_capable" | "unknown';
 
 export type AlibabaFreeTierProbeResult = {
   modelId: string;

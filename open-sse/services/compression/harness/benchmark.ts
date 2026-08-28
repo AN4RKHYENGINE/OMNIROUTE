@@ -28,14 +28,14 @@
  *   results that make the A/B table honest about the sandbox limitation.
  */
 
-import { registerBuiltinCompressionEngines } from "../engines/index.ts";
-import { getCompressionEngine } from "../engines/registry.ts";
-import { runCompressionEval, type EvalCase, type CompressFn, type EvalReport } from "./runner.ts";
+import { registerBuiltinCompressionEngines } from '../engines/index.ts';
+import { getCompressionEngine } from '../engines/registry.ts';
+import { runCompressionEval, type EvalCase, type CompressFn, type EvalReport } from './runner.ts';
 import {
   checkTokensPerTaskGate,
   type BudgetBaseline,
   type BudgetGateResult,
-} from "./budgetGate.ts";
+} from './budgetGate.ts';
 
 // Register all built-in engines once (idempotent).
 registerBuiltinCompressionEngines();
@@ -308,8 +308,8 @@ export const DEFAULT_BENCHMARK_ENGINES: string[] = [
  * best-first with the top engine bolded. Pure — used by the `bench:compression` CLI.
  */
 export function formatBenchmarkTable(rows: EngineSummaryRow[]): string {
-  const header = "| Engine | Mean Savings % | Mean Retention | Total Compressed Tokens |";
-  const sep = "| --- | ---: | ---: | ---: |";
+  const header = "| Engine | Mean Savings % | Mean Retention | Total Compressed Tokens |';
+  const sep = "| --- | ---: | ---: | ---: |';
   const body = rows.map((r, i) => {
     const engine = i === 0 ? `**${r.engine}**` : r.engine;
     return `| ${engine} | ${r.meanSavingsPercent.toFixed(1)} | ${r.meanRetention.toFixed(3)} | ${r.totalCompressedTokens} |`;

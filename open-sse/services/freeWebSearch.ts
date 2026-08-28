@@ -9,7 +9,7 @@
  * unit test pins the contract against a real captured response. The network call
  * goes through `safeOutboundFetch` with the public-only SSRF guard.
  */
-import { safeOutboundFetch } from "@/shared/network/safeOutboundFetch";
+import { safeOutboundFetch } from '@/shared/network/safeOutboundFetch';
 
 export interface FreeSearchResult {
   title: string;
@@ -17,10 +17,10 @@ export interface FreeSearchResult {
   snippet: string;
 }
 
-const DUCKDUCKGO_LITE_URL = "https://lite.duckduckgo.com/lite/";
+const DUCKDUCKGO_LITE_URL = "https://lite.duckduckgo.com/lite/';
 // A browser-like UA — the lite endpoint rejects obvious bot agents.
 const DDG_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0 Safari/537.36';
 
 // Real lite shape: `<a ... href="URL" class='result-link'>Title</a>` (href usually
 // before class; quotes may be single or double) and `<td class='result-snippet'>…</td>`.
@@ -87,7 +87,7 @@ function resolveResultUrl(href: string): string {
   } else if (href.startsWith("//")) {
     candidate = `https:${href}`;
   }
-  return /^https?:\/\//i.test(candidate) ? candidate : "";
+  return /^https?:\/\//i.test(candidate) ? candidate : "';
 }
 
 /**

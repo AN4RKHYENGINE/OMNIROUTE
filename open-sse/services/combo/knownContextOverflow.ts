@@ -16,9 +16,9 @@
  * evaluateContextLimit (#7052); only hasEstimableContent is imported back.
  */
 
-import { getResolvedModelCapabilities } from "../modelCapabilities.ts";
-import { deriveRequestCompatibilityRequirements } from "./comboStructure.ts";
-import type { ResolvedComboTarget } from "./types.ts";
+import { getResolvedModelCapabilities } from '../modelCapabilities.ts';
+import { deriveRequestCompatibilityRequirements } from './comboStructure.ts';
+import type { ResolvedComboTarget } from './types.ts';
 
 export type KnownContextOverflow = {
   estimatedInputTokens: number;

@@ -1,11 +1,11 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { isAbortFinishReason } from "../../utils/finishReason.ts";
-import { restoreClaudeToolName } from "../../services/claudeCodeToolRemapper.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { isAbortFinishReason } from '../../utils/finishReason.ts';
+import { restoreClaudeToolName } from '../../services/claudeCodeToolRemapper.ts';
 import {
   buildGeminiThoughtSignatureKey,
   storeGeminiThoughtSignature,
-} from "../../services/geminiThoughtSignatureStore.ts";
+} from '../../services/geminiThoughtSignatureStore.ts';
 
 /**
  * Direct Gemini → Claude response translator.
@@ -30,7 +30,7 @@ export function geminiToClaudeResponse(chunk, state) {
   // ── Initialize: emit message_start ─────────────────────────────
   if (!state.messageId) {
     state.messageId = response.responseId || `msg_${Date.now()}`;
-    state.model = response.modelVersion || "gemini";
+    state.model = response.modelVersion || "gemini';
     state.contentBlockIndex = 0;
     // Track open text block so we can keep it open across chunks
     state.openTextBlockIdx = null;
@@ -213,14 +213,14 @@ export function geminiToClaudeResponse(chunk, state) {
     let stopReason;
     const reason = candidate.finishReason.toLowerCase();
     if (state.hasToolUse || reason === "tool_calls") {
-      stopReason = "tool_use";
+      stopReason = "tool_use';
     } else if (reason === "max_tokens" || reason === "length") {
-      stopReason = "max_tokens";
+      stopReason = "max_tokens';
     } else if (reason === "safety" || reason === "recitation" || reason === "blocklist") {
       // Content blocked by Gemini safety. Any text streamed before this finish
       // reason has already been emitted to the client — this is unavoidable in
       // SSE streaming. Map to end_turn (Claude has no "content blocked" reason).
-      stopReason = "end_turn";
+      stopReason = "end_turn';
     } else if (isAbortFinishReason(reason)) {
       // Aborted/malformed tool call (e.g. MALFORMED_FUNCTION_CALL,
       // UNEXPECTED_TOOL_CALL). Surface as tool_use rather than a clean end_turn
@@ -228,9 +228,9 @@ export function geminiToClaudeResponse(chunk, state) {
       // hub path (openai-to-claude.ts) — this direct Gemini→Claude translator is
       // the one Claude Code hits through an antigravity/Gemini-routed model.
       // Port of decolua/9router#2462 by @anhdiepmmk.
-      stopReason = "tool_use";
+      stopReason = "tool_use';
     } else {
-      stopReason = "end_turn";
+      stopReason = "end_turn';
     }
 
     results.push({

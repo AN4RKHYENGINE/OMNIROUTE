@@ -7,7 +7,7 @@
  * - [2026-07-24] [Composer] - Persist runtime loadCodeAssist projectId; filter broken accounts
  */
 
-import { updateProviderConnection } from "@/lib/db/providers";
+import { updateProviderConnection } from '@/lib/db/providers';
 
 export type AntigravityProjectConnectionLike = {
   projectId?: string | null;
@@ -32,11 +32,11 @@ export function extractAntigravityProjectIdFromPayload(
 export function getStoredAntigravityProjectId(
   connection: Pick<AntigravityProjectConnectionLike, "projectId" | "providerSpecificData">
 ): string | null {
-  const column = typeof connection.projectId === "string" ? connection.projectId.trim() : "";
+  const column = typeof connection.projectId === "string" ? connection.projectId.trim() : "';
   if (column) return column;
 
   const psd = connection.providerSpecificData as Record<string, unknown> | undefined;
-  const fromPsd = typeof psd?.projectId === "string" ? psd.projectId.trim() : "";
+  const fromPsd = typeof psd?.projectId === "string" ? psd.projectId.trim() : "';
   return fromPsd || null;
 }
 

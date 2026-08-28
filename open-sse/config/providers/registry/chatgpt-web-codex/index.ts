@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 const NATIVE_CAPABILITIES = {
   targetFormat: "openai-responses",

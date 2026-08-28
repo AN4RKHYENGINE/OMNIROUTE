@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
-import { createMcpServer } from "../server.ts";
-import { MCP_TOOL_MAP, dbHealthCheckInput } from "../schemas/tools.ts";
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { createMcpServer } from '../server.ts';
+import { MCP_TOOL_MAP, dbHealthCheckInput } from '../schemas/tools.ts';
 
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);

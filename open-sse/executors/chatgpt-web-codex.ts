@@ -1,40 +1,40 @@
-import { existsSync } from "node:fs";
+import { existsSync } from 'node:fs';
 
-import { isVerifiedNativeCodexRequest } from "../config/codexIdentity.ts";
-import { FORMATS } from "../translator/formats.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
-import { createChatGptWebAdapter } from "../vendor/codex-chatgpt-web/adapters/chatgpt-web/index.ts";
-import { ChatGptBrowserWorker } from "../vendor/codex-chatgpt-web/adapters/chatgpt-web/browser-worker.ts";
+import { isVerifiedNativeCodexRequest } from '../config/codexIdentity.ts';
+import { FORMATS } from '../translator/formats.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
+import { createChatGptWebAdapter } from '../vendor/codex-chatgpt-web/adapters/chatgpt-web/index.ts';
+import { ChatGptBrowserWorker } from '../vendor/codex-chatgpt-web/adapters/chatgpt-web/browser-worker.ts';
 import {
   browserLoginStateExists,
   inspectBrowserLoginCapabilities,
-} from "../vendor/codex-chatgpt-web/browser-login.ts";
-import { extractChatGptTurnIdentity } from "../vendor/codex-chatgpt-web/adapters/chatgpt-web/environment.ts";
-import { bridgeToResponsesSSE, buildResponseJSON } from "../vendor/codex-chatgpt-web/bridge.ts";
-import { AsyncEventQueue } from "../vendor/codex-chatgpt-web/event-queue.ts";
-import { parseRequest } from "../vendor/codex-chatgpt-web/responses/parser.ts";
+} from '../vendor/codex-chatgpt-web/browser-login.ts';
+import { extractChatGptTurnIdentity } from '../vendor/codex-chatgpt-web/adapters/chatgpt-web/environment.ts';
+import { bridgeToResponsesSSE, buildResponseJSON } from '../vendor/codex-chatgpt-web/bridge.ts';
+import { AsyncEventQueue } from '../vendor/codex-chatgpt-web/event-queue.ts';
+import { parseRequest } from '../vendor/codex-chatgpt-web/responses/parser.ts';
 import {
   expandPreviousResponseInput,
   rememberResponseState,
-} from "../vendor/codex-chatgpt-web/responses/state.ts";
+} from '../vendor/codex-chatgpt-web/responses/state.ts';
 import type {
   AdapterEvent,
   CodexParsedRequest,
   CodexProviderConfig,
-} from "../vendor/codex-chatgpt-web/types.ts";
-import { BaseExecutor, type ExecuteInput, type ExecutorExecuteResult } from "./base.ts";
-import { reasoningEffortOf, requireChatGptWebCodexRoute } from "./chatgpt-web-codex/models.ts";
+} from '../vendor/codex-chatgpt-web/types.ts';
+import { BaseExecutor, type ExecuteInput, type ExecutorExecuteResult } from './base.ts';
+import { reasoningEffortOf, requireChatGptWebCodexRoute } from './chatgpt-web-codex/models.ts';
 import {
   connectionRuntimePaths,
   ensureConnectionStorageStateFromCredential,
   readConnectionStorageState,
-} from "./chatgpt-web-codex/storageState.ts";
+} from './chatgpt-web-codex/storageState.ts';
 import {
   decodeChatGptWebCodexSecrets,
   encodeChatGptWebCodexSecrets,
-} from "./chatgpt-web-codex/credentials.ts";
-import { ensureTunnelRuntimeReady } from "./chatgpt-web-codex/tunnelClient.ts";
-import { trackChatGptWebCodexRuntime } from "./chatgpt-web-codex/runtime.ts";
+} from './chatgpt-web-codex/credentials.ts';
+import { ensureTunnelRuntimeReady } from './chatgpt-web-codex/tunnelClient.ts';
+import { trackChatGptWebCodexRuntime } from './chatgpt-web-codex/runtime.ts';
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 const SSE_HEADERS = {
@@ -163,7 +163,7 @@ function buildProviderConfig(
 
   const hasTools = toolModeRequired(parsed);
   const requiredChoice =
-    parsed.options.toolChoice === "required" || typeof parsed.options.toolChoice === "object";
+    parsed.options.toolChoice === "required" || typeof parsed.options.toolChoice === "object';
   if (route.pro && requiredChoice) {
     throw new Error("ChatGPT Web Pro is read-only and cannot satisfy a required tool choice");
   }
@@ -175,7 +175,7 @@ function buildProviderConfig(
     throw new Error("ChatGPT Web (Codex) tools require a ready tunnel and Custom Connector");
   }
 
-  parsed.modelId = "gpt-5.6-sol";
+  parsed.modelId = "gpt-5.6-sol';
   parsed.options.reasoning = route.effort;
 
   return {

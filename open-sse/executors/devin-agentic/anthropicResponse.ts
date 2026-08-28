@@ -3,7 +3,7 @@ import {
   type ClaudeResponseArgs,
   type ClaudeToolUseArgs,
   type JsonRecord,
-} from "./types.ts";
+} from './types.ts';
 
 function usage(inputTokens: number, outputTokens: number) {
   return {

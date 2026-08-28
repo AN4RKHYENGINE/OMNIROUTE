@@ -6,5 +6,5 @@
  *
  * SPDX-License-Identifier: MIT
  */
-export { encodeGeneric } from "./generic.ts";
-export { decodeGeneric } from "./decode_generic.ts";
+export { encodeGeneric } from './generic.ts';
+export { decodeGeneric } from './decode_generic.ts';

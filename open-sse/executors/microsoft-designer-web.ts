@@ -25,11 +25,11 @@
 // /v1/images/generations instead — satisfying the executor wrapper
 // contract (tests/unit/executor-web-cookie-sweep.test.ts) without ever
 // forwarding credentials anywhere.
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult } from '../utils/error.ts';
 
 const DESIGNER_WEB_BASE_URL =
-  "https://designerapp.officeapps.live.com/designerapp/DallE.ashx?action=GetDallEImagesCogSci";
+  "https://designerapp.officeapps.live.com/designerapp/DallE.ashx?action=GetDallEImagesCogSci';
 
 export class MicrosoftDesignerWebExecutor extends BaseExecutor {
   constructor() {

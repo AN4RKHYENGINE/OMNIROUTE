@@ -1,6 +1,6 @@
-import { preserveSpans, restorePreservedBlocks, type PreservedBlock } from "../preservation.ts";
-import { detectRiskSpans, type RiskGateConfig } from "./riskGate.ts";
-import type { RiskCategory } from "./riskPatterns.ts";
+import { preserveSpans, restorePreservedBlocks, type PreservedBlock } from '../preservation.ts';
+import { detectRiskSpans, type RiskGateConfig } from './riskGate.ts';
+import type { RiskCategory } from './riskPatterns.ts';
 
 export interface RiskGateStats {
   spansProtected: number;

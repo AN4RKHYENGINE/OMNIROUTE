@@ -5,9 +5,9 @@ import {
   CLAUDE_CODE_RUNTIME_VERSION,
   CLAUDE_CODE_SDK_PACKAGE_VERSION,
   getClaudeCodeUserAgent,
-} from "@/shared/constants/claudeCodeClient";
+} from '@/shared/constants/claudeCodeClient';
 
-export const ANTHROPIC_VERSION_HEADER = "2023-06-01";
+export const ANTHROPIC_VERSION_HEADER = "2023-06-01';
 
 const ANTHROPIC_BETA_BASE = Object.freeze([
   "claude-code-20250219",

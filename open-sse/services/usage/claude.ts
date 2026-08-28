@@ -9,11 +9,11 @@
  * getClaudePlanLabel (__testing). Behavior-preserving move.
  */
 
-import { safePercentage } from "@/shared/utils/formatting";
-import { CLAUDE_CODE_VERSION, fetchClaudeBootstrap } from "../../executors/claudeIdentity.ts";
-import { isClaudeOauthUsageCoolingDown, markClaudeOauthUsage429 } from "../claudeUsageCooldown.ts";
-import { toRecord } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+import { safePercentage } from '@/shared/utils/formatting';
+import { CLAUDE_CODE_VERSION, fetchClaudeBootstrap } from '../../executors/claudeIdentity.ts';
+import { isClaudeOauthUsageCoolingDown, markClaudeOauthUsage429 } from '../claudeUsageCooldown.ts';
+import { toRecord } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -179,7 +179,7 @@ async function getClaudeUsageLegacy(accessToken?: string) {
       const settings = toRecord(await settingsResponse.json());
 
       const organizationId =
-        typeof settings.organization_id === "string" ? settings.organization_id : "";
+        typeof settings.organization_id === "string" ? settings.organization_id : "';
       if (organizationId) {
         const usageResponse = await fetch(
           CLAUDE_CONFIG.usageUrl.replace("{org_id}", organizationId),

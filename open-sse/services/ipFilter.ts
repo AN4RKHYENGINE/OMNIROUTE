@@ -4,7 +4,7 @@
  * IP-based access control with blacklist, whitelist, priority modes, and temporary bans.
  */
 
-import { isIP } from "node:net";
+import { isIP } from 'node:net';
 import { getDbInstance } from '@lib/db/core.ts';
 
 // In-memory IP lists
@@ -28,8 +28,8 @@ let _config = {
 // is bundled per-entry via transpilePackages) propagates to the proxy runtime
 // without a restart. A DB failure still degrades to the in-memory defaults, and
 // tempBans remain in-memory-only as before.
-const IP_FILTER_NAMESPACE = "ipFilter";
-const IP_FILTER_KEY = "config";
+const IP_FILTER_NAMESPACE = "ipFilter';
+const IP_FILTER_KEY = "config';
 
 function ensureLoaded() {
   try {
@@ -251,14 +251,14 @@ export function checkRequestIP(request, trustedPeerIp) {
     pickFirstValidIp(request.headers?.get?.("x-forwarded-for")) ||
     pickFirstValidIp(request.headers?.get?.("x-real-ip")) ||
     normalizeIP(request.ip || "") ||
-    "unknown";
+    "unknown';
   return checkIP(ip);
 }
 
 // ─── Internal Helpers ───────────────────────────────────────────────────────
 
 function normalizeIP(ip) {
-  if (!ip) return "";
+  if (!ip) return "';
   // Remove IPv6 prefix from IPv4-mapped addresses
   return ip.replace(/^::ffff:/, "").trim();
 }

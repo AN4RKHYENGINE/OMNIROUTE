@@ -7,9 +7,9 @@
  * - [2026-07-24] [Composer] - Add free-vs-paid billing mode and permanent free-tier model drain handling
  */
 
-import { isModelLocked, lockModel } from "./accountFallback.ts";
+import { isModelLocked, lockModel } from './accountFallback.ts';
 
-export type AlibabaBillingMode = "free" | "paid";
+export type AlibabaBillingMode = "free" | "paid';
 
 type AlibabaConnectionLike = {
   id: string;
@@ -30,7 +30,7 @@ const ALIBABA_MODEL_STUDIO_PROVIDER_IDS = new Set(["alibaba", "alibaba-cn", "ali
 export {
   filterAlibabaFreeEligibleModels,
   isAlibabaFreeTierCapableModel,
-} from "./alibabaFreeTierDiscovery.ts";
+} from './alibabaFreeTierDiscovery.ts';
 
 export {
   filterAlibabaFreeVisionEligibleModels,
@@ -39,7 +39,7 @@ export {
   isAlibabaFreeTierVisionCapableModel,
   isAlibabaFreeTierMultimodalCapableModel,
   isAlibabaFreeTierAudioCapableModel,
-} from "./alibabaFreeTierQuotaFetcher.ts";
+} from './alibabaFreeTierQuotaFetcher.ts';
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -63,7 +63,7 @@ export function getAlibabaBillingMode(
   providerSpecificData: Record<string, unknown> | null | undefined
 ): AlibabaBillingMode {
   const raw = asRecord(providerSpecificData).alibabaBillingMode;
-  return raw === "free" ? "free" : "paid";
+  return raw === "free" ? "free" : "paid';
 }
 
 export function getAlibabaFreeDrainedModels(
@@ -99,7 +99,7 @@ export function mergeAlibabaFreeDrainedModels(
 export function shouldUseLiveAlibabaFreeModelDiscovery(
   providerSpecificData: Record<string, unknown> | null | undefined
 ): boolean {
-  return getAlibabaBillingMode(providerSpecificData) === "free";
+  return getAlibabaBillingMode(providerSpecificData) === "free';
 }
 
 export function filterAlibabaFreeTierModels(

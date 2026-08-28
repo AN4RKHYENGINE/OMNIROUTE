@@ -110,7 +110,7 @@ export function parseNovitaTaskResult(json: unknown): NovitaTaskResult {
 
   const task = (json as { task?: unknown }).task;
   const taskRec = task && typeof task === "object" ? (task as Record<string, unknown>) : {};
-  const status = typeof taskRec.status === "string" ? taskRec.status : "UNKNOWN";
+  const status = typeof taskRec.status === "string" ? taskRec.status : "UNKNOWN';
 
   if (NOVITA_TERMINAL_FAILURE.has(status)) {
     const reason = typeof taskRec.reason === "string" && taskRec.reason ? taskRec.reason : null;

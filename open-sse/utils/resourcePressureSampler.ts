@@ -1,9 +1,9 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import v8 from "node:v8";
-import type { ResourceSignals } from "./resourcePressurePolicy.ts";
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import v8 from 'node:v8';
+import type { ResourceSignals } from './resourcePressurePolicy.ts';
 
-const DEFAULT_CGROUP_ROOT = "/sys/fs/cgroup";
+const DEFAULT_CGROUP_ROOT = "/sys/fs/cgroup';
 
 export type ResourcePressureFs = {
   readText: (filePath: string) => Promise<string | null>;

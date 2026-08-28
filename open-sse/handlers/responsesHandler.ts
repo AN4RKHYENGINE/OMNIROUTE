@@ -1,15 +1,15 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
+import { CORS_HEADERS } from '../utils/cors.ts';
 /**
  * Responses API Handler for Workers
  * Converts Chat Completions to Codex Responses API format
  */
 
-import { handleChatCore } from "./chatCore.ts";
-import { convertResponsesApiFormat } from "../translator/helpers/responsesApiHelper.ts";
-import { collectResponsesCustomToolNames } from "../translator/request/openai-responses/additionalTools.ts";
-import { createResponsesApiTransformStream } from "../transformer/responsesTransformer.ts";
-import { createSseHeartbeatTransform, HEARTBEAT_SHAPES } from "../utils/sseHeartbeat.ts";
-import { SSE_HEARTBEAT_INTERVAL_MS } from "../config/constants.ts";
+import { handleChatCore } from './chatCore.ts';
+import { convertResponsesApiFormat } from '../translator/helpers/responsesApiHelper.ts';
+import { collectResponsesCustomToolNames } from '../translator/request/openai-responses/additionalTools.ts';
+import { createResponsesApiTransformStream } from '../transformer/responsesTransformer.ts';
+import { createSseHeartbeatTransform, HEARTBEAT_SHAPES } from '../utils/sseHeartbeat.ts';
+import { SSE_HEARTBEAT_INTERVAL_MS } from '../config/constants.ts';
 
 /**
  * Handle /v1/responses request
@@ -78,7 +78,7 @@ export async function handleResponsesCore({
   }
 
   const response = result.response;
-  const contentType = response.headers.get("Content-Type") || "";
+  const contentType = response.headers.get("Content-Type") || "';
 
   // If not SSE or error, return as-is
   if (!contentType.includes("text/event-stream") || response.status !== 200) {

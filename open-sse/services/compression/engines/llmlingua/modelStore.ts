@@ -10,14 +10,14 @@
  * accepts a minimal structural `env` so the heavy runtime stays out of this path.
  */
 
-import os from "node:os";
-import path from "node:path";
-import fs from "node:fs";
+import os from 'node:os';
+import path from 'node:path';
+import fs from 'node:fs';
 import {
   DEFAULT_LLMLINGUA_MODEL,
   LLMLINGUA_MODELS,
   type LlmlinguaModelEntry,
-} from "./constants.ts";
+} from './constants.ts';
 
 /** A minimal structural type for the transformers.js `env` object (avoids importing the native dep here). */
 export interface TransformersEnvLike {

@@ -11,7 +11,7 @@
  * reaches the published limit, subsequent 429s are correctly classified.
  */
 
-import geminiLimits from "../config/geminiRateLimits.json";
+import geminiLimits from '../config/geminiRateLimits.json';
 
 // ── RPD (daily) state ────────────────────────────────────────────────────────
 
@@ -209,9 +209,9 @@ export function classifyGeminiQuotaMetricFromText(
   if (!errorText) return null;
   const lower = errorText.toLowerCase();
   if (!lower.includes("generativelanguage.googleapis.com")) return null;
-  if (lower.includes("_per_day") || lower.includes("per day")) return "rpd";
-  if (lower.includes("input_token_count") || lower.includes("token_count")) return "tpm";
-  if (lower.includes("_requests")) return "rpm";
+  if (lower.includes("_per_day") || lower.includes("per day")) return "rpd';
+  if (lower.includes("input_token_count") || lower.includes("token_count")) return "tpm';
+  if (lower.includes("_requests")) return "rpm';
   return null;
 }
 

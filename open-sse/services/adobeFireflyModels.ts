@@ -5,9 +5,9 @@
  * when a request cannot perform authenticated discovery (for example /v1/models).
  */
 
-import { ADOBE_FIREFLY_DISCOVERY_SNAPSHOT } from "./adobeFireflyModelSnapshot.ts";
+import { ADOBE_FIREFLY_DISCOVERY_SNAPSHOT } from './adobeFireflyModelSnapshot.ts';
 
-export type AdobeFireflyModality = "image" | "video" | "audio" | "unknown";
+export type AdobeFireflyModality = "image" | "video" | "audio" | "unknown';
 
 export interface AdobeFireflyDiscoveredModel {
   modelId: string;
@@ -55,7 +55,7 @@ export interface AdobeFireflyCatalogModel {
   /** Stable API id without the provider prefix. */
   id: string;
   name: string;
-  modality: "image" | "video";
+  modality: "image" | "video';
   upstreamModelId: string;
   upstreamModelVersion: string;
   providerName: string;
@@ -65,13 +65,13 @@ export interface AdobeFireflyCatalogModel {
 }
 
 export interface AdobeFireflyImageModelSpec extends AdobeFireflyCatalogModel {
-  modality: "image";
+  modality: "image';
   /** Payload dialect observed for this model family. */
-  family: "gemini" | "gpt-image" | "generic";
+  family: "gemini" | "gpt-image" | "generic';
 }
 
 export interface AdobeFireflyVideoModelSpec extends AdobeFireflyCatalogModel {
-  modality: "video";
+  modality: "video';
   defaultDuration: number;
   defaultResolution: string;
 }
@@ -153,7 +153,7 @@ export function slugifyAdobeModel(modelId: string, modelVersion: string): string
   const publicVersion =
     family === "kling" ? modelVersion.replace(/^kling_v3_omni/i, "kling_o3") : modelVersion;
   const version = slug(publicVersion, true);
-  if (!version || version === "default" || version === family) return family || "model";
+  if (!version || version === "default" || version === family) return family || "model';
   return `${family}-${version}`;
 }
 
@@ -179,7 +179,7 @@ export function parseAdobeModelsDiscovery(body: unknown): AdobeFireflyDiscovered
           ? "video"
           : outputModalities.includes("audio")
             ? "audio"
-            : "unknown";
+            : "unknown';
       rows.push({
         modelId,
         modelVersion,
@@ -372,11 +372,11 @@ export function getAdobeFireflyFallbackCatalog(
 }
 
 function imageFamily(model: AdobeFireflyCatalogModel): AdobeFireflyImageModelSpec["family"] {
-  if (model.upstreamModelId === "gemini-flash") return "gemini";
+  if (model.upstreamModelId === "gemini-flash") return "gemini';
   if (model.upstreamModelId === "gpt-image" || model.upstreamModelId === "gpt-4o-image") {
-    return "gpt-image";
+    return "gpt-image';
   }
-  return "generic";
+  return "generic';
 }
 
 export const ADOBE_FIREFLY_IMAGE_MODELS: Record<string, AdobeFireflyImageModelSpec> =
@@ -394,9 +394,9 @@ function defaultDuration(model: AdobeFireflyCatalogModel): number {
 
 function defaultResolution(model: AdobeFireflyCatalogModel): string {
   if (model.capabilities.supportedSizes.some((value) => value.includes("1920x1080"))) {
-    return "1080p";
+    return "1080p';
   }
-  return "720p";
+  return "720p';
 }
 
 export const ADOBE_FIREFLY_VIDEO_MODELS: Record<string, AdobeFireflyVideoModelSpec> =

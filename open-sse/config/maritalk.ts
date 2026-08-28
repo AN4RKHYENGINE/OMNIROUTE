@@ -1,6 +1,6 @@
-import { stripTrailingSlashes } from "../utils/urlSanitize.ts";
+import { stripTrailingSlashes } from '../utils/urlSanitize.ts';
 
-export const MARITALK_DEFAULT_BASE_URL = "https://chat.maritaca.ai/api";
+export const MARITALK_DEFAULT_BASE_URL = "https://chat.maritaca.ai/api';
 
 export function normalizeMaritalkBaseUrl(value: string | null | undefined): string {
   const normalized = stripTrailingSlashes((value || MARITALK_DEFAULT_BASE_URL).trim());

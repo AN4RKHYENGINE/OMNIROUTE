@@ -13,7 +13,7 @@
  * @module services/rateLimitManager/admission
  */
 
-import { markLocalRateLimitError, RATE_LIMIT_QUEUE_FULL_CODE } from "./errors";
+import { markLocalRateLimitError, RATE_LIMIT_QUEUE_FULL_CODE } from './errors';
 
 export interface QueueFullError extends Error {
   code: typeof RATE_LIMIT_QUEUE_FULL_CODE;

@@ -46,7 +46,7 @@ export function isNonRetryableCloudflareError(errorText: string | null | undefin
   if (obj) {
     const retryable = obj.retryable;
     const errorCode = obj.error_code ?? obj.errorCode;
-    const errorName = typeof obj.error_name === "string" ? obj.error_name : "";
+    const errorName = typeof obj.error_name === "string" ? obj.error_name : "';
     const cloudflareError = obj.cloudflare_error === true || obj.cloudflareError === true;
     const ownerActionRequired =
       obj.owner_action_required === true || obj.ownerActionRequired === true;

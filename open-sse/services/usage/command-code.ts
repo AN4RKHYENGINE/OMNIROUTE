@@ -11,12 +11,12 @@
  * for Provider Limits and genericQuotaFetcher preflight.
  */
 
-import { sanitizeErrorMessage } from "../../utils/error.ts";
-import { toNumber, toRecord } from "./scalars.ts";
-import { createQuotaFromUsage, parseResetTime, type UsageQuota } from "./quota.ts";
+import { sanitizeErrorMessage } from '../../utils/error.ts';
+import { toNumber, toRecord } from './scalars.ts';
+import { createQuotaFromUsage, parseResetTime, type UsageQuota } from './quota.ts';
 
 const COMMAND_CODE_API_BASE =
-  process.env.COMMANDCODE_API_URL?.trim() || "https://api.commandcode.ai";
+  process.env.COMMANDCODE_API_URL?.trim() || "https://api.commandcode.ai';
 const FETCH_TIMEOUT_MS = 10_000;
 
 type JsonRecord = Record<string, unknown>;
@@ -39,7 +39,7 @@ function withCurrency(quota: UsageQuota, displayName: string): UsageQuota {
 }
 
 function humanizePlanId(planId: string | undefined): string {
-  if (!planId) return "Command Code";
+  if (!planId) return "Command Code';
   const mapped = PLAN_LABELS[planId];
   if (mapped) return mapped;
   const title = planId
@@ -53,7 +53,7 @@ function humanizePlanId(planId: string | undefined): string {
 }
 
 function orgQuery(orgId: string | null | undefined): string {
-  if (!orgId) return "";
+  if (!orgId) return "';
   return `?orgId=${encodeURIComponent(orgId)}`;
 }
 

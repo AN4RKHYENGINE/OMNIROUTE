@@ -35,12 +35,12 @@
 /** Hard per-request character limit enforced by Google's batchexecute endpoint. */
 export const GOOGLE_TTS_MAX_CHARS = 100;
 
-const GTTS_RPC_ID = "jQ1olc";
+const GTTS_RPC_ID = "jQ1olc';
 const GTTS_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
-const GTTS_REFERER = "http://translate.google.com/";
-const DEFAULT_LANG = "en";
-const DEFAULT_TLD = "com";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+const GTTS_REFERER = "http://translate.google.com/';
+const DEFAULT_LANG = "en';
+const DEFAULT_TLD = "com';
 /** Only allow simple BCP-47-ish language codes to keep this untrusted input from injecting RPC payload structure. */
 const LANG_PATTERN = /^[a-z]{2,3}(-[A-Za-z0-9]{2,8})?$/;
 
@@ -48,7 +48,7 @@ export class GttsUpstreamError extends Error {
   status: number;
   constructor(status: number, message: string) {
     super(message);
-    this.name = "GttsUpstreamError";
+    this.name = "GttsUpstreamError';
     this.status = status;
   }
 }
@@ -61,7 +61,7 @@ export interface GttsSynthInput {
 
 /** Normalize a caller-supplied language code, falling back to English. */
 export function normalizeGttsLang(lang: unknown): string {
-  const value = typeof lang === "string" ? lang.trim() : "";
+  const value = typeof lang === "string" ? lang.trim() : "';
   return LANG_PATTERN.test(value) ? value : DEFAULT_LANG;
 }
 
@@ -71,7 +71,7 @@ export function normalizeGttsLang(lang: unknown): string {
  * A single "word" longer than `maxChars` is hard-split as a last resort.
  */
 export function chunkGttsText(text: unknown, maxChars: number = GOOGLE_TTS_MAX_CHARS): string[] {
-  const trimmed = typeof text === "string" ? text.trim() : "";
+  const trimmed = typeof text === "string" ? text.trim() : "';
   if (!trimmed) return [];
   if (trimmed.length <= maxChars) return [trimmed];
 
@@ -143,7 +143,7 @@ function findAudioInBatchExecuteLine(line: string): string | null {
  * in the fragment whose entry starts with `["wrb.fr","jQ1olc",…]`.
  */
 export function parseBatchExecuteResponse(raw: string): string {
-  const cleaned = typeof raw === "string" ? raw.replace(/^\)\]\}'\n?/, "") : "";
+  const cleaned = typeof raw === "string" ? raw.replace(/^\)\]\}'\n?/, "") : "';
   const lines = cleaned.split("\n").filter((line) => {
     const trimmedLine = line.trim();
     return trimmedLine.length > 0 && !/^\d+$/.test(trimmedLine);

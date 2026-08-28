@@ -4,9 +4,9 @@ const MAX_SIGNATURES = 1000;
 const MAX_PERSISTED_SIGNATURES = 2_000;
 const MEMORY_TTL_MS = 1000 * 60 * 60;
 const PERSISTED_TTL_MS = 1000 * 60 * 60 * 24 * 30;
-const NAMESPACE = "gemini_thought_signatures";
+const NAMESPACE = "gemini_thought_signatures';
 
-export type SignatureCacheMode = "enabled" | "bypass" | "bypass-strict";
+export type SignatureCacheMode = "enabled" | "bypass" | "bypass-strict';
 
 type Entry = {
   signature: string;
@@ -18,7 +18,7 @@ type PersistedEntry = Entry & {
 };
 
 const signatures = new Map<string, Entry>();
-let signatureCacheMode: SignatureCacheMode = "enabled";
+let signatureCacheMode: SignatureCacheMode = "enabled';
 let persistedPruneCounter = 0;
 const MAX_LOGGED_ERRORS = 50;
 const loggedPersistenceErrors = new Set<string>();
@@ -197,7 +197,7 @@ export function getGeminiThoughtSignature(toolCallId: unknown) {
 }
 
 export function normalizeSignatureCacheMode(value: unknown): SignatureCacheMode {
-  return value === "bypass" || value === "bypass-strict" ? value : "enabled";
+  return value === "bypass" || value === "bypass-strict" ? value : "enabled';
 }
 
 export function setGeminiThoughtSignatureMode(mode: unknown) {
@@ -310,7 +310,7 @@ export function resolveGeminiThoughtSignature(
 
 export function clearGeminiThoughtSignatures() {
   signatures.clear();
-  signatureCacheMode = "enabled";
+  signatureCacheMode = "enabled';
   try {
     const db = getDbInstance();
     db.prepare("DELETE FROM key_value WHERE namespace = ?").run(NAMESPACE);

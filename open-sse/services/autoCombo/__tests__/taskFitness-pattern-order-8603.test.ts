@@ -15,8 +15,8 @@
  * chain, so this surfaces for models with no arena_elo / models.dev coverage — the
  * long tail of the provider catalog.
  */
-import { describe, it, expect } from "vitest";
-import { getStaticFitnessTableScore } from "../taskFitness";
+import { describe, it, expect } from 'vitest';
+import { getStaticFitnessTableScore } from '../taskFitness';
 
 describe("#8603 static fitness table matches longest pattern first", () => {
   it("scores gpt-4o-mini from its own row, not gpt-4o's", () => {

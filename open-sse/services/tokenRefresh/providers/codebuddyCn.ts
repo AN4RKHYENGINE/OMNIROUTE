@@ -1,8 +1,8 @@
 // @ts-nocheck
 // Extracted from open-sse/services/tokenRefresh.ts — see ../shared.ts for
 // provenance notes (ported idea from KooshaPari's PR #7338, redone on tip).
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import type { RefreshLogger } from "../shared.ts";
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import type { RefreshLogger } from '../shared.ts';
 
 /**
  * CodeBuddy CN (Tencent) token refresh — POST /v2/plugin/auth/token/refresh with

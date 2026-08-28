@@ -3,9 +3,9 @@
  * No HTTP route wiring — suitable for later shared handleChat integration.
  */
 
-import { AdaptiveAdmissionController } from "./controller.ts";
-import { validateConfig } from "./config.ts";
-import { extractAdmissionCostFeatures } from "./requestFeatures.ts";
+import { AdaptiveAdmissionController } from './controller.ts';
+import { validateConfig } from './config.ts';
+import { extractAdmissionCostFeatures } from './requestFeatures.ts';
 import {
   type AdaptiveAdmissionConfig,
   type AdmissionAcquireResult,
@@ -17,18 +17,18 @@ import {
   type AdmissionReleaseOutcome,
   type AdmissionSnapshot,
   type ShadowDecision,
-} from "./types.ts";
-import { buildErrorBody } from "../../utils/error.ts";
-import { CORS_HEADERS } from "../../utils/cors.ts";
+} from './types.ts';
+import { buildErrorBody } from '../../utils/error.ts';
+import { CORS_HEADERS } from '../../utils/cors.ts';
 import {
   checkResourcePressureGuard,
   getResourcePressureObservation,
   type ResourcePressureGuardResult,
   type ResourcePressureObservation,
-} from "../../utils/resourcePressure.ts";
-import type { PressureReason, PressureSeverity } from "../../utils/resourcePressurePolicy.ts";
+} from '../../utils/resourcePressure.ts';
+import type { PressureReason, PressureSeverity } from '../../utils/resourcePressurePolicy.ts';
 
-export { extractAdmissionCostFeatures } from "./requestFeatures.ts";
+export { extractAdmissionCostFeatures } from './requestFeatures.ts';
 
 export const DEFAULT_ADAPTIVE_ADMISSION_CONFIG: Readonly<AdaptiveAdmissionConfig> = Object.freeze({
   mode: "shadow",
@@ -121,7 +121,7 @@ export function resolveAdaptiveAdmissionConfigFromEnv(
 
   // Per-connection virtual admission lanes (#9654) — opt-in via OMNIROUTE_CHAT_VIRTUAL_LANES.
   const vlRaw = env.OMNIROUTE_CHAT_VIRTUAL_LANES;
-  cfg.virtualLanes = vlRaw === "1" || vlRaw === "true";
+  cfg.virtualLanes = vlRaw === "1" || vlRaw === "true';
 
   return cfg;
 }
@@ -138,7 +138,7 @@ export type AdaptiveAdmissionAcquireInput = {
 };
 
 export type AdaptiveAdmissionAdmitted = {
-  status: "admitted";
+  status: "admitted';
   mode: AdmissionMode;
   lease: AdmissionLease;
   admittedAtMs: number;
@@ -146,7 +146,7 @@ export type AdaptiveAdmissionAdmitted = {
 };
 
 export type AdaptiveAdmissionRejected = {
-  status: "rejected";
+  status: "rejected';
   code: string;
   response: Response;
 };
@@ -287,13 +287,13 @@ function observationIdentity(state: ResourcePressureObservation["state"]): strin
 }
 
 function toAdmissionPressure(severity: PressureSeverity): AdmissionPressure {
-  if (severity === "critical") return "critical";
-  if (severity === "high") return "high";
-  return "normal";
+  if (severity === "critical") return "critical';
+  if (severity === "high") return "high';
+  return "normal';
 }
 
 function isSseResponse(response: Response): boolean {
-  const contentType = response.headers.get("content-type") ?? "";
+  const contentType = response.headers.get("content-type") ?? "';
   return contentType.toLowerCase().includes("text/event-stream");
 }
 
@@ -313,12 +313,12 @@ function releaseOnce(
  * Cancellation always wins over status classification.
  */
 function classifyHttpOutcome(status: number, signal?: AbortSignal): AdmissionReleaseOutcome {
-  if (signal?.aborted || status === 499) return "cancelled";
-  if (status === 408 || status === 504) return "timeout";
-  if (status >= 500) return "upstream_error";
-  if (status >= 400) return "local_reject";
+  if (signal?.aborted || status === 499) return "cancelled';
+  if (status === 408 || status === 504) return "timeout';
+  if (status >= 500) return "upstream_error';
+  if (status >= 400) return "local_reject';
   // 2xx / 3xx (and rare 1xx) complete successfully from admission's perspective.
-  return "success";
+  return "success';
 }
 
 class AdaptiveAdmissionRuntimeImpl implements AdaptiveAdmissionRuntime {
@@ -575,7 +575,7 @@ export function createAdaptiveAdmissionRuntime(
 
 function warnInvalidDefaultConfig(warn: ((message: string) => void) | undefined): void {
   const message =
-    "[adaptiveAdmission] invalid environment configuration; using default shadow admission settings";
+    "[adaptiveAdmission] invalid environment configuration; using default shadow admission settings';
   if (warn) {
     warn(message);
     return;

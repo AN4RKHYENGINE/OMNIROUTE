@@ -1,4 +1,4 @@
-import type { OutputStyleSelectionEntry } from "./apply.ts";
+import type { OutputStyleSelectionEntry } from './apply.ts';
 
 /** The CompressionRunTelemetry fields this sub-project (A) fills. Clock-free / pure. */
 export interface OutputStyleTelemetryRecord {

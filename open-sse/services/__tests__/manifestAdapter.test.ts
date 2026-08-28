@@ -1,10 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from 'vitest';
 import {
   generateRoutingHints,
   compareByCostEffectiveness,
   estimateRequestCost,
-} from "../manifestAdapter.ts";
-import type { ResolvedComboTarget } from "../combo.ts";
+} from '../manifestAdapter.ts';
+import type { ResolvedComboTarget } from '../combo.ts';
 
 function makeTarget(provider: string, model: string): ResolvedComboTarget {
   return {

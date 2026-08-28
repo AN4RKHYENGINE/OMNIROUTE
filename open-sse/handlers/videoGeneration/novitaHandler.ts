@@ -7,7 +7,7 @@
  * endpoint by `task_id` with backoff, and returns the OpenAI-like response shape.
  */
 
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 import {
   buildNovitaPollUrl,
   buildNovitaSubmitBody,
@@ -15,7 +15,7 @@ import {
   normalizeNovitaVideoParams,
   parseNovitaTaskId,
   parseNovitaTaskResult,
-} from "./novita.ts";
+} from './novita.ts';
 
 interface NovitaHandlerArgs {
   model: string;
@@ -51,7 +51,7 @@ async function submitNovitaTask(
   if (taskId) return { taskId };
 
   const errorMessage =
-    (submitData as { message?: unknown })?.message || "Novita did not return a task_id";
+    (submitData as { message?: unknown })?.message || "Novita did not return a task_id';
   log?.error?.("VIDEO", `Novita createTask failed: ${JSON.stringify(submitData)}`);
   return {
     error: {
@@ -81,7 +81,7 @@ async function pollNovitaTask(
   deadline: number,
   pollIntervalMs: number
 ): Promise<NovitaHandlerResult> {
-  let lastStatus = "UNKNOWN";
+  let lastStatus = "UNKNOWN';
 
   while (Date.now() < deadline) {
     await sleep(pollIntervalMs);

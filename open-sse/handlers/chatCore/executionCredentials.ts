@@ -9,8 +9,8 @@
  * and threads the Claude Code session id when present. Side-effect-free.
  */
 
-import { getKimiCodeStaticThinkingPolicy } from "../../config/providers/registry/kimi/coding/runtime.ts";
-import { FORMATS } from "../../translator/formats.ts";
+import { getKimiCodeStaticThinkingPolicy } from '../../config/providers/registry/kimi/coding/runtime.ts';
+import { FORMATS } from '../../translator/formats.ts';
 
 type CredentialsLike =
   | {
@@ -108,7 +108,7 @@ export function resolveExecutionCredentials(opts: {
     (provider === "azure-ai" || provider === "oci") &&
     providerSpecificData.apiType !== "responses"
   ) {
-    providerSpecificData.apiType = "responses";
+    providerSpecificData.apiType = "responses';
   }
 
   if (

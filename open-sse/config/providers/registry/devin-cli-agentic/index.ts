@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { DEVIN_MODEL_CATALOG } from "../devin/catalog.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { DEVIN_MODEL_CATALOG } from '../devin/catalog.ts';
 
 export const devin_cli_agenticProvider: RegistryEntry = {
   id: "devin-cli-agentic",

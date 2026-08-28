@@ -7,10 +7,10 @@
  * advertises correctly in /v1/models and routes through combo.ts → handleChaosChat.
  */
 
-import { describe, it, expect } from "vitest";
-import { createVirtualAutoCombo } from "../virtualFactory";
-import { AUTO_TEMPLATE_VARIANTS } from "../builtinCatalog";
-import { parseAutoPrefix } from "../autoPrefix";
+import { describe, it, expect } from 'vitest';
+import { createVirtualAutoCombo } from '../virtualFactory';
+import { AUTO_TEMPLATE_VARIANTS } from '../builtinCatalog';
+import { parseAutoPrefix } from '../autoPrefix';
 
 describe("auto/chaos virtual combo", () => {
   it("is registered in the built-in catalog", () => {

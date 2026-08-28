@@ -15,7 +15,7 @@
  * the expiration timeout fires.
  */
 
-import Bottleneck from "bottleneck";
+import Bottleneck from 'bottleneck';
 
 /** Bottleneck Job instance (internal, not exported). */
 interface BottleneckJob {

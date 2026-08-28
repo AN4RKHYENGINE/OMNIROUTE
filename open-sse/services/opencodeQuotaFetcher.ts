@@ -45,15 +45,15 @@
  * Registration: call registerOpencodeQuotaFetcher() once at server startup.
  */
 
-import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
+import { registerQuotaFetcher, registerQuotaWindows, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 
 // OpenCode quota endpoint — same key works across opencode, opencode-go, opencode-zen
 // Default points at /zen/go/v1/quota which returns 404 today (no public quota API yet,
 // tracked in anomalyco/opencode#16017).  Set OMNIROUTE_OPENCODE_QUOTA_URL to override.
 const OPENCODE_QUOTA_URL =
-  process.env.OMNIROUTE_OPENCODE_QUOTA_URL ?? "https://opencode.ai/zen/go/v1/quota";
+  process.env.OMNIROUTE_OPENCODE_QUOTA_URL ?? "https://opencode.ai/zen/go/v1/quota';
 
 // Cache TTL — matches Codex / DeepSeek / Bailian pattern (60s)
 const CACHE_TTL_MS = 60_000;
@@ -62,9 +62,9 @@ const CACHE_TTL_MS = 60_000;
 const NO_ENDPOINT_TTL_MS = 5 * 60_000; // 5 minutes
 
 // Window keys as surfaced to the dashboard and quota-window registry
-export const OPENCODE_WINDOW_5H = "window_5h";
-export const OPENCODE_WINDOW_WEEKLY = "window_weekly";
-export const OPENCODE_WINDOW_MONTHLY = "window_monthly";
+export const OPENCODE_WINDOW_5H = "window_5h';
+export const OPENCODE_WINDOW_WEEKLY = "window_weekly';
+export const OPENCODE_WINDOW_MONTHLY = "window_monthly';
 
 // Triple-window quota info
 export interface OpencodeTripleWindowQuota extends QuotaInfo {

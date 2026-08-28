@@ -25,29 +25,29 @@
  * supply-chain risk, ≥30% savings on typical homogeneous arrays already met).
  */
 
-import { createCompressionStats } from "../../stats.ts";
+import { createCompressionStats } from '../../stats.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import type { CompressionResult } from "../../types.ts";
-import { crushMessages, DEFAULT_MIN_ROWS } from "./smartcrusher.ts";
+} from '../types.ts';
+import type { CompressionResult } from '../../types.ts';
+import { crushMessages, DEFAULT_MIN_ROWS } from './smartcrusher.ts';
 import {
   TABULAR_FENCE_OPEN,
   TABULAR_FENCE_CLOSE,
   GCF_FENCE_OPEN,
   GCF_FENCE_CLOSE,
   decodeTabular,
-} from "./tabular.ts";
-import { TOON_FENCE_OPEN, TOON_FENCE_CLOSE } from "./toon.ts";
+} from './tabular.ts';
+import { TOON_FENCE_OPEN, TOON_FENCE_CLOSE } from './toon.ts';
 
-export { encodeTabular, decodeTabular } from "./tabular.ts";
+export { encodeTabular, decodeTabular } from './tabular.ts';
 
 // ─── constants ────────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "headroom";
+const ENGINE_ID = "headroom';
 
 // ─── schema & validation ──────────────────────────────────────────────────────
 

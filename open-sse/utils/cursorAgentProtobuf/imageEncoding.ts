@@ -1,10 +1,10 @@
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 import {
   encodeBytes,
   encodeMessage,
   encodeString,
   encodeUInt32Field,
-} from "./wire.ts";
+} from './wire.ts';
 
 const SI_UUID = 2;
 const SI_PATH = 3;
@@ -35,7 +35,7 @@ export function cursorImageAttachmentPath(uuid: string, mimeType?: string): stri
         ? "gif"
         : normalized === "image/webp"
           ? "webp"
-          : "png";
+          : "png';
   return `attachment-${uuid}.${ext}`;
 }
 

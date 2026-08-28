@@ -5,7 +5,7 @@
  * and all A2A protocol types conforming to A2A Protocol v0.3.
  */
 
-import { z } from "zod";
+import { z } from 'zod';
 
 // ============ Agent Card Schema ============
 

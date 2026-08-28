@@ -10,12 +10,12 @@
  * previous inline block. Sits alongside resolveChatCoreRequestSetup as the request-setup phase grows.
  */
 
-import { detectFormatFromEndpoint } from "../../services/provider.ts";
+import { detectFormatFromEndpoint } from '../../services/provider.ts';
 import {
   shouldUseNativeCodexPassthrough,
   shouldUseNativeXaiResponsesPassthrough,
-} from "./passthroughHelpers.ts";
-import { FORMATS } from "../../translator/formats.ts";
+} from './passthroughHelpers.ts';
+import { FORMATS } from '../../translator/formats.ts';
 
 /** True when the request originates from a Copilot client (matched by user-agent or any header). */
 function isCopilotClient(

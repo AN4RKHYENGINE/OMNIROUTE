@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 /**
  * TinyCMS — session-cookie free-tier and subscription gateway.

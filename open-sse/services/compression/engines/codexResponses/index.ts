@@ -1,19 +1,19 @@
-import { createCompressionStats } from "../../stats.ts";
+import { createCompressionStats } from '../../stats.ts';
 import {
   DEFAULT_CODEX_RESPONSES_CONFIG,
   type CodexResponsesConfig,
   type CompressionResult,
-} from "../../types.ts";
+} from '../../types.ts';
 import type {
   CompressionEngine,
   CompressionEngineApplyOptions,
   EngineConfigField,
   EngineValidationResult,
-} from "../types.ts";
-import { CODEX_RESPONSE_ITEM_META } from "../../bodyAdapter.ts";
-import { countTextTokens } from "@shared/utils/tiktokenCounter.ts";
+} from '../types.ts';
+import { CODEX_RESPONSE_ITEM_META } from '../../bodyAdapter.ts';
+import { countTextTokens } from '@shared/utils/tiktokenCounter.ts';
 
-const ENGINE_ID = "codex-responses";
+const ENGINE_ID = "codex-responses';
 
 function countCodexTokens(text: string): number {
   if (!text) return 0;

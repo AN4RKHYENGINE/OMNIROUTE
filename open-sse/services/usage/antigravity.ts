@@ -10,40 +10,40 @@
  * (dispatcher) + getAntigravityPlanLabel/mapCodeAssist* (__testing). Behavior-preserving move.
  */
 
-import { PROVIDERS } from "../../config/constants.ts";
+import { PROVIDERS } from '../../config/constants.ts';
 import {
   ANTIGRAVITY_BOOTSTRAP_BASE_URLS,
   ANTIGRAVITY_RUNTIME_BASE_URLS,
   getAntigravityFetchAvailableModelsUrls,
-} from "../../config/antigravityUpstream.ts";
+} from '../../config/antigravityUpstream.ts';
 import {
   isUserCallableAntigravityModelId,
   toClientAntigravityQuotaModelId,
-} from "../../config/antigravityModelAliases.ts";
-import { isUserCallableAgyModelId } from "../../config/agyModels.ts";
-import { getDbInstance } from "@/lib/db/core";
+} from '../../config/antigravityModelAliases.ts';
+import { isUserCallableAgyModelId } from '../../config/agyModels.ts';
+import { getDbInstance } from '@/lib/db/core';
 import {
   applyAntigravityClientProfileHeaders,
   getAntigravityClientProfile,
   type AntigravityClientProfile,
-} from "../antigravityClientProfile.ts";
+} from '../antigravityClientProfile.ts';
 import {
   getAntigravityContentHeaders,
   getAntigravityLoadCodeAssistMetadata,
-} from "../antigravityHeaders.ts";
+} from '../antigravityHeaders.ts';
 import {
   getAntigravityRemainingCredits,
   updateAntigravityRemainingCredits,
-} from "../../executors/antigravity.ts";
-import { getCreditsMode } from "../antigravityCredits.ts";
-import { generateAntigravityRequestId, getAntigravitySessionId } from "../antigravityIdentity.ts";
+} from '../../executors/antigravity.ts';
+import { getCreditsMode } from '../antigravityCredits.ts';
+import { generateAntigravityRequestId, getAntigravitySessionId } from '../antigravityIdentity.ts';
 import {
   extractCodeAssistOnboardTierId,
   extractCodeAssistSubscriptionTier,
-} from "../codeAssistSubscription.ts";
-import { toRecord, toNumber, getFieldValue } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
-import { fetchAndParseAntigravityWeeklyQuotas } from "./antigravityWeeklyQuota.ts";
+} from '../codeAssistSubscription.ts';
+import { toRecord, toNumber, getFieldValue } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
+import { fetchAndParseAntigravityWeeklyQuotas } from './antigravityWeeklyQuota.ts';
 
 type JsonRecord = Record<string, unknown>;
 type SubscriptionCacheEntry = {
@@ -303,40 +303,40 @@ async function fetchAntigravityUserQuotaCached(
 
 function extractCodeAssistTierId(subscription: JsonRecord): string {
   const tierId = extractCodeAssistOnboardTierId(subscription);
-  if (tierId === "legacy-tier") return "";
+  if (tierId === "legacy-tier") return "';
   const upper = tierId.toUpperCase();
-  return mapCodeAssistTierIdToLabel(upper) ? upper : "";
+  return mapCodeAssistTierIdToLabel(upper) ? upper : "';
 }
 
 export function mapCodeAssistTierIdToLabel(tierId: string): string | null {
   const upper = tierId.toUpperCase();
-  if (upper.includes("ULTRA")) return "Ultra";
+  if (upper.includes("ULTRA")) return "Ultra';
   if (
     upper.includes("PRO") ||
     upper.includes("PREMIUM") ||
     upper.includes("GOOGLE_ONE") ||
     upper.includes("ONE_AI")
   )
-    return "Pro";
-  if (upper.includes("ENTERPRISE")) return "Enterprise";
-  if (upper.includes("BUSINESS") || upper.includes("STANDARD")) return "Business";
-  if (upper.includes("PLUS")) return "Plus";
-  if (upper.includes("LITE") || upper.includes("LIGHT")) return "Lite";
+    return "Pro';
+  if (upper.includes("ENTERPRISE")) return "Enterprise';
+  if (upper.includes("BUSINESS") || upper.includes("STANDARD")) return "Business';
+  if (upper.includes("PLUS")) return "Plus';
+  if (upper.includes("LITE") || upper.includes("LIGHT")) return "Lite';
   if (upper.includes("FREE") || upper.includes("INDIVIDUAL") || upper.includes("LEGACY"))
-    return "Free";
+    return "Free';
   return null;
 }
 
 export function mapSubscriptionTierStringToPlanLabel(tierText: string): string | null {
   const upper = tierText.toUpperCase();
-  if (upper.includes("ULTRA")) return "Ultra";
+  if (upper.includes("ULTRA")) return "Ultra';
   if (upper.includes("PRO") || upper.includes("PREMIUM") || upper.includes("GOOGLE ONE"))
-    return "Pro";
-  if (upper.includes("ENTERPRISE")) return "Enterprise";
-  if (upper.includes("STANDARD") || upper.includes("BUSINESS")) return "Business";
-  if (upper.includes("PLUS")) return "Plus";
-  if (upper.includes("LITE")) return "Lite";
-  if (upper.includes("INDIVIDUAL") || upper.includes("FREE")) return "Free";
+    return "Pro';
+  if (upper.includes("ENTERPRISE")) return "Enterprise';
+  if (upper.includes("STANDARD") || upper.includes("BUSINESS")) return "Business';
+  if (upper.includes("PLUS")) return "Plus';
+  if (upper.includes("LITE")) return "Lite';
+  if (upper.includes("INDIVIDUAL") || upper.includes("FREE")) return "Free';
   // Strip a trailing "(RESTRICTED)" marker. Match the fixed literal anywhere then
   // trim, instead of /\s*\(RESTRICTED\)\s*$/ whose overlapping \s* runs backtrack
   // polynomially on whitespace-heavy upstream input (js/polynomial-redos).
@@ -350,7 +350,7 @@ export function mapSubscriptionTierStringToPlanLabel(tierText: string): string |
 
 export function mapCodeAssistSubscriptionToPlanLabel(subscriptionInfo: unknown): string {
   const subscription = toRecord(subscriptionInfo);
-  if (Object.keys(subscription).length === 0) return "Free";
+  if (Object.keys(subscription).length === 0) return "Free';
 
   const subscriptionTier = extractCodeAssistSubscriptionTier(subscriptionInfo);
   if (subscriptionTier) {
@@ -376,9 +376,9 @@ export function mapCodeAssistSubscriptionToPlanLabel(subscriptionInfo: unknown):
     const mapped = mapCodeAssistTierIdToLabel(tierId);
     if (mapped) return mapped;
   }
-  if (currentTier.upgradeSubscriptionType) return "Free";
+  if (currentTier.upgradeSubscriptionType) return "Free';
   if (tierName) return tierName.charAt(0).toUpperCase() + tierName.slice(1).toLowerCase();
-  return "Free";
+  return "Free';
 }
 
 const KNOWN_ANTIGRAVITY_PLAN_LABELS = new Set([
@@ -596,7 +596,7 @@ export async function getAntigravityUsage(
 
     // Derive accountId for credit balance cache.
     // Must match executor key: credentials.connectionId
-    const accountId: string = connectionId || "unknown";
+    const accountId: string = connectionId || "unknown';
 
     // Read cached credit balance (hydrated from DB on first access)
     let creditBalance = getAntigravityRemainingCredits(accountId);
@@ -659,7 +659,7 @@ export async function getAntigravityUsage(
       const quotaSource = liveQuota || quotaInfo;
       const rawFraction = toNumber(quotaSource.remainingFraction, -1);
       const resetAt = parseResetTime(quotaSource.resetTime);
-      // Distinguish "upstream did not report remainingFraction" from "remaining is 0%".
+      // Distinguish "upstream did not report remainingFraction" from 'remaining is 0%".
       // fetchAvailableModels is a catalog view and can be stale/full; retrieveUserQuota is
       // the source of truth for actual Gemini consumption when it includes the model.
       const fractionReported = rawFraction >= 0;

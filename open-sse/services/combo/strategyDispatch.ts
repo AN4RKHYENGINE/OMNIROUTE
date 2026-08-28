@@ -18,10 +18,10 @@
 // nesta lista; ao remover um branch, retire a entrada — o gate acusa qualquer divergência
 // nas duas direções (canonicalSemDespacho / despachoNaoCanonico).
 
-import { applyStrategyOrdering } from "./applyStrategyOrdering.ts";
-import { resolveAutoStrategyOrder } from "./resolveAutoStrategy.ts";
-import { tryFusionDispatch, tryPipelineDispatch } from "./dispatchPrelude.ts";
-import { resolveComboTargetPipeline } from "./targetResolution.ts";
+import { applyStrategyOrdering } from './applyStrategyOrdering.ts';
+import { resolveAutoStrategyOrder } from './resolveAutoStrategy.ts';
+import { tryFusionDispatch, tryPipelineDispatch } from './dispatchPrelude.ts';
+import { resolveComboTargetPipeline } from './targetResolution.ts';
 
 /**
  * As funções reais que implementam o despacho/ordenação de estratégias. Referenciadas

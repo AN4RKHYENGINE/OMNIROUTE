@@ -1,17 +1,17 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { spawn } from "node:child_process";
-import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
-import { dirname, join } from "node:path";
-import type { BrowserContextOptions } from "playwright-core";
-import type { AppConfig } from "./config";
-import { atomicWriteFile } from "./config";
+import { spawn } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import type { BrowserContextOptions } from 'playwright-core';
+import type { AppConfig } from './config';
+import { atomicWriteFile } from './config';
 import {
   assertAuthenticatedChatGptPage,
   assertTemporaryChatPage,
   CHATGPT_TEMPORARY_CHAT_URL,
   detectChatGptProCapability,
-} from "./chatgpt-session";
+} from './chatgpt-session';
 
 export interface BrowserLoginResult {
   storageStatePath: string;

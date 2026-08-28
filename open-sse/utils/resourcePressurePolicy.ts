@@ -1,7 +1,7 @@
 const MB = 1024 * 1024;
 const MAX_SUSTAINED_SAMPLES = 10_000;
 
-export type PressureSeverity = "normal" | "high" | "critical";
+export type PressureSeverity = "normal" | "high" | "critical';
 
 export type PressureReason =
   | "none"
@@ -11,7 +11,7 @@ export type PressureReason =
   | "cgroup_high"
   | "psi_some"
   | "psi_full"
-  | "oom_event";
+  | "oom_event';
 
 export type ResourceMetricBytes = number | null;
 
@@ -271,8 +271,8 @@ export function createResourcePressureTracker(
       let { severity, reason, elevatedStreak, recoveryStreak } = state;
 
       if (oomEvent) {
-        severity = "critical";
-        reason = "oom_event";
+        severity = "critical';
+        reason = "oom_event';
         elevatedStreak = 0;
         recoveryStreak = 0;
         pending = null;
@@ -281,7 +281,7 @@ export function createResourcePressureTracker(
         if (raw.severity === "normal") {
           pending = null;
           elevatedStreak = 0;
-          reason = "none";
+          reason = "none';
         } else {
           const samePending = pending?.severity === raw.severity && pending.reason === raw.reason;
           pending = raw;
@@ -303,7 +303,7 @@ export function createResourcePressureTracker(
         pending = raw;
         elevatedStreak = samePending ? elevatedStreak + 1 : 1;
         if (elevatedStreak >= thresholds.sustainedSamplesCritical) {
-          severity = "critical";
+          severity = "critical';
           reason = raw.reason;
           elevatedStreak = 0;
           pending = null;
@@ -318,8 +318,8 @@ export function createResourcePressureTracker(
         elevatedStreak = 0;
         recoveryStreak += 1;
         if (recoveryStreak >= thresholds.sustainedSamplesRecovery) {
-          severity = "normal";
-          reason = "none";
+          severity = "normal';
+          reason = "none';
           recoveryStreak = 0;
         }
       } else {

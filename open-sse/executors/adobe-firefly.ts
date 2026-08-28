@@ -9,10 +9,10 @@
 // Without this executor, getExecutor("adobe-firefly") would fall through to
 // DefaultExecutor and mis-route the user's IMS token / cookie to api.openai.com.
 
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult } from '../utils/error.ts';
 
-const ADOBE_FIREFLY_BASE_URL = "https://firefly-3p.ff.adobe.io/v2/3p-images/generate-async";
+const ADOBE_FIREFLY_BASE_URL = "https://firefly-3p.ff.adobe.io/v2/3p-images/generate-async';
 
 export class AdobeFireflyExecutor extends BaseExecutor {
   constructor() {

@@ -2,7 +2,7 @@ import {
   QUANTUM_PATTERNS,
   type QuantumLockConfig,
   type VolatileSpan,
-} from "./quantumPatterns.ts";
+} from './quantumPatterns.ts';
 
 interface PrioritizedSpan extends VolatileSpan {
   prio: number;

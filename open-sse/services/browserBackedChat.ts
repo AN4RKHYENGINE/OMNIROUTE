@@ -16,26 +16,26 @@
  * first-line best-effort; this module is the fallback.
  */
 
-import { Buffer } from "node:buffer";
+import { Buffer } from 'node:buffer';
 import {
   acquireBrowserContext,
   openPage,
   readPageResponseBody,
   shutdownPool,
   type PooledContext,
-} from "./browserPool.ts";
-import tlsClient from "../utils/tlsClient.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
-import { resolveHttpBackedChatFingerprint } from "./httpBackedChatFingerprint.ts";
+} from './browserPool.ts';
+import tlsClient from '../utils/tlsClient.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
+import { resolveHttpBackedChatFingerprint } from './httpBackedChatFingerprint.ts';
 import type {
   BrowserBackedChatRequest,
   BrowserBackedChatResult,
-} from "./browserBackedChat/types.ts";
+} from './browserBackedChat/types.ts';
 
 export type {
   BrowserBackedChatRequest,
   BrowserBackedChatResult,
-} from "./browserBackedChat/types.ts";
+} from './browserBackedChat/types.ts';
 
 // Safety constants
 const MAX_RESPONSE_BYTES = 10 * 1024 * 1024; // 10 MB
@@ -363,7 +363,7 @@ export async function browserBackedChat(
           })
         );
         status = 502;
-        contentType = "application/json";
+        contentType = "application/json';
       } else {
         status = captured.status;
         contentType = captured.headers["content-type"] || null;
@@ -538,7 +538,7 @@ export async function httpBackedChat(
 
     const responseBody = Buffer.from(await response.text());
     const responseStatus = response.status;
-    const contentType = response.headers.get("content-type") || "text/event-stream";
+    const contentType = response.headers.get("content-type") || "text/event-stream';
 
     return {
       status: responseStatus,

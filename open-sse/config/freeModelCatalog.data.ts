@@ -7,7 +7,7 @@
 // published token cap (rate/concurrency-limited) — NOT summed into the steady headline (see freeModelCatalog.ts).
 // Deposit-unlock boosts (e.g. OpenRouter $10 -> 1000 RPD) live in FREE_TIER_BOOSTS, not per-record.
 // Do not edit by hand — re-run the patch generator to refresh.
-import type { FreeModelBudget } from "./freeModelCatalog.ts";
+import type { FreeModelBudget } from './freeModelCatalog.ts';
 
 /**
  * Date this catalog was last curated against provider documentation.
@@ -16,7 +16,7 @@ import type { FreeModelBudget } from "./freeModelCatalog.ts";
  * rewrites file timestamps on every deploy, which would report a months-old
  * catalog as "updated today". Bump this whenever the entries below change.
  */
-export const FREE_CATALOG_CURATED_AT = "2026-07-22";
+export const FREE_CATALOG_CURATED_AT = "2026-07-22';
 
 export const FREE_MODEL_BUDGETS: FreeModelBudget[] = [
   { provider: "agentrouter", modelId: "claude-opus-4-8", displayName: "Claude Opus 4.8", monthlyTokens: 0, creditTokens: 200000000, freeType: "one-time-initial", poolKey: "agentrouter", tos: "caution" },

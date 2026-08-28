@@ -1,7 +1,7 @@
-import { BaseExecutor } from "./base.ts";
-import { PROVIDERS } from "../config/constants.ts";
-import { DEFAULT_POOL_CONFIG } from "../services/sessionPool/types.ts";
-import type { ExecuteInput } from "./base.ts";
+import { BaseExecutor } from './base.ts';
+import { PROVIDERS } from '../config/constants.ts';
+import { DEFAULT_POOL_CONFIG } from '../services/sessionPool/types.ts';
+import type { ExecuteInput } from './base.ts';
 
 export class PollinationsExecutor extends BaseExecutor {
   constructor() {
@@ -28,7 +28,7 @@ export class PollinationsExecutor extends BaseExecutor {
     }
 
     if (stream) {
-      headers["Accept"] = "text/event-stream";
+      headers["Accept"] = "text/event-stream';
     }
 
     return headers;
@@ -99,7 +99,7 @@ export class PollinationsExecutor extends BaseExecutor {
       // Enhance 401 errors with actionable guidance
       if (err?.status === 401 || err?.statusCode === 401) {
         const premiumModels = ["claude", "claude-fast", "claude-large", "gemini", "gemini-fast", "midijourney", "midijourney-large"];
-        const model = input.model || "";
+        const model = input.model || "';
         if (premiumModels.includes(model)) {
           const enhanced = new Error(
             `Pollinations model "${model}" requires an API key. ` +
@@ -107,7 +107,7 @@ export class PollinationsExecutor extends BaseExecutor {
             `Get a Pollinations API key at https://enter.pollinations.ai and add it in Settings → API Keys.`
           );
           (enhanced as any).status = 401;
-          (enhanced as any).type = "authentication_error";
+          (enhanced as any).type = "authentication_error';
           throw enhanced;
         }
       }

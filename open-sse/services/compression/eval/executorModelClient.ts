@@ -1,6 +1,6 @@
-import { getExecutor } from "../../../executors/index.ts";
-import type { ExecuteInput, ProviderCredentials } from "../../../executors/base.ts";
-import type { ChatTurn, ModelCallResult, ModelClient } from "./types.ts";
+import { getExecutor } from '../../../executors/index.ts';
+import type { ExecuteInput, ProviderCredentials } from '../../../executors/base.ts';
+import type { ChatTurn, ModelCallResult, ModelClient } from './types.ts';
 
 /**
  * Production ModelClient adapter (Hard Rule #18 — NOT unit-tested; validated on a real
@@ -34,7 +34,7 @@ export function createExecutorModelClient(
         choices?: Array<{ message?: { content?: string } }>;
         usage?: { completion_tokens?: number };
       };
-      const text = json.choices?.[0]?.message?.content ?? "";
+      const text = json.choices?.[0]?.message?.content ?? "';
       const outTokens = json.usage?.completion_tokens ?? 0;
       const usdCost =
         typeof costPerKTokenOut === "number" ? (outTokens / 1000) * costPerKTokenOut : undefined;

@@ -10,13 +10,13 @@
  * call sites in the handler stay byte-identical; behaviour is unchanged.
  */
 
-import { extractProviderWarnings } from "@/lib/compliance/providerAudit";
-import { logAuditEvent } from "@/lib/compliance";
-import { emit } from "@/lib/events/eventBus";
-import type { RequestCompletedPayload, RequestFailedPayload } from "@/lib/events/types";
-import { saveCallLog } from "@/lib/usageDb";
-import { cloneBoundedChatLogPayload, truncateForLog } from "./logTruncation.ts";
-import { attachLogMeta } from "./cacheUsageMeta.ts";
+import { extractProviderWarnings } from '@/lib/compliance/providerAudit';
+import { logAuditEvent } from '@/lib/compliance';
+import { emit } from '@/lib/events/eventBus';
+import type { RequestCompletedPayload, RequestFailedPayload } from '@/lib/events/types';
+import { saveCallLog } from '@/lib/usageDb';
+import { cloneBoundedChatLogPayload, truncateForLog } from './logTruncation.ts';
+import { attachLogMeta } from './cacheUsageMeta.ts';
 
 export type PersistAttemptLogsArgs = {
   status: number;
@@ -28,7 +28,7 @@ export type PersistAttemptLogsArgs = {
   clientResponse?: unknown;
   claudeCacheMeta?: Record<string, unknown>;
   claudeCacheUsageMeta?: Record<string, unknown>;
-  cacheSource?: "upstream" | "semantic";
+  cacheSource?: "upstream" | "semantic';
 };
 
 export type PersistAttemptLogsContext = {

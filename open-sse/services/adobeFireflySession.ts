@@ -12,9 +12,9 @@
  *     The durable browser profile holds Adobe SSO; Playwright is not required.
  */
 
-import { createHash, randomUUID } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { createHash, randomUUID } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   AdobeFireflyError,
   buildAdobeArpSessionId,
@@ -27,7 +27,7 @@ import {
   decodeAdobeJwtPayload,
   resolveAdobeAccessToken,
   exchangeAdobeCookieForAccessToken,
-} from "./adobeFireflyClient.ts";
+} from './adobeFireflyClient.ts';
 
 export interface AdobeFireflySession {
   accessToken: string;
@@ -40,7 +40,7 @@ export interface AdobeFireflySession {
   fingerprint: string;
   /** Stable provider connection id used to isolate browser SSO/cookie state per Adobe account. */
   browserSessionKey?: string;
-  source: "paste" | "ims" | "browser" | "cache" | "rebuild";
+  source: "paste" | "ims" | "browser" | "cache" | "rebuild';
 }
 
 export interface AdobeFireflySessionResolveOpts {
@@ -132,10 +132,10 @@ const FORTER_PROACTIVE_WARM_MS = 3 * 60_000;
  * "1" still enables it; any other value (including unset) now also enables it.
  */
 export function adobeFireflyBrowserEnabled(): boolean {
-  return process.env.ADOBE_FIREFLY_BROWSER_REFRESH !== "0";
+  return process.env.ADOBE_FIREFLY_BROWSER_REFRESH !== "0';
 }
 /** Persist sessions under DATA_DIR so restarts keep JWT + last cookie. */
-const SESSION_DIR_NAME = "adobe-firefly-sessions";
+const SESSION_DIR_NAME = "adobe-firefly-sessions';
 
 function dataDir(): string {
   return (
@@ -164,13 +164,13 @@ export function fingerprintAdobeCredential(raw: string): string {
 /** Pull a single cookie value from a Cookie header / paste blob. */
 export function getAdobeCookieValue(cookieOrBlob: string, name: string): string {
   const raw = String(cookieOrBlob || "");
-  if (!raw || !name) return "";
+  if (!raw || !name) return "';
   const re = new RegExp(
     `(?:^|[;\\s\\n\\r])${name.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")}=([^;\\s\\n\\r]+)`,
     "i"
   );
   const m = raw.match(re);
-  if (!m?.[1]) return "";
+  if (!m?.[1]) return "';
   let v = m[1].trim().replace(/^["']|["']$/g, "");
   try {
     if (/%[0-9A-Fa-f]{2}/.test(v)) v = decodeURIComponent(v);
@@ -183,14 +183,14 @@ export function getAdobeCookieValue(cookieOrBlob: string, name: string): string 
 /** Normalize Forter token to the live ftr shape ending in -v2_tt. */
 export function normalizeAdobeForterToken(value: string): string {
   let f = String(value || "").trim();
-  if (!f) return "";
+  if (!f) return "';
   try {
     if (/%[0-9A-Fa-f]{2}/.test(f)) f = decodeURIComponent(f);
   } catch {
     /* keep */
   }
   // Cookie sometimes stores "id,timestamp" (localStorage form) — not usable as ftr.
-  if (/^[a-f0-9]{32},\d+$/i.test(f)) return "";
+  if (/^[a-f0-9]{32},\d+$/i.test(f)) return "';
   if (f.endsWith("v2") && !f.endsWith("v2_tt")) f = `${f}_tt`;
   return f;
 }
@@ -200,7 +200,7 @@ export function extractAdobeForterTimestampMs(cookieOrBlob: string): number {
   const ftr =
     normalizeAdobeForterToken(getAdobeCookieValue(cookieOrBlob, "forterToken")) ||
     normalizeAdobeForterToken(getAdobeCookieValue(cookieOrBlob, "forter")) ||
-    "";
+    "';
   const m = ftr.match(/_(\d{13})__/);
   return m ? Number(m[1]) : 0;
 }
@@ -285,19 +285,19 @@ export function buildAdobeArpSessionIdFromCookies(
   extras?: { region?: string; bfp?: string; fpjs?: string }
 ): string {
   const blob = String(cookieOrBlob || "");
-  if (!blob.trim()) return "";
+  if (!blob.trim()) return "';
 
   const sid =
-    getAdobeCookieValue(blob, "ff_session_guid") || getAdobeCookieValue(blob, "sid") || "";
-  const ark = getAdobeCookieValue(blob, "arkose") || "";
+    getAdobeCookieValue(blob, "ff_session_guid") || getAdobeCookieValue(blob, "sid") || "';
+  const ark = getAdobeCookieValue(blob, "arkose") || "';
   const ftr =
     normalizeAdobeForterToken(getAdobeCookieValue(blob, "forterToken")) ||
     normalizeAdobeForterToken(getAdobeCookieValue(blob, "forter")) ||
-    "";
-  if (!sid || !ark || !ftr) return "";
+    "';
+  if (!sid || !ark || !ftr) return "';
 
-  let bfp = extras?.bfp || getAdobeCookieValue(blob, "bfp") || "";
-  let fpjsRaw = extras?.fpjs || getAdobeCookieValue(blob, "fpjs") || "";
+  let bfp = extras?.bfp || getAdobeCookieValue(blob, "bfp") || "';
+  let fpjsRaw = extras?.fpjs || getAdobeCookieValue(blob, "fpjs") || "';
   if (fpjsRaw) {
     try {
       if (/%[0-9A-Fa-f]{2}/.test(fpjsRaw)) fpjsRaw = decodeURIComponent(fpjsRaw);
@@ -350,7 +350,7 @@ export function resolveAdobeArpSessionIdSmart(
         ) as { ftr?: string };
         return String(j.ftr || "");
       } catch {
-        return "";
+        return "';
       }
     })();
     const extractedFtr = (() => {
@@ -362,7 +362,7 @@ export function resolveAdobeArpSessionIdSmart(
         ) as { ftr?: string };
         return String(j.ftr || "");
       } catch {
-        return "";
+        return "';
       }
     })();
     // Prefer the ARP whose forter timestamp is newer (…_ms__UDF43…).
@@ -674,8 +674,8 @@ export async function ensureAdobeFireflySession(
   }
 
   const fetchImpl = opts.fetchImpl || fetch;
-  let accessToken = "";
-  let cookie = "";
+  let accessToken = "';
+  let cookie = "';
   let pasteHadUserJwt = false;
 
   // Prefer JWT from the live paste (authoritative for this request)
@@ -739,7 +739,7 @@ export async function ensureAdobeFireflySession(
     }
   }
 
-  const cookieBlob = cookie || extractAdobeCookieHeader(joined) || "";
+  const cookieBlob = cookie || extractAdobeCookieHeader(joined) || "';
 
   if (!accessToken) {
     // Try the pure-HTTP resolve (paste JWT / IMS exchange). When the browser engine is on,
@@ -761,11 +761,11 @@ export async function ensureAdobeFireflySession(
   const forterTs = extractAdobeForterTimestampMs(cookieForSession);
   const working = lastWorkingArpByFingerprint.get(fingerprint);
   const workingFresh =
-    working && Date.now() - working.at < WORKING_ARP_STICKY_MS ? working.arp : "";
+    working && Date.now() - working.at < WORKING_ARP_STICKY_MS ? working.arp : "';
 
   // Prefer last ARP that actually got generate-async 2xx (batch stability).
   // Rebuild from cookie pieces / sherlockToken — pure HTTP, no browser.
-  let arpSessionId = "";
+  let arpSessionId = "';
   if (!opts.forceRefresh && !opts.rotateArp && workingFresh) {
     arpSessionId = workingFresh;
   } else if (!opts.forceRefresh && !opts.rotateArp && cached?.arpSessionId) {
@@ -838,7 +838,7 @@ export async function ensureAdobeFireflySession(
     const warmForterTs = extractAdobeForterTimestampMs(session.cookie);
     if (!(warmForterTs > forterTs)) {
       session.arpSessionId = workingFresh;
-      session.source = "cache";
+      session.source = "cache';
     }
   }
 
@@ -954,7 +954,7 @@ export async function rotateAdobeFireflySessionOnError(
   noteAdobeFireflySubmitFailure();
 
   const tryBrowser =
-    opts?.tryBrowser !== false && process.env.ADOBE_FIREFLY_BROWSER_REFRESH !== "0";
+    opts?.tryBrowser !== false && process.env.ADOBE_FIREFLY_BROWSER_REFRESH !== "0';
   if (tryBrowser) {
     opts?.log?.info?.(
       "ADOBE-FIREFLY",

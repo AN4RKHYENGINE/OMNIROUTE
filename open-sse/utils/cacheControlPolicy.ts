@@ -19,7 +19,7 @@ import type { RoutingStrategyValue } from '@shared/constants/routingStrategies';
 /**
  * Cache control preservation modes
  */
-export type CacheControlMode = "auto" | "always" | "never";
+export type CacheControlMode = "auto" | "always" | "never';
 
 /**
  * Cache control settings from the database
@@ -141,7 +141,7 @@ const OPENAI_FORMAT_CACHE_CONTROL_PROVIDERS = new Set([
  */
 export interface ConnectionCacheOverride {
   supportsPromptCaching?: boolean;
-  cacheControlPassthrough?: "strip" | "openai-format" | "claude-format";
+  cacheControlPassthrough?: "strip" | "openai-format" | "claude-format';
 }
 
 /**

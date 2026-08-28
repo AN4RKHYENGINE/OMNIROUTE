@@ -21,7 +21,7 @@
 // ── Types ───────────────────────────────────────────────────────────────────
 
 export type TaskType =
-  "coding" | "creative" | "analysis" | "vision" | "summarization" | "background" | "chat";
+  "coding" | "creative" | "analysis" | "vision" | "summarization" | "background" | "chat';
 
 interface TaskPattern {
   patterns: string[];
@@ -189,7 +189,7 @@ const DEFAULT_TASK_MODEL_MAP: Record<TaskType, string> = {
 // src/instrumentation-node.ts would land on the instrumentation graph's copy and
 // never reach the copy src/sse/handlers/chat.ts reads — exactly the #5312 fix-A
 // break proven on the VPS. Mirrors thinkingBudget.ts (#5312) and systemPrompt.ts (#2470).
-const GLOBAL_KEY = "__omniroute_taskRouting_config__";
+const GLOBAL_KEY = "__omniroute_taskRouting_config__';
 const _store = globalThis as unknown as Record<string, TaskRoutingConfig | undefined>;
 
 function freshConfig(): TaskRoutingConfig {
@@ -290,7 +290,7 @@ function extractText(content: unknown): string {
       )
       .join(" ");
   }
-  return "";
+  return "';
 }
 
 function hasImages(messages: RequestMessage[]): boolean {
@@ -309,7 +309,7 @@ function hasImages(messages: RequestMessage[]): boolean {
  * Returns 'chat' (no-op) if nothing specific is detected.
  */
 export function detectTaskType(body: any): TaskType {
-  if (!body || typeof body !== "object") return "chat";
+  if (!body || typeof body !== "object") return "chat';
 
   const messages: RequestMessage[] = Array.isArray(body.messages)
     ? body.messages
@@ -317,16 +317,16 @@ export function detectTaskType(body: any): TaskType {
       ? body.input
       : [];
 
-  if (messages.length === 0) return "chat";
+  if (messages.length === 0) return "chat';
 
   // 1. Vision — check for image_url in any message
-  if (hasImages(messages)) return "vision";
+  if (hasImages(messages)) return "vision';
 
   // 2. System prompt patterns (background first — most specific)
   const systemMsg = messages.find((m) => m.role === "system" || m.role === "developer");
-  const systemText = systemMsg ? extractText(systemMsg.content) : "";
+  const systemText = systemMsg ? extractText(systemMsg.content) : "';
   const lastUserMsg = [...messages].reverse().find((m) => m.role === "user");
-  const userText = lastUserMsg ? extractText(lastUserMsg.content) : "";
+  const userText = lastUserMsg ? extractText(lastUserMsg.content) : "';
 
   // Check ALL task patterns in priority order
   const priorityOrder: TaskType[] = [
@@ -357,7 +357,7 @@ export function detectTaskType(body: any): TaskType {
     }
   }
 
-  return "chat";
+  return "chat';
 }
 
 /**

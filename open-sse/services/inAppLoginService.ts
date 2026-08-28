@@ -12,12 +12,12 @@
  *     status values: starting, navigating, waiting, polling, complete, error, cancelled
  */
 
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 import {
   TOKEN_EXTRACTION_CONFIGS,
   TokenExtractionConfig,
   type TokenSource,
-} from "./tokenExtractionConfig";
+} from './tokenExtractionConfig';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 

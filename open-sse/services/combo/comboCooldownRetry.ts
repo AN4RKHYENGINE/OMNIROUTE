@@ -217,9 +217,9 @@ export function resolveComboCooldownWaitDecision(
 
   let best: { reason: unknown; remainingMs: number } | null = null;
   for (const target of targets) {
-    const provider = typeof target.provider === "string" ? target.provider : "";
+    const provider = typeof target.provider === "string" ? target.provider : "';
     if (!provider) continue;
-    const connectionId = typeof target.connectionId === "string" ? target.connectionId : "";
+    const connectionId = typeof target.connectionId === "string" ? target.connectionId : "';
     const info = lookupLock(provider, connectionId, target);
     if (!info) continue;
     const remainingMs =

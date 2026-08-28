@@ -1,6 +1,6 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { adjustMaxTokens } from "../helpers/maxTokensHelper.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { adjustMaxTokens } from '../helpers/maxTokensHelper.ts';
 
 // Convert Gemini request to OpenAI format
 export function geminiToOpenAIRequest(model, body, stream) {
@@ -110,7 +110,7 @@ function splitCoLocatedFunctionResponses(contents) {
 }
 
 function convertGeminiContent(content) {
-  const role = content.role === "user" ? "user" : "assistant";
+  const role = content.role === "user" ? "user" : "assistant';
 
   if (!content.parts || !Array.isArray(content.parts)) {
     return null;
@@ -126,7 +126,7 @@ function convertGeminiContent(content) {
 
     if (part.inlineData || part.inline_data) {
       const data = part.inlineData || part.inline_data;
-      const mimeType = data.mimeType || data.mime_type || "image/png";
+      const mimeType = data.mimeType || data.mime_type || "image/png';
       parts.push({
         type: "image_url",
         image_url: {
@@ -193,7 +193,7 @@ function convertGeminiContentWithReasoning(content) {
     return convertGeminiContent(content);
   }
 
-  let reasoningContent = "";
+  let reasoningContent = "';
   const visibleParts = [];
   for (const part of content.parts) {
     if (part && part.thought === true) {
@@ -214,7 +214,7 @@ function convertGeminiContentWithReasoning(content) {
   }
 
   if (!converted) {
-    const role = content.role === "user" ? "user" : "assistant";
+    const role = content.role === "user" ? "user" : "assistant';
     return { role, reasoning_content: reasoningContent };
   }
 
@@ -230,7 +230,7 @@ function extractGeminiText(content) {
   if (content.parts && Array.isArray(content.parts)) {
     return content.parts.map((p) => p.text || "").join("");
   }
-  return "";
+  return "';
 }
 
 // Register

@@ -16,8 +16,8 @@
  * entry only sees prose.
  */
 
-import { workerBackend, depsAvailable } from "./worker.ts";
-import { DEFAULT_LLMLINGUA_MODEL } from "./constants.ts";
+import { workerBackend, depsAvailable } from './worker.ts';
+import { DEFAULT_LLMLINGUA_MODEL } from './constants.ts';
 
 /** Cached probe result. null = not probed yet. */
 let _slmAvailable: boolean | null = null;

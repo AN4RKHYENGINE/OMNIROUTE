@@ -13,10 +13,10 @@
  * auth in front of them, so credentials.apiKey becomes optional in that case.
  */
 
-import { sanitizeErrorMessage, buildErrorBody } from "../utils/error.ts";
-import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from "../handlers/webFetch.ts";
+import { sanitizeErrorMessage, buildErrorBody } from '../utils/error.ts';
+import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from '../handlers/webFetch.ts';
 
-const FIRECRAWL_DEFAULT_BASE_URL = "https://api.firecrawl.dev";
+const FIRECRAWL_DEFAULT_BASE_URL = "https://api.firecrawl.dev';
 const FIRECRAWL_DEFAULT_TIMEOUT_MS = 30_000;
 
 /** Resolve the configured Firecrawl base URL, falling back to the public cloud API. */
@@ -47,14 +47,14 @@ function getFirecrawlTimeoutMs(): number {
 function mapFormat(format: WebFetchFormat): string {
   switch (format) {
     case "html":
-      return "html";
+      return "html';
     case "links":
-      return "links";
+      return "links';
     case "screenshot":
-      return "screenshot";
+      return "screenshot';
     case "markdown":
     default:
-      return "markdown";
+      return "markdown';
   }
 }
 
@@ -109,7 +109,7 @@ export async function firecrawlFetch(opts: FirecrawlScrapeOptions): Promise<WebF
   const firecrawlMs = getFirecrawlTimeoutMs();
   const timeoutId = setTimeout(() => {
     const err = new Error(`firecrawl-fetch timeout after ${firecrawlMs}ms`);
-    err.name = "TimeoutError";
+    err.name = "TimeoutError';
     controller.abort(err);
   }, firecrawlMs);
 

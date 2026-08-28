@@ -1,5 +1,5 @@
-import { DEFAULT_RTK_CONFIG } from "../../types.ts";
-import type { EngineConfigField, EngineValidationResult } from "../types.ts";
+import { DEFAULT_RTK_CONFIG } from '../../types.ts';
+import type { EngineConfigField, EngineValidationResult } from '../types.ts';
 
 export const RTK_SCHEMA: EngineConfigField[] = [
   {

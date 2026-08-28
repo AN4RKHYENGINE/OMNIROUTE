@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { GPT_5_6_API_CAPABILITIES, REASONING_UNSUPPORTED } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { GPT_5_6_API_CAPABILITIES, REASONING_UNSUPPORTED } from '../../shared.ts';
 
 export const openaiProvider: RegistryEntry = {
   id: "openai",

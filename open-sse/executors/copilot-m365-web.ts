@@ -1,13 +1,13 @@
-import WebSocket from "ws";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
-import { BaseExecutor, type ExecuteInput, type ExecutorLog } from "./base.ts";
+import WebSocket from 'ws';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
+import { BaseExecutor, type ExecuteInput, type ExecutorLog } from './base.ts';
 import {
   buildPrompt,
   buildWsUrl,
   redactWsUrl,
   resolveConnectionParams,
-} from "./copilot-m365-connection.ts";
+} from './copilot-m365-connection.ts';
 import {
   accumulateBotContent,
   buildChatInvocation,
@@ -22,7 +22,7 @@ import {
   resolveChatInvocationOverrides,
   resolveToneForModel,
   splitFrames,
-} from "./copilot-m365-frames.ts";
+} from './copilot-m365-frames.ts';
 
 type JsonRecord = Record<string, unknown>;
 let WebSocketCtor: typeof WebSocket = WebSocket;
@@ -87,9 +87,9 @@ export class CopilotM365WebExecutor extends BaseExecutor {
           const encoder = new TextEncoder();
           let ws: WebSocket | null = null;
           let settled = false;
-          let buffer = "";
-          let previousText = "";
-          let finalResultMessage = "";
+          let buffer = "';
+          let previousText = "';
+          let finalResultMessage = "';
           let handshakeComplete = false;
 
           const cleanup = () => {
@@ -117,7 +117,7 @@ export class CopilotM365WebExecutor extends BaseExecutor {
               // #7858 — a turn that completed with no content in ANY known shape is
               // indistinguishable, from the outside, from a genuine successful-but-empty
               // reply. Fail loudly instead of a silent `stop`, per Hard Rule #12.
-              const tierNote = input.tier ? `resolved tier: ${input.tier}` : "resolved tier: individual (default)";
+              const tierNote = input.tier ? `resolved tier: ${input.tier}` : "resolved tier: individual (default)';
               const message = sanitizeErrorMessage(
                 `Microsoft 365 Copilot turn completed with no content in any known frame ` +
                   `shape (${tierNote}). Possible causes: an unrecognized frame shape for ` +
@@ -280,7 +280,7 @@ export class CopilotM365WebExecutor extends BaseExecutor {
     transformedBody: unknown;
   }> {
     const body = input.body as JsonRecord | undefined;
-    const model = input.model || (body?.model as string) || "copilot-m365";
+    const model = input.model || (body?.model as string) || "copilot-m365';
     const stream = input.stream !== false;
     const prompt = buildPrompt(body).trim();
 
@@ -332,7 +332,7 @@ export class CopilotM365WebExecutor extends BaseExecutor {
 
       const reader = wsStream.getReader();
       const decoder = new TextDecoder();
-      let fullText = "";
+      let fullText = "';
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;

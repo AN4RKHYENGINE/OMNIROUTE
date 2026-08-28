@@ -6,38 +6,38 @@
  * provenance, prepares one turn, selects a transport, and commits state only
  * after the strict stream parser observes message_stop.
  */
-import { normalizeSessionCookieHeader } from "@/lib/providers/webCookieAuth";
+import { normalizeSessionCookieHeader } from '@/lib/providers/webCookieAuth';
 
-import { CLAUDE_WEB_FINGERPRINT } from "../config/claudeWebFingerprint.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { tlsFetchClaude } from "../services/claudeTlsClient.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
+import { CLAUDE_WEB_FINGERPRINT } from '../config/claudeWebFingerprint.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { tlsFetchClaude } from '../services/claudeTlsClient.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
 import {
   BaseExecutor,
   mergeAbortSignals,
   type ExecuteInput,
   type ExecutorLog,
   type ProviderCredentials,
-} from "./base.ts";
+} from './base.ts';
 import {
   applyClaudeWebBrowserTemplate,
   sendClaudeWebBrowser,
   type ClaudeWebTransportRequest,
   type ClaudeWebTransportResult,
-} from "./claude-web/browserTransport.ts";
-import type { ClaudeWebRequestPayload } from "./claude-web/payload.ts";
+} from './claude-web/browserTransport.ts';
+import type { ClaudeWebRequestPayload } from './claude-web/payload.ts';
 import {
   commitClaudeWebTurn,
   invalidateClaudeWebTurn,
   prepareClaudeWebTurn,
   type PreparedClaudeWebTurn,
-} from "./claude-web/session.ts";
-import { createClaudeWebResponse } from "./claude-web/stream.ts";
-import { isClaudeWebChallenge, sendClaudeWebDirect } from "./claude-web/transport.ts";
+} from './claude-web/session.ts';
+import { createClaudeWebResponse } from './claude-web/stream.ts';
+import { isClaudeWebChallenge, sendClaudeWebDirect } from './claude-web/transport.ts';
 
-const CLAUDE_WEB_API_BASE = "https://claude.ai/api";
+const CLAUDE_WEB_API_BASE = "https://claude.ai/api';
 const CLAUDE_WEB_ORGS_URL = `${CLAUDE_WEB_API_BASE}/organizations`;
-const CLAUDE_SESSION_COOKIE_NAME = "sessionKey";
+const CLAUDE_SESSION_COOKIE_NAME = "sessionKey';
 const MAX_ERROR_BODY_BYTES = 64 * 1024;
 const CLAUDE_USER_AGENT = CLAUDE_WEB_FINGERPRINT.userAgent;
 
@@ -71,7 +71,7 @@ function readCredentialString(credentials: unknown, key: string): string | undef
 function readClaudeWebCookie(credentials: unknown): string {
   const direct = readCredentialString(credentials, "cookie");
   if (direct) return direct;
-  return readCredentialString(credentials, "apiKey") ?? "";
+  return readCredentialString(credentials, "apiKey") ?? "';
 }
 
 function readClaudeWebDeviceId(credentials: unknown): string | undefined {
@@ -153,7 +153,7 @@ async function getOrganizationId(
       return { organizationId: null, failure: "authentication" };
     }
     if (response.status === 403) {
-      const bodyText = response.text ?? "";
+      const bodyText = response.text ?? "';
       if (
         isClaudeWebChallenge({
           status: response.status,
@@ -188,7 +188,7 @@ async function getOrganizationId(
 }
 
 function isEnabledFlag(value: string | undefined): boolean {
-  return value === "1" || value === "true" || value === "on";
+  return value === "1" || value === "true" || value === "on';
 }
 
 function forceBrowserTransport(): boolean {
@@ -272,11 +272,11 @@ function makeAuditBody(
 
 async function readTransportErrorText(result: ClaudeWebTransportResult): Promise<string> {
   if (result.bodyText !== undefined) return result.bodyText;
-  if (!result.body) return "";
+  if (!result.body) return "';
   const reader = result.body.getReader();
   const decoder = new TextDecoder();
   let total = 0;
-  let output = "";
+  let output = "';
   try {
     while (total < MAX_ERROR_BODY_BYTES) {
       const { value, done } = await reader.read();

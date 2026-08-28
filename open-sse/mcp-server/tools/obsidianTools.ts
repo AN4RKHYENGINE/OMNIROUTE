@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { createObsidianClient, createSyncServerClient, getSyncToken } from "@lib/obsidian/api.ts";
+import { z } from 'zod';
+import { createObsidianClient, createSyncServerClient, getSyncToken } from '@lib/obsidian/api.ts';
 import {
   getObsidianToken,
   getObsidianBaseUrl,
   getObsidianConfigForApiKey,
-} from "@lib/db/obsidian.ts";
-import type { ObsidianClient, SyncServerClient } from "@lib/obsidian/api.ts";
+} from '@lib/db/obsidian.ts';
+import type { ObsidianClient, SyncServerClient } from '@lib/obsidian/api.ts';
 
 type McpExtra = {
   authInfo?: { clientId?: string; scopes?: string[] };
@@ -212,8 +212,8 @@ export const obsidianTools = [
     }),
     handler: async (args: {
       path: string;
-      operation: "append" | "prepend" | "replace";
-      targetType: "heading" | "block" | "frontmatter";
+      operation: "append" | "prepend" | "replace';
+      targetType: "heading" | "block" | "frontmatter';
       target: string;
       content: string;
       createTargetIfMissing?: boolean;

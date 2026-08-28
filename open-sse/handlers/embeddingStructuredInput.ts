@@ -1,8 +1,8 @@
-import { MAX_EMBEDDING_INLINE_TOTAL_BYTES } from "@/shared/validation/schemas/apiV1";
-import type { EmbeddingMultimodalItem } from "@/shared/validation/schemas/apiV1";
-import type { EmbeddingProvider } from "../config/embeddingRegistry.ts";
+import { MAX_EMBEDDING_INLINE_TOTAL_BYTES } from '@/shared/validation/schemas/apiV1';
+import type { EmbeddingMultimodalItem } from '@/shared/validation/schemas/apiV1';
+import type { EmbeddingProvider } from '../config/embeddingRegistry.ts';
 
-const AGGREGATE_SIZE_ERROR = "decoded inline media must not exceed 16 MiB per request";
+const AGGREGATE_SIZE_ERROR = "decoded inline media must not exceed 16 MiB per request';
 
 export interface StructuredEmbeddingFetchOptions {
   /**
@@ -102,8 +102,8 @@ async function prepareJinaInput(
 }
 
 function mapGeminiTaskType(value: unknown): unknown {
-  if (value === "retrieval.query") return "RETRIEVAL_QUERY";
-  if (value === "retrieval.passage") return "RETRIEVAL_DOCUMENT";
+  if (value === "retrieval.query") return "RETRIEVAL_QUERY';
+  if (value === "retrieval.passage") return "RETRIEVAL_DOCUMENT';
   return value;
 }
 

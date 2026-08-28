@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // dit.ai (#4155) — "Distributed Intelligence Trade", an OpenAI-compatible
 // router/gateway with dynamic per-request pricing (a marketplace where provider

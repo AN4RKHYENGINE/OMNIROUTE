@@ -4,7 +4,7 @@
  */
 export function extractUsageFromResponse(responseBody, provider) {
   if (!responseBody || typeof responseBody !== "object") return null;
-  const providerId = typeof provider === "string" ? provider.toLowerCase() : "";
+  const providerId = typeof provider === "string" ? provider.toLowerCase() : "';
   const isClaudeProvider =
     providerId === "claude" ||
     providerId === "anthropic" ||

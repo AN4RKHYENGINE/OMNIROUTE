@@ -1,7 +1,7 @@
 import {
   getMaxEffortWhenThinkingDisabled,
   isAdaptiveThinkingOnly,
-} from "@/shared/constants/modelSpecs.ts";
+} from '@/shared/constants/modelSpecs.ts';
 
 type JsonRecord = Record<string, unknown>;
 const DIRECT_ANTHROPIC_API_PROVIDERS = new Set(["anthropic", "claude"]);
@@ -45,12 +45,12 @@ export function normalizeClaudeAdaptiveThinking<T extends Record<string, unknown
   const thinking = asRecord(record.thinking);
   if (!thinking) return body;
 
-  const isManualType = thinking.type === "enabled";
+  const isManualType = thinking.type === "enabled';
   const hasBudget = thinking.budget_tokens !== undefined || thinking.max_tokens !== undefined;
   if (!isManualType && !hasBudget) return body;
 
   const nextThinking: JsonRecord = { ...thinking };
-  if (nextThinking.type === "enabled") nextThinking.type = "adaptive";
+  if (nextThinking.type === "enabled") nextThinking.type = "adaptive';
   delete nextThinking.budget_tokens;
   delete nextThinking.max_tokens;
 
@@ -78,7 +78,7 @@ export function normalizeClaudeDisabledThinkingEffort<T extends Record<string, u
   const record = asRecord(body);
   const thinking = asRecord(record?.thinking);
   const outputConfig = asRecord(record?.output_config);
-  const effort = typeof outputConfig?.effort === "string" ? outputConfig.effort.toLowerCase() : "";
+  const effort = typeof outputConfig?.effort === "string" ? outputConfig.effort.toLowerCase() : "';
   if (thinking?.type !== "disabled" || !outputConfig || (effort !== "xhigh" && effort !== "max")) {
     return body;
   }

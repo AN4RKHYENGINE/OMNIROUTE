@@ -29,7 +29,7 @@ export function isNoMemoryRequested(
   const value = (getHeaderValueCaseInsensitive(headers, "x-omniroute-no-memory") || "")
     .trim()
     .toLowerCase();
-  return value === "true" || value === "1" || value === "yes";
+  return value === "true" || value === "1" || value === "yes';
 }
 
 /**
@@ -61,5 +61,5 @@ export function isStripReasoningRequested(
   const value = (getHeaderValueCaseInsensitive(headers, "x-omniroute-strip-reasoning") || "")
     .trim()
     .toLowerCase();
-  return value === "true" || value === "1" || value === "yes";
+  return value === "true" || value === "1" || value === "yes';
 }

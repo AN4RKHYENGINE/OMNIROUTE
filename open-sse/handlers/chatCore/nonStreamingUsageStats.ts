@@ -10,12 +10,12 @@
  * unchanged.
  */
 
-import { saveRequestUsage } from "@/lib/usageDb";
-import { formatUsageLog } from "@/lib/usage/tokenAccounting";
-import { COLORS } from "../../utils/stream.ts";
-import { recordTokenUsage } from "../../services/tokenLimitCounter.ts";
-import { computeBillableTokens } from "./upstreamTimeouts.ts";
-import { type EffectiveServiceTier } from "./serviceTier.ts";
+import { saveRequestUsage } from '@/lib/usageDb';
+import { formatUsageLog } from '@/lib/usage/tokenAccounting';
+import { COLORS } from '../../utils/stream.ts';
+import { recordTokenUsage } from '../../services/tokenLimitCounter.ts';
+import { computeBillableTokens } from './upstreamTimeouts.ts';
+import { type EffectiveServiceTier } from './serviceTier.ts';
 
 export type RecordNonStreamingUsageStatsContext = {
   traceEnabled: boolean;

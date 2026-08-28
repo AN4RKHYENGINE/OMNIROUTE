@@ -14,9 +14,9 @@
  * - Optional client-supplied continuity via body (`notion_thread_id`/`thread_id`)
  *   or the `X-Notion-Thread-Id` header (via `ExecuteInput.clientHeaders`).
  */
-import { randomUUID, createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { randomUUID, createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 export interface NotionMessage {
   role: string;
@@ -39,7 +39,7 @@ export interface NotionThreadRequestBody {
  */
 export function extractNotionMessageText(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "";
+  if (!Array.isArray(content)) return "';
   const parts: string[] = [];
   for (const p of content) {
     if (typeof p === "string") {
@@ -80,7 +80,7 @@ function getThreadStorePath(): string | null {
       process.env.VIBEPROXY_DATA_DIR ||
       (process.env.USERPROFILE ? join(process.env.USERPROFILE, ".omniroute") : "") ||
       (process.env.HOME ? join(process.env.HOME, ".omniroute") : "") ||
-      "";
+      "';
     if (!dataDir) return null;
     return join(dataDir, "notion-web-thread-sessions.json");
   } catch {
@@ -161,7 +161,7 @@ export function __resetNotionThreadSessionsForTests(): void {
  */
 export function normalizeNotionContentForHash(content: unknown): string {
   let text = extractNotionMessageText(content).replace(/\r\n/g, "\n").trim();
-  if (!text) return "";
+  if (!text) return "';
 
   // Agentic / UREW pin: keep only the stable task suffix when present.
   const taskMarkers = ["My current task:", "my current task:"];
@@ -405,7 +405,7 @@ export function notionThreadMarkConfirmed(rootKey: string | null, threadId: stri
 function conversationHasAssistant(messages: NotionMessage[]): boolean {
   return messages.some((m) => {
     const role = (m?.role || "").toLowerCase();
-    return role === "assistant" || role === "ai" || role === "model";
+    return role === "assistant" || role === "ai" || role === "model';
   });
 }
 
@@ -467,16 +467,16 @@ export function readClientThreadId(
   const fromBody =
     (typeof body.notion_thread_id === "string" && body.notion_thread_id.trim()) ||
     (typeof body.thread_id === "string" && body.thread_id.trim()) ||
-    "";
-  if (fromBody) return isValidNotionThreadId(fromBody) ? fromBody : "";
-  if (!headers) return "";
+    "';
+  if (fromBody) return isValidNotionThreadId(fromBody) ? fromBody : "';
+  if (!headers) return "';
   for (const [k, v] of Object.entries(headers)) {
     if (k.toLowerCase() === "x-notion-thread-id" && typeof v === "string" && v.trim()) {
       const h = v.trim();
-      return isValidNotionThreadId(h) ? h : "";
+      return isValidNotionThreadId(h) ? h : "';
     }
   }
-  return "";
+  return "';
 }
 
 /**
@@ -488,7 +488,7 @@ export function readClientThreadId(
  */
 export function hashNotionCallerCookie(cookie: string): string {
   const raw = (cookie || "").trim();
-  if (!raw) return "anon";
+  if (!raw) return "anon';
   // SHA-256 (128-bit prefix) rather than a 32-bit FNV digest: this hash is a
   // SECURITY boundary (per-caller cache isolation), so it must be collision-
   // resistant — a 32-bit space is birthday-crackable, letting an attacker craft

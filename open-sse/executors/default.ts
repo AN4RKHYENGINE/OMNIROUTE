@@ -1,38 +1,38 @@
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { mapNvidiaGlm52ReasoningParams } from "./base/reasoningEffort.ts";
-import { PROVIDERS, OAUTH_ENDPOINTS } from "../config/constants.ts";
-import { getAccessToken } from "../services/tokenRefresh.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { mapNvidiaGlm52ReasoningParams } from './base/reasoningEffort.ts';
+import { PROVIDERS, OAUTH_ENDPOINTS } from '../config/constants.ts';
+import { getAccessToken } from '../services/tokenRefresh.ts';
 
 import {
   buildClaudeCodeCompatibleHeaders,
   CLAUDE_CODE_COMPATIBLE_DEFAULT_CHAT_PATH,
   joinClaudeCodeCompatibleUrl,
-} from "../services/claudeCodeCompatible.ts";
-import { getGigachatAccessToken } from "../services/gigachatAuth.ts";
-import { getRegistryEntry } from "../config/providerRegistry.ts";
-import { getModelTargetFormat } from "../config/providerModels.ts";
+} from '../services/claudeCodeCompatible.ts';
+import { getGigachatAccessToken } from '../services/gigachatAuth.ts';
+import { getRegistryEntry } from '../config/providerRegistry.ts';
+import { getModelTargetFormat } from '../config/providerModels.ts';
 import {
   mergeClientAnthropicBeta,
   normalizeAnthropicHeaderVariants,
-} from "../config/anthropicHeaders.ts";
-import { isOfficialAnthropicBaseUrl } from "../utils/anthropicHost.ts";
-import { applyProviderRequestDefaults } from "../services/providerRequestDefaults.ts";
-import { stripUnsupportedParams } from "../translator/paramSupport.ts";
-import { normalizeOpenAIToolNames } from "../translator/helpers/toolCallHelper.ts";
+} from '../config/anthropicHeaders.ts';
+import { isOfficialAnthropicBaseUrl } from '../utils/anthropicHost.ts';
+import { applyProviderRequestDefaults } from '../services/providerRequestDefaults.ts';
+import { stripUnsupportedParams } from '../translator/paramSupport.ts';
+import { normalizeOpenAIToolNames } from '../translator/helpers/toolCallHelper.ts';
 import {
   injectReasoningContentForThinkingModel,
   shouldInjectReasoningContentPlaceholder,
-} from "../utils/reasoningContentInjector.ts";
+} from '../utils/reasoningContentInjector.ts';
 import {
   detectFormat,
   getOpenAICompatibleType,
   getTargetFormat,
   isClaudeCodeCompatible,
-} from "../services/provider.ts";
-import { ensureToolMessageNames } from "./kimiToolNames.ts";
-import { getSapResourceGroup } from "../config/sap.ts";
+} from '../services/provider.ts';
+import { ensureToolMessageNames } from './kimiToolNames.ts';
+import { getSapResourceGroup } from '../config/sap.ts';
 import {
   normalizeBailianMessagesUrl,
   normalizeDataRobotChatUrl,
@@ -43,28 +43,28 @@ import {
   normalizeXiaomiMimoChatUrl,
   normalizeOpenAIChatUrl,
   getOpenRouterConnectionPreset,
-} from "./default/urlNormalizers.ts";
+} from './default/urlNormalizers.ts';
 import {
   isPoeMessagesEligibleModel,
   resolvePoeUpstreamUrl,
-} from "../config/providers/registry/poe/index.ts";
-import { buildMaritalkChatUrl } from "../config/maritalk.ts";
-import { LOCAL_PROVIDERS } from "@/shared/constants/providers";
-import { isForbiddenCustomHeaderName } from "@/shared/constants/upstreamHeaders";
-import { getClaudeCodeCompatibleRequestDefaults } from "@/lib/providers/requestDefaults";
-import { applyClineAuthHeaders } from "@/shared/utils/clineAuth";
+} from '../config/providers/registry/poe/index.ts';
+import { buildMaritalkChatUrl } from '../config/maritalk.ts';
+import { LOCAL_PROVIDERS } from '@/shared/constants/providers';
+import { isForbiddenCustomHeaderName } from '@/shared/constants/upstreamHeaders';
+import { getClaudeCodeCompatibleRequestDefaults } from '@/lib/providers/requestDefaults';
+import { applyClineAuthHeaders } from '@/shared/utils/clineAuth';
 import {
   normalizeHerokuChatUrl,
   normalizeDatabricksChatUrl,
   normalizeSnowflakeChatUrl,
   normalizeGigachatChatUrl,
-} from "@/lib/providers/validation/urlHelpers";
-import { forwardOpencodeClientHeaders } from "../utils/opencodeHeaders.ts";
-import { resolveZaiUrl } from "./default/zaiFormatOverride.ts";
-import { normalizePoolConfig } from "./default/poolConfig.ts";
-import { acquireNvidiaConcurrencySlot } from "./default/nvidiaConcurrencyGate.ts";
-import { resolveAlibabaProviderBaseUrl } from "@/shared/constants/alibabaProviderRegions";
-import { usesCcWireImage } from "../services/ccWireImageBuiltins.ts";
+} from '@/lib/providers/validation/urlHelpers';
+import { forwardOpencodeClientHeaders } from '../utils/opencodeHeaders.ts';
+import { resolveZaiUrl } from './default/zaiFormatOverride.ts';
+import { normalizePoolConfig } from './default/poolConfig.ts';
+import { acquireNvidiaConcurrencySlot } from './default/nvidiaConcurrencyGate.ts';
+import { resolveAlibabaProviderBaseUrl } from '@/shared/constants/alibabaProviderRegions';
+import { usesCcWireImage } from '../services/ccWireImageBuiltins.ts';
 
 const NVIDIA_TOOL_CALL_ID_PATTERN = /^[A-Za-z0-9]{9}$/;
 
@@ -155,7 +155,7 @@ export class DefaultExecutor extends BaseExecutor {
     void urlIndex;
     if (this.provider?.startsWith?.("openai-compatible-")) {
       const psd = credentials?.providerSpecificData;
-      const baseUrl = psd?.baseUrl || "https://api.openai.com/v1";
+      const baseUrl = psd?.baseUrl || "https://api.openai.com/v1';
       const normalized = baseUrl.replace(/\/$/, "");
       const customPath = typeof psd?.chatPath === "string" && psd.chatPath ? psd.chatPath : null;
       if (customPath) return `${normalized}${customPath}`;
@@ -163,12 +163,12 @@ export class DefaultExecutor extends BaseExecutor {
       const path =
         forceResponses || getOpenAICompatibleType(this.provider, psd) === "responses"
           ? "/responses"
-          : "/chat/completions";
+          : "/chat/completions';
       return `${normalized}${path}`;
     }
     if (this.provider?.startsWith?.("anthropic-compatible-")) {
       const psd = credentials?.providerSpecificData;
-      const baseUrl = psd?.baseUrl || "https://api.anthropic.com/v1";
+      const baseUrl = psd?.baseUrl || "https://api.anthropic.com/v1';
       const customPath = typeof psd?.chatPath === "string" && psd.chatPath ? psd.chatPath : null;
       if (isClaudeCodeCompatible(this.provider)) {
         return joinClaudeCodeCompatibleUrl(
@@ -250,13 +250,13 @@ export class DefaultExecutor extends BaseExecutor {
         const apiType =
           forceResponses || credentials?.providerSpecificData?.apiType === "responses"
             ? "responses"
-            : "chat";
+            : "chat';
         const baseUrl = this.resolveBaseUrl(credentials);
         const apiVersion =
           typeof credentials?.providerSpecificData?.apiVersion === "string" &&
           credentials.providerSpecificData.apiVersion.trim()
             ? credentials.providerSpecificData.apiVersion.trim()
-            : "2024-12-01-preview";
+            : "2024-12-01-preview';
         return normalizeAzureAiChatUrl(baseUrl, apiType, model, apiVersion);
       }
       case "watsonx": {
@@ -269,7 +269,7 @@ export class DefaultExecutor extends BaseExecutor {
         const apiType =
           forceResponses || credentials?.providerSpecificData?.apiType === "responses"
             ? "responses"
-            : "chat";
+            : "chat';
         const baseUrl = this.resolveBaseUrl(credentials);
         return normalizeOciChatUrl(baseUrl, apiType);
       }
@@ -339,11 +339,11 @@ export class DefaultExecutor extends BaseExecutor {
           typeof psd?.targetFormat === "string" ? (psd.targetFormat as string) : null;
         const effectiveTarget = modelTarget || connectionTarget;
 
-        let protocol: "chat" | "responses" | "messages" = "chat";
+        let protocol: "chat" | "responses" | "messages" = "chat';
         if (forceResponses || effectiveTarget === "openai-responses") {
-          protocol = "responses";
+          protocol = "responses';
         } else if (effectiveTarget === "claude" && isPoeMessagesEligibleModel(model)) {
-          protocol = "messages";
+          protocol = "messages';
         }
 
         return resolvePoeUpstreamUrl({
@@ -377,7 +377,7 @@ export class DefaultExecutor extends BaseExecutor {
           credentials.providerSpecificData.baseUrl.trim()
             ? (credentials.providerSpecificData.baseUrl as string)
             : null;
-        const isOpenAIFormat = !this.config.format || this.config.format === "openai";
+        const isOpenAIFormat = !this.config.format || this.config.format === "openai';
         if (customBaseUrl && isOpenAIFormat) {
           return normalizeOpenAIChatUrl(customBaseUrl);
         }
@@ -398,13 +398,13 @@ export class DefaultExecutor extends BaseExecutor {
           : (headers["Authorization"] = `Bearer ${credentials.accessToken}`);
         break;
       case "snowflake": {
-        const rawToken = effectiveKey || credentials.accessToken || "";
+        const rawToken = effectiveKey || credentials.accessToken || "';
         const usesProgrammaticAccessToken = rawToken.startsWith("pat/");
         headers["Authorization"] =
           `Bearer ${usesProgrammaticAccessToken ? rawToken.slice(4) : rawToken}`;
         headers["X-Snowflake-Authorization-Token-Type"] = usesProgrammaticAccessToken
           ? "PROGRAMMATIC_ACCESS_TOKEN"
-          : "KEYPAIR_JWT";
+          : "KEYPAIR_JWT';
         break;
       }
       case "gigachat":
@@ -471,7 +471,7 @@ export class DefaultExecutor extends BaseExecutor {
           // Bearer fallback for non-official upstreams; api.anthropic.com
           // (and the empty/default baseUrl that targets it) must keep the
           // x-api-key-only behavior to avoid regressing the official path.
-          const baseUrl = credentials?.providerSpecificData?.baseUrl || "";
+          const baseUrl = credentials?.providerSpecificData?.baseUrl || "';
           const isOfficial = isOfficialAnthropicBaseUrl(baseUrl);
           if (!isOfficial) {
             headers["Authorization"] = `Bearer ${effectiveKey}`;
@@ -514,7 +514,7 @@ export class DefaultExecutor extends BaseExecutor {
           );
           if (usesCcWireImage(this.provider)) {
             delete ccHeaders["Authorization"];
-            ccHeaders["x-api-key"] = effectiveKey || credentials.accessToken || "";
+            ccHeaders["x-api-key"] = effectiveKey || credentials.accessToken || "';
           }
           // CC nodes are also anthropic-compatible-*, so honor operator custom
           // headers here (the early return skips the shared block below).
@@ -535,7 +535,7 @@ export class DefaultExecutor extends BaseExecutor {
           // (and the empty/default baseUrl that targets it) must keep the
           // x-api-key-only behavior to avoid regressing the official path.
           if (effectiveKey && !headers["Authorization"]) {
-            const baseUrl = credentials?.providerSpecificData?.baseUrl || "";
+            const baseUrl = credentials?.providerSpecificData?.baseUrl || "';
             const isOfficialAnthropic = isOfficialAnthropicBaseUrl(baseUrl);
             if (!isOfficialAnthropic) {
               headers["Authorization"] = `Bearer ${effectiveKey}`;
@@ -549,7 +549,7 @@ export class DefaultExecutor extends BaseExecutor {
             (key) => key.toLowerCase() === "anthropic-version"
           );
           if (!hasAnthropicVersion) {
-            headers["anthropic-version"] = "2023-06-01";
+            headers["anthropic-version"] = "2023-06-01';
           }
         } else {
           // Use registry authHeader if available, otherwise default to bearer.
@@ -557,7 +557,7 @@ export class DefaultExecutor extends BaseExecutor {
           // scheme (e.g. claude uses x-api-key where openai uses bearer).
           const entry = getRegistryEntry(this.provider);
           const alternate = this.resolveAlternate(credentials);
-          const authHeader = alternate?.authHeader || entry?.authHeader || "bearer";
+          const authHeader = alternate?.authHeader || entry?.authHeader || "bearer';
           const token = effectiveKey || credentials.accessToken || entry?.anonymousApiKey;
           if (token) {
             if (authHeader === "x-api-key") {
@@ -571,7 +571,7 @@ export class DefaultExecutor extends BaseExecutor {
         }
     }
 
-    headers["Accept"] = stream ? "text/event-stream" : "application/json";
+    headers["Accept"] = stream ? "text/event-stream" : "application/json';
 
     const isCompatibleProvider =
       this.provider?.startsWith?.("openai-compatible-") ||
@@ -747,7 +747,7 @@ export class DefaultExecutor extends BaseExecutor {
     const requestFormat =
       withDefaults && typeof withDefaults === "object" && !Array.isArray(withDefaults)
         ? detectFormat(withDefaults as Record<string, unknown>)
-        : "openai";
+        : "openai';
 
     if (typeof withDefaults === "object" && withDefaults !== null && !Array.isArray(withDefaults)) {
       if (this.provider?.startsWith?.("anthropic-compatible-")) {
@@ -935,7 +935,7 @@ export class DefaultExecutor extends BaseExecutor {
     // #6912: keep whichever token key transformRequest already set (o1/o3/o4/gpt-5 use
     // max_completion_tokens) instead of re-introducing max_tokens alongside it.
     const tokenKey =
-      body.max_completion_tokens !== undefined ? "max_completion_tokens" : "max_tokens";
+      body.max_completion_tokens !== undefined ? "max_completion_tokens" : "max_tokens';
 
     if (typeof current !== "number" || current <= 0) {
       body[tokenKey] = target;

@@ -4,14 +4,14 @@
  * from combo config to filter and sort targets by context window size.
  */
 
-import { getModelContextLimit } from "@lib/modelCapabilities";
-import type { ComboLogger, ResolvedComboTarget } from "./types.ts";
+import { getModelContextLimit } from '@lib/modelCapabilities';
+import type { ComboLogger, ResolvedComboTarget } from './types.ts';
 
 export interface ContextRequirements {
   minContextWindow?: number;
   maxContextWindow?: number;
   preferLargeContext?: boolean;
-  contextFilterMode?: "strict" | "lenient";
+  contextFilterMode?: "strict" | "lenient';
 }
 
 /**
@@ -77,7 +77,7 @@ export function applyContextRequirements(
       .filter(({ contextWindow }) => {
         // Unknown context limit handling
         if (contextWindow === null) {
-          return contextFilterMode === "lenient";
+          return contextFilterMode === "lenient';
         }
 
         // Known context limit - check threshold
@@ -123,7 +123,7 @@ export function applyContextRequirements(
 
       // Unknown context limit handling
       if (contextWindow === null) {
-        return contextFilterMode === "lenient";
+        return contextFilterMode === "lenient';
       }
 
       // Known context limit - check threshold

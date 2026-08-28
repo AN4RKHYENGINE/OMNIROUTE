@@ -6,7 +6,7 @@
  * to prevent cache stampede (critical for agentic tools).
  */
 
-import { createHash } from "crypto";
+import { createHash } from 'crypto';
 
 const MAX_CACHE_ENTRIES = 500;
 const DEFAULT_TTL_MS = parseInt(process.env.SEARCH_CACHE_TTL_MS || String(60 * 1000), 10);

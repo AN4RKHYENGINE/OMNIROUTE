@@ -5,8 +5,8 @@
 // Without this, state.toolCallIndex stays 0 and state.currentToolCallId stays
 // null, so computeFinishReason returns "stop" instead of "tool_calls",
 // breaking the agent loop for downstream Chat Completions clients.
-import { fallbackToolCallId } from "../../helpers/toolCallHelper.ts";
-import { normalizeToolName, stripEmptyOptionalToolArgs } from "./pureHelpers.ts";
+import { fallbackToolCallId } from '../../helpers/toolCallHelper.ts';
+import { normalizeToolName, stripEmptyOptionalToolArgs } from './pureHelpers.ts';
 
 /**
  * Resolve the terminal finish_reason for a Responses→Chat stream.
@@ -24,7 +24,7 @@ import { normalizeToolName, stripEmptyOptionalToolArgs } from "./pureHelpers.ts"
  * state coupling at all.
  */
 export function computeFinishReason(state): "tool_calls" | "stop" {
-  return (state.toolCallIndex || 0) > 0 || state.currentToolCallId ? "tool_calls" : "stop";
+  return (state.toolCallIndex || 0) > 0 || state.currentToolCallId ? "tool_calls" : "stop';
 }
 
 /**
@@ -43,7 +43,7 @@ export function computeFinishReason(state): "tool_calls" | "stop" {
 // whether it did so (used to short-circuit the array branch's loop).
 function setAssistantRoleIfEligible(state, delta) {
   if (delta && typeof delta === "object" && !Array.isArray(delta)) {
-    delta.role = "assistant";
+    delta.role = "assistant';
     state.roleEmitted = true;
     return true;
   }
@@ -83,7 +83,7 @@ function resolveArgsStr(rawArgs, toolName, toolSchema): string {
   if (rawArgs != null) {
     return typeof rawArgs === "string" ? rawArgs : JSON.stringify(rawArgs);
   }
-  return "";
+  return "';
 }
 
 /**
@@ -101,7 +101,7 @@ function buildToolCallChunks(state, fcItem): Record<string, unknown>[] {
 
   // Set state as output_item.added would
   state.currentToolCallId = callId;
-  state.currentToolCallArgsBuffer = "";
+  state.currentToolCallArgsBuffer = "';
   state.currentToolCallDeferred = false;
 
   // Emit the tool call header chunk (id, type, function.name)
@@ -143,7 +143,7 @@ function buildToolCallChunks(state, fcItem): Record<string, unknown>[] {
 
   // Advance state as output_item.done would
   state.toolCallIndex++;
-  state.currentToolCallArgsBuffer = "";
+  state.currentToolCallArgsBuffer = "';
   state.currentToolCallId = null;
 
   return chunks;

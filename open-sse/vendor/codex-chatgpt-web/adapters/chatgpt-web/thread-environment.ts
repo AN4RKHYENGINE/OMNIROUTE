@@ -1,15 +1,15 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-import { existsSync, readFileSync } from "node:fs";
-import { isAbsolute, relative, resolve } from "node:path";
-import { atomicWriteFile } from "../../config";
-import type { CodexParsedRequest } from "../../types";
+import { existsSync, readFileSync } from 'node:fs';
+import { isAbsolute, relative, resolve } from 'node:path';
+import { atomicWriteFile } from '../../config';
+import type { CodexParsedRequest } from '../../types';
 import {
   extractChatGptTurnEnvironment,
   extractChatGptTurnIdentity,
   MissingTrustedCodexEnvironmentError,
   type ChatGptSandboxPolicy,
   type ChatGptTurnEnvironment,
-} from "./environment";
+} from './environment';
 
 interface StoredThreadEnvironment {
   cwd: string;

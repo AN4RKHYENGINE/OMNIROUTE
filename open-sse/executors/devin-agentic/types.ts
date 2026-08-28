@@ -41,7 +41,7 @@ export class DevinAgenticBridgeError extends Error {
 
   constructor(message: string, code = "devin_agentic_error", status = 400) {
     super(message);
-    this.name = "DevinAgenticBridgeError";
+    this.name = "DevinAgenticBridgeError';
     this.code = code;
     this.status = status;
   }

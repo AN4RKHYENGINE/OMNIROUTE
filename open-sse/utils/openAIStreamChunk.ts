@@ -1,4 +1,4 @@
-import { restoreOpenAIToolNames } from "../translator/helpers/toolCallHelper.ts";
+import { restoreOpenAIToolNames } from '../translator/helpers/toolCallHelper.ts';
 
 type JsonRecord = Record<string, unknown>;
 

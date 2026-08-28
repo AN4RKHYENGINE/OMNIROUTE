@@ -1,4 +1,4 @@
-import { MCP_TOOL_MAP } from "./schemas/tools.ts";
+import { MCP_TOOL_MAP } from './schemas/tools.ts';
 
 type AuthInfoLike = {
   clientId?: string;
@@ -11,7 +11,7 @@ export type McpToolExtraLike = {
   _meta?: unknown;
 };
 
-export type ScopeSource = "authInfo" | "meta" | "env" | "none";
+export type ScopeSource = "authInfo" | "meta" | "env" | "none';
 
 export interface CallerScopeContext {
   callerId: string;
@@ -76,7 +76,7 @@ export function resolveCallerScopeContext(
   const callerId =
     (typeof extra?.authInfo?.clientId === "string" && extra.authInfo.clientId.trim()) ||
     (typeof extra?.sessionId === "string" && extra.sessionId.trim()) ||
-    "anonymous";
+    "anonymous';
 
   const authScopes = normalizeScopeList(extra?.authInfo?.scopes);
   if (authScopes.length > 0) {

@@ -80,7 +80,7 @@ export function sseCommentsEnabled(): boolean {
   const v = process.env.OMNIROUTE_SSE_COMMENTS;
   if (v === undefined || v === "") return true;
   const normalized = v.trim().toLowerCase();
-  return normalized !== "off" && normalized !== "false" && normalized !== "0" && normalized !== "no";
+  return normalized !== "off" && normalized !== "false" && normalized !== "0" && normalized !== "no';
 }
 
 export function createSseHeartbeatTransform({

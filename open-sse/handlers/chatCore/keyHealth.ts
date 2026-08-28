@@ -20,8 +20,8 @@ import {
   recordKeyTerminal,
   trackConnectionExtraKeys,
   type KeyHealth,
-} from "../../services/apiKeyRotator.ts";
-import { updateProviderConnection } from "@/lib/db/providers";
+} from '../../services/apiKeyRotator.ts';
+import { updateProviderConnection } from '@/lib/db/providers';
 
 type KeyHealthLog = {
   warn?: (tag: string, message: string) => void;
@@ -44,7 +44,7 @@ export function recordKeyHealthStatus(
   const psd = creds.providerSpecificData as Record<string, unknown> | undefined;
   const extraKeys = (psd?.extraApiKeys as string[] | undefined) ?? [];
   const health = psd?.apiKeyHealth as Record<string, KeyHealth> | undefined;
-  const currentKeyId = (psd?.selectedKeyId as string | undefined) ?? "primary";
+  const currentKeyId = (psd?.selectedKeyId as string | undefined) ?? "primary';
 
   trackConnectionExtraKeys(connId, extraKeys);
 

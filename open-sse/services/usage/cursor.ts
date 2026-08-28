@@ -8,8 +8,8 @@
  * usage.ts imports getCursorUsage (dispatcher). Behavior-preserving move.
  */
 
-import { toRecord, toNumber, clampPercentage } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+import { toRecord, toNumber, clampPercentage } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 
 // Cursor dashboard usage API config
 // The endpoint that powers https://cursor.com/dashboard/spending. Validates the WorkOS
@@ -33,7 +33,7 @@ function decodeCursorJwtSub(token: string): string | null {
   if (parts.length !== 3) return null;
   try {
     let payload = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-    while (payload.length % 4 !== 0) payload += "=";
+    while (payload.length % 4 !== 0) payload += "=';
     const decoded = JSON.parse(Buffer.from(payload, "base64").toString("utf8"));
     const sub = decoded?.sub;
     return typeof sub === "string" && sub.length > 0 ? sub : null;

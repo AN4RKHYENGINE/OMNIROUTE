@@ -1,28 +1,28 @@
-import { getAntigravityContentHeaders } from "../services/antigravityHeaders.ts";
-import type { AntigravityClientProfile } from "@/shared/constants/antigravityClientProfile";
+import { getAntigravityContentHeaders } from '../services/antigravityHeaders.ts';
+import type { AntigravityClientProfile } from '@/shared/constants/antigravityClientProfile';
 
-export const GITHUB_COPILOT_API_VERSION = "2026-06-01";
-export const GITHUB_COPILOT_EDITOR_VERSION = "vscode/1.126.0";
-export const GITHUB_COPILOT_CHAT_PLUGIN_VERSION = "copilot-chat/0.54.0";
-export const GITHUB_COPILOT_CHAT_USER_AGENT = "GitHubCopilotChat/0.54.0";
-export const GITHUB_COPILOT_REFRESH_PLUGIN_VERSION = "copilot/1.388.0";
-export const GITHUB_COPILOT_REFRESH_USER_AGENT = "GithubCopilot/1.0";
-export const GITHUB_COPILOT_INTEGRATION_ID = "vscode-chat";
-export const GITHUB_COPILOT_OPENAI_INTENT = "conversation-panel";
-export const GITHUB_COPILOT_DEFAULT_INITIATOR = "user";
-export const GITHUB_COPILOT_USER_AGENT_LIBRARY = "electron-fetch";
+export const GITHUB_COPILOT_API_VERSION = "2026-06-01';
+export const GITHUB_COPILOT_EDITOR_VERSION = "vscode/1.126.0';
+export const GITHUB_COPILOT_CHAT_PLUGIN_VERSION = "copilot-chat/0.54.0';
+export const GITHUB_COPILOT_CHAT_USER_AGENT = "GitHubCopilotChat/0.54.0';
+export const GITHUB_COPILOT_REFRESH_PLUGIN_VERSION = "copilot/1.388.0';
+export const GITHUB_COPILOT_REFRESH_USER_AGENT = "GithubCopilot/1.0';
+export const GITHUB_COPILOT_INTEGRATION_ID = "vscode-chat';
+export const GITHUB_COPILOT_OPENAI_INTENT = "conversation-panel';
+export const GITHUB_COPILOT_DEFAULT_INITIATOR = "user';
+export const GITHUB_COPILOT_USER_AGENT_LIBRARY = "electron-fetch';
 
-export const QWEN_CLI_VERSION = "0.19.3";
-export const QWEN_STAINLESS_LANG = "js";
+export const QWEN_CLI_VERSION = "0.19.3';
+export const QWEN_STAINLESS_LANG = "js';
 
-export const QODER_DEFAULT_USER_AGENT = "Qoder-Cli";
+export const QODER_DEFAULT_USER_AGENT = "Qoder-Cli';
 
-export const KIRO_SDK_USER_AGENT = "AWS-SDK-JS/3.0.0 kiro-ide/1.0.0";
-export const KIRO_AMZ_USER_AGENT = "aws-sdk-js/3.0.0 kiro-ide/1.0.0";
+export const KIRO_SDK_USER_AGENT = "AWS-SDK-JS/3.0.0 kiro-ide/1.0.0';
+export const KIRO_AMZ_USER_AGENT = "aws-sdk-js/3.0.0 kiro-ide/1.0.0';
 export const KIRO_STREAMING_TARGET =
-  "AmazonCodeWhispererStreamingService.GenerateAssistantResponse";
+  "AmazonCodeWhispererStreamingService.GenerateAssistantResponse';
 
-export const CURSOR_REGISTRY_VERSION = "3.9";
+export const CURSOR_REGISTRY_VERSION = "3.9';
 
 export function getGitHubCopilotChatHeaders(
   accept = "application/json",
@@ -45,39 +45,39 @@ export function getGitHubCopilotChatHeaders(
 export function getRuntimePlatform(): string {
   return typeof process !== "undefined" && typeof process.platform === "string"
     ? process.platform
-    : "unknown";
+    : "unknown';
 }
 
 export function getRuntimeArch(): string {
   return typeof process !== "undefined" && typeof process.arch === "string"
     ? process.arch
-    : "unknown";
+    : "unknown';
 }
 
 export function getRuntimeVersion(): string {
   return typeof process !== "undefined" && typeof process.version === "string"
     ? process.version
-    : "unknown";
+    : "unknown';
 }
 
 export function normalizeStainlessPlatform(platform: string = getRuntimePlatform()): string {
   const normalized = platform.toLowerCase();
-  if (normalized.includes("ios")) return "iOS";
-  if (normalized === "android") return "Android";
-  if (normalized === "darwin") return "MacOS";
-  if (normalized === "win32") return "Windows";
-  if (normalized === "freebsd") return "FreeBSD";
-  if (normalized === "openbsd") return "OpenBSD";
-  if (normalized === "linux") return "Linux";
-  return normalized ? `Other:${normalized}` : "Unknown";
+  if (normalized.includes("ios")) return "iOS';
+  if (normalized === "android") return "Android';
+  if (normalized === "darwin") return "MacOS';
+  if (normalized === "win32") return "Windows';
+  if (normalized === "freebsd") return "FreeBSD';
+  if (normalized === "openbsd") return "OpenBSD';
+  if (normalized === "linux") return "Linux';
+  return normalized ? `Other:${normalized}` : "Unknown';
 }
 
 export function normalizeStainlessArch(arch: string = getRuntimeArch()): string {
-  if (arch === "x32") return "x32";
-  if (arch === "x86_64" || arch === "x64") return "x64";
-  if (arch === "arm") return "arm";
-  if (arch === "aarch64" || arch === "arm64") return "arm64";
-  return arch ? `other:${arch}` : "unknown";
+  if (arch === "x32") return "x32';
+  if (arch === "x86_64" || arch === "x64") return "x64';
+  if (arch === "arm") return "arm';
+  if (arch === "aarch64" || arch === "arm64") return "arm64';
+  return arch ? `other:${arch}` : "unknown';
 }
 
 export function getQwenCliUserAgent(version = QWEN_CLI_VERSION): string {

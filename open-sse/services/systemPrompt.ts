@@ -11,7 +11,7 @@
  * Uses globalThis to share config across Turbopack module instances (#2470).
  */
 
-const GLOBAL_KEY = "__omniroute_systemPrompt_config__";
+const GLOBAL_KEY = "__omniroute_systemPrompt_config__';
 
 interface SystemPromptConfig {
   enabled: boolean;
@@ -46,7 +46,7 @@ export function setSystemPromptConfig(config: Partial<SystemPromptConfig>) {
   const current = getConfig();
   const base = { ...current };
   if ("prefixPrompt" in config || "suffixPrompt" in config) {
-    base.prompt = "";
+    base.prompt = "';
   }
   const merged = { ...base, ...config };
   if (merged.prompt && !merged.suffixPrompt && !("suffixPrompt" in config)) {
@@ -80,8 +80,8 @@ export function getSystemPromptConfig() {
 export function injectSystemPrompt(body) {
   const cfg = getConfig();
   if (!cfg.enabled) return body;
-  const prefix = cfg.prefixPrompt || "";
-  const suffix = cfg.suffixPrompt || "";
+  const prefix = cfg.prefixPrompt || "';
+  const suffix = cfg.suffixPrompt || "';
   if (!prefix && !suffix) return body;
   if (!body || typeof body !== "object") return body;
   if (body._skipSystemPrompt) return body;
@@ -100,7 +100,7 @@ export function injectSystemPrompt(body) {
         if (suffix) content.push({ type: "text", text: suffix });
         msg.content = content;
       } else {
-        let content = msg.content || "";
+        let content = msg.content || "';
         if (prefix) content = prefix + "\n\n" + content;
         if (suffix) content = content + "\n\n" + suffix;
         msg.content = content;

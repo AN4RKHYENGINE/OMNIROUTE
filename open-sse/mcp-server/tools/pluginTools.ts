@@ -4,11 +4,11 @@
  * @module mcp-server/tools/pluginTools
  */
 
-import { z } from "zod";
-import { resolve, normalize, isAbsolute } from "path";
-import { listPlugins, getPluginByName, updatePluginConfig } from "@lib/db/plugins";
-import { pluginManager } from "@lib/plugins/manager";
-import { validatePluginConfig, type ConfigField } from "@lib/plugins/manifest";
+import { z } from 'zod';
+import { resolve, normalize, isAbsolute } from 'path';
+import { listPlugins, getPluginByName, updatePluginConfig } from '@lib/db/plugins';
+import { pluginManager } from '@lib/plugins/manager';
+import { validatePluginConfig, type ConfigField } from '@lib/plugins/manifest';
 
 /**
  * Validate a path is safe for plugin installation.

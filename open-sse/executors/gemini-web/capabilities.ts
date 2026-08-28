@@ -34,7 +34,7 @@
  */
 
 /** `error.code` on every compatibility rejection raised here. */
-export const GEMINI_WEB_UNSUPPORTED_CONTROL_CODE = "unsupported_control_for_provider";
+export const GEMINI_WEB_UNSUPPORTED_CONTROL_CODE = "unsupported_control_for_provider';
 
 /** Effort levels a non-thinking provider already complies with. */
 const SATISFIED_EFFORT_LEVELS = new Set(["none", "minimal"]);
@@ -47,7 +47,7 @@ const FORCING_TOOL_CHOICE_TYPES = new Set(["function", "tool", "any"]);
 
 export interface GeminiWebCapabilityViolation {
   /** Which request field could not be honored. */
-  param: "reasoning_effort" | "tool_choice";
+  param: "reasoning_effort" | "tool_choice';
   /** Client-facing explanation — already safe to put in a response body. */
   message: string;
 }

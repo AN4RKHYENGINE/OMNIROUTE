@@ -1,6 +1,6 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
-import { openaiToAntigravityResponse } from "./openai-to-antigravity.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
+import { openaiToAntigravityResponse } from './openai-to-antigravity.ts';
 
 // Gemini and Antigravity clients share the same Cloud Code
 // `{ response: { candidates: [...] } }` envelope (see `unwrapGeminiChunk`

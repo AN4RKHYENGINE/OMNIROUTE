@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // Naga.ac — OpenAI-compatible aggregator gateway with free models.
 // See https://docs.naga.ac for API reference.

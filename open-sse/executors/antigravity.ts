@@ -1,56 +1,56 @@
-import crypto, { randomUUID } from "crypto";
+import crypto, { randomUUID } from 'crypto';
 import {
   BaseExecutor,
   mergeUpstreamExtraHeaders,
   type ExecuteInput,
   type ExecutorLog,
   type ProviderCredentials,
-} from "./base.ts";
-import { PROVIDERS, OAUTH_ENDPOINTS, HTTP_STATUS, FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { scrubProxyAndFingerprintHeaders } from "../services/antigravityHeaderScrub.ts";
+} from './base.ts';
+import { PROVIDERS, OAUTH_ENDPOINTS, HTTP_STATUS, FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { scrubProxyAndFingerprintHeaders } from '../services/antigravityHeaderScrub.ts';
 import {
   getAntigravityContentHeaders,
   getAntigravityOAuthUserAgent,
-} from "../services/antigravityHeaders.ts";
-import { classify429, decide429, type Decision } from "../services/antigravity429Engine.ts";
-import { lockExactModel } from "../services/accountFallback.ts";
+} from '../services/antigravityHeaders.ts';
+import { classify429, decide429, type Decision } from '../services/antigravity429Engine.ts';
+import { lockExactModel } from '../services/accountFallback.ts';
 import {
   shouldRetryWithCredits,
   shouldUseCreditsFirst,
   getCreditsMode,
   handleCreditsFailure,
-} from "../services/antigravityCredits.ts";
-import { persistCreditBalance, getAllPersistedCreditBalances } from "@/lib/db/creditBalance";
-import { setConnectionRateLimitUntil } from "@/lib/db/providers";
-import { getMitmAlias } from "@/lib/db/models";
+} from '../services/antigravityCredits.ts';
+import { persistCreditBalance, getAllPersistedCreditBalances } from '@/lib/db/creditBalance';
+import { setConnectionRateLimitUntil } from '@/lib/db/providers';
+import { getMitmAlias } from '@/lib/db/models';
 import {
   MAX_ANTIGRAVITY_OUTPUT_TOKENS,
   resolveAntigravityOutputCap,
-} from "./antigravityOutputCap.ts";
-export { MAX_ANTIGRAVITY_OUTPUT_TOKENS } from "./antigravityOutputCap.ts";
-import { ensureAntigravityProjectAssigned } from "../services/antigravityProjectBootstrap.ts";
-import { persistDiscoveredAntigravityProjectId } from "../services/antigravityProjectPersist.ts";
-import { markAntigravityMissingCloudCodeProject } from "../services/antigravityProjectPersistence.ts";
+} from './antigravityOutputCap.ts';
+export { MAX_ANTIGRAVITY_OUTPUT_TOKENS } from './antigravityOutputCap.ts';
+import { ensureAntigravityProjectAssigned } from '../services/antigravityProjectBootstrap.ts';
+import { persistDiscoveredAntigravityProjectId } from '../services/antigravityProjectPersist.ts';
+import { markAntigravityMissingCloudCodeProject } from '../services/antigravityProjectPersistence.ts';
 import {
   resolveAntigravityModelId,
   getAntigravityModelFallbacks,
-} from "../config/antigravityModelAliases.ts";
+} from '../config/antigravityModelAliases.ts';
 import {
   shouldStripCloudCodeThinking,
   stripCloudCodeThinkingConfig,
-} from "../services/cloudCodeThinking.ts";
-import { buildGeminiTools } from "../translator/helpers/geminiToolsSanitizer.ts";
+} from '../services/cloudCodeThinking.ts';
+import { buildGeminiTools } from '../translator/helpers/geminiToolsSanitizer.ts';
 import {
   type AntigravityCollectedStream,
   processAntigravitySSEText,
   flushAntigravitySSEText,
-} from "./antigravity/sseCollect.ts";
+} from './antigravity/sseCollect.ts';
 // processAntigravitySSEPayload re-exported for external importers (tests).
-export { processAntigravitySSEPayload } from "./antigravity/sseCollect.ts";
+export { processAntigravitySSEPayload } from './antigravity/sseCollect.ts';
 import {
   createCreditsExtractionTransform as createCreditsExtractionTransformImpl,
   type SsePassthroughResult,
-} from "./antigravity/streamingPassthrough.ts";
+} from './antigravity/streamingPassthrough.ts';
 import {
   toSafeAntigravityLog,
   finalizeAntigravityRequestBody,
@@ -62,20 +62,20 @@ import {
   markCreditsExhausted,
   isAbortError,
   type SafeAntigravityLog,
-} from "./antigravity/executeAttempt.ts";
+} from './antigravity/executeAttempt.ts';
 import {
   handleAntigravityFallbackChainError,
   handleAntigravityFallback400,
-} from "./antigravity/proFallbackChain.ts";
+} from './antigravity/proFallbackChain.ts';
 import {
   getAntigravityClientProfile,
   resolveAntigravityClientVersion,
-} from "../services/antigravityClientProfile.ts";
+} from '../services/antigravityClientProfile.ts';
 import {
   generateAntigravityRequestId,
   getAntigravityEnvelopeUserAgent,
   getAntigravitySessionId,
-} from "../services/antigravityIdentity.ts";
+} from '../services/antigravityIdentity.ts';
 
 const MAX_RETRY_AFTER_MS = 60_000;
 const LONG_RETRY_THRESHOLD_MS = 60_000;
@@ -137,8 +137,8 @@ type AntigravityChunkContent = Record<string, unknown> & {
 type AntigravityRequestEnvelope = Record<string, unknown> & {
   project: string;
   model?: string;
-  userAgent: "antigravity";
-  requestType: "agent" | "image_gen";
+  userAgent: "antigravity';
+  requestType: "agent" | "image_gen';
   requestId: string;
   request: Record<string, unknown>;
   enabledCreditTypes?: string[];
@@ -269,7 +269,7 @@ async function cleanModelName(model: string, modelIdOverride?: string): Promise<
       // to the static alias resolution below (never return undefined here).
       if (typeof raw === "string" && raw) {
         // Strip the "antigravity/" prefix if present; use the raw model ID otherwise.
-        const PREFIX = "antigravity/";
+        const PREFIX = "antigravity/';
         clean = raw.startsWith(PREFIX) ? raw.slice(PREFIX.length) : raw;
       }
     }
@@ -520,7 +520,7 @@ export class AntigravityExecutor extends BaseExecutor {
     const providerSpecificProjectId = normalizeProjectId(
       (credentials?.providerSpecificData as Record<string, unknown> | undefined)?.projectId
     );
-    const allowBodyProjectOverride = process.env.OMNIROUTE_ALLOW_BODY_PROJECT_OVERRIDE === "1";
+    const allowBodyProjectOverride = process.env.OMNIROUTE_ALLOW_BODY_PROJECT_OVERRIDE === "1';
 
     // Default: prefer OAuth-stored projectId over incoming body.project to avoid
     // stale/wrong client-side values causing 404/403 from Cloud Code endpoints.
@@ -561,7 +561,7 @@ export class AntigravityExecutor extends BaseExecutor {
       const errorMsg =
         "Missing Google projectId for Antigravity account. Auto-discovery via loadCodeAssist " +
         "found no Cloud Code project. Please reconnect OAuth in Providers → Antigravity (and " +
-        "ensure the Google account has completed Gemini Code Assist onboarding).";
+        "ensure the Google account has completed Gemini Code Assist onboarding).';
       const errorBody = {
         error: {
           message: errorMsg,
@@ -611,9 +611,9 @@ export class AntigravityExecutor extends BaseExecutor {
     const normalizedContents: AntigravityContent[] =
       rawContents.map((content): AntigravityContent => {
         const c = content as AntigravityChunkContent;
-        let role = typeof c.role === "string" ? c.role : "user";
+        let role = typeof c.role === "string" ? c.role : "user';
         if (c.parts?.some((p) => p.functionResponse)) {
-          role = "user";
+          role = "user';
         }
 
         const hasFunctionCall = c.parts?.some((p) => p.functionCall) || false;
@@ -694,7 +694,7 @@ export class AntigravityExecutor extends BaseExecutor {
       ...passthroughFields
     } = normalizedBody;
 
-    const requestType = _requestType === "image_gen" ? "image_gen" : "agent";
+    const requestType = _requestType === "image_gen" ? "image_gen" : "agent';
     const envelope: AntigravityRequestEnvelope = {
       project: projectId,
       requestId: generateAntigravityRequestId(),
@@ -759,7 +759,7 @@ export class AntigravityExecutor extends BaseExecutor {
       // Gemini Code Assist). The runtime transformRequest path already does this, but
       // a proactive discovery here prevents 422 errors on the next request when the
       // per-token memoization cache is invalidated by the new access token.
-      let projectId = credentials.projectId?.trim() || "";
+      let projectId = credentials.projectId?.trim() || "';
       if (!projectId && newAccessToken) {
         try {
           const discovered = await ensureAntigravityProjectAssigned(
@@ -1122,7 +1122,7 @@ export class AntigravityExecutor extends BaseExecutor {
     // Use connectionId as the stable cache key — it's available in both the executor
     // (via credentials.connectionId) and the usage fetcher (via connection.id).
     // The email-based key was unreliable because email isn't always on the credentials object.
-    const accountId: string = credentials?.connectionId || "unknown";
+    const accountId: string = credentials?.connectionId || "unknown';
 
     // Resolve credits mode once per execute() call. "always" injects
     // enabledCreditTypes: ["GOOGLE_ONE_AI"] on the first request so the

@@ -1,4 +1,4 @@
-import type { CompressionStats } from "./types.ts";
+import type { CompressionStats } from './types.ts';
 
 export type EngineBreakdownEntry = NonNullable<CompressionStats["engineBreakdown"]>[number];
 

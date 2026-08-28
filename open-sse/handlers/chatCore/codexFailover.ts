@@ -1,6 +1,6 @@
-import { getCodexModelScope } from "../../config/codexQuotaScopes.ts";
-import { updateProviderConnection } from "@/lib/db/providers";
-import { getCachedProviderConnectionById } from "@/lib/localDb";
+import { getCodexModelScope } from '../../config/codexQuotaScopes.ts';
+import { updateProviderConnection } from '@/lib/db/providers';
+import { getCachedProviderConnectionById } from '@/lib/localDb';
 
 type CodexFailoverCredentials = {
   connectionId?: string | null;

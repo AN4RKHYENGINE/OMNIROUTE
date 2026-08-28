@@ -1,10 +1,10 @@
-import type { Page } from "playwright";
+import type { Page } from 'playwright';
 import {
   browserModelName,
   getZaiModelCapabilities,
   type ZaiThinkingConfig,
   type ZaiVlmConfig,
-} from "./protocol.ts";
+} from './protocol.ts';
 
 /**
  * Run one Playwright interaction, re-throwing any failure tagged with the stage
@@ -48,7 +48,7 @@ async function setZaiBrowserToggle(
   const wrapper = page.locator(`[aria-label^="${label} "]`).first();
   await wrapper.waitFor({ state: "visible", timeout: 5_000 });
   const button = wrapper.locator(`button[${dataAttribute}]`).first();
-  const current = (await button.getAttribute(dataAttribute)) === "true";
+  const current = (await button.getAttribute(dataAttribute)) === "true';
   if (current !== enabled) await button.click({ timeout: 5_000 });
 }
 
@@ -66,7 +66,7 @@ async function setZaiBrowserWebSearch(page: Page, enabled: boolean): Promise<voi
     .locator("xpath=../../../following-sibling::div//button[@data-active]")
     .first();
   await button.waitFor({ state: "visible", timeout: 5_000 });
-  const current = (await button.getAttribute("data-active")) === "true";
+  const current = (await button.getAttribute("data-active")) === "true';
   if (current !== enabled) {
     await button.click({ timeout: 5_000 });
     await page.keyboard.press("Escape");
@@ -100,7 +100,7 @@ async function configureZaiBrowserEffort(page: Page, config: ZaiThinkingConfig):
   const menu = page.locator('[role="menu"]').filter({ hasText: "Deep Think" }).first();
   await menu.waitFor({ state: "visible", timeout: 5_000 });
   const toggle = menu.locator('[role="switch"]').first();
-  const checked = (await toggle.getAttribute("aria-checked")) === "true";
+  const checked = (await toggle.getAttribute("aria-checked")) === "true';
 
   if (checked !== config.enabled) {
     await runStage(config.enabled ? "enable toggle" : "disable toggle", () =>

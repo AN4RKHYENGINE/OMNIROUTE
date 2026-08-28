@@ -1,12 +1,12 @@
 // Provider-aware reasoning_effort sanitation (xhigh/max normalization + reject strip).
 // Extracted verbatim from base.ts. Deps are config/services only (no host import → no cycle).
-import { PROVIDER_CLAUDE } from "../../services/systemTransforms.ts";
-import { isClaudeCodeCompatible } from "../../services/provider.ts";
+import { PROVIDER_CLAUDE } from '../../services/systemTransforms.ts';
+import { isClaudeCodeCompatible } from '../../services/provider.ts';
 import {
   supportsClaudeMaxEffort,
   supportsXHighEffort,
   getProviderModel,
-} from "../../config/providerModels.ts";
+} from '../../config/providerModels.ts';
 
 /**
  * Sanitize reasoning_effort for providers that don't accept all values.
@@ -66,7 +66,7 @@ function extractNvidiaGlm52Effort(b: Record<string, unknown>): NvidiaGlm52Effort
   const effort = b.reasoning_effort ?? reasoning?.effort;
   if (effort === undefined) return null;
 
-  const effortStr = typeof effort === "string" ? effort.toLowerCase() : "";
+  const effortStr = typeof effort === "string" ? effort.toLowerCase() : "';
   if (!effortStr) return null;
 
   return { reasoning, effortStr };
@@ -90,7 +90,7 @@ function buildNvidiaGlm52TemplateKwargs(
     ...((rawTemplateKwargs as Record<string, unknown> | undefined) ?? {}),
   };
   if (!Object.prototype.hasOwnProperty.call(templateKwargs, "enable_thinking")) {
-    templateKwargs.enable_thinking = effortStr !== "none";
+    templateKwargs.enable_thinking = effortStr !== "none';
   }
   return templateKwargs;
 }
@@ -158,11 +158,11 @@ export function supportsMaxEffortForProvider(provider: string, model: string): b
   const isOpencodeGoDeepSeek =
     (provider === "opencode-go" || provider === "opencode-zen") &&
     resolvedModelId.toLowerCase().includes("deepseek");
-  const isOllamaCloud = provider === "ollama-cloud";
+  const isOllamaCloud = provider === "ollama-cloud';
   const isMoonshotK3 = /^kimi-k3(?:$|-)/i.test(resolvedModelId);
   // Command Code's upstream API accepts the literal DeepSeek/OpenAI effort value
   // `max`; do not rewrite it to OmniRoute's internal `xhigh` spelling.
-  const isCommandCode = provider === "command-code";
+  const isCommandCode = provider === "command-code';
   return isClaude || isOpencodeGoDeepSeek || isOllamaCloud || isMoonshotK3 || isCommandCode;
 }
 
@@ -257,8 +257,8 @@ export function sanitizeReasoningEffortForProvider(
   const b = body as Record<string, unknown>;
   const c = readEffortCarriers(b);
   if (c.effort === undefined) return body;
-  const effortStr = typeof c.effort === "string" ? c.effort.toLowerCase() : "";
-  const modelStr = model || "";
+  const effortStr = typeof c.effort === "string" ? c.effort.toLowerCase() : "';
+  const modelStr = model || "';
 
   // Oh My Pi exposes `minimal`, while Codex's Responses API starts at `low`.
   // Normalize every carrier before the Codex executor sends the upstream request.

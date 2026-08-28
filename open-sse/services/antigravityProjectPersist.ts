@@ -12,7 +12,7 @@
  * already persists at OAuth-exchange time (`src/lib/oauth/providers/antigravity.ts`).
  */
 
-import { updateProviderConnection } from "@/lib/db/providers";
+import { updateProviderConnection } from '@/lib/db/providers';
 
 /**
  * Write `discoveredProjectId` onto both the `projectId` column and

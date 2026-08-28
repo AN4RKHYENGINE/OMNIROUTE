@@ -1,8 +1,8 @@
-import { FORMATS } from "../../translator/formats.ts";
-import { isVerifiedNativeCodexRequest } from "../../config/codexIdentity.ts";
-import { isClaudeCodeCompatibleProvider } from "../../services/claudeCodeCompatible.ts";
-import { isResponsesEndpointPath } from "../../utils/responsesEndpoint.ts";
-import { getHeaderValueCaseInsensitive } from "./headers.ts";
+import { FORMATS } from '../../translator/formats.ts';
+import { isVerifiedNativeCodexRequest } from '../../config/codexIdentity.ts';
+import { isClaudeCodeCompatibleProvider } from '../../services/claudeCodeCompatible.ts';
+import { isResponsesEndpointPath } from '../../utils/responsesEndpoint.ts';
+import { getHeaderValueCaseInsensitive } from './headers.ts';
 
 export { isResponsesEndpointPath };
 
@@ -99,7 +99,7 @@ type ThinkingSignatureError = {
 function isThinkingBlock(block: unknown): boolean {
   if (!block || typeof block !== "object") return false;
   const type = (block as { type?: unknown }).type;
-  return type === "thinking" || type === "redacted_thinking";
+  return type === "thinking" || type === "redacted_thinking';
 }
 
 function hasBlock(message: MessageLike | null | undefined, type: string): boolean {

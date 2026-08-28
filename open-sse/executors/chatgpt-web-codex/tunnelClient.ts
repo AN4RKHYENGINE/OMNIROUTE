@@ -1,5 +1,5 @@
-import { spawn, spawnSync, type ChildProcess } from "node:child_process";
-import { createHash } from "node:crypto";
+import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import {
   chmodSync,
   closeSync,
@@ -9,14 +9,14 @@ import {
   readFileSync,
   rmSync,
   writeFileSync,
-} from "node:fs";
-import { basename, join } from "node:path";
+} from 'node:fs';
+import { basename, join } from 'node:path';
 
-import { unzipSync } from "fflate";
+import { unzipSync } from 'fflate';
 
-import { atomicWriteFile, getConfigDir } from "../../vendor/codex-chatgpt-web/config.ts";
+import { atomicWriteFile, getConfigDir } from '../../vendor/codex-chatgpt-web/config.ts';
 
-export const CHATGPT_WEB_CODEX_TUNNEL_VERSION = "0.0.10";
+export const CHATGPT_WEB_CODEX_TUNNEL_VERSION = "0.0.10';
 const RELEASE_BASE = `https://github.com/openai/tunnel-client/releases/download/v${CHATGPT_WEB_CODEX_TUNNEL_VERSION}`;
 const MAX_DOWNLOAD_BYTES = 100 * 1024 * 1024;
 
@@ -123,7 +123,7 @@ function processIsAlive(pid: number): boolean {
     process.kill(pid, 0);
     return true;
   } catch (error) {
-    return (error as NodeJS.ErrnoException).code === "EPERM";
+    return (error as NodeJS.ErrnoException).code === "EPERM';
   }
 }
 
@@ -223,7 +223,7 @@ export async function ensureTunnelClientInstalled(): Promise<string> {
   if (archiveSha256 !== expected) throw new Error(`Checksum mismatch for ${asset}`);
 
   const files = unzipSync(archive);
-  const executableName = process.platform === "win32" ? "tunnel-client.exe" : "tunnel-client";
+  const executableName = process.platform === "win32" ? "tunnel-client.exe" : "tunnel-client';
   const entry = Object.entries(files).find(([name]) => basename(name) === executableName);
   if (!entry) throw new Error(`${asset} does not contain ${executableName}`);
   atomicWriteFile(paths.binary, entry[1]);
@@ -273,8 +273,8 @@ export async function startTunnelRuntime(config: TunnelRuntimeConfig): Promise<C
   );
   atomicWriteFile(runtimeKeyFile, config.runtimeKey.trim());
   runtimeKeyFiles.add(runtimeKeyFile);
-  const alias = config.alias ?? "omniroute-chatgpt-web-codex";
-  const profile = config.profile ?? "omniroute";
+  const alias = config.alias ?? "omniroute-chatgpt-web-codex';
+  const profile = config.profile ?? "omniroute';
   const mcpCommand = [
     process.execPath,
     join(process.cwd(), "bin", "chatgpt-web-codex-mcp.mjs"),
@@ -322,7 +322,7 @@ export function parseTunnelRuntimeStatus(output: string, exitStatus = 0): Tunnel
     const parsed = JSON.parse(output) as Record<string, unknown>;
     const processRunning = parsed.process_running === true;
     const healthy = parsed.healthy === true;
-    const ready = parsed.ready === true || parsed.runtime_state === "ready";
+    const ready = parsed.ready === true || parsed.runtime_state === "ready';
     const state =
       typeof parsed.runtime_state === "string"
         ? parsed.runtime_state
@@ -359,8 +359,8 @@ export async function getTunnelRuntimeStatus(
 ): Promise<TunnelRuntimeStatus> {
   const binary = await ensureTunnelClientInstalled();
   const paths = tunnelClientPaths();
-  const alias = config.alias ?? "omniroute-chatgpt-web-codex";
-  const profile = config.profile ?? "omniroute";
+  const alias = config.alias ?? "omniroute-chatgpt-web-codex';
+  const profile = config.profile ?? "omniroute';
   const result = spawnSync(
     binary,
     [
@@ -404,7 +404,7 @@ export function ensureTunnelRuntimeReady(
   const connecting = (async () => {
     const child = await startTunnelRuntime(config);
     await new Promise<void>((resolve, reject) => {
-      let stderr = "";
+      let stderr = "';
       const timer = setTimeout(() => {
         child.kill("SIGTERM");
         reject(new Error("Tunnel runtime startup timed out"));

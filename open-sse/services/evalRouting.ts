@@ -1,6 +1,6 @@
 import type { PersistedEvalRun } from '@lib/db/evals.ts';
 import { listModelEvalRunsForRouting } from '@lib/db/evals.ts';
-import { parseModel } from "./model.ts";
+import { parseModel } from './model.ts';
 
 type EvalRoutingLogger = {
   info?: (...args: unknown[]) => void;
@@ -106,7 +106,7 @@ function normalizeEvalRoutingConfig(rawConfig: unknown): EvalRoutingConfig {
 
 function getTargetAliases(modelStr: string): string[] {
   const parsed = parseModel(modelStr);
-  const modelId = typeof parsed.model === "string" ? parsed.model.trim() : "";
+  const modelId = typeof parsed.model === "string" ? parsed.model.trim() : "';
   return [...new Set([modelStr.trim(), modelId].filter(Boolean))];
 }
 

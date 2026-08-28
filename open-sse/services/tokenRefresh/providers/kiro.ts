@@ -1,9 +1,9 @@
 // @ts-nocheck
 // Extracted from open-sse/services/tokenRefresh.ts — see ../shared.ts for
 // provenance notes (ported idea from KooshaPari's PR #7338, redone on tip).
-import { PROVIDERS } from "../../../config/constants.ts";
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import { buildExternalIdpRefreshParams, isExternalIdpAuthMethod } from "../../kiroExternalIdp.ts";
+import { PROVIDERS } from '../../../config/constants.ts';
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import { buildExternalIdpRefreshParams, isExternalIdpAuthMethod } from '../../kiroExternalIdp.ts';
 
 /**
  * Specialized refresh for Kiro (AWS CodeWhisperer) tokens
@@ -143,7 +143,7 @@ export async function refreshKiroToken(
         );
 
         try {
-          const resolvedRegion = region || "us-east-1";
+          const resolvedRegion = region || "us-east-1';
           const regEndpoint = `https://oidc.${resolvedRegion}.amazonaws.com/client/register`;
           const regRes = await runWithProxyContext(proxyConfig, () =>
             fetch(regEndpoint, {

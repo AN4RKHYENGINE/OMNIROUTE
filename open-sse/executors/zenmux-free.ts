@@ -8,17 +8,17 @@
  * Endpoint: POST https://zenmux.ai/api/anthropic/v1/messages
  * Auth: Full cookie header string from zenmux.ai (must include ctoken)
  */
-import { randomUUID } from "crypto";
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from "../utils/error.ts";
+import { randomUUID } from 'crypto';
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from '../utils/error.ts';
 
-const CHAT_URL = "https://zenmux.ai/api/anthropic/v1/messages";
+const CHAT_URL = "https://zenmux.ai/api/anthropic/v1/messages';
 const USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 function extractCtoken(cookieStr: string): string {
   const m = cookieStr.match(/ctoken=([^;]+)/);
-  return m ? m[1] : "";
+  return m ? m[1] : "';
 }
 
 export class ZenmuxFreeExecutor extends BaseExecutor {
@@ -44,7 +44,7 @@ export class ZenmuxFreeExecutor extends BaseExecutor {
     const messages = (
       bodyObj.messages as Array<{ role: string; content: unknown }>
     ) || [];
-    const modelId = (bodyObj.model as string) || "deepseek/deepseek-chat";
+    const modelId = (bodyObj.model as string) || "deepseek/deepseek-chat';
     const maxTokens = (bodyObj.max_tokens as number) || 4096;
 
     // Flatten messages into a single user text to accommodate ZenMux's
@@ -170,14 +170,14 @@ export class ZenmuxFreeExecutor extends BaseExecutor {
             })}\n\n`
           )
         );
-        let buffer = "";
+        let buffer = "';
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "";
+            buffer = lines.pop() || "';
             for (const line of lines) {
               const t = line.trim();
               if (!t.startsWith("data: ")) continue;
@@ -190,7 +190,7 @@ export class ZenmuxFreeExecutor extends BaseExecutor {
                 const d = JSON.parse(raw) as Record<string, unknown>;
                 const delta = d.delta as Record<string, unknown> | undefined;
                 if (d.type === "content_block_delta" && delta) {
-                  const text = (delta.text as string) || (delta.thinking as string) || "";
+                  const text = (delta.text as string) || (delta.thinking as string) || "';
                   if (text) {
                     controller.enqueue(
                       encoder.encode(
@@ -254,17 +254,17 @@ export class ZenmuxFreeExecutor extends BaseExecutor {
 
 /** Collect text from an Anthropic-format SSE stream body. */
 async function collectText(body: ReadableStream<Uint8Array> | null): Promise<string> {
-  if (!body) return "";
+  if (!body) return "';
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buf = "";
-  let txt = "";
+  let buf = "';
+  let txt = "';
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     buf += decoder.decode(value, { stream: true });
     const lines = buf.split("\n");
-    buf = lines.pop() || "";
+    buf = lines.pop() || "';
     for (const ln of lines) {
       const t = ln.trim();
       if (!t.startsWith("data: ")) continue;
@@ -272,7 +272,7 @@ async function collectText(body: ReadableStream<Uint8Array> | null): Promise<str
         const d = JSON.parse(t.slice(6)) as Record<string, unknown>;
         const delta = d.delta as Record<string, unknown> | undefined;
         if (d.type === "content_block_delta" && delta) {
-          txt += (delta.text as string) || (delta.thinking as string) || "";
+          txt += (delta.text as string) || (delta.thinking as string) || "';
         }
       } catch {
         // skip

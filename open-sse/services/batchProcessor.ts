@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-import type { BatchItemCheckpoint, BatchRecord } from "@/lib/localDb";
+import { v4 as uuidv4 } from 'uuid';
+import type { BatchItemCheckpoint, BatchRecord } from '@/lib/localDb';
 import {
   countBatchItemCheckpoints,
   createFile,
@@ -16,10 +16,10 @@ import {
   markBatchItemProcessing,
   markBatchItemResult,
   updateBatch,
-} from "@/lib/localDb";
-import { dispatch } from "@/lib/batches/dispatch";
-import type { SupportedBatchEndpoint } from "@/shared/constants/batchEndpoints";
-import { DEFAULT_BATCH_EXPIRATION_SECONDS } from "@/shared/constants/batch";
+} from '@/lib/localDb';
+import { dispatch } from '@/lib/batches/dispatch';
+import type { SupportedBatchEndpoint } from '@/shared/constants/batchEndpoints';
+import { DEFAULT_BATCH_EXPIRATION_SECONDS } from '@/shared/constants/batch';
 
 let isProcessing: boolean = false;
 let pollInterval: NodeJS.Timeout | null = null;
@@ -39,7 +39,7 @@ interface BatchRequestItem {
   body: Record<string, unknown>;
   customId: string | null;
   lineNumber: number;
-  method: "POST";
+  method: "POST';
   url: SupportedBatchEndpoint;
 }
 
@@ -112,7 +112,7 @@ function recoverStaleBatch(batch: BatchRecord): void {
     batch.requestCountsTotal > 0 ||
     batch.requestCountsCompleted > 0 ||
     batch.requestCountsFailed > 0 ||
-    batch.status === "finalizing";
+    batch.status === "finalizing';
 
   if (checkpointCount === 0 && hasPotentialExternalEffects) {
     console.warn(
@@ -459,7 +459,7 @@ function applyRecoveredCheckpoint(
 function isBatchCancelled(batchId: string): boolean {
   const current = getBatch(batchId);
 
-  return !current || current.status === "cancelling" || current.status === "cancelled";
+  return !current || current.status === "cancelling" || current.status === "cancelled';
 }
 
 async function resolveApiKey(batch: BatchRecord): Promise<any> {
@@ -789,7 +789,7 @@ function handleCancellation(batchId: string, current: any): boolean {
     return true;
   }
 
-  return current.status === "cancelled";
+  return current.status === "cancelled';
 }
 
 function markFinalizing(batchId: string): void {
@@ -812,7 +812,7 @@ function completeBatch(
   });
 
   const b = getBatch(batchId);
-  const total = b?.requestCountsTotal ?? "?";
+  const total = b?.requestCountsTotal ?? "?';
   console.log(`[BATCH] Completed batch ${batchId} (${total} items)`);
 }
 

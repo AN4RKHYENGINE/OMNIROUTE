@@ -1,4 +1,4 @@
-import { estimateCompressionTokens } from "../stats.ts";
+import { estimateCompressionTokens } from '../stats.ts';
 
 export interface SavingsResult {
   tokensBefore: number;

@@ -1,4 +1,4 @@
-import { stripInternalReasoningPlaceholder } from "./reasoningPlaceholder.ts";
+import { stripInternalReasoningPlaceholder } from './reasoningPlaceholder.ts';
 
 type JsonRecord = Record<string, unknown>;
 
@@ -7,12 +7,12 @@ export function asReasoningRecord(value: unknown): JsonRecord {
 }
 
 function nonEmptyString(value: unknown): string {
-  return typeof value === "string" && value.length > 0 ? value : "";
+  return typeof value === "string" && value.length > 0 ? value : "';
 }
 
 export function extractReasoningDetailsText(value: unknown): string {
   const record = asReasoningRecord(value);
-  if (!Array.isArray(record.reasoning_details)) return "";
+  if (!Array.isArray(record.reasoning_details)) return "';
   return record.reasoning_details
     .map((detail) => {
       const item = asReasoningRecord(detail);
@@ -74,7 +74,7 @@ const STRIPPABLE_REASONING_FIELDS = [
  * Strip the internal replay placeholder from a single string reasoning field,
  * deleting the field when nothing meaningful remains. Returns true only when a
  * present string field was fully stripped to empty (absent/non-string fields
- * return false so callers can distinguish "removed" from "never had text").
+ * return false so callers can distinguish "removed" from 'never had text").
  */
 function stripPlaceholderFromField(target: JsonRecord, field: string): boolean {
   const value = target[field];
@@ -116,8 +116,8 @@ export function copyOpenAICompatibleReasoningFields(source: JsonRecord, target: 
       // Track whether the item originally carried text/content at all so
       // non-text details (e.g. `reasoning.encrypted` carrying only `data`)
       // survive untouched.
-      const hadText = typeof next.text === "string";
-      const hadContent = typeof next.content === "string";
+      const hadText = typeof next.text === "string';
+      const hadContent = typeof next.content === "string';
       stripPlaceholderFromField(next, "text");
       stripPlaceholderFromField(next, "content");
       const textGone = next.text === undefined;

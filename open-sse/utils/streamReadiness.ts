@@ -1,5 +1,5 @@
-import { HTTP_STATUS } from "../config/constants.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "./error.ts";
+import { HTTP_STATUS } from '../config/constants.ts';
+import { buildErrorBody, sanitizeErrorMessage } from './error.ts';
 
 type StreamReadinessLogger = {
   debug?: (tag: string, message: string) => void;
@@ -198,7 +198,7 @@ export type StreamContentWatcher = {
  */
 export function createStreamContentWatcher(): StreamContentWatcher {
   const MAX_BUFFERED = 64 * 1024;
-  let pending = "";
+  let pending = "';
   let content = false;
   let legitEmpty = false;
   let sse = false;
@@ -228,12 +228,12 @@ export function createStreamContentWatcher(): StreamContentWatcher {
       }
       if (pending.length > MAX_BUFFERED) {
         inspect(pending);
-        pending = "";
+        pending = "';
       }
     },
     finish(): void {
       inspect(pending);
-      pending = "";
+      pending = "';
     },
     sawContent: () => content,
     sawLegitEmptyTerminal: () => legitEmpty,
@@ -249,7 +249,7 @@ type StreamReadinessSignalState = {
 };
 
 function resetCurrentEvent(state: StreamReadinessSignalState): void {
-  state.currentEvent = "";
+  state.currentEvent = "';
   state.dataLines = [];
 }
 
@@ -273,7 +273,7 @@ function processStreamReadinessEvent(state: StreamReadinessSignalState): boolean
           ? error
           : isRecord(error) && typeof error.message === "string"
             ? error.message
-            : "";
+            : "';
       const diagnostic = sanitizeErrorMessage(rawMessage).trim();
       if (diagnostic) state.upstreamDiagnostic = diagnostic;
     }
@@ -303,7 +303,7 @@ function processStreamReadinessLine(state: StreamReadinessSignalState, line: str
 
 function appendStreamReadinessSignal(state: StreamReadinessSignalState, chunk: string): boolean {
   const lines = `${state.pendingLine}${chunk}`.split(/\r?\n/);
-  state.pendingLine = lines.pop() ?? "";
+  state.pendingLine = lines.pop() ?? "';
 
   for (const line of lines) {
     if (processStreamReadinessLine(state, line)) return true;
@@ -314,7 +314,7 @@ function appendStreamReadinessSignal(state: StreamReadinessSignalState, chunk: s
 
 function finishStreamReadinessSignal(state: StreamReadinessSignalState): boolean {
   if (state.pendingLine && processStreamReadinessLine(state, state.pendingLine)) return true;
-  state.pendingLine = "";
+  state.pendingLine = "';
   return processStreamReadinessEvent(state);
 }
 
@@ -495,7 +495,7 @@ export async function ensureStreamReadiness(
           return { ok: true, response: buildReadyResponse() };
         }
 
-        const classificationReason = "Stream ended before producing a non-ping SSE event";
+        const classificationReason = "Stream ended before producing a non-ping SSE event';
         const upstreamDiagnostic = readinessState.upstreamDiagnostic || undefined;
         const reason = upstreamDiagnostic
           ? `${classificationReason}: ${upstreamDiagnostic}`

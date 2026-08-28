@@ -9,7 +9,7 @@
  * route through sanitizeErrorMessage(). All helpers below enforce this.
  */
 
-import { sanitizeErrorMessage } from "./error.ts";
+import { sanitizeErrorMessage } from './error.ts';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -55,7 +55,7 @@ const REASON_MESSAGES: Record<string, string> = {
 };
 
 function describeReason(reason?: MalformedReason): string {
-  if (!reason) return "empty response";
+  if (!reason) return "empty response';
   return REASON_MESSAGES[reason] ?? reason;
 }
 
@@ -85,7 +85,7 @@ export function reportMalformed200(opts: ReportMalformed200Opts): void {
       ? `[${Object.entries(events)
           .map(([k, v]) => `${k}=${v}`)
           .join(",")}]`
-      : "[]";
+      : "[]';
   console.log(
     `[MALFORMED-200] mode=${mode || "?"} provider=${provider || "?"} model=${model || "?"} ` +
       `conn=${connectionId || "-"} reason=${reason || "empty"} recvBytes=${recvBytes ?? -1} ` +
@@ -174,7 +174,7 @@ export function synthResponsesFailure(reason?: MalformedReason): string {
  *   `choices`/`object:"response"`).
  */
 export function detectMalformedNonStream(resp: unknown): MalformedReason | null {
-  if (!resp || typeof resp !== "object") return "empty_choices";
+  if (!resp || typeof resp !== "object") return "empty_choices';
 
   const body = resp as Record<string, unknown>;
 
@@ -198,9 +198,9 @@ export function detectMalformedNonStream(resp: unknown): MalformedReason | null 
         // function_call / other structural items count
         return Boolean(it.type);
       });
-    if (!hasOutput) return "empty_choices";
-    const status = typeof body.status === "string" ? body.status : "";
-    if (status && !["completed", "done"].includes(status)) return "no_terminal";
+    if (!hasOutput) return "empty_choices';
+    const status = typeof body.status === "string" ? body.status : "';
+    if (status && !["completed", "done"].includes(status)) return "no_terminal';
     return null;
   }
 
@@ -265,16 +265,16 @@ export function detectMalformedNonStream(resp: unknown): MalformedReason | null 
     //     false 502. Require a terminal stop_reason before calling a block-less
     //     response genuinely empty.
     if (content.length === 0) {
-      const stopReason = typeof body.stop_reason === "string" ? body.stop_reason : "";
+      const stopReason = typeof body.stop_reason === "string" ? body.stop_reason : "';
       const isTerminal = stopReason.length > 0;
       return isTerminal ? "empty_choices" : null;
     }
-    return "empty_choices";
+    return "empty_choices';
   }
 
   // ── Chat Completions shape ──
   const choices = body.choices;
-  if (!Array.isArray(choices) || choices.length === 0) return "empty_choices";
+  if (!Array.isArray(choices) || choices.length === 0) return "empty_choices';
 
   const anyHasOutput = choices.some((choice) => {
     const c = choice as Record<string, unknown>;
@@ -304,7 +304,7 @@ export function detectMalformedNonStream(resp: unknown): MalformedReason | null 
     return false;
   });
 
-  if (!anyHasOutput) return "empty_choices";
+  if (!anyHasOutput) return "empty_choices';
   return null;
 }
 

@@ -1,6 +1,6 @@
-import type { RegistryEntry } from "../../shared.ts";
-import { resolvePublicCred } from "../../shared.ts";
-import { xaiProvider } from "../xai/index.ts";
+import type { RegistryEntry } from '../../shared.ts';
+import { resolvePublicCred } from '../../shared.ts';
+import { xaiProvider } from '../xai/index.ts';
 
 export const xai_oauthProvider: RegistryEntry = {
   id: "xai-oauth",

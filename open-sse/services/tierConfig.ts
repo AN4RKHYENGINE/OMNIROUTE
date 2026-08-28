@@ -13,10 +13,10 @@
  * The two are merged into `DEFAULT_TIER_CONFIG.freeProviders` at module load.
  */
 
-import { z } from "zod";
-import type { TierConfig, ProviderTierOverride, ModelTierOverride } from "./tierTypes";
-import { PROVIDER_TIER } from "./tierTypes";
-import { NOAUTH_PROVIDERS } from "@/shared/constants/providers";
+import { z } from 'zod';
+import type { TierConfig, ProviderTierOverride, ModelTierOverride } from './tierTypes';
+import { PROVIDER_TIER } from './tierTypes';
+import { NOAUTH_PROVIDERS } from '@/shared/constants/providers';
 
 export const providerTierOverrideSchema = z.object({
   provider: z.string().min(1),

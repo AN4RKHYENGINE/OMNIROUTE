@@ -12,12 +12,12 @@
  * layout (#9436); both hoisting implementations share it.
  */
 
-export type HoistedCacheBoundary = "moved" | "kept" | "dropped";
+export type HoistedCacheBoundary = "moved" | "kept" | "dropped';
 
 /** Effective cache TTL of a `cache_control` value; Anthropic defaults to 5m when `ttl` is absent. */
 function effectiveTtl(marker: unknown): string {
   const ttl = (marker as Record<string, unknown> | null | undefined)?.ttl;
-  return typeof ttl === "string" ? ttl : "5m";
+  return typeof ttl === "string" ? ttl : "5m';
 }
 
 /**
@@ -85,16 +85,16 @@ export function relocateHoistedCacheBoundary(
       if (!isCacheBreakpointTarget(block)) continue;
       if (block.cache_control == null) {
         block.cache_control = marker;
-        return "moved";
+        return "moved';
       }
       // Occupied: overwriting would discard the client's own marker, and stepping further back
       // would only shorten the prefix — so both stay, unless the TTL order forbids it.
       return effectiveTtl(marker) === "5m" && effectiveTtl(block.cache_control) === "1h"
         ? "dropped"
-        : "kept";
+        : "kept';
     }
   }
-  return "kept";
+  return "kept';
 }
 
 export function extractSystemRoleMessages(payload: Record<string, unknown>): void {

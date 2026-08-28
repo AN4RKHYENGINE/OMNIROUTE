@@ -9,7 +9,7 @@
  * Based on CLIProxyAPI's antigravity_executor.go line 268.
  */
 
-import { isCreditsDisabled, recordCreditsFailure } from "./antigravity429Engine.ts";
+import { isCreditsDisabled, recordCreditsFailure } from './antigravity429Engine.ts';
 
 /**
  * Inject enabledCreditTypes into the request body for a credits retry.
@@ -48,12 +48,12 @@ export function handleCreditsFailure(authKey: string): boolean {
  * - "retry"  — inject credits only as a 429 fallback
  * - "always" — inject credits on every request (skip normal quota path)
  */
-export type CreditsMode = "off" | "retry" | "always";
+export type CreditsMode = "off" | "retry" | "always';
 
 export function getCreditsMode(): CreditsMode {
   const raw = (process.env.ANTIGRAVITY_CREDITS || "").trim().toLowerCase();
   if (raw === "always" || raw === "retry") return raw;
-  return "off";
+  return "off';
 }
 
 /**

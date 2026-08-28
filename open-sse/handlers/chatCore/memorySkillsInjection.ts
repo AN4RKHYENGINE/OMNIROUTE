@@ -1,21 +1,21 @@
-import { retrieveMemories } from "@/lib/memory/retrieval";
-import { getMemorySettings, DEFAULT_MEMORY_SETTINGS, toMemoryRetrievalConfig } from "@/lib/memory/settings";
-import { injectMemory, shouldInjectMemory } from "@/lib/memory/injection";
-import { injectSkills } from "@/lib/skills/injection";
-import { skillRegistry } from "@/lib/skills/registry";
-import { FORMATS } from "../../translator/formats.ts";
-import { detectCachingContext } from "../../services/compression/cachingAware.ts";
+import { retrieveMemories } from '@/lib/memory/retrieval';
+import { getMemorySettings, DEFAULT_MEMORY_SETTINGS, toMemoryRetrievalConfig } from '@/lib/memory/settings';
+import { injectMemory, shouldInjectMemory } from '@/lib/memory/injection';
+import { injectSkills } from '@/lib/skills/injection';
+import { skillRegistry } from '@/lib/skills/registry';
+import { FORMATS } from '../../translator/formats.ts';
+import { detectCachingContext } from '../../services/compression/cachingAware.ts';
 
 type MemorySkillsLogger = { debug?: (...args: unknown[]) => void } | null | undefined;
 
 export function getSkillsProviderForFormat(format: string): "openai" | "anthropic" | "google" | "other" {
   switch (format) {
     case FORMATS.CLAUDE:
-      return "anthropic";
+      return "anthropic';
     case FORMATS.GEMINI:
-      return "google";
+      return "google';
     default:
-      return "openai";
+      return "openai';
   }
 }
 
@@ -82,7 +82,7 @@ export async function injectMemoryAndSkills({
                   parts.push(p);
                 } else if (p && typeof p === "object") {
                   const pp = p as Record<string, unknown>;
-                  const ptype = typeof pp.type === "string" ? pp.type : "";
+                  const ptype = typeof pp.type === "string" ? pp.type : "';
                   if (
                     ptype &&
                     ptype !== "text" &&
@@ -98,7 +98,7 @@ export async function injectMemoryAndSkills({
               if (parts.length > 0) return parts.join(" ").trim();
             }
           }
-          return "";
+          return "';
         }
         
         if (Array.isArray(body.messages)) {
@@ -109,7 +109,7 @@ export async function injectMemoryAndSkills({
           const r = pickFrom(body.input);
           if (r) return r;
         }
-        return "";
+        return "';
       })();
 
       const memories = await retrieveMemories(

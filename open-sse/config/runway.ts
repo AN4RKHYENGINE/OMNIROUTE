@@ -1,5 +1,5 @@
-export const RUNWAYML_DEFAULT_BASE_URL = "https://api.dev.runwayml.com/v1";
-export const RUNWAYML_API_VERSION = "2024-11-06";
+export const RUNWAYML_DEFAULT_BASE_URL = "https://api.dev.runwayml.com/v1';
+export const RUNWAYML_API_VERSION = "2024-11-06';
 
 export const RUNWAYML_SUPPORTED_VIDEO_MODELS = [
   { id: "gen4.5", name: "Gen-4.5" },

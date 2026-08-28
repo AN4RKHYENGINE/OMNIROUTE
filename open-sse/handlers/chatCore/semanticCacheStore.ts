@@ -12,8 +12,8 @@ import {
   generateSignature as defaultGenerateSignature,
   setCachedResponse as defaultSetCachedResponse,
   isCacheableForWrite as defaultIsCacheableForWrite,
-} from "@/lib/semanticCache";
-import { isSmallEnoughForSemanticCache as defaultIsSmallEnough } from "../../utils/estimateSize.ts";
+} from '@/lib/semanticCache';
+import { isSmallEnoughForSemanticCache as defaultIsSmallEnough } from '../../utils/estimateSize.ts';
 
 type LoggerLike = { debug?: (...args: unknown[]) => void } | null | undefined;
 

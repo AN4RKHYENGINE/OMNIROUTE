@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from 'vitest';
 
 // Mock the DB so recommendStrategyOverride sees adaptiveVolumeRouting = true.
 // Without this the real getSettings() throws (no SQLite in test env), the
@@ -7,7 +7,7 @@ vi.mock("@/lib/localDb", () => ({
   getSettings: vi.fn().mockResolvedValue({ adaptiveVolumeRouting: true }),
 }));
 
-import { detectVolumeSignals, recommendStrategyOverride } from "../volumeDetector";
+import { detectVolumeSignals, recommendStrategyOverride } from '../volumeDetector';
 
 describe("volumeDetector", async () => {
   describe("detectVolumeSignals", async () => {

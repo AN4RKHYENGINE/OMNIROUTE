@@ -41,4 +41,4 @@ export interface RuleMatch {
   evidence: string;
 }
 
-export type SpecificityLevel = "trivial" | "simple" | "moderate" | "complex" | "expert";
+export type SpecificityLevel = "trivial" | "simple" | "moderate" | "complex" | "expert';

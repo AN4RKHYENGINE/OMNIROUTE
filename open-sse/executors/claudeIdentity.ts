@@ -8,12 +8,12 @@
  * release is captured.
  */
 
-import { createHash, randomBytes, randomUUID } from "node:crypto";
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 
 import {
   CLAUDE_CODE_CLIENT_VERSION,
   CLAUDE_CODE_SDK_PACKAGE_VERSION,
-} from "@/shared/constants/claudeCodeClient";
+} from '@/shared/constants/claudeCodeClient';
 
 // ---------- Versions ------------------------------------------------------
 
@@ -26,26 +26,26 @@ export const CLAUDE_CODE_STAINLESS_VERSION = CLAUDE_CODE_SDK_PACKAGE_VERSION;
 export function stainlessOS(): string {
   switch (process.platform) {
     case "win32":
-      return "Windows";
+      return "Windows';
     case "darwin":
-      return "MacOS";
+      return "MacOS';
     case "linux":
-      return "Linux";
+      return "Linux';
     case "freebsd":
-      return "FreeBSD";
+      return "FreeBSD';
     default:
-      return "Unknown";
+      return "Unknown';
   }
 }
 
 export function stainlessArch(): string {
   switch (process.arch) {
     case "x64":
-      return "x64";
+      return "x64';
     case "arm64":
-      return "arm64";
+      return "arm64';
     case "ia32":
-      return "x32";
+      return "x32';
     default:
       return process.arch;
   }
@@ -425,7 +425,7 @@ export function selectBetaFlags(
 
 // ---------- Tool-name normalisation --------------------------------------
 
-const TOOL_PREFIX = "proxy_";
+const TOOL_PREFIX = "proxy_';
 
 /** Strip OmniRoute's `proxy_` tool-name prefix; real CLI never sends it. */
 export function stripProxyToolPrefix(body: Record<string, unknown>): void {

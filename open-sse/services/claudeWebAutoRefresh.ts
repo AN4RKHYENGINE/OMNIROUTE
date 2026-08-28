@@ -8,7 +8,7 @@
  * - Handles retry logic for failed requests
  */
 
-import { getCfClearanceToken, getCacheStatus } from "./claudeTurnstileSolver.ts";
+import { getCfClearanceToken, getCacheStatus } from './claudeTurnstileSolver.ts';
 
 export interface CookieRefreshOptions {
   force?: boolean;
@@ -163,7 +163,7 @@ export function createAutoRefreshMiddleware(options?: CookieRefreshOptions) {
     init?: any
   ): Promise<Response> => {
     const { log = options?.log } = options || {};
-    const originalCookie = init?.headers?.Cookie || "";
+    const originalCookie = init?.headers?.Cookie || "';
     let currentCookie = originalCookie;
     let attempt = 0;
     const maxRetries = options?.maxRetries ?? 2;

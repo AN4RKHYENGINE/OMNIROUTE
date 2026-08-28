@@ -1,10 +1,10 @@
 // @ts-nocheck
 // Extracted from open-sse/services/tokenRefresh.ts — see ../shared.ts for
 // provenance notes (ported idea from KooshaPari's PR #7338, redone on tip).
-import { PROVIDERS } from "../../../config/constants.ts";
-import { runWithProxyContext } from "../../../utils/proxyFetch.ts";
-import { buildGitLabOAuthEndpoints, resolveGitLabOAuthBaseUrl } from "@/lib/oauth/gitlab";
-import { buildFormParams, type RefreshLogger } from "../shared.ts";
+import { PROVIDERS } from '../../../config/constants.ts';
+import { runWithProxyContext } from '../../../utils/proxyFetch.ts';
+import { buildGitLabOAuthEndpoints, resolveGitLabOAuthBaseUrl } from '@/lib/oauth/gitlab';
+import { buildFormParams, type RefreshLogger } from '../shared.ts';
 
 /**
  * Specialized refresh for GitLab Duo OAuth tokens.
@@ -34,7 +34,7 @@ export async function refreshGitLabDuoToken(
     PROVIDERS["gitlab-duo"]?.clientId ||
     process.env.GITLAB_DUO_OAUTH_CLIENT_ID ||
     process.env.GITLAB_OAUTH_CLIENT_ID ||
-    "";
+    "';
 
   try {
     const response = await runWithProxyContext(proxyConfig, () =>

@@ -9,9 +9,9 @@
  * is planned for Phase 3.
  */
 
-import { FingerprintRotator } from "./fingerprintRotator.ts";
-import { Session } from "./session.ts";
-import type { PoolConfig } from "./types.ts";
+import { FingerprintRotator } from './fingerprintRotator.ts';
+import { Session } from './session.ts';
+import type { PoolConfig } from './types.ts';
 
 export class SessionFactory {
   private rotator = new FingerprintRotator();

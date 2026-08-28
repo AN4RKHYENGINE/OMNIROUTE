@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 /**
  * Search Handler
  *
@@ -17,17 +17,17 @@ import { randomUUID } from "crypto";
  * }
  */
 
-import { getSearchProvider, type SearchProviderConfig } from "../config/searchRegistry.ts";
-import { buildPerplexityRequest, parsePerplexitySearchOptions } from "./search/perplexitySearch.ts";
-import * as fcSearch from "./search/firecrawlSearch.ts";
-import { freeWebSearch } from "../services/freeWebSearch.ts";
-import { saveCallLog } from "@/lib/usageDb";
-import { safeOutboundFetch } from "@/shared/network/safeOutboundFetch";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import { z } from "zod";
-import { sanitizeErrorMessage } from "../utils/error.ts";
-import { resolveSearchProxy, executeProviderFetch } from "./search/searchProxy.ts";
+import { getSearchProvider, type SearchProviderConfig } from '../config/searchRegistry.ts';
+import { buildPerplexityRequest, parsePerplexitySearchOptions } from './search/perplexitySearch.ts';
+import * as fcSearch from './search/firecrawlSearch.ts';
+import { freeWebSearch } from '../services/freeWebSearch.ts';
+import { saveCallLog } from '@/lib/usageDb';
+import { safeOutboundFetch } from '@/shared/network/safeOutboundFetch';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import { z } from 'zod';
+import { sanitizeErrorMessage } from '../utils/error.ts';
+import { resolveSearchProxy, executeProviderFetch } from './search/searchProxy.ts';
 
 export interface SearchResult {
   title: string;
@@ -145,7 +145,7 @@ function makeResult(
   idx: number,
   now: string
 ): SearchResult {
-  const url = item.url || "";
+  const url = item.url || "';
   return {
     title: item.title || "",
     url,
@@ -296,7 +296,7 @@ function buildSerperRequest(
   config: SearchProviderConfig,
   params: SearchRequestParams
 ): { url: string; init: RequestInit } {
-  const endpoint = params.searchType === "news" ? "/news" : "/search";
+  const endpoint = params.searchType === "news" ? "/news" : "/search';
   const body: Record<string, unknown> = { q: params.query, num: params.maxResults };
   if (params.country) body.gl = params.country.toLowerCase();
   if (params.language) body.hl = params.language;
@@ -314,7 +314,7 @@ function buildBraveRequest(
   config: SearchProviderConfig,
   params: SearchRequestParams
 ): { url: string; init: RequestInit } {
-  const endpoint = params.searchType === "news" ? "/news/search" : "/web/search";
+  const endpoint = params.searchType === "news" ? "/news/search" : "/web/search';
   const qp = new URLSearchParams({ q: params.query, count: String(params.maxResults) });
   if (params.country) qp.set("country", params.country);
   if (params.language) qp.set("search_lang", params.language);
@@ -343,7 +343,7 @@ function buildExaRequest(
   };
   if (includes.length) body.includeDomains = includes;
   if (excludes.length) body.excludeDomains = excludes;
-  if (params.searchType === "news") body.category = "news";
+  if (params.searchType === "news") body.category = "news';
   return {
     url: config.baseUrl,
     init: {
@@ -433,7 +433,7 @@ function buildLinkupRequest(
   const depth =
     requestedDepth && ["fast", "standard", "deep"].includes(requestedDepth)
       ? requestedDepth
-      : "standard";
+      : "standard';
 
   const body: Record<string, unknown> = {
     q: params.query,
@@ -841,7 +841,7 @@ function normalizeYouComResponse(
         : typeof item.html === "string"
           ? item.html
           : undefined;
-    const livecrawlFormat = typeof item.markdown === "string" ? "markdown" : "html";
+    const livecrawlFormat = typeof item.markdown === "string" ? "markdown" : "html';
 
     return makeResult(
       "youcom-search",
@@ -1134,7 +1134,7 @@ async function tryZaiMCPProvider(
   } catch (err: any) {
     clearTimeout(timer);
 
-    const isTimeout = err.name === "AbortError";
+    const isTimeout = err.name === "AbortError';
     if (log) {
       log.error("SEARCH", `${config.id} MCP ${isTimeout ? "timeout" : "error"}: ${err.message}`);
     }
@@ -1430,7 +1430,7 @@ async function tryProvider(
     );
   }
 
-  let url = "";
+  let url = "';
   let init: RequestInit = {};
   try {
     ({ url, init } = buildRequest(config, { ...params, token, providerSpecificData }));

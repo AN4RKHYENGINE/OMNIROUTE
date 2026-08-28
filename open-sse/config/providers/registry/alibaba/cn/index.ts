@@ -1,5 +1,5 @@
-import type { RegistryEntry } from "../../../shared.ts";
-import { ALIBABA_MODEL_STUDIO_MODELS } from "../index.ts";
+import type { RegistryEntry } from '../../../shared.ts';
+import { ALIBABA_MODEL_STUDIO_MODELS } from '../index.ts';
 
 export const alibaba_cnProvider: RegistryEntry = {
   id: "alibaba-cn",

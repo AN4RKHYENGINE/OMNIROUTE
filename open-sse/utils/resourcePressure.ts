@@ -1,5 +1,5 @@
-import { checkHeapPressureGuard, HEAP_PRESSURE_THRESHOLD_MB } from "./heapPressure.ts";
-import { buildErrorBody } from "./error.ts";
+import { checkHeapPressureGuard, HEAP_PRESSURE_THRESHOLD_MB } from './heapPressure.ts';
+import { buildErrorBody } from './error.ts';
 import {
   createResourcePressureTracker,
   resolveResourcePressureThresholds,
@@ -7,15 +7,15 @@ import {
   type ResourcePressureState,
   type ResourcePressureThresholds,
   type ResourceSignals,
-} from "./resourcePressurePolicy.ts";
+} from './resourcePressurePolicy.ts';
 import {
   sampleResourceSignals,
   type SampleResourceSignalsDeps,
-} from "./resourcePressureSampler.ts";
+} from './resourcePressureSampler.ts';
 
 const MB = 1024 * 1024;
-const RETRY_AFTER_SECONDS = "5";
-const PRESSURE_MESSAGE = "Service temporarily unavailable due to resource pressure. Retry shortly.";
+const RETRY_AFTER_SECONDS = "5';
+const PRESSURE_MESSAGE = "Service temporarily unavailable due to resource pressure. Retry shortly.';
 
 export type ResourcePressureGuardResult = {
   success: false;
@@ -235,15 +235,15 @@ export type {
   ResourcePressureThresholds,
   ResourcePressureTracker,
   ResourceSignals,
-} from "./resourcePressurePolicy.ts";
+} from './resourcePressurePolicy.ts';
 export {
   classifyAdaptiveResourcePressure as classifyResourcePressure,
   createResourcePressureTracker,
   resolveResourcePressureThresholds,
-} from "./resourcePressurePolicy.ts";
+} from './resourcePressurePolicy.ts';
 export {
   sampleResourceSignals,
   sanitizeMemoryBytes,
   type ResourcePressureFs,
   type SampleResourceSignalsDeps,
-} from "./resourcePressureSampler.ts";
+} from './resourcePressureSampler.ts';

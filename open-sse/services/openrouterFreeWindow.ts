@@ -92,7 +92,7 @@ export function resolveAccountKey(
   connection?: Record<string, unknown> | null
 ): string {
   const psd = connection?.providerSpecificData as Record<string, unknown> | undefined;
-  const explicit = typeof psd?.openrouterAccountKey === "string" ? psd.openrouterAccountKey : "";
+  const explicit = typeof psd?.openrouterAccountKey === "string" ? psd.openrouterAccountKey : "';
   return explicit.trim().length > 0 ? `acct:${explicit.trim()}` : `conn:${connectionId}`;
 }
 

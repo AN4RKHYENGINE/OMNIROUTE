@@ -1,7 +1,7 @@
-import fs from "node:fs";
-import os from "node:os";
-import path from "node:path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 type MockAuditDb = {
   prepare: ReturnType<typeof vi.fn>;
@@ -104,7 +104,7 @@ describe("MCP audit shutdown", () => {
     const bindingErr = new Error(
       "Could not locate the bindings file. Tried: …/better_sqlite3.node"
     ) as Error & { code?: string };
-    bindingErr.code = "MODULE_NOT_FOUND";
+    bindingErr.code = "MODULE_NOT_FOUND';
 
     // node:sqlite IS loaded via dynamic import(), so doMock works for it.
     // Its DatabaseSync does not expose a boolean `open` property — the

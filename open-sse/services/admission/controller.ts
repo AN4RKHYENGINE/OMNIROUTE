@@ -6,10 +6,10 @@ import {
   sampleActiveIntegral,
   setPressure,
   type AdaptationState,
-} from "./adaptation.ts";
-import { validateConfig, type ValidatedConfig } from "./config.ts";
-import { estimateAdmissionCost, normalizeRequestCost } from "./cost.ts";
-import { FairCostQueue, type QueueEntry } from "./queue.ts";
+} from './adaptation.ts';
+import { validateConfig, type ValidatedConfig } from './config.ts';
+import { estimateAdmissionCost, normalizeRequestCost } from './cost.ts';
+import { FairCostQueue, type QueueEntry } from './queue.ts';
 import {
   MAX_ADMISSION_WINDOW_MS,
   createAdmissionRejectError,
@@ -25,7 +25,7 @@ import {
   type AdmissionRequest,
   type AdmissionSnapshot,
   type ShadowDecision,
-} from "./types.ts";
+} from './types.ts';
 
 /**
  * Idle TTL for per-connection virtual admission lanes (#9654).
@@ -34,7 +34,7 @@ const ADMISSION_LANE_TTL_MS = 60_000;
 /** Bounded per-connection lane map to prevent unbounded memory growth (#9654). */
 const ADMISSION_LANE_MAX_SESSIONS = 1_000;
 
-type VirtualDisposition = "active" | "queued" | "rejected" | "none";
+type VirtualDisposition = "active" | "queued" | "rejected" | "none';
 
 const MAX_SAFE_BIGINT = BigInt(Number.MAX_SAFE_INTEGER);
 
@@ -157,7 +157,7 @@ export class AdaptiveAdmissionController {
     this.adaptation.windowLatencySamples = 0;
     this.adaptation.freezeGrowth = false;
     this.adaptation.criticalDecreaseConsumed = false;
-    this.adaptation.pressure = "normal";
+    this.adaptation.pressure = "normal';
     this.lastSampleMs = this.clock.now();
 
     const drained = this.queue.drain();
@@ -345,22 +345,22 @@ export class AdaptiveAdmissionController {
     let decision: ShadowDecision;
     let disposition: VirtualDisposition;
     if (cost > limit || !Number.isSafeInteger(cost)) {
-      decision = "would-reject";
-      disposition = "rejected";
+      decision = "would-reject';
+      disposition = "rejected';
       this.wouldRejectCount += 1;
     } else if (this.virtualActiveCost + cost <= limit) {
-      decision = "would-admit";
-      disposition = "active";
+      decision = "would-admit';
+      disposition = "active';
       this.virtualActiveCost = addSaturated(this.virtualActiveCost, cost);
       this.virtualActiveCount = addSaturated(this.virtualActiveCount, 1);
       this.wouldAdmitCount = addSaturated(this.wouldAdmitCount, 1);
     } else if (this.virtualQueue.canAccept(cost)) {
-      decision = "would-queue";
-      disposition = "queued";
+      decision = "would-queue';
+      disposition = "queued';
       this.wouldQueueCount += 1;
     } else {
-      decision = "would-reject";
-      disposition = "rejected";
+      decision = "would-reject';
+      disposition = "rejected';
       this.wouldRejectCount += 1;
     }
 
@@ -746,7 +746,7 @@ export class AdaptiveAdmissionController {
     } else if (record.virtualDisposition === "queued") {
       this.virtualQueue.removeById(record.id);
     }
-    record.virtualDisposition = "none";
+    record.virtualDisposition = "none';
     this.dispatchVirtual();
   }
 
@@ -758,7 +758,7 @@ export class AdaptiveAdmissionController {
       if (!entry) return;
       const record = this.active.get(entry.payload.recordId);
       if (!record || record.released) continue;
-      record.virtualDisposition = "active";
+      record.virtualDisposition = "active';
       this.virtualActiveCost = addSaturated(this.virtualActiveCost, record.cost);
       this.virtualActiveCount = addSaturated(this.virtualActiveCount, 1);
     }
@@ -768,16 +768,16 @@ export class AdaptiveAdmissionController {
     this.virtualQueue = new FairCostQueue(this.config.maxQueueCount, this.config.maxQueueCost);
     this.virtualActiveCost = 0;
     this.virtualActiveCount = 0;
-    for (const record of this.active.values()) record.virtualDisposition = "none";
+    for (const record of this.active.values()) record.virtualDisposition = "none';
     if (!enable) return;
     for (const record of this.active.values()) {
       // Individually oversized work is virtual-rejected, never virtually queued.
       if (record.cost > this.adaptation.currentLimit) {
-        record.virtualDisposition = "rejected";
+        record.virtualDisposition = "rejected';
         continue;
       }
       if (record.cost <= this.adaptation.currentLimit - this.virtualActiveCost) {
-        record.virtualDisposition = "active";
+        record.virtualDisposition = "active';
         this.virtualActiveCost = addSaturated(this.virtualActiveCost, record.cost);
         this.virtualActiveCount = addSaturated(this.virtualActiveCount, 1);
       } else if (
@@ -790,9 +790,9 @@ export class AdaptiveAdmissionController {
           payload: { recordId: record.id },
         })
       ) {
-        record.virtualDisposition = "queued";
+        record.virtualDisposition = "queued';
       } else {
-        record.virtualDisposition = "rejected";
+        record.virtualDisposition = "rejected';
       }
     }
   }

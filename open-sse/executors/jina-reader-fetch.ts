@@ -8,10 +8,10 @@
  * Docs: https://jina.ai/reader/
  */
 
-import { sanitizeErrorMessage, buildErrorBody } from "../utils/error.ts";
-import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from "../handlers/webFetch.ts";
+import { sanitizeErrorMessage, buildErrorBody } from '../utils/error.ts';
+import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from '../handlers/webFetch.ts';
 
-const JINA_READER_BASE = "https://r.jina.ai";
+const JINA_READER_BASE = "https://r.jina.ai';
 const JINA_TIMEOUT_MS = 30_000;
 
 interface JinaReaderFetchOptions {
@@ -40,11 +40,11 @@ export async function jinaReaderFetch(opts: JinaReaderFetchOptions): Promise<Web
   };
 
   if (includeMetadata) {
-    headers["X-With-Generated-Alt"] = "true";
+    headers["X-With-Generated-Alt"] = "true';
   }
 
   if (format === "links") {
-    headers["X-Gather-All-Links-At-The-End"] = "true";
+    headers["X-Gather-All-Links-At-The-End"] = "true';
   }
 
   const encodedUrl = encodeURIComponent(url);
@@ -68,8 +68,8 @@ export async function jinaReaderFetch(opts: JinaReaderFetchOptions): Promise<Web
     }
 
     // Jina Reader returns JSON with data.content or plain text
-    const contentType = response.headers.get("content-type") ?? "";
-    let content = "";
+    const contentType = response.headers.get("content-type") ?? "';
+    let content = "';
     let links: string[] = [];
     let metadata: { title: string | null; description: string | null } | null = null;
 

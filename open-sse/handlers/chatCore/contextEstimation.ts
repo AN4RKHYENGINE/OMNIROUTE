@@ -1,5 +1,5 @@
-import { adaptBodyForCompression } from "../../services/compression/bodyAdapter.ts";
-import { estimateTokens } from "../../services/contextManager.ts";
+import { adaptBodyForCompression } from '../../services/compression/bodyAdapter.ts';
+import { estimateTokens } from '../../services/contextManager.ts';
 
 type JsonRecord = Record<string, unknown>;
 

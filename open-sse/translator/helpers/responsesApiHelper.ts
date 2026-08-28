@@ -2,9 +2,9 @@
  * Convert OpenAI Responses API format to standard chat completions format.
  * Delegates to the canonical translator to avoid logic duplication.
  */
-import { requiresReasoningReplay } from "../../services/reasoningCache.ts";
-import { openaiResponsesToOpenAIRequest } from "../request/openai-responses.ts";
-import { toRecord } from "../request/openai-responses/helpers.ts";
+import { requiresReasoningReplay } from '../../services/reasoningCache.ts';
+import { openaiResponsesToOpenAIRequest } from '../request/openai-responses.ts';
+import { toRecord } from '../request/openai-responses/helpers.ts';
 
 export function convertResponsesApiFormat(
   body: Record<string, unknown>,

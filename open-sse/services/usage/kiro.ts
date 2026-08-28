@@ -11,23 +11,23 @@
  * getKiroUsage into __testing. Behavior-preserving move.
  */
 
-import { toRecord, toNumber } from "./scalars.ts";
-import { type UsageQuota, parseResetTime } from "./quota.ts";
+import { toRecord, toNumber } from './scalars.ts';
+import { type UsageQuota, parseResetTime } from './quota.ts';
 import {
   discoverKiroProfileArnAcrossRegions,
   kiroRuntimeHost,
   resolveKiroRuntimeRegion,
-} from "../kiroRegion.ts";
+} from '../kiroRegion.ts';
 import {
   isExternalIdpAuthMethod,
   KIRO_EXTERNAL_IDP_TOKEN_TYPE_HEADER,
   KIRO_EXTERNAL_IDP_TOKEN_TYPE_VALUE,
-} from "../kiroExternalIdp.ts";
+} from '../kiroExternalIdp.ts';
 
 type JsonRecord = Record<string, unknown>;
 
 const CODEWHISPERER_BASE_URL =
-  process.env.OMNIROUTE_CODEWHISPERER_BASE_URL ?? "https://codewhisperer.us-east-1.amazonaws.com";
+  process.env.OMNIROUTE_CODEWHISPERER_BASE_URL ?? "https://codewhisperer.us-east-1.amazonaws.com';
 
 function isKiroOverageEnabled(data: JsonRecord): boolean {
   const overageConfiguration = toRecord(data.overageConfiguration);
@@ -81,7 +81,7 @@ export function buildKiroUsageResult(
   usageList.forEach((breakdownValue: unknown) => {
     const breakdown = toRecord(breakdownValue);
     const resourceType =
-      typeof breakdown.resourceType === "string" ? breakdown.resourceType.toLowerCase() : "unknown";
+      typeof breakdown.resourceType === "string" ? breakdown.resourceType.toLowerCase() : "unknown';
     const used = toNumber(breakdown.currentUsageWithPrecision, 0);
     const total = toNumber(breakdown.usageLimitWithPrecision, 0);
 
@@ -127,7 +127,7 @@ export async function discoverKiroProfileArn(
   authMethod?: string
 ): Promise<string | undefined> {
   try {
-    const isApiKey = authMethod === "api_key";
+    const isApiKey = authMethod === "api_key';
     const headers: Record<string, string> = {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/x-amz-json-1.0",
@@ -135,7 +135,7 @@ export async function discoverKiroProfileArn(
       Accept: "application/json",
     };
     if (isApiKey) {
-      headers.tokentype = "API_KEY";
+      headers.tokentype = "API_KEY';
     }
 
     const response = await fetch(usageBaseUrl, {
@@ -240,7 +240,7 @@ function buildKiroAuthHeaders(
     Accept: "application/json",
   };
   if (isApiKey) {
-    authHeaders.tokentype = "API_KEY";
+    authHeaders.tokentype = "API_KEY';
   }
   if (isExternalIdpAuthMethod(providerSpecificData?.authMethod)) {
     authHeaders[KIRO_EXTERNAL_IDP_TOKEN_TYPE_HEADER] = KIRO_EXTERNAL_IDP_TOKEN_TYPE_VALUE;
@@ -288,7 +288,7 @@ async function runKiroUsageAttempts(
 }
 
 function supportsProfilelessKiroUsage(authMethod?: string): boolean {
-  return authMethod === "builder-id";
+  return authMethod === "builder-id';
 }
 
 /**
@@ -300,7 +300,7 @@ export async function getKiroUsage(accessToken?: string, providerSpecificData?: 
       typeof providerSpecificData?.authMethod === "string"
         ? providerSpecificData.authMethod
         : undefined;
-    const isApiKey = authMethod === "api_key";
+    const isApiKey = authMethod === "api_key';
     const supportsProfilelessUsage = supportsProfilelessKiroUsage(authMethod);
     let profileArn =
       typeof providerSpecificData?.profileArn === "string"
@@ -412,6 +412,6 @@ function isSocialAuthKiroAccount(providerSpecificData?: JsonRecord): boolean {
   const provider =
     typeof providerSpecificData.provider === "string"
       ? providerSpecificData.provider.toLowerCase()
-      : "";
-  return provider === "google" || provider === "github";
+      : "';
+  return provider === "google" || provider === "github';
 }

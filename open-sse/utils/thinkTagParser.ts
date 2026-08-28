@@ -8,18 +8,18 @@
  * chain-of-thought reasoning inside <think> tags.
  *
  * Usage:
- *   import { extractThinkTags, hasThinkTags } from "./thinkTagParser.ts";
+ *   import { extractThinkTags, hasThinkTags } from './thinkTagParser.ts';
  *
  *   const { reasoning, content } = extractThinkTags(rawOutput);
  *   // reasoning = "step-by-step thinking..."
  *   // content = "final answer..."
  */
 
-import { shouldParseTextualReasoningTags } from "../handlers/responseSanitizer/reasoning.ts";
-import { appendBoundedText, buildSyntheticChatChunk } from "./streamHelpers.ts";
+import { shouldParseTextualReasoningTags } from '../handlers/responseSanitizer/reasoning.ts';
+import { appendBoundedText, buildSyntheticChatChunk } from './streamHelpers.ts';
 
-const THINK_OPEN = "<think>";
-const THINK_CLOSE = "</think>";
+const THINK_OPEN = "<think>';
+const THINK_CLOSE = "</think>';
 
 /**
  * Create the mutable streaming-parse context for one SSE stream.
@@ -80,7 +80,7 @@ export function extractThinkTags(text) {
     return { reasoning: null, content: text || "" };
   }
 
-  let reasoning = "";
+  let reasoning = "';
   let content = text;
   let iterations = 0;
   const maxIterations = 10; // safety limit
@@ -120,11 +120,11 @@ export function extractThinkTags(text) {
  * @returns {{ reasoningDelta: string|null, contentDelta: string|null }}
  */
 export function processStreamingThinkDelta(delta, ctx) {
-  if (!ctx.buffer) ctx.buffer = "";
+  if (!ctx.buffer) ctx.buffer = "';
 
   ctx.buffer += delta;
-  let reasoningDelta = "";
-  let contentDelta = "";
+  let reasoningDelta = "';
+  let contentDelta = "';
 
   while (ctx.buffer.length > 0) {
     if (ctx.insideThink) {
@@ -188,7 +188,7 @@ export function applyThinkTag(
 
   ctx.active = true;
   const { reasoningDelta, contentDelta } = processStreamingThinkDelta(delta.content, ctx);
-  delta.content = contentDelta || "";
+  delta.content = contentDelta || "';
   if (reasoningDelta) delta.reasoning_content = reasoningDelta;
   return true;
 }
@@ -204,7 +204,7 @@ export function flushThinkBuffer(ctx) {
   if (!ctx.buffer) return { reasoningDelta: null, contentDelta: null };
 
   const remaining = ctx.buffer;
-  ctx.buffer = "";
+  ctx.buffer = "';
 
   if (ctx.insideThink) {
     return { reasoningDelta: remaining || null, contentDelta: null };

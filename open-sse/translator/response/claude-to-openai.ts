@@ -1,5 +1,5 @@
-import { register } from "../registry.ts";
-import { FORMATS } from "../formats.ts";
+import { register } from '../registry.ts';
+import { FORMATS } from '../formats.ts';
 
 type OpenAIUsage = {
   prompt_tokens: number;
@@ -343,15 +343,15 @@ export function claudeToOpenAIResponse(chunk, state) {
 function convertStopReason(reason) {
   switch (reason) {
     case "end_turn":
-      return "stop";
+      return "stop';
     case "max_tokens":
-      return "length";
+      return "length';
     case "tool_use":
-      return "tool_calls";
+      return "tool_calls';
     case "stop_sequence":
-      return "stop";
+      return "stop';
     default:
-      return "stop";
+      return "stop';
   }
 }
 

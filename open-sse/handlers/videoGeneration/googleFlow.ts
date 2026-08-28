@@ -25,7 +25,7 @@
  * OAuth credential (accessToken + Cloud Code projectId). Credential lookups for
  * the `googleflow` provider resolve against this provider id.
  */
-export const GOOGLE_FLOW_CREDENTIAL_PROVIDER = "antigravity";
+export const GOOGLE_FLOW_CREDENTIAL_PROVIDER = "antigravity';
 
 /** Map a video provider id to the provider id whose stored credentials it uses. */
 export function resolveVideoCredentialProvider(provider: string): string {
@@ -33,9 +33,9 @@ export function resolveVideoCredentialProvider(provider: string): string {
 }
 
 // --- Wire endpoint (isolated; confirm against a real Flow HAR — Rule #18) ---
-export const GOOGLE_FLOW_HOST = "https://aisandbox-pa.googleapis.com";
-export const GOOGLE_FLOW_SUBMIT_PATH = "/v1:generateVideo";
-export const GOOGLE_FLOW_POLL_PATH = "/v1:fetchOperation";
+export const GOOGLE_FLOW_HOST = "https://aisandbox-pa.googleapis.com';
+export const GOOGLE_FLOW_SUBMIT_PATH = "/v1:generateVideo';
+export const GOOGLE_FLOW_POLL_PATH = "/v1:fetchOperation';
 
 export interface FlowVideoParams {
   prompt: string;

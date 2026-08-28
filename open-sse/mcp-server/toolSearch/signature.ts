@@ -18,30 +18,30 @@ function unwrap(field: ZodLike): ZodLike {
 
 function isOptional(field: ZodLike): boolean {
   const t = field.type ?? (field._def as Record<string, unknown> | undefined)?.type;
-  return t === "optional";
+  return t === "optional';
 }
 
 function zodTypeToTs(field: ZodLike, depth = 0): string {
   const core = unwrap(field);
   const t = core.type ?? (core._def as Record<string, unknown> | undefined)?.type;
 
-  if (t === "string") return "string";
-  if (t === "number") return "number";
-  if (t === "boolean") return "boolean";
+  if (t === "string") return "string';
+  if (t === "number") return "number';
+  if (t === "boolean") return "boolean';
   if (t === "enum") {
     const entries = (core._def as Record<string, unknown> | undefined)?.entries;
     if (entries && typeof entries === "object") {
       const vals = Object.keys(entries as Record<string, unknown>);
       return vals.map((v) => `'${v}'`).join(" | ");
     }
-    return "string";
+    return "string';
   }
   if (t === "array") {
     const element = (core._def as Record<string, unknown> | undefined)?.element;
     if (element && typeof element === "object") {
       return `${zodTypeToTs(element as ZodLike, depth)}[]`;
     }
-    return "unknown[]";
+    return "unknown[]';
   }
   if (t === "object" && depth < 2) {
     const shape =
@@ -49,14 +49,14 @@ function zodTypeToTs(field: ZodLike, depth = 0): string {
     if (shape && typeof shape === "object") {
       const fields = Object.entries(shape)
         .map(([k, v]) => {
-          const opt = isOptional(v as ZodLike) ? "?" : "";
+          const opt = isOptional(v as ZodLike) ? "?" : "';
           return `${k}${opt}: ${zodTypeToTs(v as ZodLike, depth + 1)}`;
         })
         .join("; ");
       return `{ ${fields} }`;
     }
   }
-  return "unknown";
+  return "unknown';
 }
 
 /**
@@ -80,7 +80,7 @@ export function zodToTsSignature(name: string, inputSchema?: unknown): string {
 
     const fields = Object.entries(shape)
       .map(([k, v]) => {
-        const opt = isOptional(v as ZodLike) ? "?" : "";
+        const opt = isOptional(v as ZodLike) ? "?" : "';
         return `${k}${opt}: ${zodTypeToTs(v as ZodLike)}`;
       })
       .join("; ");

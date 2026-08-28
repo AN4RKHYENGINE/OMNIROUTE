@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 /**
  * Pioneer AI by Fastino Labs — OpenAI-compatible chat completions.

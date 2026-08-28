@@ -6,7 +6,7 @@
  * default-off; the inflation guard here is an honest DEFAULT-ON check on the FINAL output.
  */
 
-import type { CompressionResult, CompressionStats } from "./types.ts";
+import type { CompressionResult, CompressionStats } from './types.ts';
 
 export interface PipelineInflationInput {
   /** The verbatim request body before any engine ran. */

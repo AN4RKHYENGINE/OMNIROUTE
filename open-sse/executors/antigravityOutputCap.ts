@@ -1,4 +1,4 @@
-import { getExplicitModelOutputCap } from "@/lib/modelCapabilities";
+import { getExplicitModelOutputCap } from '@/lib/modelCapabilities';
 
 /**
  * Fallback ceiling on `generationConfig.maxOutputTokens` for Antigravity
@@ -36,7 +36,7 @@ export const MAX_ANTIGRAVITY_OUTPUT_TOKENS = 16384;
  * through to the second, so the number has to come from the model.
  */
 export function resolveAntigravityOutputCap(modelId: string | null | undefined): number {
-  const id = typeof modelId === "string" ? modelId.trim() : "";
+  const id = typeof modelId === "string" ? modelId.trim() : "';
   if (!id) return MAX_ANTIGRAVITY_OUTPUT_TOKENS;
   try {
     const declared = getExplicitModelOutputCap({ provider: "antigravity", model: id });

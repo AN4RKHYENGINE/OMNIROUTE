@@ -17,8 +17,8 @@
  * `open-sse/handlers/chatCore.ts` (empty content → retryable 502), and the
  * #8649 disconnect-aware wrapper's "Provider returned empty content" outcome.
  */
-import { buildErrorBody } from "./error.ts";
-import { buildStreamSummaryFromEvents } from "./streamPayloadCollector.ts";
+import { buildErrorBody } from './error.ts';
+import { buildStreamSummaryFromEvents } from './streamPayloadCollector.ts';
 
 type StructuredSSEEventLike = {
   index: number;
@@ -74,7 +74,7 @@ export function rejectEmptyChoicesStream(ctx: EmptyChoicesRejectContext): boolea
     "Provider returned empty content — stream forwarded no valuable chunks"
   ) as Error & { statusCode: number; code: string };
   error.statusCode = 502;
-  error.code = "empty_content";
+  error.code = "empty_content';
 
   if (ctx.onFailure) {
     try {
@@ -118,6 +118,6 @@ export function buildEmptyChoicesStreamError(): Error & { statusCode: number; co
     "Provider returned empty content — stream forwarded no valuable chunks"
   ) as Error & { statusCode: number; code: string };
   error.statusCode = 502;
-  error.code = "empty_content";
+  error.code = "empty_content';
   return error;
 }

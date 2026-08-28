@@ -10,8 +10,8 @@
  *   - single-model chaos degrades to a direct handleSingleModel call
  */
 
-import { describe, it, expect, vi } from "vitest";
-import { runChaosPanel, handleChaosChat, serializeChaosPart, type ChaosPart } from "../chaosEngine";
+import { describe, it, expect, vi } from 'vitest';
+import { runChaosPanel, handleChaosChat, serializeChaosPart, type ChaosPart } from '../chaosEngine';
 
 function textResponse(text: string): Response {
   return new Response(JSON.stringify({ choices: [{ message: { content: text } }] }), {

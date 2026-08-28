@@ -9,7 +9,7 @@
 import {
   providerSupportsCaching,
   type ConnectionCacheOverride,
-} from "../../utils/cacheControlPolicy.ts";
+} from '../../utils/cacheControlPolicy.ts';
 
 type JsonRecord = Record<string, unknown>;
 

@@ -2,34 +2,34 @@ import {
   errorResponse,
   unavailableResponse,
   errorResponseWithComboDiagnostics,
-} from "../../utils/error.ts";
-import { BudgetExceededError, selectProvider as selectAutoProvider } from "../autoCombo/engine.ts";
+} from '../../utils/error.ts';
+import { BudgetExceededError, selectProvider as selectAutoProvider } from '../autoCombo/engine.ts';
 import {
   resolveRequestModePack,
   parseRequestBudgetCap,
   parseRequestBudgetFallback,
-} from "../autoCombo/requestControls.ts";
-import { selectWithStrategy } from "../autoCombo/routerStrategy.ts";
-import { buildComplexityRoutingHint } from "../autoCombo/complexityRouter";
-import { getModePack } from "../autoCombo/modePacks.ts";
-import { recordComboIntent } from "../comboMetrics.ts";
-import { estimateTokens } from "../contextManager.ts";
-import { classifyWithConfig } from "../intentClassifier.ts";
-import type { RoutingHint } from "../manifestAdapter";
-import { parseModel } from "../model.ts";
-import { supportsToolCalling } from "../modelCapabilities.ts";
-import type { ResilienceSettings } from "@lib/resilience/settings";
-import { parseAutoConfig } from "./autoConfig.ts";
-import { dedupeTargetsByExecutionKey } from "./comboData.ts";
+} from '../autoCombo/requestControls.ts';
+import { selectWithStrategy } from '../autoCombo/routerStrategy.ts';
+import { buildComplexityRoutingHint } from '../autoCombo/complexityRouter';
+import { getModePack } from '../autoCombo/modePacks.ts';
+import { recordComboIntent } from '../comboMetrics.ts';
+import { estimateTokens } from '../contextManager.ts';
+import { classifyWithConfig } from '../intentClassifier.ts';
+import type { RoutingHint } from '../manifestAdapter';
+import { parseModel } from '../model.ts';
+import { supportsToolCalling } from '../modelCapabilities.ts';
+import type { ResilienceSettings } from '@lib/resilience/settings';
+import { parseAutoConfig } from './autoConfig.ts';
+import { dedupeTargetsByExecutionKey } from './comboData.ts';
 import {
   getModelContextLimitForModelString,
   providerSupportsEmulatedToolCalling,
-} from "./comboStructure.ts";
+} from './comboStructure.ts';
 import {
   calculatePromptCacheAffinityScores,
   promptCacheTargetIdentity,
-} from "./promptCacheAffinity.ts";
-import type { ResetWindowConfig } from "./quotaScoring.ts";
+} from './promptCacheAffinity.ts';
+import type { ResetWindowConfig } from './quotaScoring.ts';
 import {
   _registerExecutionCandidates,
   expandAutoComboCandidatePool,
@@ -37,13 +37,13 @@ import {
   getIntentConfig,
   mapIntentToTaskType,
   scoreAutoTargets,
-} from "./autoStrategy.ts";
+} from './autoStrategy.ts';
 import type {
   AutoProviderCandidate,
   ComboLike,
   ComboLogger,
   ResolvedComboTarget,
-} from "./types.ts";
+} from './types.ts';
 
 /**
  * Dependency-injected `buildAutoCandidates` — it lives in `combo.ts` (the host of
@@ -322,7 +322,7 @@ export async function resolveAutoStrategyOrder(
     let selectedProvider: string | null = null;
     let selectedModel: string | null = null;
     let selectedConnectionId: string | null = null;
-    let selectionReason = "";
+    let selectionReason = "';
 
     if (routingStrategy !== "rules") {
       try {

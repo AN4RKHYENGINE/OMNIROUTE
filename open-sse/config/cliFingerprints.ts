@@ -9,12 +9,12 @@
  *
  * Header order and body field order were captured via mitmproxy traffic analysis.
  */
-import { isClaudeCodeCompatible } from "../services/provider.ts";
+import { isClaudeCodeCompatible } from '../services/provider.ts';
 import {
   getAntigravityUserAgent,
   GITHUB_COPILOT_CHAT_USER_AGENT,
-} from "./providerHeaderProfiles.ts";
-import { normalizeCliCompatProviderId } from "@/shared/utils/cliCompat";
+} from './providerHeaderProfiles.ts';
+import { normalizeCliCompatProviderId } from '@/shared/utils/cliCompat';
 
 export interface CliFingerprint {
   /** Ordered list of header names (case-sensitive). Unlisted headers are appended. */

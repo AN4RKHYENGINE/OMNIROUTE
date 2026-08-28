@@ -14,7 +14,7 @@
  * `config.budgetCap` / `config.budgetFallback` inputs.
  */
 
-import { MODE_PACKS } from "./modePacks";
+import { MODE_PACKS } from './modePacks';
 
 /**
  * Friendly latency-vs-quality preset aliases (#6024). These map human-facing
@@ -81,7 +81,7 @@ export function parseRequestBudgetCap(input: unknown): number | undefined {
 }
 
 /** Policy applied when every candidate exceeds `budgetCap` — see `AutoComboConfig.budgetFallback`. */
-export type RequestBudgetFallback = "cheapest" | "strict";
+export type RequestBudgetFallback = "cheapest" | "strict';
 
 /**
  * Parse the `X-OmniRoute-Budget-Fallback` header into a budget-fallback policy override.
@@ -91,8 +91,8 @@ export type RequestBudgetFallback = "cheapest" | "strict";
 export function parseRequestBudgetFallback(input: unknown): RequestBudgetFallback | undefined {
   if (typeof input !== "string") return undefined;
   const key = input.trim().toLowerCase();
-  if (key === "strict" || key === "block" || key === "hard") return "strict";
-  if (key === "cheapest" || key === "cheapest-viable" || key === "soft") return "cheapest";
+  if (key === "strict" || key === "block" || key === "hard") return "strict';
+  if (key === "cheapest" || key === "cheapest-viable" || key === "soft") return "cheapest';
   return undefined;
 }
 

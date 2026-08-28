@@ -6,7 +6,7 @@
  */
 
 /** Target-derivation policy (design D-C1). */
-export type ContextBudgetPolicy = "reserve-output" | "percentage" | "absolute";
+export type ContextBudgetPolicy = "reserve-output" | "percentage" | "absolute';
 
 /**
  * Adaptive mode (design D-C3/C4):
@@ -15,7 +15,7 @@ export type ContextBudgetPolicy = "reserve-output" | "percentage" | "absolute";
  *                            operator/client choice always wins, even if it overflows).
  *  - "off"                 : legacy binary auto-trigger (full backward-compat).
  */
-export type ContextBudgetMode = "floor" | "replace-autotrigger" | "off";
+export type ContextBudgetMode = "floor" | "replace-autotrigger" | "off';
 
 /** One escalation stage = an engine id applied at an optional intensity. */
 export interface LadderStage {

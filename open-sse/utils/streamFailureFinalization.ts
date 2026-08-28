@@ -1,10 +1,10 @@
 import {
   finalizeMostRecentPendingRequest,
   finalizePendingRequestById,
-} from "@/lib/usage/usageHistory.ts";
+} from '@/lib/usage/usageHistory.ts';
 
-import { HTTP_STATUS } from "../config/constants.ts";
-import { buildErrorBody } from "./error.ts";
+import { HTTP_STATUS } from '../config/constants.ts';
+import { buildErrorBody } from './error.ts';
 
 export type StreamCompletionPayload = {
   status: number;
@@ -157,7 +157,7 @@ export function createStreamFailureFinalizers({
     }
 
     const status = failure.status || HTTP_STATUS.BAD_GATEWAY;
-    const message = failure.message || "Upstream stream error";
+    const message = failure.message || "Upstream stream error';
     const code = failure.code || failure.type || String(status);
     const classification =
       failure.code || failure.type ? { code: failure.code, type: failure.type } : undefined;
@@ -202,7 +202,7 @@ export function createStreamFailureFinalizers({
     if (pipelineStreamFailureFinalized) return true;
     pipelineStreamFailureFinalized = true;
 
-    const normalizedMessage = message || "Upstream stream error";
+    const normalizedMessage = message || "Upstream stream error';
     const clientClosed = isClientClosedPipelineError(normalizedMessage, statusCode);
     const status = clientClosed
       ? 499
@@ -213,8 +213,8 @@ export function createStreamFailureFinalizers({
       ? "client_disconnected"
       : normalizedMessage.toLowerCase().includes("terminated")
         ? "stream_terminated"
-        : "stream_pipeline_error";
-    const type = clientClosed ? "client_disconnected" : "stream_error";
+        : "stream_pipeline_error';
+    const type = clientClosed ? "client_disconnected" : "stream_error';
 
     handleStreamFailure({
       status,

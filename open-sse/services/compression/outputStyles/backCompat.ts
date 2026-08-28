@@ -1,8 +1,8 @@
-import type { OutputStyleSelectionEntry } from "./apply.ts";
+import type { OutputStyleSelectionEntry } from './apply.ts';
 
 interface LegacyOutputModeConfig {
   enabled?: boolean;
-  intensity?: "lite" | "full" | "ultra";
+  intensity?: "lite" | "full" | "ultra';
 }
 
 interface ConfigSlice {

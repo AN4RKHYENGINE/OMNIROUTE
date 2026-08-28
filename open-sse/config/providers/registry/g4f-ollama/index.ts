@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // g4f.space/api/ollama — no-key hosted Ollama gateway (gpt4free project, issue #6650).
 // Fills a niche none of the existing ollama-* entries cover (local/cloud/search) —

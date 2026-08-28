@@ -16,23 +16,23 @@
  *  11. omniroute_sync_pricing      — Sync provider pricing from external source
  */
 
-import { logToolCall } from "../audit.ts";
-import { getMcpHttpAuthHeadersForInternalFetch } from "../httpAuthContext.ts";
-import { normalizeQuotaResponse } from "@shared/contracts/quota.ts";
-import { resolveOmniRouteBaseUrl } from "@shared/utils/resolveOmniRouteBaseUrl.ts";
+import { logToolCall } from '../audit.ts';
+import { getMcpHttpAuthHeadersForInternalFetch } from '../httpAuthContext.ts';
+import { normalizeQuotaResponse } from '@shared/contracts/quota.ts';
+import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts';
 import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
-} from "@lib/combos/steps.ts";
+} from '@lib/combos/steps.ts';
 import type {
   AutoRoutingStrategyValue,
   RoutingStrategyValue,
-} from "@shared/constants/routingStrategies.ts";
-import { normalizeRoutingStrategy } from "@shared/constants/routingStrategies.ts";
+} from '@shared/constants/routingStrategies.ts';
+import { normalizeRoutingStrategy } from '@shared/constants/routingStrategies.ts';
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
-const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";
+const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "';
 
 async function apiFetch(path: string, options: RequestInit = {}): Promise<unknown> {
   const url = `${OMNIROUTE_BASE_URL}${path}`;
@@ -112,8 +112,8 @@ function normalizeCombosResponse(raw: unknown): JsonRecord[] {
 interface BudgetGuardState {
   sessionId: string;
   maxCost: number;
-  action: "degrade" | "block" | "alert";
-  degradeToTier?: "cheap" | "free";
+  action: "degrade" | "block" | "alert';
+  degradeToTier?: "cheap" | "free';
   spent: number;
   createdAt: string;
 }
@@ -329,8 +329,8 @@ export async function handleSimulateRoute(args: {
 
 export async function handleSetBudgetGuard(args: {
   maxCost: number;
-  action: "degrade" | "block" | "alert";
-  degradeToTier?: "cheap" | "free";
+  action: "degrade" | "block" | "alert';
+  degradeToTier?: "cheap" | "free';
 }) {
   const start = Date.now();
   try {
@@ -405,7 +405,7 @@ export async function handleSetRoutingStrategy(args: {
 
     const comboId = toString(combo.id);
     if (!comboId) {
-      const msg = "Matched combo has no id";
+      const msg = "Matched combo has no id';
       await logToolCall(
         "omniroute_set_routing_strategy",
         args,
@@ -475,7 +475,7 @@ export async function handleSetRoutingStrategy(args: {
 }
 
 export async function handleSetResilienceProfile(args: {
-  profile: "aggressive" | "balanced" | "conservative";
+  profile: "aggressive" | "balanced" | "conservative';
 }) {
   const start = Date.now();
   try {
@@ -968,18 +968,18 @@ export async function handleCacheFlush(args: { signature?: string; model?: strin
   const start = Date.now();
   try {
     const params = new URLSearchParams();
-    let scope = "all";
+    let scope = "all';
 
     if (args.signature) {
       params.set("signature", args.signature);
-      scope = "signature";
+      scope = "signature';
     } else if (args.model) {
       params.set("model", args.model);
-      scope = "model";
+      scope = "model';
     }
 
     const query = params.toString();
-    const path = query ? `/api/cache?${query}` : "/api/cache";
+    const path = query ? `/api/cache?${query}` : "/api/cache';
     const raw = toRecord(
       await apiFetch(path, {
         method: "DELETE",
@@ -1015,7 +1015,7 @@ export async function handleOneproxyFetch(
     if (args.limit) params.set("limit", String(args.limit));
 
     const query = params.toString();
-    const path = query ? `/api/settings/oneproxy?${query}` : "/api/settings/oneproxy";
+    const path = query ? `/api/settings/oneproxy?${query}` : "/api/settings/oneproxy';
     const raw = toRecord(await apiFetch(path));
 
     const items = toArrayOfRecords(raw.items).map((r) => ({

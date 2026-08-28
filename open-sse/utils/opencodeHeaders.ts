@@ -1,5 +1,5 @@
-import { randomUUID } from "crypto";
-import { setUserAgentHeader } from "../executors/base.ts";
+import { randomUUID } from 'crypto';
+import { setUserAgentHeader } from '../executors/base.ts';
 
 /**
  * Header keys that are forwarded from the client to the upstream provider.

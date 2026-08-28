@@ -10,7 +10,7 @@
  * passthrough scrub strips ocxr1 envelopes before native forwarding.
  */
 
-export const BRIDGE_REASONING_PREFIX = "ocxr1:";
+export const BRIDGE_REASONING_PREFIX = "ocxr1:';
 
 export interface ReasoningEnvelope {
   /** Opaque reasoning-block signature, if captured. */

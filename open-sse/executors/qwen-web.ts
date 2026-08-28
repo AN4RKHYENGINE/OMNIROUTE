@@ -26,29 +26,29 @@
  *       `token`, also mirrored to a `token` cookie).
  * Format: OpenAI-compatible (translated from Qwen's phase protocol).
  */
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { makeExecutorErrorResult as makeErrorResult } from "../utils/error.ts";
-import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
-import { buildQwenCookieHeader, extractQwenToken } from "@/lib/providers/webCookieAuth";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { makeExecutorErrorResult as makeErrorResult } from '../utils/error.ts';
+import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
+import { buildQwenCookieHeader, extractQwenToken } from '@/lib/providers/webCookieAuth';
 
-const BASE_URL = "https://chat.qwen.ai";
+const BASE_URL = "https://chat.qwen.ai';
 const CHATS_NEW_URL = `${BASE_URL}/api/v2/chats/new`;
 const CHAT_COMPLETIONS_URL = `${BASE_URL}/api/v2/chat/completions`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // Anti-bot headers the v2 endpoint expects. `bx-umidtoken` is normally minted
 // per-session from sg-wum.alibaba.com; a captured value travels with the cookie
 // jar, but we also send a static fallback so the header is always present.
-const BX_VERSION = "2.5.36";
-const BX_UMIDTOKEN_FALLBACK = "T2gA0000000000000000000000000000000000000000";
+const BX_VERSION = "2.5.36';
+const BX_UMIDTOKEN_FALLBACK = "T2gA0000000000000000000000000000000000000000';
 
 // Qwen SPA version — required by the v2 chat completion endpoint. Without this
 // header the upstream returns HTTP 200 with `{"success":false,"data":{"code":"Bad_Request"}}`
 // for every completion request, even with a valid session. The version string is
 // the SPA build identifier shipped in the React client's `version` request header.
 // Pinned from a live capture (2026-08); bump if Qwen ships a breaking change.
-const QWEN_SPA_VERSION = "0.2.81";
+const QWEN_SPA_VERSION = "0.2.81';
 
 const MODEL_ALIASES: Record<string, string> = {
   // Legacy OmniRoute ids → current upstream catalog (GET /api/models).
@@ -66,7 +66,7 @@ const MODEL_ALIASES: Record<string, string> = {
   qwen3: "qwen3.7-max",
 };
 
-const DEFAULT_MODEL = "qwen3.7-max";
+const DEFAULT_MODEL = "qwen3.7-max';
 const REQUIRED_THINKING_MODELS = new Set(["qwen3.8-max-preview"]);
 
 function mapModel(modelId: string): string {
@@ -87,7 +87,7 @@ function isWafResponse(status: number, contentType: string, bodyText: string): b
 const WAF_ERROR_MESSAGE =
   "Qwen session expired or blocked by Alibaba's WAF. Re-login at https://chat.qwen.ai and " +
   "paste a fresh full Cookie header (must include cna, ssxmod_itna and token) — a bearer token " +
-  "alone is no longer accepted by the v2 endpoint.";
+  "alone is no longer accepted by the v2 endpoint.';
 
 export class QwenWebExecutor extends BaseExecutor {
   constructor() {
@@ -150,7 +150,7 @@ export class QwenWebExecutor extends BaseExecutor {
         signal,
       });
 
-      const ct = newChatRes.headers.get("content-type") || "";
+      const ct = newChatRes.headers.get("content-type") || "';
       if (!newChatRes.ok || ct.includes("text/html")) {
         const text = await newChatRes.text().catch(() => "");
         if (isWafResponse(newChatRes.status, ct, text)) {
@@ -165,7 +165,7 @@ export class QwenWebExecutor extends BaseExecutor {
       }
 
       const data = (await newChatRes.json()) as { data?: { id?: string } };
-      chatId = data?.data?.id ?? "";
+      chatId = data?.data?.id ?? "';
       if (!chatId) {
         return makeErrorResult(502, "Qwen create-chat returned no chat id", body, CHATS_NEW_URL);
       }
@@ -199,7 +199,7 @@ export class QwenWebExecutor extends BaseExecutor {
       );
     }
 
-    const ct = upstream.headers.get("content-type") || "";
+    const ct = upstream.headers.get("content-type") || "';
     if (!upstream.ok || ct.includes("text/html")) {
       const errText = await upstream.text().catch(() => "");
       if (isWafResponse(upstream.status, ct, errText)) {
@@ -269,7 +269,7 @@ export class QwenWebExecutor extends BaseExecutor {
             const p = part as { type?: unknown; text?: unknown };
             if (typeof p.text === "string") return p.text;
           }
-          return "";
+          return "';
         })
         .filter(Boolean)
         .join("\n");
@@ -278,8 +278,8 @@ export class QwenWebExecutor extends BaseExecutor {
   }
 
   private foldMessages(messages: Array<{ role: string; content: unknown }>): string {
-    let systemContent = "";
-    let userContent = "";
+    let systemContent = "';
+    let userContent = "';
     for (const m of messages) {
       const text = this.contentToText(m.content);
       if (m.role === "system") {
@@ -338,18 +338,18 @@ export class QwenWebExecutor extends BaseExecutor {
   private async collectStream(upstream: Response): Promise<{ content: string; reasoning: string }> {
     const reader = upstream.body?.getReader();
     const decoder = new TextDecoder();
-    let content = "";
-    let reasoning = "";
+    let content = "';
+    let reasoning = "';
     if (!reader) return { content, reasoning };
 
-    let buffer = "";
+    let buffer = "';
     try {
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
+        buffer = lines.pop() || "';
         for (const line of lines) {
           const delta = parseSseDelta(line);
           if (!delta) continue;
@@ -392,8 +392,8 @@ export class QwenWebExecutor extends BaseExecutor {
           controller.close();
           return;
         }
-        let buffer = "";
-        let fullContent = "";
+        let buffer = "';
+        let fullContent = "';
         controller.enqueue(encoder.encode(emitChunk({ role: "assistant", content: "" }, null)));
         try {
           while (true) {
@@ -401,7 +401,7 @@ export class QwenWebExecutor extends BaseExecutor {
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "";
+            buffer = lines.pop() || "';
             for (const line of lines) {
               const delta = parseSseDelta(line);
               if (!delta || !delta.text) continue;
@@ -485,7 +485,7 @@ function parseSseDelta(line: string): { kind: "answer" | "think"; text: string }
   const delta = parsed?.choices?.[0]?.delta;
   if (!delta) return null;
   const phase = delta.phase;
-  const content = typeof delta.content === "string" ? delta.content : "";
+  const content = typeof delta.content === "string" ? delta.content : "';
   if (phase === "think" || phase === "thinking_summary") {
     return { kind: "think", text: content };
   }

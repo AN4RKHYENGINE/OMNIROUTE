@@ -27,14 +27,14 @@
  *  - entries the caller's `isEnabled` predicate rejects.
  */
 
-export const CC_DISCOVERY_PREFIX = "claude/";
-export const CC_DISCOVERY_COMBO_PREFIX = "claude/combo/";
+export const CC_DISCOVERY_PREFIX = "claude/';
+export const CC_DISCOVERY_COMBO_PREFIX = "claude/combo/';
 
 // Ids that already live under the claude/anthropic namespace — never re-mirror them.
 const ALREADY_CLAUDE_RE = /^(?:claude|anthropic)(?:\/|$)/i;
 // Ids that already carry a reasoning-effort suffix — v1 only mirrors base ids.
 const CLAUDE_EFFORT_SUFFIX_RE = /-(?:xhigh|high|medium|low)$/i;
-const NO_THINKING_PREFIX = "no-think/";
+const NO_THINKING_PREFIX = "no-think/';
 // Built-in `auto`/`auto/*` combos are synthesized by createBuiltinAutoCombo, NOT
 // stored in the DB combos table — the request-path resolver (getComboByName) can't
 // find them, so mirroring them would advertise a `claude/combo/auto/*` id that the
@@ -88,7 +88,7 @@ export function appendCcDiscoveryAliases<T extends CcDiscoveryCatalogEntry>(
     if (typeof id !== "string" || !isMirrorableId(id)) continue;
     if (!isEnabled(model)) continue;
 
-    const isCombo = model.owned_by === "combo";
+    const isCombo = model.owned_by === "combo';
     // Skip built-in auto combos — advertised-but-unroutable (see the regex above).
     if (isCombo && BUILTIN_AUTO_COMBO_RE.test(id)) continue;
     const aliasId = isCombo ? `${CC_DISCOVERY_COMBO_PREFIX}${id}` : `${CC_DISCOVERY_PREFIX}${id}`;

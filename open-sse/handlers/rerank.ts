@@ -1,4 +1,4 @@
-import { CORS_HEADERS } from "../utils/cors.ts";
+import { CORS_HEADERS } from '../utils/cors.ts';
 /**
  * Rerank Handler
  *
@@ -6,15 +6,15 @@ import { CORS_HEADERS } from "../utils/cors.ts";
  * Routes to the appropriate provider based on the model prefix or lookup.
  */
 
-import { getRerankProvider, parseRerankModel, RERANK_PROVIDERS } from "../config/rerankRegistry.ts";
-import { errorResponse } from "../utils/error.ts";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import { calculateModalCost } from "@/lib/usage/costCalculator";
-import { generateRequestId } from "@/shared/utils/requestId";
-import { saveCallLog } from "@/lib/usageDb";
-import { resolveProxyForConnection } from "@/lib/db/settings";
-import { runWithProxyContext } from "../utils/proxyFetch.ts";
-import * as log from "@/sse/utils/logger";
+import { getRerankProvider, parseRerankModel, RERANK_PROVIDERS } from '../config/rerankRegistry.ts';
+import { errorResponse } from '../utils/error.ts';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import { calculateModalCost } from '@/lib/usage/costCalculator';
+import { generateRequestId } from '@/shared/utils/requestId';
+import { saveCallLog } from '@/lib/usageDb';
+import { resolveProxyForConnection } from '@/lib/db/settings';
+import { runWithProxyContext } from '../utils/proxyFetch.ts';
+import * as log from '@/sse/utils/logger';
 
 /** A document as the Cohere-compatible rerank API accepts it: a bare string or `{ text }`. */
 type RerankDocument = string | { text?: string };
@@ -121,7 +121,7 @@ function buildAuthHeader(providerConfig, token) {
     const returnDocuments = options.return_documents !== false;
     const scored = (Array.isArray(data.scores) ? data.scores : []).map((score, index) => {
       const doc = documents[index];
-      const text = typeof doc === "string" ? doc : doc?.text || "";
+      const text = typeof doc === "string" ? doc : doc?.text || "';
       return {
         index,
         relevance_score: typeof score === "number" ? score : 0,
@@ -149,14 +149,14 @@ function buildAuthHeader(providerConfig, token) {
     // strings, so we replicate that filter here to get original → filtered mapping.
     const indexMap = [];
     documents.forEach((doc, i) => {
-      const text = typeof doc === "string" ? doc : doc?.text || "";
+      const text = typeof doc === "string" ? doc : doc?.text || "';
       if (text !== "") indexMap.push(i);
     });
     const scored = (Array.isArray(data.data) ? data.data : []).map((entry) => {
       const filteredIdx = entry.index ?? 0;
       const originalIdx = indexMap[filteredIdx] ?? filteredIdx;
       const doc = documents[originalIdx];
-      const text = typeof doc === "string" ? doc : doc?.text || "";
+      const text = typeof doc === "string" ? doc : doc?.text || "';
       return {
         index: originalIdx,
         relevance_score: typeof entry.relevance_score === "number" ? entry.relevance_score : 0,

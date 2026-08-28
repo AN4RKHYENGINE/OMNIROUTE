@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // g4f.space/api/groq — no-key reverse proxy to Groq (gpt4free project, issue #6650).
 // Same OpenAI-compatible shape as the other no-key gateways (hackclub, uncloseai):

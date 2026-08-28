@@ -1,5 +1,5 @@
-import type { RenderResult, CommandDetectionResult } from "./types.ts";
-import { NO_RENDER } from "./types.ts";
+import type { RenderResult, CommandDetectionResult } from './types.ts';
+import { NO_RENDER } from './types.ts';
 
 const MAX_TABLE_ROWS = 200;
 const MAX_COLUMNS = 5;

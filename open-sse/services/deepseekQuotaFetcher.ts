@@ -22,9 +22,9 @@
  * Registration: call registerDeepseekQuotaFetcher() once at server startup.
  */
 
-import { registerQuotaFetcher, type QuotaInfo } from "./quotaPreflight.ts";
-import { registerMonitorFetcher } from "./quotaMonitor.ts";
-import { throttleQuotaFetch } from "./quotaFetchThrottle.ts";
+import { registerQuotaFetcher, type QuotaInfo } from './quotaPreflight.ts';
+import { registerMonitorFetcher } from './quotaMonitor.ts';
+import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 
 // DeepSeek API config
 const DEEPSEEK_CONFIG = {
@@ -137,7 +137,7 @@ function parseAllBalanceInfos(data: unknown): BalanceInfo[] {
 
   for (const item of balanceInfos) {
     const record = toRecord(item);
-    const currency = typeof record.currency === "string" ? record.currency.toUpperCase() : "";
+    const currency = typeof record.currency === "string" ? record.currency.toUpperCase() : "';
     const totalBalance = toNumber(record.total_balance ?? record.totalBalance, 0);
     const grantedBalance = toNumber(record.granted_balance ?? record.grantedBalance, 0);
     const toppedUpBalance = toNumber(record.topped_up_balance ?? record.toppedUpBalance, 0);

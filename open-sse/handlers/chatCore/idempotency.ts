@@ -1,8 +1,8 @@
-import { createHash } from "node:crypto";
-import { getIdempotencyKey, checkIdempotency } from "@/lib/idempotencyLayer";
-import { calculateCost } from "@/lib/usage/costCalculator";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
-import type { EffectiveServiceTier } from "./serviceTier.ts";
+import { createHash } from 'node:crypto';
+import { getIdempotencyKey, checkIdempotency } from '@/lib/idempotencyLayer';
+import { calculateCost } from '@/lib/usage/costCalculator';
+import { attachOmniRouteMetaHeaders } from '@/domain/omnirouteResponseMeta';
+import type { EffectiveServiceTier } from './serviceTier.ts';
 
 type HeadersLike = Headers | Record<string, unknown> | null | undefined;
 type IdempotencyRequest = { headers?: HeadersLike } | null | undefined;
@@ -33,14 +33,14 @@ export function composeIdempotencyKey({
   messages: unknown;
 }): string | null {
   if (!rawKey) return null;
-  let digest = "";
+  let digest = "';
   try {
     digest = createHash("sha256")
       .update(JSON.stringify(messages ?? ""))
       .digest("hex")
       .slice(0, 16);
   } catch {
-    digest = "nodigest";
+    digest = "nodigest';
   }
   return `${rawKey}|${provider}|${model}|${digest}`;
 }

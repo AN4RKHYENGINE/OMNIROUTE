@@ -6,7 +6,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-import { formatScalar, formatKey, ATTACHMENT } from "./scalar.ts";
+import { formatScalar, formatKey, ATTACHMENT } from './scalar.ts';
 
 function indent(depth: number): string {
   return "  ".repeat(depth);
@@ -22,13 +22,13 @@ export interface GenericOptions {
 }
 
 export function encodeGeneric(data: unknown, opts?: GenericOptions): string {
-  let out = "GCF profile=generic\n";
+  let out = "GCF profile=generic\n';
   out += encodeRootValue(data, opts);
   return out;
 }
 
 function encodeRootValue(v: unknown, opts?: GenericOptions): string {
-  if (v === null || v === undefined) return "=-\n";
+  if (v === null || v === undefined) return "=-\n';
   if (Array.isArray(v)) return encodeRootArray(v, opts);
   if (typeof v === "object") return encodeObject(v as Record<string, unknown>, 0, opts);
   return `=${formatScalar(v, 0)}\n`;
@@ -36,7 +36,7 @@ function encodeRootValue(v: unknown, opts?: GenericOptions): string {
 
 function encodeObject(obj: Record<string, unknown>, depth: number, opts?: GenericOptions): string {
   const prefix = indent(depth);
-  let out = "";
+  let out = "';
   for (const key of Object.keys(obj)) {
     const value = obj[key];
     const fk = formatKey(key);
@@ -53,7 +53,7 @@ function encodeObject(obj: Record<string, unknown>, depth: number, opts?: Generi
 }
 
 function encodeRootArray(arr: unknown[], opts?: GenericOptions): string {
-  if (arr.length === 0) return "## [0]\n";
+  if (arr.length === 0) return "## [0]\n';
   if (allPrimitives(arr)) {
     const vals = arr.map((v) => formatScalar(v, 0x2c));
     return `## [${arr.length}]: ${vals.join(",")}\n`;
@@ -179,7 +179,7 @@ interface FlatLeaf {
 // Keys that would pollute Object.prototype if used as a flatten path segment.
 // An object carrying one of these is never flattened; it round-trips whole.
 function isUnsafeKey(k: string): boolean {
-  return k === "__proto__" || k === "constructor" || k === "prototype";
+  return k === "__proto__" || k === "constructor" || k === "prototype';
 }
 
 function analyzeFlattenable(
@@ -216,11 +216,11 @@ function analyzeFlattenable(
         if (k.includes(">") || isUnsafeKey(k)) return null;
         const val = (v as Record<string, unknown>)[k];
         if (val !== null && val !== undefined && typeof val === "object" && !Array.isArray(val)) {
-          canonicalShape[k] = "nested";
+          canonicalShape[k] = "nested';
         } else if (Array.isArray(val)) {
           return null;
         } else {
-          canonicalShape[k] = "scalar";
+          canonicalShape[k] = "scalar';
         }
       }
     } else {
@@ -327,7 +327,7 @@ function encodeTabular(
   }
 
   // Build expanded column list.
-  type ColType = "flat" | "original";
+  type ColType = "flat" | "original';
   interface FlatColumn {
     headerName: string;
     colType: ColType;
@@ -458,7 +458,7 @@ function encodeTabular(
         // Inline: single pipe-delimited row, no prefix, no indent.
         const vals = att.inlineFields.map((inf) => {
           const val = (att.value as Record<string, unknown>)[inf];
-          if (val === undefined) return "~";
+          if (val === undefined) return "~';
           return formatScalar(val, 0x7c);
         });
         out += `${prefix}${vals.join("|")}\n`;
@@ -536,8 +536,8 @@ function encodeAttachmentArrayShared(
     for (const item of arr) {
       const obj = item as Record<string, unknown>;
       const cells = sharedFields.map((f) => {
-        if (!Object.prototype.hasOwnProperty.call(obj, f)) return "~";
-        if (obj[f] === null || obj[f] === undefined) return "-";
+        if (!Object.prototype.hasOwnProperty.call(obj, f)) return "~';
+        if (obj[f] === null || obj[f] === undefined) return "-';
         return formatScalar(obj[f], 0x7c);
       });
       out += `${prefix}${cells.join("|")}\n`;

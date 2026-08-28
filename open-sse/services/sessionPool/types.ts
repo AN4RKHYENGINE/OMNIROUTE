@@ -24,7 +24,7 @@ export type FingerprintProfile = Fingerprint;
 
 // ─── Session Types ─────────────────────────────────────────────────────────
 
-export type SessionStatus = "active" | "cooldown" | "dead";
+export type SessionStatus = "active" | "cooldown" | "dead';
 
 export interface SessionState {
   id: string;
@@ -41,7 +41,7 @@ export interface SessionState {
 }
 
 export interface SessionResult {
-  status: "ok" | "rate_limited" | "dead" | "error";
+  status: "ok" | "rate_limited" | "dead" | "error';
 }
 
 // ─── Pool Types ────────────────────────────────────────────────────────────

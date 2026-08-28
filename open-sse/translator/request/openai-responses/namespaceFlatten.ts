@@ -8,7 +8,7 @@
 // produces duplicate Chat `tool.function.name` entries, which every
 // strict-name-uniqueness upstream (DeepSeek, etc.) rejects with a 400. Folding
 // the namespace into the wire name makes collisions structurally impossible.
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 // Chat Completions function names must match ^[a-zA-Z0-9_-]+$ and are commonly
 // capped at 64 chars by OpenAI-family providers.

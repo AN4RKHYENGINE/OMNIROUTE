@@ -13,18 +13,18 @@
  * responses, not chunked streams.
  */
 
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import { buildErrorBody, sanitizeErrorMessage } from "../utils/error.ts";
-import { prepareToolMessages } from "../translator/webTools.ts";
-import { buildToolModeResponse } from "./chatgptWebTools.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
+import { prepareToolMessages } from '../translator/webTools.ts';
+import { buildToolModeResponse } from './chatgptWebTools.ts';
 import {
   checkGeminiWebUnsupportedControls,
   GEMINI_WEB_UNSUPPORTED_CONTROL_CODE,
-} from "./gemini-web/capabilities.ts";
+} from './gemini-web/capabilities.ts';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const GEMINI_URL = "https://gemini.google.com/app";
+const GEMINI_URL = "https://gemini.google.com/app';
 
 /**
  * Whether an error came from Playwright failing to launch because the browser binary is not
@@ -39,7 +39,7 @@ export function isMissingBrowserExecutable(message: string): boolean {
   );
 }
 const GEMINI_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -112,7 +112,7 @@ export function buildGeminiPrompt(messages: Array<{ role: string; content: unkno
 
   const userMessages = textMessages.filter((m) => m.role === "user");
   const lastUser = userMessages[userMessages.length - 1];
-  const lastUserContent = lastUser?.content ?? "";
+  const lastUserContent = lastUser?.content ?? "';
   const lastUserIdx = lastUser ? textMessages.lastIndexOf(lastUser) : -1;
 
   // Prior conversation = every user/assistant turn before the final user turn.
@@ -153,8 +153,8 @@ export function buildGeminiToolPrompt(
 ): string {
   const toolSystemMsg = effectiveMessages.find((m) => m.role === "system");
   const lastUserMsg = [...effectiveMessages].reverse().find((m) => m.role === "user");
-  const userText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
-  const toolPrompt = typeof toolSystemMsg?.content === "string" ? toolSystemMsg.content : "";
+  const userText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "';
+  const toolPrompt = typeof toolSystemMsg?.content === "string" ? toolSystemMsg.content : "';
   return toolPrompt ? `${toolPrompt}\n\n${userText}` : userText;
 }
 
@@ -236,7 +236,7 @@ function parseCookies(raw: string): Array<{ name: string; value: string }> {
  */
 export function parseStreamResponse(raw: string): string {
   const lines = raw.split("\n");
-  let lastText = "";
+  let lastText = "';
 
   for (const rawLine of lines) {
     const line = rawLine.trim();
@@ -261,9 +261,9 @@ export function parseStreamResponse(raw: string): string {
 }
 
 function readCredentialString(value: unknown): string {
-  if (typeof value !== "string") return "";
+  if (typeof value !== "string") return "';
   const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : "";
+  return trimmed.length > 0 ? trimmed : "';
 }
 
 function readProviderSpecificString(
@@ -275,14 +275,14 @@ function readProviderSpecificString(
     typeof providerSpecificData !== "object" ||
     Array.isArray(providerSpecificData)
   ) {
-    return "";
+    return "';
   }
   const data = providerSpecificData as Record<string, unknown>;
   for (const key of keys) {
     const value = readCredentialString(data[key]);
     if (value) return value;
   }
-  return "";
+  return "';
 }
 
 /**
@@ -321,7 +321,7 @@ export function mergeRotatedGeminiCookies(
 
 function normalizeGeminiCookieInput(raw: string, cookieName = "__Secure-1PSID"): string {
   const trimmed = raw.trim();
-  if (!trimmed) return "";
+  if (!trimmed) return "';
   return trimmed.includes("=") ? trimmed : `${cookieName}=${trimmed}`;
 }
 
@@ -507,7 +507,7 @@ export class GeminiWebExecutor extends BaseExecutor {
       const page = await context.newPage();
 
       // Capture first StreamGenerate response
-      let responseText = "";
+      let responseText = "';
       let captured = false;
       const responsePromise = new Promise<void>((resolve) => {
         page.on("response", async (resp: any) => {
@@ -558,7 +558,7 @@ export class GeminiWebExecutor extends BaseExecutor {
 
       await this.persistRotatedCookies(context, cookie, credentials, onCredentialsRefreshed, log);
 
-      const modelId = model || "gemini-2.5-pro";
+      const modelId = model || "gemini-2.5-pro';
 
       if (hasTools) {
         const cid = `chatcmpl-gwe-${crypto.randomUUID().slice(0, 12)}`;
@@ -622,7 +622,7 @@ export class GeminiWebExecutor extends BaseExecutor {
         transformedBody: body,
       };
     } catch (error) {
-      const rawMessage = error instanceof Error ? error.message : "Unknown error";
+      const rawMessage = error instanceof Error ? error.message : "Unknown error';
       // #3516: a missing Playwright browser is a host/config problem, not a transient upstream
       // fault. Surface an actionable error and tag it with the connection-cooldown hint so
       // accountFallback skips the provider circuit breaker and applies a short, non-exponential

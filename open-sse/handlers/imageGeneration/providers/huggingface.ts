@@ -5,8 +5,8 @@
 // image providers wired in this file. Mirrors the shape/error-handling
 // conventions used by ./hyperbolic.ts and ./leonardo.ts.
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
 export async function handleHuggingFaceImageGeneration({
   model,
@@ -17,7 +17,7 @@ export async function handleHuggingFaceImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || credentials?.accessToken || "";
+  const token = credentials?.apiKey || credentials?.accessToken || "';
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
 
   if (log) {

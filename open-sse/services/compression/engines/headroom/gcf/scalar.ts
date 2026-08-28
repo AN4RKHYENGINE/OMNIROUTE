@@ -62,22 +62,22 @@ export function quoteString(s: string): string {
         out += '\\"';
         break;
       case 0x5c:
-        out += "\\\\";
+        out += "\\\\';
         break;
       case 0x08:
-        out += "\\b";
+        out += "\\b';
         break;
       case 0x0c:
-        out += "\\f";
+        out += "\\f';
         break;
       case 0x0a:
-        out += "\\n";
+        out += "\\n';
         break;
       case 0x0d:
-        out += "\\r";
+        out += "\\r';
         break;
       case 0x09:
-        out += "\\t";
+        out += "\\t';
         break;
       default:
         if (c < 0x20) {
@@ -92,8 +92,8 @@ export function quoteString(s: string): string {
 
 /** Format a JS value as a GCF scalar. delimiter is '|', ',', or 0. */
 export function formatScalar(v: unknown, delimiter: number = 0): string {
-  if (v === null || v === undefined) return "-";
-  if (typeof v === "boolean") return v ? "true" : "false";
+  if (v === null || v === undefined) return "-';
+  if (typeof v === "boolean") return v ? "true" : "false';
   if (typeof v === "number") return formatNumber(v);
   const s = String(v);
   if (needsQuote(s) || (delimiter && s.includes(String.fromCharCode(delimiter)))) {
@@ -104,8 +104,8 @@ export function formatScalar(v: unknown, delimiter: number = 0): string {
 
 /** Format a number per Section 2.3 canonical rules. */
 export function formatNumber(f: number): string {
-  if (Object.is(f, -0)) return "-0";
-  if (f === 0) return "0";
+  if (Object.is(f, -0)) return "-0';
+  if (f === 0) return "0';
   const abs = Math.abs(f);
   if (abs >= 1e-6 && abs < 1e21) {
     return toPreciseDecimal(f);
@@ -138,7 +138,7 @@ export function formatKey(s: string): string {
 
 /** Parse a GCF scalar token per Section 2.1 precedence. */
 export function parseScalar(s: string, tabularContext: boolean): any {
-  if (s === "") return "";
+  if (s === "") return "';
 
   // 1. Quoted string.
   if (s[0] === '"') return parseQuotedString(s);
@@ -180,7 +180,7 @@ export const ATTACHMENT = Symbol("attachment");
 /** Parse a JSON-compatible quoted string. */
 export function parseQuotedString(s: string): string {
   if (s.length < 2 || s[0] !== '"') throw new Error("unterminated_quote");
-  let out = "";
+  let out = "';
   let i = 1;
   while (i < s.length) {
     if (s[i] === '"') {
@@ -195,25 +195,25 @@ export function parseQuotedString(s: string): string {
           out += '"';
           break;
         case "\\":
-          out += "\\";
+          out += "\\';
           break;
         case "/":
-          out += "/";
+          out += "/';
           break;
         case "b":
-          out += "\b";
+          out += "\b';
           break;
         case "f":
-          out += "\f";
+          out += "\f';
           break;
         case "n":
-          out += "\n";
+          out += "\n';
           break;
         case "r":
-          out += "\r";
+          out += "\r';
           break;
         case "t":
-          out += "\t";
+          out += "\t';
           break;
         case "u": {
           if (i + 4 >= s.length) throw new Error("invalid_escape: incomplete unicode");
@@ -261,7 +261,7 @@ export function parseQuotedString(s: string): string {
 /** Split a string on a delimiter, respecting quoted strings. */
 export function splitRespectingQuotes(s: string, delim: string): string[] {
   const parts: string[] = [];
-  let current = "";
+  let current = "';
   let inQuote = false;
   let escaped = false;
   for (let i = 0; i < s.length; i++) {
@@ -282,7 +282,7 @@ export function splitRespectingQuotes(s: string, delim: string): string[] {
     }
     if (s[i] === delim && !inQuote) {
       parts.push(current);
-      current = "";
+      current = "';
       continue;
     }
     current += s[i];

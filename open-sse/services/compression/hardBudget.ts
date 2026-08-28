@@ -8,14 +8,14 @@
  * never dropped.
  */
 
-import type { CompressionResult } from "./types.ts";
-import { scoreToken } from "./ultraHeuristic.ts";
+import type { CompressionResult } from './types.ts';
+import { scoreToken } from './ultraHeuristic.ts';
 import {
   countTextTokens,
   tokenizerContextFromBody,
   type TokenizerContext,
-} from "@shared/utils/tiktokenCounter.ts";
-import { createCompressionStats } from "./stats.ts";
+} from '@shared/utils/tiktokenCounter.ts';
+import { createCompressionStats } from './stats.ts';
 
 interface HardBudgetOptions {
   targetTokens?: number;

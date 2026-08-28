@@ -1,5 +1,5 @@
-import { join } from "node:path";
-import { resolveDataDir } from "@/lib/dataPaths";
+import { join } from 'node:path';
+import { resolveDataDir } from '@/lib/dataPaths';
 
 /**
  * Writable cache directory for tls-client-node's native binary.
@@ -13,7 +13,7 @@ export function resolveTlsClientDownloadDir(): string {
 }
 
 export function buildNativeTlsClientOptions(): {
-  runtimeMode: "native";
+  runtimeMode: "native';
   downloadDir: string;
 } {
   return {

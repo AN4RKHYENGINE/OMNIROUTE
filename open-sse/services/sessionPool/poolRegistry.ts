@@ -12,8 +12,8 @@
  *   const all   = PoolRegistry.getAllStats();
  */
 
-import type { SessionPool } from "./sessionPool.ts";
-import type { PoolStats, PoolSessionDetail } from "./types.ts";
+import type { SessionPool } from './sessionPool.ts';
+import type { PoolStats, PoolSessionDetail } from './types.ts';
 
 type PoolEntry = {
   pool: SessionPool;

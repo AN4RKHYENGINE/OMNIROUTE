@@ -1,4 +1,4 @@
-import { REASONING_UNSUPPORTED, type RegistryEntry, type RegistryModel } from "../../shared.ts";
+import { REASONING_UNSUPPORTED, type RegistryEntry, type RegistryModel } from '../../shared.ts';
 
 // Kimi K3: Moonshot's flagship 1M-context model. The Chat Completions API
 // currently accepts only reasoning_effort="max" while reasoning is enabled.

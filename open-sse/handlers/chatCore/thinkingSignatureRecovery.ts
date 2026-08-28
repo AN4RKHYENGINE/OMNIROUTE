@@ -1,7 +1,7 @@
 import {
   executeWithAnthropicThinkingSignatureRecovery,
   isAnthropicThinkingSignatureError,
-} from "./passthroughHelpers.ts";
+} from './passthroughHelpers.ts';
 
 type ProviderExecution = {
   response: Response;

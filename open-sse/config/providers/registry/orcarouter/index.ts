@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 /**
  * OrcaRouter — OpenAI-compatible routing gateway (https://www.orcarouter.ai).

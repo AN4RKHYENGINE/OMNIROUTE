@@ -1,10 +1,10 @@
-import { stripTrailingSlashes, normalizeBaseUrl } from "../utils/urlSanitize.ts";
+import { stripTrailingSlashes, normalizeBaseUrl } from '../utils/urlSanitize.ts';
 
-const DATAROBOT_API_V2_SEGMENT = "/api/v2";
-const DATAROBOT_LLMGW_CHAT_PATH = "/genai/llmgw/chat/completions/";
-const DATAROBOT_LLMGW_CATALOG_PATH = "/genai/llmgw/catalog/";
+const DATAROBOT_API_V2_SEGMENT = "/api/v2';
+const DATAROBOT_LLMGW_CHAT_PATH = "/genai/llmgw/chat/completions/';
+const DATAROBOT_LLMGW_CATALOG_PATH = "/genai/llmgw/catalog/';
 
-export const DATAROBOT_DEFAULT_BASE_URL = "https://app.datarobot.com";
+export const DATAROBOT_DEFAULT_BASE_URL = "https://app.datarobot.com';
 
 export function normalizeDataRobotBaseUrl(value: string | null | undefined): string {
   const normalized = normalizeBaseUrl(value || DATAROBOT_DEFAULT_BASE_URL);
@@ -62,8 +62,8 @@ export function buildDataRobotCatalogUrl(value: string | null | undefined): stri
 
   const catalogPath = `${basePath}${DATAROBOT_LLMGW_CATALOG_PATH}`.replace(/\/{2,}/g, "/");
   parsed.pathname = catalogPath;
-  parsed.search = "";
-  parsed.hash = "";
+  parsed.search = "';
+  parsed.hash = "';
 
   return parsed.toString();
 }

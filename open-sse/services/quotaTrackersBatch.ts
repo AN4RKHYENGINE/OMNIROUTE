@@ -7,12 +7,12 @@
  * chokepoint file only needs a single import + a single call.
  */
 
-import { registerAgentrouterQuotaFetcher } from "./agentrouterQuotaFetcher.ts";
-import { registerV0QuotaFetcher } from "./v0QuotaFetcher.ts";
-import { registerFreeModelQuotaFetcher } from "./freeModelQuotaFetcher.ts";
-import { registerGrokCliQuotaFetcher } from "./grokCliQuotaFetcher.ts";
-import { registerXaiOauthQuotaFetcher } from "./xaiOauthQuotaFetcher.ts";
-import { registerFirecrawlQuotaFetcher } from "./firecrawlQuotaFetcher.ts";
+import { registerAgentrouterQuotaFetcher } from './agentrouterQuotaFetcher.ts';
+import { registerV0QuotaFetcher } from './v0QuotaFetcher.ts';
+import { registerFreeModelQuotaFetcher } from './freeModelQuotaFetcher.ts';
+import { registerGrokCliQuotaFetcher } from './grokCliQuotaFetcher.ts';
+import { registerXaiOauthQuotaFetcher } from './xaiOauthQuotaFetcher.ts';
+import { registerFirecrawlQuotaFetcher } from './firecrawlQuotaFetcher.ts';
 
 export function registerQuotaTrackersBatch(): void {
   registerAgentrouterQuotaFetcher();

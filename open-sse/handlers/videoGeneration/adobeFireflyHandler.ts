@@ -4,15 +4,15 @@
 // Credentials: IMS access_token (JWT) or full Cookie header from
 // firefly.adobe.com / new.express.adobe.com.
 
-import { saveCallLog } from "@/lib/usageDb";
-import { sanitizeErrorMessage } from "../../utils/error.ts";
+import { saveCallLog } from '@/lib/usageDb';
+import { sanitizeErrorMessage } from '../../utils/error.ts';
 import {
   AdobeFireflyError,
   adobeFireflyGenerateVideo,
   resolveAdobeSourceImageIds,
   resolveAdobeVideoModel,
-} from "../../services/adobeFireflyClient.ts";
-import { ensureAdobeFireflySession } from "../../services/adobeFireflySession.ts";
+} from '../../services/adobeFireflyClient.ts';
+import { ensureAdobeFireflySession } from '../../services/adobeFireflySession.ts';
 
 function normalizePositiveNumber(value: unknown, fallback: number): number {
   const n = Number(value);
@@ -46,7 +46,7 @@ export async function handleAdobeFireflyVideoGeneration({
   fetchImpl?: typeof fetch;
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
   if (!prompt) {
     return {
       success: false,

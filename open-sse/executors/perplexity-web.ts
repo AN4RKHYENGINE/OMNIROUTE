@@ -6,20 +6,20 @@
  * completions format and Perplexity's internal protocol.
  */
 
-import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from "./base.ts";
+import { BaseExecutor, type ExecuteInput, type ProviderCredentials } from './base.ts';
 import {
   tlsFetchPerplexity,
   isCloudflareChallenge,
   TlsClientUnavailableError,
   type TlsFetchResult,
-} from "../services/perplexityTlsClient.ts";
-import { prepareToolMessages } from "../translator/webTools.ts";
-import { buildToolModeResponse } from "./chatgptWebTools.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+} from '../services/perplexityTlsClient.ts';
+import { prepareToolMessages } from '../translator/webTools.ts';
+import { buildToolModeResponse } from './chatgptWebTools.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 import {
   buildSessionCookieHeader,
   mergeRefreshedCookie,
-} from "../utils/nextAuthCookie.ts";
+} from '../utils/nextAuthCookie.ts';
 import {
   PPLX_SSE_ENDPOINT,
   PPLX_USER_AGENT,
@@ -32,7 +32,7 @@ import {
   buildQuery,
   extractContent,
   sseChunk,
-} from "./perplexity-web/protocol.ts";
+} from './perplexity-web/protocol.ts';
 
 // ─── Session continuity ─────────────────────────────────────────────────────
 
@@ -126,7 +126,7 @@ function buildStreamingResponse(
             )
           );
 
-          let fullAnswer = "";
+          let fullAnswer = "';
           let respBackendUuid: string | null = null;
 
           for await (const chunk of extractContent(eventStream, signal)) {
@@ -183,7 +183,7 @@ function buildStreamingResponse(
               break;
             }
 
-            let dt = chunk.delta || "";
+            let dt = chunk.delta || "';
             if (dt) {
               dt = cleanResponse(dt, false);
               if (dt) {
@@ -265,7 +265,7 @@ async function buildNonStreamingResponse(
   currentMsg: string,
   signal?: AbortSignal | null
 ): Promise<Response> {
-  let fullAnswer = "";
+  let fullAnswer = "';
   let respBackendUuid: string | null = null;
   const thinkingParts: string[] = [];
 
@@ -280,7 +280,7 @@ async function buildNonStreamingResponse(
         (typeof chunk.resetSeconds === "number" && chunk.resetSeconds > 0);
       const status = isQuota ? 429 : 502;
       const code = chunk.errorCode || (isQuota ? "quota_exhausted" : "PPLX_ERROR");
-      const type = isQuota ? "quota_exhausted" : "upstream_error";
+      const type = isQuota ? "quota_exhausted" : "upstream_error';
       const errBody: Record<string, unknown> = {
         message: chunk.error,
         type,
@@ -391,13 +391,13 @@ export class PerplexityWebExecutor extends BaseExecutor {
       // "copilot", not "search": the backend downgrades "search" to CONCISE and drops
       // model_preference, so the thinking variant would fail the same way the catalog
       // models do (see the note above MODEL_MAP).
-      pplxMode = "copilot";
+      pplxMode = "copilot';
       modelPref = THINKING_MAP[model];
       log?.info?.("PPLX-WEB", `Thinking mode → ${model} using ${modelPref}`);
     } else if (MODEL_MAP[model]) {
       [pplxMode, modelPref] = MODEL_MAP[model];
     } else {
-      pplxMode = "copilot";
+      pplxMode = "copilot';
       modelPref = model;
       log?.info?.("PPLX-WEB", `Unmapped model ${model}, using as raw preference`);
     }
@@ -445,7 +445,7 @@ export class PerplexityWebExecutor extends BaseExecutor {
       "x-request-id": requestId,
     };
 
-    const cookieBlob = credentials.apiKey ?? "";
+    const cookieBlob = credentials.apiKey ?? "';
     if (credentials.accessToken) {
       headers["Authorization"] = `Bearer ${credentials.accessToken}`;
     } else if (cookieBlob) {
@@ -497,14 +497,14 @@ export class PerplexityWebExecutor extends BaseExecutor {
           errMsg =
             "Cloudflare blocked the request — Perplexity's edge rejected this server's TLS fingerprint " +
             "(common on VPS/datacenter IPs). Ensure tls-client-node is installed with its native binary, " +
-            "or route perplexity-web through a residential proxy.";
+            "or route perplexity-web through a residential proxy.';
           log?.error?.("PPLX-WEB", "Cloudflare challenge detected — TLS bypass failed");
         } else {
           errMsg =
-            "Perplexity auth failed — session cookie may be expired. Re-paste your __Secure-next-auth.session-token.";
+            "Perplexity auth failed — session cookie may be expired. Re-paste your __Secure-next-auth.session-token.';
         }
       } else if (status === 429) {
-        errMsg = "Perplexity rate limited. Wait a moment and retry.";
+        errMsg = "Perplexity rate limited. Wait a moment and retry.';
       }
       log?.warn?.("PPLX-WEB", errMsg);
       const errResp = new Response(

@@ -12,7 +12,7 @@
  *
  * See _tasks/quality/2026-06-19-DESIGN-godfiles-decomposition.md §4.
  */
-import type { ComboLike, ComboLogger, ComboRelayOptions } from "./types.ts";
+import type { ComboLike, ComboLogger, ComboRelayOptions } from './types.ts';
 
 export interface ComboContext {
   /**

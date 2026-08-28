@@ -1,4 +1,4 @@
-import type { RegistryEntry } from "../../shared.ts";
+import type { RegistryEntry } from '../../shared.ts';
 
 // g4f.space/api/nvidia — no-key reverse proxy to NVIDIA NIM (gpt4free project,
 // issue #6650). The existing `nvidia` entry requires signup; this is the genuine

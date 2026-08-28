@@ -1,43 +1,43 @@
-import { FORMATS } from "./formats.ts";
+import { FORMATS } from './formats.ts';
 import {
   ensureToolCallIds,
   fixMissingToolResponses,
   stripOrphanedToolResults,
-} from "./helpers/toolCallHelper.ts";
+} from './helpers/toolCallHelper.ts';
 import {
   NON_ANTHROPIC_THINKING_PLACEHOLDER,
   prepareClaudeRequest,
-} from "./helpers/claudeHelper.ts";
-import { filterToOpenAIFormat } from "./helpers/openaiHelper.ts";
+} from './helpers/claudeHelper.ts';
+import { filterToOpenAIFormat } from './helpers/openaiHelper.ts';
 import {
   providerHonorsOpenAIFormatCacheControl,
   resolveConnectionCacheOverride,
-} from "../utils/cacheControlPolicy.ts";
-import { isInternalReasoningPlaceholder } from "../utils/reasoningPlaceholder.ts";
+} from '../utils/cacheControlPolicy.ts';
+import { isInternalReasoningPlaceholder } from '../utils/reasoningPlaceholder.ts';
 import {
   coerceToolSchemas,
   injectEmptyReasoningContentForToolCalls,
   injectOptionalEnumOmissionForTools,
   sanitizeToolDescriptions,
-} from "./helpers/schemaCoercion.ts";
-import { getRequestTranslator, getResponseTranslator } from "./registry.ts";
-import { bootstrapTranslatorRegistry } from "./bootstrap.ts";
-import { hasThinkingConfig, normalizeThinkingConfig } from "../services/provider.ts";
-import { applyThinkingBudget } from "../services/thinkingBudget.ts";
-import { applyReasoningRuleDirective } from "@/lib/reasoningRouting/policy";
-import { getModelPreserveVideoUrl } from "@/lib/db/models/modelPreserveVideoUrl";
-import { getResolvedModelCapabilities, supportsReasoning } from "../services/modelCapabilities.ts";
-import { normalizeRoles } from "../services/roleNormalizer.ts";
-import { hoistLeadingSystemMessage } from "./helpers/strictSystemHoist.ts";
+} from './helpers/schemaCoercion.ts';
+import { getRequestTranslator, getResponseTranslator } from './registry.ts';
+import { bootstrapTranslatorRegistry } from './bootstrap.ts';
+import { hasThinkingConfig, normalizeThinkingConfig } from '../services/provider.ts';
+import { applyThinkingBudget } from '../services/thinkingBudget.ts';
+import { applyReasoningRuleDirective } from '@/lib/reasoningRouting/policy';
+import { getModelPreserveVideoUrl } from '@/lib/db/models/modelPreserveVideoUrl';
+import { getResolvedModelCapabilities, supportsReasoning } from '../services/modelCapabilities.ts';
+import { normalizeRoles } from '../services/roleNormalizer.ts';
+import { hoistLeadingSystemMessage } from './helpers/strictSystemHoist.ts';
 import {
   lookupReasoning,
   recordReplay,
   requiresReasoningReplay,
-} from "../services/reasoningCache.ts";
-import { normalizeResponsesReasoningEffort } from "./request/openai-responses/helpers.ts";
+} from '../services/reasoningCache.ts';
+import { normalizeResponsesReasoningEffort } from './request/openai-responses/helpers.ts';
 
 bootstrapTranslatorRegistry();
-export { register } from "./registry.ts";
+export { register } from './registry.ts';
 
 function normalizeResponsesInputItem(item) {
   if (typeof item === "string") {
@@ -122,14 +122,14 @@ function normalizeOpenAIResponsesRequest(body) {
 }
 
 function getReasoningCacheRequestId(body: Record<string, unknown> | null | undefined): string {
-  if (!body || typeof body !== "object") return "";
+  if (!body || typeof body !== "object") return "';
 
   const requestId =
     body._reasoningCacheRequestId ??
     body.reasoningCacheRequestId ??
     body.request_id ??
     body.requestId;
-  return typeof requestId === "string" ? requestId.trim() : "";
+  return typeof requestId === "string" ? requestId.trim() : "';
 }
 
 function getAssistantMessageCacheKey(
@@ -137,7 +137,7 @@ function getAssistantMessageCacheKey(
   messageIndex: number
 ): string {
   const requestId = getReasoningCacheRequestId(body);
-  return requestId ? `request:${requestId}:message:${messageIndex}` : "";
+  return requestId ? `request:${requestId}:message:${messageIndex}` : "';
 }
 
 function hasNonEmptyReasoningContent(message: Record<string, unknown>): boolean {
@@ -239,7 +239,7 @@ export function translateRequest(
   const normalizedProvider = String(provider ?? "");
   const normalizedModel = String(model ?? "");
   const isKimiCoding =
-    normalizedProvider === "kimi-coding" || normalizedProvider === "kimi-coding-apikey";
+    normalizedProvider === "kimi-coding" || normalizedProvider === "kimi-coding-apikey';
   const requiresExplicitReasoningReplay = requiresReasoningReplay({
     provider: normalizedProvider,
     model: normalizedModel,
@@ -576,7 +576,7 @@ export function translateRequest(
           const cached = lookupReasoning(firstToolUseId);
           if (cached) {
             if (thinkingBlock) {
-              thinkingBlock.type = "thinking";
+              thinkingBlock.type = "thinking';
               thinkingBlock.thinking = cached;
               delete thinkingBlock.data;
               delete thinkingBlock.signature;
@@ -592,8 +592,8 @@ export function translateRequest(
         }
         if (isKimiCoding) {
           if (thinkingBlock) {
-            thinkingBlock.type = "thinking";
-            thinkingBlock.thinking = "";
+            thinkingBlock.type = "thinking';
+            thinkingBlock.thinking = "';
             delete thinkingBlock.data;
             delete thinkingBlock.signature;
           } else {

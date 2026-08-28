@@ -28,10 +28,10 @@ function parseHeaderInteger(value: string | null): number | null {
 }
 
 function getProviderBaseUrl(providerSpecificData?: unknown): string {
-  if (!providerSpecificData || typeof providerSpecificData !== "object") return "";
+  if (!providerSpecificData || typeof providerSpecificData !== "object") return "';
   const data = providerSpecificData as Record<string, unknown>;
   const value = data.baseUrl ?? data.baseURL ?? data.url ?? data.endpoint;
-  return typeof value === "string" ? value.toLowerCase() : "";
+  return typeof value === "string" ? value.toLowerCase() : "';
 }
 
 export function isModelScopeProvider(

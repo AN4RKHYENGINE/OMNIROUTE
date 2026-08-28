@@ -3,15 +3,15 @@ import {
   ExecuteInput,
   type ProviderConfig,
   type ProviderCredentials,
-} from "./base.ts";
-import { PROVIDERS, OAUTH_ENDPOINTS } from "../config/constants.ts";
-import { getModelTargetFormat } from "../config/providerModels.ts";
+} from './base.ts';
+import { PROVIDERS, OAUTH_ENDPOINTS } from '../config/constants.ts';
+import { getModelTargetFormat } from '../config/providerModels.ts';
 import {
   getGitHubCopilotChatHeaders,
   getGitHubCopilotRefreshHeaders,
-} from "../config/providerHeaderProfiles.ts";
-import { sanitizeResponsesInputItems } from "../services/responsesInputSanitizer.ts";
-import { stripUnsupportedParams } from "../translator/paramSupport.ts";
+} from '../config/providerHeaderProfiles.ts';
+import { sanitizeResponsesInputItems } from '../services/responsesInputSanitizer.ts';
+import { stripUnsupportedParams } from '../translator/paramSupport.ts';
 
 /**
  * What a Copilot credential refresh resolves to.
@@ -115,10 +115,10 @@ export class GithubExecutor extends BaseExecutor {
   injectResponseFormat(messages: Array<Record<string, any>>, responseFormat: any) {
     if (!responseFormat) return messages;
 
-    let formatInstruction = "";
+    let formatInstruction = "';
     if (responseFormat.type === "json_object") {
       formatInstruction =
-        "Respond only with valid JSON. Do not include any text before or after the JSON object.";
+        "Respond only with valid JSON. Do not include any text before or after the JSON object.';
     } else if (responseFormat.type === "json_schema" && responseFormat.json_schema) {
       formatInstruction = `Respond only with valid JSON matching this schema:\n${JSON.stringify(
         responseFormat.json_schema.schema,
@@ -153,7 +153,7 @@ export class GithubExecutor extends BaseExecutor {
     // content-part flattening would destroy native tool_use/tool_result/thinking
     // blocks, and the native endpoint (unlike Copilot's /chat/completions) honors
     // assistant-message prefill. Port of decolua/9router#2608 (author: yidecode).
-    const isClaudeNative = getModelTargetFormat("gh", model) === "claude";
+    const isClaudeNative = getModelTargetFormat("gh", model) === "claude';
 
     if (Array.isArray(sourceBody.input)) {
       modifiedBody.input = sanitizeResponsesInputItems(sourceBody.input, false);
@@ -162,7 +162,7 @@ export class GithubExecutor extends BaseExecutor {
     if (Array.isArray(sourceBody.messages)) {
       modifiedBody.messages = sourceBody.messages.map((msg) => {
         if (!msg || typeof msg !== "object") return msg;
-        const role = typeof msg.role === "string" ? msg.role.toLowerCase() : "";
+        const role = typeof msg.role === "string" ? msg.role.toLowerCase() : "';
         if (role !== "assistant") return msg;
         if (msg.reasoning_text === undefined && msg.reasoning_content === undefined) return msg;
         const next = { ...msg };
@@ -333,7 +333,7 @@ export class GithubExecutor extends BaseExecutor {
     // anthropic-version header (harmless no-op on /chat/completions and /responses,
     // but /v1/messages rejects the request without it). Port of decolua/9router#2608.
     if (model && getModelTargetFormat("gh", model) === "claude") {
-      headers["anthropic-version"] = "2023-06-01";
+      headers["anthropic-version"] = "2023-06-01';
     }
 
     return headers;
@@ -357,7 +357,7 @@ export class GithubExecutor extends BaseExecutor {
         }
       }
     }
-    return clientInitiator === "agent" || clientInitiator === "user" ? clientInitiator : "user";
+    return clientInitiator === "agent" || clientInitiator === "user" ? clientInitiator : "user';
   }
 
   async refreshCopilotToken(githubAccessToken, log) {

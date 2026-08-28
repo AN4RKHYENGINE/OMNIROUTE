@@ -13,7 +13,7 @@
  * can be mapped back for the client. See chatCore.ts (request wiring) and
  * translator/response/kiro-to-openai.ts (response reverse-mapping).
  */
-import { createHash } from "node:crypto";
+import { createHash } from 'node:crypto';
 
 /** Max tool-name length Kiro accepts before it rejects the request. */
 const MAX_TOOL_NAME_LENGTH = 64;

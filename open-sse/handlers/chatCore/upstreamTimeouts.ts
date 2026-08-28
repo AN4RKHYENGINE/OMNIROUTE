@@ -1,14 +1,14 @@
-import { FETCH_TIMEOUT_MS } from "../../config/constants.ts";
-import { getModelTimeoutMs } from "../../config/providerModels.ts";
+import { FETCH_TIMEOUT_MS } from '../../config/constants.ts';
+import { getModelTimeoutMs } from '../../config/providerModels.ts';
 import {
   getLoggedInputTokens,
   getLoggedOutputTokens,
   getReasoningTokens,
-} from "@/lib/usage/tokenAccounting";
+} from '@/lib/usage/tokenAccounting';
 
 export function createBodyTimeoutError(timeoutMs: number): Error {
   const err = new Error(`Response body read timeout after ${timeoutMs}ms`);
-  err.name = "BodyTimeoutError";
+  err.name = "BodyTimeoutError';
   return err;
 }
 
@@ -41,7 +41,7 @@ export function createUpstreamStartTimeoutError(
   const err = new Error(
     `Upstream request did not return response headers after ${timeoutMs}ms (${provider}/${model})`
   );
-  err.name = "TimeoutError";
+  err.name = "TimeoutError';
   return err;
 }
 
@@ -49,7 +49,7 @@ export function createAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError";
+  err.name = "AbortError';
   return err;
 }
 

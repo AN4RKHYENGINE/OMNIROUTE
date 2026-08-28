@@ -10,7 +10,7 @@
  * casar com uma alternativa declarada: valor desconhecido cai no formato padrao,
  * nunca produz uma URL/auth orfas.
  */
-import type { RegistryEntry } from "./shared.ts";
+import type { RegistryEntry } from './shared.ts';
 
 export interface AlternateFormat {
   format: string;

@@ -3,15 +3,15 @@ import {
   mergeAbortSignals,
   mergeUpstreamExtraHeaders,
   type ExecuteInput,
-} from "./base.ts";
-import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
-import { normalizeSessionCookieHeader } from "@/lib/providers/webCookieAuth";
-import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
+} from './base.ts';
+import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
+import { normalizeSessionCookieHeader } from '@/lib/providers/webCookieAuth';
+import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
 
-const BLACKBOX_CHAT_API = "https://app.blackbox.ai/api/chat";
-const BLACKBOX_DEFAULT_COOKIE = "next-auth.session-token";
+const BLACKBOX_CHAT_API = "https://app.blackbox.ai/api/chat';
+const BLACKBOX_DEFAULT_COOKIE = "next-auth.session-token';
 const BLACKBOX_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
 
 const SESSION_CACHE_TTL_MS = 5 * 60_000; // 5 minutes
 
@@ -66,7 +66,7 @@ const sessionCache = new Map<string, CachedSession>();
 
 type BlackboxMessage = {
   id: string;
-  role: "user" | "assistant";
+  role: "user" | "assistant';
   content: string;
 };
 
@@ -76,12 +76,12 @@ function extractMessageText(content: unknown): string {
   }
 
   if (!Array.isArray(content)) {
-    return "";
+    return "';
   }
 
   return content
     .map((part) => {
-      if (!part || typeof part !== "object") return "";
+      if (!part || typeof part !== "object") return "';
       const item = part as Record<string, unknown>;
       if (item.type === "text" && typeof item.text === "string") {
         return item.text;
@@ -89,7 +89,7 @@ function extractMessageText(content: unknown): string {
       if (item.type === "input_text" && typeof item.text === "string") {
         return item.text;
       }
-      return "";
+      return "';
     })
     .filter((part) => part.trim().length > 0)
     .join("\n")
@@ -156,7 +156,7 @@ async function readTextResponse(
 ): Promise<string> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let text = "";
+  let text = "';
 
   try {
     while (true) {
@@ -359,7 +359,7 @@ export class BlackboxWebExecutor extends BaseExecutor {
     // Cached per cookie to avoid redundant round-trips on every request.
     let sessionData: Record<string, unknown> | null = null;
     let subscriptionCache: Record<string, unknown> | null = null;
-    let teamAccount = "";
+    let teamAccount = "';
 
     const cacheKey = cookieHeader;
     const cached = sessionCache.get(cacheKey);
@@ -381,7 +381,7 @@ export class BlackboxWebExecutor extends BaseExecutor {
         });
         sessionData = sessionRes.ok ? ((await sessionRes.json()) as Record<string, unknown>) : null;
         const email = (sessionData as any)?.user?.email as string | undefined;
-        teamAccount = email || "";
+        teamAccount = email || "';
         log?.debug?.("BLACKBOX-WEB", `Session email: ${email ?? "none"}`);
 
         if (email) {
@@ -531,19 +531,19 @@ export class BlackboxWebExecutor extends BaseExecutor {
     if (!upstreamResponse.ok) {
       const status = upstreamResponse.status;
       let message = `Blackbox Web returned HTTP ${status}`;
-      // Issue #2252: distinguish "wrong validated token" from "expired cookie"
+      // Issue #2252: distinguish "wrong validated token" from 'expired cookie"
       // when 403 carries a token-specific body — the fix is different in each case.
       const errorBody = await upstreamResponse.text().catch(() => "");
       if (status === 403 && isBlackboxValidatedTokenError(errorBody)) {
         message =
           "Blackbox Web rejected the request with an invalid `validated` token. " +
           "If you have a valid frontend token (the `tk` value from app.blackbox.ai's " +
-          "Next.js bundle), set BLACKBOX_WEB_VALIDATED_TOKEN in your environment and restart.";
+          "Next.js bundle), set BLACKBOX_WEB_VALIDATED_TOKEN in your environment and restart.';
       } else if (status === 401 || status === 403) {
         message =
-          "Blackbox Web auth failed — your app.blackbox.ai session cookie may be missing or expired.";
+          "Blackbox Web auth failed — your app.blackbox.ai session cookie may be missing or expired.';
       } else if (status === 429) {
-        message = "Blackbox Web rate limited the session. Wait a moment and retry.";
+        message = "Blackbox Web rate limited the session. Wait a moment and retry.';
       }
       const errorResponse = new Response(
         JSON.stringify({

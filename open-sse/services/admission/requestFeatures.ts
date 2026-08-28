@@ -3,8 +3,8 @@
  * Never re-parses, stringifies, clones, or invokes toJSON.
  */
 
-import { estimateSizeFast } from "../../utils/estimateSize.ts";
-import type { AdmissionCostFeatures } from "./types.ts";
+import { estimateSizeFast } from '../../utils/estimateSize.ts';
+import type { AdmissionCostFeatures } from './types.ts';
 
 export type AdmissionFeatureExtractionContext = {
   /** When set, wins over any body/wrapped stream field. */

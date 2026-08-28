@@ -1,12 +1,12 @@
-import { randomInt, randomUUID } from "node:crypto";
+import { randomInt, randomUUID } from 'node:crypto';
 
-import { BaseExecutor, type ExecuteInput } from "./base.ts";
-import type { ProviderCredentials } from "./base.ts";
-import { sanitizeErrorMessage } from "../utils/error.ts";
+import { BaseExecutor, type ExecuteInput } from './base.ts';
+import type { ProviderCredentials } from './base.ts';
+import { sanitizeErrorMessage } from '../utils/error.ts';
 
-const BASE_URL = "https://amelia.chipotle.com";
-const DOMAIN_CODE = "chipotle";
-const DOMAIN_ID = "23700760-e1e5-4c3c-931d-8804e29a6775";
+const BASE_URL = "https://amelia.chipotle.com';
+const DOMAIN_CODE = "chipotle';
+const DOMAIN_ID = "23700760-e1e5-4c3c-931d-8804e29a6775';
 
 // Exported for unit testing — these run at WS-connect time, so a missing
 // node:crypto import (crypto.randomInt is NOT on the Web Crypto global) would
@@ -166,7 +166,7 @@ class AmeliaClient {
     let bodyStart = frame.indexOf("\n\n");
     if (bodyStart === -1) bodyStart = frame.indexOf("\r\n\r\n");
     const headerLen = bodyStart !== -1 ? (frame[bodyStart + 2] === "\r" ? 4 : 2) : 0;
-    let body = "";
+    let body = "';
     if (bodyStart !== -1) {
       body = frame
         .substring(bodyStart + headerLen, nullIdx !== -1 ? nullIdx : undefined)
@@ -343,7 +343,7 @@ export class ChipotleExecutor extends BaseExecutor {
     const messages =
       (body as { messages?: Array<{ role: string; content: string }> })?.messages ?? [];
     const lastUser = [...messages].reverse().find((m) => m.role === "user");
-    const prompt = lastUser?.content ?? "";
+    const prompt = lastUser?.content ?? "';
 
     let client: AmeliaClient | null = null;
     try {

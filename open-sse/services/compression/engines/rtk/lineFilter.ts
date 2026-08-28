@@ -1,6 +1,6 @@
-import type { RtkFilterDefinition } from "./filterSchema.ts";
-import { smartTruncate } from "./smartTruncate.ts";
-import { deduplicateRepeatedLines } from "./deduplicator.ts";
+import type { RtkFilterDefinition } from './filterSchema.ts';
+import { smartTruncate } from './smartTruncate.ts';
+import { deduplicateRepeatedLines } from './deduplicator.ts';
 
 export interface LineFilterResult {
   text: string;
