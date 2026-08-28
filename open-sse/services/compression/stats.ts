@@ -11,7 +11,7 @@ import {
   countTextTokens,
   isCodexTokenizerContext,
   tokenizerContextFromBody,
-} from "../../../src/shared/utils/tiktokenCounter.ts";
+} from "@shared/utils/tiktokenCounter.ts";
 import { anthropicImageTokens, ANTHROPIC_IMAGE_BLOCK_OVERHEAD_TOKENS } from "omniglyph";
 
 const CHARS_PER_TOKEN = 4;

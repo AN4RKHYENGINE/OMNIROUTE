@@ -14,7 +14,7 @@
  * (see shouldPreserveCacheControl).
  */
 
-import type { RoutingStrategyValue } from "../../src/shared/constants/routingStrategies";
+import type { RoutingStrategyValue } from '@shared/constants/routingStrategies';
 
 /**
  * Cache control preservation modes

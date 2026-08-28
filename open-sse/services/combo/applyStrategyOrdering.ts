@@ -1,4 +1,4 @@
-import { fisherYatesShuffle, getNextFromDeck } from "../../../src/shared/utils/shuffleDeck";
+import { fisherYatesShuffle, getNextFromDeck } from "@shared/utils/shuffleDeck";
 import { generateRoutingHints } from "../manifestAdapter";
 import { resolveMaxConcurrentByConnection } from "./concurrencyCaps.ts";
 import { sortTargetsByContextSize } from "./comboStructure.ts";

@@ -7,12 +7,12 @@ import {
   getMemoryReindexQueue,
   countMemoryReindexPending,
   markMemoryNeedsReindex,
-} from "@/lib/localDb";
+} from "@/lib/db";
 import { resolveEmbeddingSource, embed } from "./embedding";
 import { getVectorStore } from "./vectorStore";
 import { getMemorySettings } from "./settings";
-import { logger } from "../../../open-sse/utils/logger.ts";
-import { sanitizeErrorMessage } from "../../../open-sse/utils/error.ts";
+import { logger } from "@open-sse/utils/logger.ts";
+import { sanitizeErrorMessage } from "@open-sse/utils/error.ts";
 
 const log = logger("MEMORY_REINDEX");
 

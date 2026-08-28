@@ -19,7 +19,7 @@ import {
   DEFAULT_RESILIENCE_SETTINGS,
   resolveResilienceSettings,
   type RequestQueueSettings,
-} from "../../src/lib/resilience/settings";
+} from '@lib/resilience/settings';
 import {
   STANDARD_HEADERS,
   ANTHROPIC_HEADERS,

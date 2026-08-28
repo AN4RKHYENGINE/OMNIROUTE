@@ -23,7 +23,7 @@ import { getCachedProviderConnectionById } from "@/lib/localDb";
 import {
   resolveResilienceSettings,
   type ResilienceSettings,
-} from "../../../src/lib/resilience/settings";
+} from "@lib/resilience/settings";
 import { fetchResetAwareQuotaWithCache } from "./quotaStrategies.ts";
 import type { ResetWindowConfig } from "./quotaScoring.ts";
 

@@ -40,8 +40,8 @@ import {
   reorderByTaskWeight,
 } from "../taskAwareRouting.ts";
 import { errorResponseWithComboDiagnostics } from "../../utils/error.ts";
-import { getCircuitBreaker } from "../../../src/shared/utils/circuitBreaker";
-import type { ResilienceSettings } from "../../../src/lib/resilience/settings";
+import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
+import type { ResilienceSettings } from "@lib/resilience/settings";
 import { applyStrategyOrdering } from "./applyStrategyOrdering.ts";
 import { clampComboDepth } from "./comboPredicates.ts";
 import {

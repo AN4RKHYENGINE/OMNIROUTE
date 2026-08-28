@@ -1,9 +1,13 @@
+import { matchesSearch } from '@/shared/utils/turkishText'
+import { matchesSearch } from '@/shared/utils/turkishText'
+import { matchesSearch } from '@/shared/utils/turkishText'
+import { matchesSearch } from '@/shared/utils/turkishText'
 /**
  * ObsidianBackend - Optional backend for Obsidian Vault
  * Reads/writes memories as Markdown files with YAML frontmatter
  */
 
-import { logger } from "../../../open-sse/utils/logger.ts";
+import { logger } from "@open-sse/utils/logger.ts";
 import type {
   MemoryBackend,
   CreateMemoryInput,
@@ -270,8 +274,8 @@ export class ObsidianBackend implements MemoryBackend {
 
       // Simple text search
       if (
-        body.toLowerCase().includes(config.query.toLowerCase()) ||
-        file.toLowerCase().includes(config.query.toLowerCase())
+        bodymatchesSearch(text, config.query.toLowerCase()) ||
+        filematchesSearch(text, config.query.toLowerCase())
       ) {
         const memory = this.parseMemory(frontmatterMatch[1], body, "");
         if (memory) {

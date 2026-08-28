@@ -32,8 +32,8 @@ import {
 } from "../accountFallback.ts";
 import { PRE_SCREEN_CONCURRENCY } from "../comboConfig.ts";
 import { getQuotaFetcher } from "../quotaPreflight.ts";
-import { getCircuitBreaker } from "../../../src/shared/utils/circuitBreaker";
-import { getCachedProviderConnections } from "../../../src/lib/db/readCache";
+import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
+import { getCachedProviderConnections } from "@lib/db/readCache";
 import { MAX_RR_COUNTERS, rrCounters } from "./rrState.ts";
 import type { ResolvedComboTarget, IsModelAvailable } from "./types.ts";
 import {

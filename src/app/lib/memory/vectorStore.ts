@@ -14,10 +14,10 @@ import {
   setMemoryVecMeta,
   markAllMemoriesNeedReindex,
   countMemoryReindexPending,
-} from "../localDb";
+} from "../db";
 import { getDbInstance } from "../db/core";
-import { logger } from "../../../open-sse/utils/logger.ts";
-import { sanitizeErrorMessage } from "../../../open-sse/utils/error.ts";
+import { logger } from "@open-sse/utils/logger.ts";
+import { sanitizeErrorMessage } from "@open-sse/utils/error.ts";
 
 const _require = createRequire(import.meta.url);
 

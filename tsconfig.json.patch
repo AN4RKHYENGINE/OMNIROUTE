@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/app/*"],
+      "@open-sse/*": ["./open-sse/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@config/*": ["./config/*"]
+    }
+  }
+}

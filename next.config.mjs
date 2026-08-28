@@ -96,6 +96,7 @@ function readTimeoutMs(...values) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  productionBrowserSourceMaps: false,
   // Opt-in subpath deployment behind a reverse proxy (e.g. nginx/Caddy serving
   // OmniRoute under https://host/omniroute/). Empty by default so root-path
   // deployments are unaffected. Next.js strips this prefix from `pathname`
@@ -114,8 +115,6 @@ const nextConfig = {
   // Turbopack config: redirect native modules to stubs at build time
   turbopack: false,
   output: "standalone",
-  compress: true,
-  productionBrowserSourceMaps: false,
   // OmniRoute is a proxy for AI APIs — request bodies routinely include
   // multi-MB payloads (vision models, image edits, base64-encoded files,
   // long chat histories with embedded images). Next.js's Server Action
@@ -251,7 +250,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack(config, { webpack }) {
-    config.parallelism = 4;
+    config.parallelism = 1;
     config.cache = false;
     config.ignoreWarnings = [
       ...(config.ignoreWarnings || []),
@@ -618,4 +617,16 @@ const nextConfig = {
 
 const withMDX = createMDX();
 
+nextConfig.webpack = (config, { isServer }) => {
+  if (!isServer) {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      "open-sse": false,
+      "@omniroute/open-sse": false,
+    };
+  }
+  return config;
+};
+
 export default withMDX(withNextIntl(nextConfig));
+

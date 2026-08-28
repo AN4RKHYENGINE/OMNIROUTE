@@ -3,14 +3,17 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { IMAGE_PROVIDERS } from "@omniroute/open-sse/config/imageRegistry.ts";
-import { VIDEO_PROVIDERS } from "@omniroute/open-sse/config/videoRegistry.ts";
-import { MUSIC_PROVIDERS } from "@omniroute/open-sse/config/musicRegistry.ts";
-import {
-  AUDIO_SPEECH_PROVIDERS,
-  AUDIO_TRANSCRIPTION_PROVIDERS,
-} from "@omniroute/open-sse/config/audioRegistry.ts";
 import { toProviderModels, type ProviderModelGroup } from "./mediaProviderModels";
+
+type ProviderRegistries = {
+  IMAGE_PROVIDERS: any;
+  VIDEO_PROVIDERS: any;
+  MUSIC_PROVIDERS: any;
+  AUDIO_SPEECH_PROVIDERS: any;
+  AUDIO_TRANSCRIPTION_PROVIDERS: any;
+};
+
+let cachedRegistries: ProviderRegistries | null = null;
 
 type Modality = "image" | "video" | "music" | "speech" | "transcription";
 type GenerationResult = {
@@ -18,13 +21,8 @@ type GenerationResult = {
   data: any;
   timestamp: number;
   audioUrl?: string;
-};
-const IMAGE_PROVIDER_MODELS = toProviderModels(IMAGE_PROVIDERS);
-const VIDEO_PROVIDER_MODELS = toProviderModels(VIDEO_PROVIDERS);
-const MUSIC_PROVIDER_MODELS = toProviderModels(MUSIC_PROVIDERS);
-const SPEECH_PROVIDER_MODELS = toProviderModels(AUDIO_SPEECH_PROVIDERS);
-const TRANSCRIPTION_PROVIDER_MODELS = toProviderModels(AUDIO_TRANSCRIPTION_PROVIDERS);
 
+};
 const MODALITY_CONFIG: Record<
   Modality,
   {
@@ -442,6 +440,64 @@ export default function MediaPageClient() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string | null>(null);
   const [imageInputFile, setImageInputFile] = useState<File | null>(null);
+  const [registries, setRegistries] = useState<ProviderRegistries | null>(null);
+  const registriesInitialized = useRef(false);
+  const registriesInitialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+      if (!registriesInitialized.current && cachedRegistries) {
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+      setIsLoading(false);
+      return;
+      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+      setIsLoading(false);
+      return;
+      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+      setIsLoading(false);
+      return;
+      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+      setIsLoading(false);
+      return;
+      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
+        registriesInitialized.current = true;
+        setRegistries(cachedRegistries);
+      }
+      setIsLoading(false);
+      return;
+    }
+
+    fetch("/api/registries")
+      .then(res => res.json())
+      .then(data => {
+        cachedRegistries = data;
+        setRegistries(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load registries:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const IMAGE_PROVIDER_MODELS = registries ? toProviderModels(registries.IMAGE_PROVIDERS) : [];
+  const VIDEO_PROVIDER_MODELS = registries ? toProviderModels(registries.VIDEO_PROVIDERS) : [];
+  const MUSIC_PROVIDER_MODELS = registries ? toProviderModels(registries.MUSIC_PROVIDERS) : [];
+  const SPEECH_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_SPEECH_PROVIDERS) : [];
+  const TRANSCRIPTION_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_TRANSCRIPTION_PROVIDERS) : [];
   const [imageMaskFile, setImageMaskFile] = useState<File | null>(null);
 
   // Fix #390: Track which local providers (sdwebui, comfyui) are actually configured

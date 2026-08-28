@@ -15,8 +15,8 @@ import {
   capMaxOutputTokens,
   capThinkingBudget,
   getDefaultThinkingBudget,
-} from "../../../src/lib/modelCapabilities.ts";
-import { getModelSpec } from "../../../src/shared/constants/modelSpecs.ts";
+} from "@lib/modelCapabilities.ts";
+import { getModelSpec } from "@shared/constants/modelSpecs.ts";
 
 import {
   DEFAULT_SAFETY_SETTINGS,

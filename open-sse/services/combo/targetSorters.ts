@@ -7,9 +7,9 @@
  * in combo.ts) are imported back from this module. No barrel import — pure leaf.
  */
 
-import { getCircuitBreaker } from "../../../src/shared/utils/circuitBreaker";
-import { secureRandomFloat, secureRandomInt } from "../../../src/shared/utils/secureRandom";
-import { getComboStepTarget, getComboStepWeight } from "../../../src/lib/combos/steps.ts";
+import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
+import { secureRandomFloat, secureRandomInt } from "@shared/utils/secureRandom";
+import { getComboStepTarget, getComboStepWeight } from "@lib/combos/steps.ts";
 import { getComboMetrics } from "../comboMetrics.ts";
 import { parseModel } from "../model.ts";
 import type { ResolvedComboTarget } from "./types.ts";

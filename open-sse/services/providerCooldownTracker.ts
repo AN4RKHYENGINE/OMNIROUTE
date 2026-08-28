@@ -10,7 +10,7 @@
 import {
   DEFAULT_RESILIENCE_SETTINGS,
   type ResilienceSettings,
-} from "../../src/lib/resilience/settings";
+} from '@lib/resilience/settings';
 
 interface CooldownEntry {
   /** Timestamp of last recorded failure (ms since epoch) */

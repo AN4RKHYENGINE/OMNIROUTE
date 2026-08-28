@@ -20,20 +20,20 @@ import { getPassthroughProviders, getProviderCategory } from "../config/provider
 import {
   DEFAULT_RESILIENCE_SETTINGS,
   resolveResilienceSettings,
-} from "../../src/lib/resilience/settings";
-import { resolveModelLockoutSettings } from "../../src/lib/resilience/modelLockoutSettings";
+} from '@lib/resilience/settings';
+import { resolveModelLockoutSettings } from '@lib/resilience/modelLockoutSettings';
 import {
   getAllCircuitBreakerStatuses,
   getCircuitBreaker,
-} from "../../src/shared/utils/circuitBreaker";
+} from '@shared/utils/circuitBreaker';
 import {
   classify429FromError,
   looksLikeQuotaExhausted,
   type FailureKind,
-} from "../../src/shared/utils/classify429";
+} from '@shared/utils/classify429';
 import { recordProviderSuccess as resetCooldownFailureCount } from "./providerCooldownTracker.ts";
-import { resolveProviderId } from "../../src/shared/constants/providers";
-import { resolveUseUpstream429BreakerHints } from "../../src/shared/utils/providerHints";
+import { resolveProviderId } from '@shared/constants/providers';
+import { resolveUseUpstream429BreakerHints } from '@shared/utils/providerHints';
 import { getCodexModelScope } from "../config/codexQuotaScopes.ts";
 import { getQuotaScopedModelForProvider } from "./antigravityQuotaFamily.ts";
 import {

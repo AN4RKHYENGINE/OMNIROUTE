@@ -75,7 +75,7 @@ import {
   visibleComposerContentFromThinking,
   composerReasoningRemainder,
 } from "./cursor/composer.ts";
-import { getActiveSyncedCatalog } from "../../src/lib/db/models/activeSyncedCatalog.ts";
+import { getActiveSyncedCatalog } from '@lib/db/models/activeSyncedCatalog';
 // Composer helpers re-exported for external importers (tests).
 export {
   isComposerModel,

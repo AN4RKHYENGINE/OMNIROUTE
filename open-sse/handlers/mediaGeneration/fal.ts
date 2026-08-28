@@ -3,7 +3,7 @@ import {
   FetchTimeoutError,
   fetchWithTimeout,
   getConfiguredTimeout,
-} from "../../../src/shared/utils/fetchTimeout.ts";
+} from "@shared/utils/fetchTimeout.ts";
 import { sanitizeErrorMessage } from "../../utils/error.ts";
 
 type MediaKind = "video" | "music";

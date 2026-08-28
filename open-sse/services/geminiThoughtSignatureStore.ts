@@ -1,4 +1,4 @@
-import { getDbInstance } from "../../src/lib/db/core.ts";
+import { getDbInstance } from '@lib/db/core.ts';
 
 const MAX_SIGNATURES = 1000;
 const MAX_PERSISTED_SIGNATURES = 2_000;

@@ -4,7 +4,7 @@
  * from combo config to filter and sort targets by context window size.
  */
 
-import { getModelContextLimit } from "../../../src/lib/modelCapabilities";
+import { getModelContextLimit } from "@lib/modelCapabilities";
 import type { ComboLogger, ResolvedComboTarget } from "./types.ts";
 
 export interface ContextRequirements {

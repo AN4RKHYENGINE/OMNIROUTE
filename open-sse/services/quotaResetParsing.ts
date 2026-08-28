@@ -1,4 +1,4 @@
-import { looksLikeQuotaExhausted } from "../../src/shared/utils/classify429";
+import { looksLikeQuotaExhausted } from '@shared/utils/classify429';
 import { getProviderCategory } from "../config/providerRegistry.ts";
 
 /**

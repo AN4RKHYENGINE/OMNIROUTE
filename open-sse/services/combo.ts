@@ -57,20 +57,20 @@ import {
   recordSessionModelUsage,
   getLastSessionModel,
   getHandoff,
-} from "../../src/lib/db/contextHandoffs.ts";
+} from '@lib/db/contextHandoffs.ts';
 import { extractSessionAffinityKey } from "@/sse/services/auth";
 import { getHiddenModelsByProvider } from "@/models";
-import { resolveModelLockoutSettings } from "../../src/lib/resilience/modelLockoutSettings";
+import { resolveModelLockoutSettings } from '@lib/resilience/modelLockoutSettings';
 import { fetchCodexQuota } from "./codexQuotaFetcher.ts";
 import { evaluateQuotaCutoff, getQuotaFetcher, type QuotaInfo } from "./quotaPreflight.ts";
 import * as semaphore from "./rateLimitSemaphore.ts";
-import { getCircuitBreaker } from "../../src/shared/utils/circuitBreaker";
+import { getCircuitBreaker } from '@shared/utils/circuitBreaker';
 import { parseModel } from "./model.ts";
 import { createComboContext } from "./combo/context.ts";
 import { phaseComboSetup } from "./combo/comboSetup.ts";
 import { checkCredentialGate, logCredentialSkip } from "./credentialGate.ts";
-import { emit } from "../../src/lib/events/eventBus";
-import { notifyWebhookEvent } from "../../src/lib/webhookDispatcher";
+import { emit } from '@lib/events/eventBus';
+import { notifyWebhookEvent } from '@lib/webhookDispatcher';
 import { type ProviderCandidate } from "./autoCombo/scoring.ts";
 import { estimateTokens } from "./contextManager.ts";
 import { getSessionConnection } from "./sessionManager.ts";
@@ -94,12 +94,12 @@ import {
   resolvePromptCacheAffinityKey,
 } from "./combo/promptCacheAffinity.ts";
 import type { CompressionMode } from "./compression/types.ts";
-import { getCachedProviderConnections } from "../../src/lib/db/readCache";
+import { getCachedProviderConnections } from '@lib/db/readCache';
 import { isProviderInCooldown, recordProviderCooldown } from "./providerCooldownTracker.ts";
 import {
   resolveResilienceSettings,
   type ResilienceSettings,
-} from "../../src/lib/resilience/settings";
+} from '@lib/resilience/settings';
 import { resolveReasoningBufferedMaxTokens, toPositiveInteger } from "./reasoningTokenBuffer.ts";
 import { RESET_WINDOW_NAMES } from "./combo/types.ts";
 import type {

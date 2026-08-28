@@ -13,10 +13,10 @@
  * No barrel import — depends only on sibling leaves.
  */
 
-import { getModelContextLimit } from "../../../src/lib/modelCapabilities";
-import { getHiddenModelsByProvider } from "../../../src/lib/db/models";
-import { getComboModelString, normalizeComboStep } from "../../../src/lib/combos/steps.ts";
-import { getProviderByAlias, getProviderById } from "../../../src/shared/constants/providers.ts";
+import { getModelContextLimit } from "@lib/modelCapabilities";
+import { getHiddenModelsByProvider } from "@lib/db/models";
+import { getComboModelString, normalizeComboStep } from "@lib/combos/steps.ts";
+import { getProviderByAlias, getProviderById } from "@shared/constants/providers.ts";
 import { estimateTokens } from "../contextManager.ts";
 import { containsMediaKind } from "../../utils/mediaParts.ts";
 import { getResolvedModelCapabilities } from "../modelCapabilities.ts";

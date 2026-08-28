@@ -4,7 +4,7 @@ import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
-} from "../../src/lib/combos/steps.ts";
+} from '@lib/combos/steps.ts';
 import { registerToolSearchTool } from "./toolSearch/register.ts";
 import {
   MCP_TOOLS,
@@ -47,7 +47,7 @@ import {
   type McpToolExtraLike,
 } from "./scopeEnforcement.ts";
 import { getMcpHttpAuthHeadersForInternalFetch } from "./httpAuthContext.ts";
-import { getInternalServiceAuthHeaders } from "../../src/lib/api/internalServiceAuth.ts";
+import { getInternalServiceAuthHeaders } from '@lib/api/internalServiceAuth.ts';
 import {
   handleSimulateRoute,
   handleSetBudgetGuard,
@@ -71,8 +71,8 @@ import { memoryTools } from "./tools/memoryTools.ts";
 import { skillTools } from "./tools/skillTools.ts";
 import { agentSkillTools } from "./tools/agentSkillTools.ts";
 import { githubSkillTools } from "./tools/githubSkillTools.ts";
-import { skillRegistry } from "../../src/lib/skills/registry.ts";
-import { skillExecutor } from "../../src/lib/skills/executor.ts";
+import { skillRegistry } from '@lib/skills/registry.ts';
+import { skillExecutor } from '@lib/skills/executor.ts';
 import { pluginTools } from "./tools/pluginTools.ts";
 import { compressionTools } from "./tools/compressionTools.ts";
 import { poolTools } from "./tools/poolTools.ts";
@@ -88,9 +88,9 @@ import {
   clampMcpAccessibilityConfig,
   type McpAccessibilityConfig,
 } from "../services/compression/engines/mcpAccessibility/constants.ts";
-import { getDbInstance } from "../../src/lib/db/core.ts";
-import { normalizeQuotaResponse } from "../../src/shared/contracts/quota.ts";
-import { resolveOmniRouteBaseUrl } from "../../src/shared/utils/resolveOmniRouteBaseUrl.ts";
+import { getDbInstance } from '@lib/db/core.ts';
+import { normalizeQuotaResponse } from '@shared/contracts/quota.ts';
+import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts';
 import { sanitizeErrorMessage } from "../utils/error.ts";
 import { getMcpModelsCatalog } from "./catalog.ts";
 export { getMcpModelsCatalog } from "./catalog.ts";

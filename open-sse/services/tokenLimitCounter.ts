@@ -12,7 +12,7 @@
  * @module services/tokenLimitCounter
  */
 
-import { getDbInstance } from "../../src/lib/db/core.ts";
+import { getDbInstance } from '@lib/db/core.ts';
 import {
   resetWindowIfElapsed,
   getWindowUsage,

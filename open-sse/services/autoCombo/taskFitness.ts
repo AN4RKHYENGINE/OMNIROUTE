@@ -14,12 +14,12 @@
 
 // ─── Static fitness table (unchanged, fallback layer 4) ─────────────────
 
-import { getDbInstance } from "../../../src/lib/db/core.ts";
+import { getDbInstance } from "@lib/db/core.ts";
 import {
   getModelIntelligenceBySource,
   setUserFitnessOverrideEntry,
   deleteUserFitnessOverrideEntry,
-} from "../../../src/lib/db/modelIntelligence.ts";
+} from "@lib/db/modelIntelligence.ts";
 
 const FITNESS_TABLE: Record<string, Record<string, number>> = {
   coding: {

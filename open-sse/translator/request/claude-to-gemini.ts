@@ -10,8 +10,8 @@ import {
   buildGeminiThoughtSignatureKey,
   resolveGeminiThoughtSignature,
 } from "../../services/geminiThoughtSignatureStore.ts";
-import { capMaxOutputTokens, capThinkingBudget } from "../../../src/lib/modelCapabilities.ts";
-import { getModelSpec } from "../../../src/shared/constants/modelSpecs.ts";
+import { capMaxOutputTokens, capThinkingBudget } from "@lib/modelCapabilities.ts";
+import { getModelSpec } from "@shared/constants/modelSpecs.ts";
 import {
   buildChangedToolNameMap,
   buildHistoricalToolResultContext,

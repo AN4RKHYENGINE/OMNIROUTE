@@ -18,18 +18,18 @@
 
 import { logToolCall } from "../audit.ts";
 import { getMcpHttpAuthHeadersForInternalFetch } from "../httpAuthContext.ts";
-import { normalizeQuotaResponse } from "../../../src/shared/contracts/quota.ts";
-import { resolveOmniRouteBaseUrl } from "../../../src/shared/utils/resolveOmniRouteBaseUrl.ts";
+import { normalizeQuotaResponse } from "@shared/contracts/quota.ts";
+import { resolveOmniRouteBaseUrl } from "@shared/utils/resolveOmniRouteBaseUrl.ts";
 import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
-} from "../../../src/lib/combos/steps.ts";
+} from "@lib/combos/steps.ts";
 import type {
   AutoRoutingStrategyValue,
   RoutingStrategyValue,
-} from "../../../src/shared/constants/routingStrategies.ts";
-import { normalizeRoutingStrategy } from "../../../src/shared/constants/routingStrategies.ts";
+} from "@shared/constants/routingStrategies.ts";
+import { normalizeRoutingStrategy } from "@shared/constants/routingStrategies.ts";
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
 const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";

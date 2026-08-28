@@ -1,0 +1,27 @@
+--- src/app/app/(dashboard)/dashboard/cache/media/MediaPageClient.tsx
++++ src/app/app/(dashboard)/dashboard/cache/media/MediaPageClient.tsx
+@@ -20,11 +20,6 @@ interface CachedMedia {
+   timestamp: number;
+   audioUrl?: string;
+ }
+-const IMAGE_PROVIDER_MODELS = registries ? toProviderModels(registries.IMAGE_PROVIDERS) : [];
+-const VIDEO_PROVIDER_MODELS = registries ? toProviderModels(registries.VIDEO_PROVIDERS) : [];
+-const MUSIC_PROVIDER_MODELS = registries ? toProviderModels(registries.MUSIC_PROVIDERS) : [];
+-const SPEECH_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_SPEECH_PROVIDERS) : [];
+-const TRANSCRIPTION_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_TRANSCRIPTION_PROVIDERS) : [];
+ 
+ export default function MediaPageClient() {
+   const [registries, setRegistries] = useState(null);
+@@ -45,6 +40,12 @@ export default function MediaPageClient() {
+     }
+   }, []);
+ 
++  const IMAGE_PROVIDER_MODELS = registries ? toProviderModels(registries.IMAGE_PROVIDERS) : [];
++  const VIDEO_PROVIDER_MODELS = registries ? toProviderModels(registries.VIDEO_PROVIDERS) : [];
++  const MUSIC_PROVIDER_MODELS = registries ? toProviderModels(registries.MUSIC_PROVIDERS) : [];
++  const SPEECH_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_SPEECH_PROVIDERS) : [];
++  const TRANSCRIPTION_PROVIDER_MODELS = registries ? toProviderModels(registries.AUDIO_TRANSCRIPTION_PROVIDERS) : [];
++
+   // ... rest of component
+ 
+ 

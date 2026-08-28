@@ -6,3 +6,4 @@ docs
 OmniRoute
 Dockerfile.prod
 **/*.log
+.build/

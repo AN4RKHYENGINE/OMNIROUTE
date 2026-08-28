@@ -1,0 +1,156 @@
+▲ Next.js 16.3.1 (webpack)
+- Environments: .env.local, .env
+[MDX] generated files in 53.64815999999996ms
+✓ Running next.config.mjs took 610ms
+- Experiments (use with caution):
+  · optimizePackageImports
+  · proxyClientMaxBodySize: "512mb"
+  · proxyTimeout: 600000
+  · serverActions
+
+  Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/fumadocs-mdx/dist/load-from-file-CIW3c2FZ.js for build dependencies failed at 'import(url.href)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/fumadocs-mdx/dist/load-from-file-CIW3c2FZ.js for build dependencies failed at 'import(url.href)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+Failed to compile.
+
+./open-sse/executors/theoldllm.ts
+Module not found: Can't resolve '../../src/lib/db/proxies'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./open-sse/executors/index.ts
+./src/app/app/api/v1/messages/count_tokens/route.ts
+
+./open-sse/handlers/mediaGeneration/fal.ts
+Module not found: Can't resolve '../../../src/shared/utils/fetchTimeout.ts'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./open-sse/handlers/musicGeneration.ts
+./src/app/app/api/v1/music/generations/route.ts
+
+./open-sse/mcp-server/httpAuthContext.ts
+Error:   x Unterminated string constant
+   ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/httpAuthContext.ts:3:1]
+ 1 | import { AsyncLocalStorage } from "node:async_hooks";
+ 2 | import { extractApiKey, isValidApiKey } from "../../src/sse/services/auth.ts";
+ 3 | import { getApiKeyMetadata } from '@lib/db/apiKeys.ts";
+   :                                   ^^^^^^^^^^^^^^^^^^^^^
+ 4 | 
+ 5 | type McpHttpAuthContext = {
+ 6 |   authorization?: string;
+   `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./open-sse/mcp-server/httpAuthContext.ts
+./open-sse/mcp-server/httpTransport.ts
+./src/app/app/api/mcp/stream/route.ts
+
+./open-sse/mcp-server/schemas/tools.ts
+Module not found: Can't resolve '../../../src/shared/constants/routingStrategies.ts'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/app/app/api/mcp/tools/route.ts
+
+./open-sse/mcp-server/server.ts
+Error:   x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:7:1]
+  4 |   getComboModelProvider,
+  5 |   getComboModelString,
+  6 |   getComboStepTarget,
+  7 | } from '@lib/combos/steps.ts";
+    :        ^^^^^^^^^^^^^^^^^^^^^^^
+  8 | import { registerToolSearchTool } from "./toolSearch/register.ts";
+  9 | import {
+ 10 |   MCP_TOOLS,
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:50:1]
+ 47 |   type McpToolExtraLike,
+ 48 | } from "./scopeEnforcement.ts";
+ 49 | import { getMcpHttpAuthHeadersForInternalFetch } from "./httpAuthContext.ts";
+ 50 | import { getInternalServiceAuthHeaders } from '@lib/api/internalServiceAuth.ts";
+    :                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 | import {
+ 52 |   handleSimulateRoute,
+ 53 |   handleSetBudgetGuard,
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:74:1]
+ 71 | import { skillTools } from "./tools/skillTools.ts";
+ 72 | import { agentSkillTools } from "./tools/agentSkillTools.ts";
+ 73 | import { githubSkillTools } from "./tools/githubSkillTools.ts";
+ 74 | import { skillRegistry } from '@lib/skills/registry.ts";
+    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 75 | import { skillExecutor } from '@lib/skills/executor.ts";
+ 76 | import { pluginTools } from "./tools/pluginTools.ts";
+ 77 | import { compressionTools } from "./tools/compressionTools.ts";
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:75:1]
+ 72 | import { agentSkillTools } from "./tools/agentSkillTools.ts";
+ 73 | import { githubSkillTools } from "./tools/githubSkillTools.ts";
+ 74 | import { skillRegistry } from '@lib/skills/registry.ts";
+ 75 | import { skillExecutor } from '@lib/skills/executor.ts";
+    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 76 | import { pluginTools } from "./tools/pluginTools.ts";
+ 77 | import { compressionTools } from "./tools/compressionTools.ts";
+ 78 | import { poolTools } from "./tools/poolTools.ts";
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:91:1]
+ 88 |   clampMcpAccessibilityConfig,
+ 89 |   type McpAccessibilityConfig,
+ 90 | } from "../services/compression/engines/mcpAccessibility/constants.ts";
+ 91 | import { getDbInstance } from '@lib/db/core.ts";
+    :                               ^^^^^^^^^^^^^^^^^^
+ 92 | import { normalizeQuotaResponse } from '@shared/contracts/quota.ts";
+ 93 | import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts";
+ 94 | import { sanitizeErrorMessage } from "../utils/error.ts";
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:92:1]
+ 89 |   type McpAccessibilityConfig,
+ 90 | } from "../services/compression/engines/mcpAccessibility/constants.ts";
+ 91 | import { getDbInstance } from '@lib/db/core.ts";
+ 92 | import { normalizeQuotaResponse } from '@shared/contracts/quota.ts";
+    :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 93 | import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts";
+ 94 | import { sanitizeErrorMessage } from "../utils/error.ts";
+ 95 | import { getMcpModelsCatalog } from "./catalog.ts";
+    `----
+  x Unterminated string constant
+    ,-[/home/user/projects/OmniRoute/open-sse/mcp-server/server.ts:93:1]
+ 90 | } from "../services/compression/engines/mcpAccessibility/constants.ts";
+ 91 | import { getDbInstance } from '@lib/db/core.ts";
+ 92 | import { normalizeQuotaResponse } from '@shared/contracts/quota.ts";
+ 93 | import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts";
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 94 | import { sanitizeErrorMessage } from "../utils/error.ts";
+ 95 | import { getMcpModelsCatalog } from "./catalog.ts";
+ 96 | export { getMcpModelsCatalog } from "./catalog.ts";
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./open-sse/mcp-server/server.ts
+./open-sse/mcp-server/httpTransport.ts
+./src/app/app/api/mcp/stream/route.ts
+
+
+> Build failed because of webpack errors

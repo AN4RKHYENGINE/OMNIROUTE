@@ -20,7 +20,7 @@
  */
 import { getMcpHttpAuthHeadersForInternalFetch } from "./httpAuthContext.ts";
 import { extractApiKey } from "../../src/sse/services/auth.ts";
-import { getApiKeyMetadata } from "../../src/lib/db/apiKeys.ts";
+import { getApiKeyMetadata } from '@lib/db/apiKeys.ts';
 
 type ApiKeyLookup = (rawKey: string) => Promise<{ id?: string | number | null } | null>;
 

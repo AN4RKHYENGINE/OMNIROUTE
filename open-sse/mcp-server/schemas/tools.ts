@@ -16,7 +16,7 @@ import { CCR_MCP_TOOLS } from "./ccrTools.ts";
 import {
   AUTO_ROUTING_STRATEGY_VALUES,
   ROUTING_STRATEGY_VALUES,
-} from "../../../src/shared/constants/routingStrategies.ts";
+} from "@shared/constants/routingStrategies.ts";
 
 // ============ Shared Types ============
 // AuditLevel + McpToolDefinition live in the leaf ./toolDefinition.ts so that

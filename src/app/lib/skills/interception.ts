@@ -4,7 +4,7 @@ import { builtinSkills } from "./builtins";
 import { detectProvider, decodeSkillToolName } from "./injection";
 import { OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME } from "@omniroute/open-sse/services/webSearchFallback.ts";
 import { OMNIROUTE_WEB_FETCH_FALLBACK_TOOL_NAME } from "@omniroute/open-sse/services/webFetchInterception.ts";
-import { logger } from "../../../open-sse/utils/logger.ts";
+import { logger } from "@open-sse/utils/logger.ts";
 
 const log = logger("SKILLS_INTERCEPTION");
 

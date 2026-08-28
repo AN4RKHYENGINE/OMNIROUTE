@@ -42,7 +42,7 @@ import {
   loadCcrBlock,
   persistCcrBlock,
   touchCcrBlock,
-} from "../../../../../src/lib/db/ccrBlocks.ts";
+} from "@lib/db/ccrBlocks.ts";
 import { createCompressionStats } from "../../stats.ts";
 import { queryBlock, type CcrQuery } from "./ccrQuery.ts";
 import { injectCcrProtocolInstruction } from "./protocolInstruction.ts";

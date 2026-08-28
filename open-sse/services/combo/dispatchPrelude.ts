@@ -12,9 +12,9 @@
  *
  * Extracted from combo.ts as a pure move (#3501). No behaviour change.
  */
-import { getCachedProviderConnections } from "../../../src/lib/db/readCache";
-import { getCircuitBreaker } from "../../../src/shared/utils/circuitBreaker";
-import { fisherYatesShuffle, getNextFromDeck } from "../../../src/shared/utils/shuffleDeck";
+import { getCachedProviderConnections } from "@lib/db/readCache";
+import { getCircuitBreaker } from "@shared/utils/circuitBreaker";
+import { fisherYatesShuffle, getNextFromDeck } from "@shared/utils/shuffleDeck";
 import { handleFusionChat, type FusionTuning } from "../fusion.ts";
 import { parseModel } from "../model.ts";
 import { handlePipelineChat, type PipelineStep } from "../pipeline.ts";

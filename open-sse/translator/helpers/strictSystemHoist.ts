@@ -1,4 +1,4 @@
-import { systemMessageMustBeFirst } from "../../../src/lib/memory/injection.ts";
+import { systemMessageMustBeFirst } from "@lib/memory/injection.ts";
 
 type Message = { role: string; content: unknown; [key: string]: unknown };
 

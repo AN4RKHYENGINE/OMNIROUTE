@@ -21,7 +21,7 @@ import {
   getReasoningCacheEntries,
   getReasoningCacheStats,
   setReasoningCache,
-} from "../../src/lib/db/reasoningCache.ts";
+} from '@lib/db/reasoningCache.ts';
 import { isInternalReasoningPlaceholder } from "../utils/reasoningPlaceholder.ts";
 
 // ──────────────── Provider/Model Detection ────────────────

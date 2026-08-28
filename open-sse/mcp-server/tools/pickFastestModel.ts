@@ -1,13 +1,13 @@
 import { logToolCall } from "../audit.ts";
 import { getMcpHttpAuthHeadersForInternalFetch } from "../httpAuthContext.ts";
-import { normalizeQuotaResponse } from "../../../src/shared/contracts/quota.ts";
-import { resolveOmniRouteBaseUrl } from "../../../src/shared/utils/resolveOmniRouteBaseUrl.ts";
+import { normalizeQuotaResponse } from "@shared/contracts/quota.ts";
+import { resolveOmniRouteBaseUrl } from "@shared/utils/resolveOmniRouteBaseUrl.ts";
 import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
-} from "../../../src/lib/combos/steps.ts";
-import type { AutoRoutingStrategyValue } from "../../../src/shared/constants/routingStrategies.ts";
+} from "@lib/combos/steps.ts";
+import type { AutoRoutingStrategyValue } from "@shared/constants/routingStrategies.ts";
 import { rankBySpeed, DEFAULT_SPEED_WEIGHTS } from "../../services/autoCombo/speedRanking.ts";
 import type { SpeedCandidate } from "../../services/autoCombo/speedRanking.ts";
 
