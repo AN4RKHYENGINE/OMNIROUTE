@@ -175,7 +175,7 @@ function buildProviderConfig(
     throw new Error("ChatGPT Web (Codex) tools require a ready tunnel and Custom Connector");
   }
 
-  parsed.modelId = "gpt-5.6-sol';
+  parsed.modelId = 'gpt-5.6-sol'
   parsed.options.reasoning = route.effort;
 
   return {

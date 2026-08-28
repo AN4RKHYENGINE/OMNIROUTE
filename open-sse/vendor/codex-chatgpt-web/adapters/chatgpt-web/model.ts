@@ -1,5 +1,5 @@
 /* Adapted from miuuyy/codex-chatgpt-web commit 55592fca0ba19a27f1b769cec8fff61ff340a785 (MIT). */
-export const CHATGPT_WEB_MODEL_ID = "gpt-5.6-sol';
+export const CHATGPT_WEB_MODEL_ID = 'gpt-5.6-sol'
 
 export interface ChatGptWebCapabilities {
   localToolsEnabled: boolean;
