@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAuditRequestContext, logAuditEvent } from "@/lib/compliance/index";
 import { classifyIpScope } from "@/lib/ipUtils";
-import { getCachedSettings } from "@/lib/localDb";
+import { getCachedSettings } from "@/lib/db/readCache";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 import {

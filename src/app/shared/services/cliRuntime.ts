@@ -678,7 +678,7 @@ export const getKnownToolPaths = (toolId: string): string[] => {
  */
 const getNvmNodePath = (): string | null => {
   // Simple heuristic: if process.execPath includes "nvm", use its directory
-  if (process.execPath.toLowerCase().includes("nvm")) {
+  if (process.execPathmatchesSearch("nvm")) {
     return path.dirname(process.execPath);
   }
 

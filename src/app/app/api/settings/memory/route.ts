@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSettings, updateSettings } from "@/lib/localDb";
+import { updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import { isAuthenticated } from "@/shared/utils/apiAuth";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";
 import { MemorySettingsExtendedSchema } from "@/shared/schemas/memory";

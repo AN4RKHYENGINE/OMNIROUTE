@@ -16,7 +16,7 @@ import { NextResponse } from "next/server";
 import { buildErrorBody } from "@omniroute/open-sse/utils/error";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { PoolCreateSchema } from "@/shared/schemas/quota";
-import { listPools, createPool } from "@/lib/localDb";
+import { createPool, listPools } from "@/lib/db/quotaPools";
 import { logAuditEvent, getAuditRequestContext } from "@/lib/compliance/index";
 
 export const dynamic = "force-dynamic";

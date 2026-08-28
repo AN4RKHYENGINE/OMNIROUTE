@@ -1,0 +1,19 @@
+
+> omniroute@3.8.50 build
+> node scripts/build/build-next-isolated.mjs
+
+▲ Next.js 16.3.1 (webpack)
+- Environments: .env.local, .env
+[MDX] generated files in 102.17576099999997ms
+✓ Running next.config.mjs took 1177ms
+- Experiments (use with caution):
+  · optimizePackageImports
+  · proxyClientMaxBodySize: "512mb"
+  · proxyTimeout: 600000
+  · serverActions
+
+  Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/fumadocs-mdx/dist/load-from-file-CIW3c2FZ.js for build dependencies failed at 'import(url.href)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.

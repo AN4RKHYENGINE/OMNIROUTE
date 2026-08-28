@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
-import {
-  getPricing,
-  getPricingWithSources,
-  updatePricing,
-  resetPricing,
-  resetAllPricing,
-} from "@/lib/localDb";
+import { getPricing } from "@/lib/db/readCache"
+import { getPricingWithSources, resetAllPricing, resetPricing, updatePricing } from "@/lib/localDb";
 import { updatePricingSchema } from "@/shared/validation/schemas";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";
 

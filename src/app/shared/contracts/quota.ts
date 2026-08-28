@@ -1,3 +1,4 @@
+import { toNumber } from '@/shared/utils/numeric';
 export type QuotaTokenStatus = "valid" | "expiring" | "expired" | "refreshing";
 
 export interface QuotaProviderEntry {
@@ -27,14 +28,6 @@ export interface QuotaResponse {
 
 const TOKEN_STATUS_VALUES: QuotaTokenStatus[] = ["valid", "expiring", "expired", "refreshing"];
 
-function toNumber(value: unknown): number | null {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  if (typeof value === "string" && value.trim() !== "") {
-    const parsed = Number(value);
-    if (Number.isFinite(parsed)) return parsed;
-  }
-  return null;
-}
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));

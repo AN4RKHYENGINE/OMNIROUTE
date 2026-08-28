@@ -19,7 +19,8 @@
 import { NextResponse } from "next/server";
 import { buildErrorBody } from "@omniroute/open-sse/utils/error";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
-import { getApiKeyById, getCombos } from "@/lib/localDb";
+import { getApiKeyById } from "@/lib/db/apiKeys"
+import { getCombos } from "@/lib/db/combos";
 import { resolveQuotaKeyScope } from "@/lib/quota/quotaKey";
 import { filterModelsToQuotaPools } from "@/lib/quota/quotaCombos";
 

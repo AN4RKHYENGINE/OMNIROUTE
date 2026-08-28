@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getSettings, getSettingsRevision, updateSettings } from "@/lib/localDb";
+import { getSettingsRevision, updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import { SettingsRevisionConflictError } from "@/lib/db/settings";
 import { getRuntimePorts } from "@/lib/runtime/ports";
 import { updateSettingsSchema } from "@/shared/validation/settingsSchemas";

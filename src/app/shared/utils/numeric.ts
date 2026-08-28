@@ -31,6 +31,7 @@
  * @param v - the value to coerce.
  * @param fallback - value returned when coercion fails (default `0`).
  */
+// eslint-disable-next-line no-restricted-syntax
 export function toNumber(v: unknown, fallback = 0): number {
   if (typeof v === "number" && Number.isFinite(v)) return v;
   if (typeof v === "string" && v.trim().length > 0) {

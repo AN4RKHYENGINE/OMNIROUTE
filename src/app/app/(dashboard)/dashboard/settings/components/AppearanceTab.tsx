@@ -1,3 +1,4 @@
+import Image from 'next/image';
 "use client";
 
 import { useState, useEffect } from "react";
@@ -569,8 +570,11 @@ export default function AppearanceTab() {
                   maxLength={2000}
                 />
                 {(settings.customLogoUrl || settings.customLogoBase64) && (
-                  <img
+                  <Image
                     src={settings.customLogoBase64 || settings.customLogoUrl}
+                    width={40}
+                    height={40}
+                    unoptimized
                     alt={t("appearanceLogoPreviewAlt")}
                     className="h-10 w-10 rounded border border-border object-contain bg-surface"
                     onError={(e) => {
@@ -639,8 +643,11 @@ export default function AppearanceTab() {
               {(settings.customLogoBase64 || settings.customLogoUrl) && (
                 <div className="mt-2 p-3 bg-black/5 dark:bg-white/5 rounded-lg">
                   <p className="text-xs text-text-muted mb-2">{t("logoPreview")}</p>
-                  <img
+                  <Image
                     src={settings.customLogoBase64 || settings.customLogoUrl}
+                    width={48}
+                    height={48}
+                    unoptimized
                     alt={t("appearanceLogoPreviewAlt")}
                     className="h-12 w-auto max-w-full rounded"
                   />
@@ -663,8 +670,11 @@ export default function AppearanceTab() {
                   maxLength={2000}
                 />
                 {(settings.customFaviconUrl || settings.customFaviconBase64) && (
-                  <img
+                  <Image
                     src={settings.customFaviconBase64 || settings.customFaviconUrl}
+                    width={40}
+                    height={40}
+                    unoptimized
                     alt={t("appearanceFaviconPreviewAlt")}
                     className="h-10 w-10 rounded border border-border object-contain bg-surface"
                     onError={(e) => {
@@ -739,9 +749,12 @@ export default function AppearanceTab() {
               {(settings.customFaviconBase64 || settings.customFaviconUrl) && (
                 <div className="mt-2 p-3 bg-black/5 dark:bg-white/5 rounded-lg">
                   <p className="text-xs text-text-muted mb-2">{t("faviconPreview")}</p>
-                  <img
+                  <Image
                     src={settings.customFaviconBase64 || settings.customFaviconUrl}
                     alt={t("appearanceFaviconPreviewAlt")}
+                    width={32}
+                    height={32}
+                    unoptimized
                     className="h-8 w-8 rounded"
                   />
                 </div>

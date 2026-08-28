@@ -1,9 +1,5 @@
 import { getEnabledProviders } from "@/lib/freeProxyProviders";
-import {
-  recordFreeProxySync,
-  clearFreeProxySyncErrors,
-  recordFreeProxySyncErrors,
-} from "@/lib/localDb";
+import { clearFreeProxySyncErrors, recordFreeProxySync, recordFreeProxySyncErrors } from "@/lib/localDb";
 import type { FreeProxyProvider } from "@/lib/freeProxyProviders/types";
 
 export interface FreeProxySyncCycleResult {

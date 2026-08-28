@@ -28,7 +28,8 @@ import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { isManagedProviderConnectionId } from "@/lib/providers/catalog";
 import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
 import { validateProviderApiKey } from "@/lib/providers/validation";
-import { getProxyForLevel, resolveProxyForProvider } from "@/lib/localDb";
+import { getProxyForLevel } from "@/lib/db/settings"
+import { resolveProxyForProvider } from "@/lib/localDb";
 import { runWithProxyContext } from "@omniroute/open-sse/utils/proxyFetch.ts";
 
 // POST /api/providers/bulk — create multiple API-key connections for a single provider.

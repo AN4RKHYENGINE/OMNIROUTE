@@ -5,7 +5,7 @@ import {
   detectFormat,
   getTargetFormat,
 } from "@omniroute/open-sse/services/provider.ts";
-import { getProviderConnections } from "@/lib/localDb";
+import { getProviderConnections } from "@/lib/db/providers";
 import { toJsonErrorPayload } from "@/shared/utils/upstreamError";
 import { logTranslationEvent } from "@/lib/translatorEvents";
 import { translatorSendSchema } from "@/shared/validation/schemas";

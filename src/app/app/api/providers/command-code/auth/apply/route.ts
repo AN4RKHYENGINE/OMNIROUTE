@@ -4,7 +4,7 @@ import {
   createProviderConnection,
   updateProviderConnection,
 } from "@/lib/db/providers";
-import { getCachedProviderConnectionById } from "@/lib/localDb";
+import { getCachedProviderConnectionById } from "@/lib/db/readCache";
 import { sanitizeProviderSpecificDataForResponse } from "@/lib/providers/requestDefaults";
 
 import { commandCodeApplySchema, noStoreJson, stateHashFromState } from "../shared";

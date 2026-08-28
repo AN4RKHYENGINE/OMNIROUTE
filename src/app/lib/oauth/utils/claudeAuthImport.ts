@@ -1,8 +1,5 @@
-import {
-  getProviderConnections,
-  createProviderConnection,
-  updateProviderConnection,
-} from "@/lib/localDb";
+import { getProviderConnections, updateProviderConnection } from "@/lib/db/providers"
+import { createProviderConnection } from "@/lib/localDb";
 import { ClaudeAuthFileError } from "@/lib/oauth/utils/claudeAuthFile";
 
 type JsonRecord = Record<string, unknown>;

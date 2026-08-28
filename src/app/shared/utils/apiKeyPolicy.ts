@@ -14,7 +14,7 @@ import {
   getComboByName,
   isModelAllowedForKey,
   getApiKeyById,
-} from "@/lib/localDb";
+} from "@/lib/db";
 import { isDashboardSessionAuthenticated } from "./apiAuth";
 import { resolveComboForModel } from "@/lib/db/modelComboMappings";
 import { checkBudget } from "@/domain/costRules";

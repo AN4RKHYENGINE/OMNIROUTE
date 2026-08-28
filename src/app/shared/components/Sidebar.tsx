@@ -1,3 +1,4 @@
+import Image from 'next/image';
 "use client";
 
 import { useState, useEffect, useRef, useCallback, type CSSProperties } from "react";
@@ -512,8 +513,11 @@ export default function Sidebar({
           >
             <div className="flex items-center justify-center size-8 rounded bg-linear-to-br from-[#E54D5E] to-[#C93D4E] shrink-0">
               {customLogo ? (
-                <img
+                <Image
                   src={customLogo}
+                  width={20}
+                  height={20}
+                  unoptimized
                   alt={customAppName || APP_CONFIG.name}
                   className="size-5 object-contain"
                 />

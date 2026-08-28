@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import {
-  getApiKeys,
-  getApiKeysCount,
-  createApiKey,
-  isCloudEnabled,
-  updateApiKeyPermissions,
-} from "@/lib/localDb";
+import { createApiKey, getApiKeys } from "@/lib/db/apiKeys"
+import { isCloudEnabled } from "@/lib/db/settings"
+import { getApiKeysCount, updateApiKeyPermissions } from "@/lib/localDb";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud } from "@/lib/cloudSync";
 import { createKeySchema } from "@/shared/validation/schemas";

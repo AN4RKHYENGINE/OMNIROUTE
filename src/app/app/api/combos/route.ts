@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
-import {
-  getCombos,
-  getCombosCount,
-  createCombo,
-  getComboByName,
-  isCloudEnabled,
-} from "@/lib/localDb";
+import { getComboByName, getCombos } from "@/lib/db/combos"
+import { isCloudEnabled } from "@/lib/db/settings"
+import { createCombo, getCombosCount } from "@/lib/localDb";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud } from "@/lib/cloudSync";
 import { validateCompositeTiersConfig } from "@/lib/combos/compositeTiers";

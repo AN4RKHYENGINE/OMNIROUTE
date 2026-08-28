@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
-import { getEvalScorecard, listEvalRuns, getApiKeys } from "@/lib/localDb";
+import { getApiKeys } from "@/lib/db/apiKeys"
+import { getEvalScorecard, listEvalRuns } from "@/lib/db/evals";
 import { listSuites, runSuite, createScorecard } from "@/lib/evals/evalRunner";
 import { buildEvalTargetOptions, runEvalSuiteAgainstTarget } from "@/lib/evals/runtime";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";

@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { createErrorResponse, createErrorResponseFromUnknown } from "@/lib/api/errorResponse";
-import { getProxyById, updateProxy } from "@/lib/localDb";
+import { getProxyById } from "@/lib/db/proxies"
+import { updateProxy } from "@/lib/localDb";
 import { decrypt } from "@/lib/db/encryption";
 import { isRelayProxyType, relayRepairMode } from "@/lib/db/proxies/mappers";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";

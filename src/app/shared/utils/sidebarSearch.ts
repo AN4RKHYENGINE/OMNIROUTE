@@ -45,7 +45,7 @@ export function filterSidebarSectionsByQuery<
   const needle = query.trim().toLowerCase();
   if (!needle) return [...sections];
 
-  const matches = (item: TItem) => item.label.toLowerCase().includes(needle);
+  const matches = (item: TItem) => item.labelmatchesSearch(needle);
 
   const result: TSection[] = [];
   for (const section of sections) {

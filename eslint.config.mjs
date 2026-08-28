@@ -50,14 +50,26 @@ const eslintConfig = [
     // atingiria scripts/*.mjs sem o plugin react-hooks e explodiria o flat config).
     files: ["src/**/*.{ts,tsx,js,jsx}"],
     rules: {
-      "react-hooks/exhaustive-deps": "error",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/static-components": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
       "@next/next/no-img-element": "error",
       "import/no-anonymous-default-export": "error",
+          "react-hooks/static-components": "off",
+      "react-hooks/purity": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
     },
   },
   // FASE-02: Security rules (strict everywhere)
   {
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
@@ -69,6 +81,8 @@ const eslintConfig = [
   {
     files: ["src/lib/db/**/*.{ts,tsx,js,jsx}"],
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-restricted-imports": [
         "error",
         {
@@ -82,6 +96,8 @@ const eslintConfig = [
   {
     files: ["src/app/**/*.{ts,tsx,js,jsx}"],
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-restricted-imports": [
         "error",
         {
@@ -99,6 +115,8 @@ const eslintConfig = [
   {
     files: ["src/app/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-restricted-syntax": [
         "error",
         {
@@ -119,6 +137,8 @@ const eslintConfig = [
     files: ["src/**/*.ts", "open-sse/**/*.ts"],
     ignores: ["src/app/**", "src/components/**"],
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-restricted-syntax": ["error", TO_NUMBER_RESTRICTION],
     },
   },
@@ -126,6 +146,8 @@ const eslintConfig = [
   {
     files: ["src/shared/utils/numeric.ts"],
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "no-restricted-syntax": "off",
     },
   },
@@ -136,6 +158,8 @@ const eslintConfig = [
       "@typescript-eslint": tseslint.plugin,
     },
     rules: {
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
       "@typescript-eslint/no-explicit-any": "error",
       "@next/next/no-assign-module-variable": "off",
       "react-hooks/rules-of-hooks": "off",

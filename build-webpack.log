@@ -2,9 +2,26 @@
 > omniroute@3.8.50 build
 > node scripts/build/build-next-isolated.mjs
 
-▲ Next.js 16.3.1 (Turbopack)
-- Environments: .env
-✓ Running next.config.mjs took 210ms
+▲ Next.js 16.3.1 (webpack)
+- Environments: .env.local, .env
+✓ Running next.config.mjs took 18ms
 
-[MDX] generated files in 270.1606529999999ms
   Creating an optimized production build ...
+
+<--- Last few GCs --->
+
+[2481355:0x18bd3000]   180650 ms: Scavenge 1987.5 (2070.9) -> 1969.3 (2071.4) MB, pooled: 0 MB, 14.44 / 0.00 ms  (average mu = 0.366, current mu = 0.412) allocation failure; 
+[2481355:0x18bd3000]   182380 ms: Mark-Compact (reduce) 1982.6 (2071.4) -> 1937.9 (2004.5) MB, pooled: 0 MB, 172.58 / 0.00 ms  (+ 1372.1 ms in 208 steps since start of marking, biggest step 152.3 ms, walltime since start of marking 1730 ms) (average mu = 
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x75356c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 2: 0xc52cd0  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 3: 0xc52dbf  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 4: 0xef6695  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 5: 0xef66c2  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 6: 0xef69ba  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 7: 0xf076ba  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 8: 0xf0ba60  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+ 9: 0x199e0d1  [/home/user/.nvm/versions/node/v24.19.0/bin/node]
+Next.js build worker exited with code: null and signal: SIGABRT

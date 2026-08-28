@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { getCachedSettings, getSettings, updateSettings } from "@/lib/localDb";
+import { getCachedSettings } from "@/lib/db/readCache"
+import { updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import {
   buildLegacyResilienceCompat,
   mergeResilienceSettings,

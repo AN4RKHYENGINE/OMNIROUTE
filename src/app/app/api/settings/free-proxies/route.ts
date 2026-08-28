@@ -2,14 +2,8 @@ import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { createErrorResponse, createErrorResponseFromUnknown } from "@/lib/api/errorResponse";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";
 import { freeProxyListSchema, freeProxySourceSchema } from "@/shared/validation/freeProxySchemas";
-import {
-  listFreeProxies,
-  countFreeProxies,
-  deleteFreeProxy,
-  clearFreeProxiesBySource,
-  getFreeProxyStats,
-  getFreeProxySyncErrors,
-} from "@/lib/localDb";
+import { getFreeProxyStats } from "@/lib/db/freeProxies"
+import { clearFreeProxiesBySource, countFreeProxies, deleteFreeProxy, getFreeProxySyncErrors, listFreeProxies } from "@/lib/localDb";
 import type { FreeProxySourceId } from "@/lib/freeProxyProviders/types";
 
 export async function GET(request: Request) {

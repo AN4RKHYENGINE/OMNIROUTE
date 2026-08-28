@@ -15,7 +15,8 @@
  * Part of: Group B — Quota Sharing Engine (plan 22, frente F6).
  */
 
-import { getPool, getBucket, incrementBucket, getPair, sumPoolDimension } from "@/lib/localDb";
+import { getBucket, getPair, incrementBucket, sumPoolDimension } from "@/lib/db/quotaConsumption"
+import { getPool } from "@/lib/db/quotaPools";
 import { WINDOW_MS, dimensionKeyToString } from "./dimensions";
 import type { DimensionKey } from "./dimensions";
 import type { QuotaStore, PoolUsageSnapshot } from "./types";

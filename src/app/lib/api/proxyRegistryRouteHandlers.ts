@@ -1,12 +1,5 @@
-import {
-  createProxy,
-  createProxyAndAssign,
-  deleteProxyById,
-  getProxyById,
-  getProxyWhereUsed,
-  updateProxy,
-  updateProxyAndAssign,
-} from "@/lib/localDb";
+import { createProxy, deleteProxyById, getProxyById } from "@/lib/db/proxies"
+import { createProxyAndAssign, getProxyWhereUsed, updateProxy, updateProxyAndAssign } from "@/lib/localDb";
 import { createErrorResponse, createErrorResponseFromUnknown } from "@/lib/api/errorResponse";
 import { createProxyRegistrySchema, updateProxyRegistrySchema } from "@/shared/validation/schemas";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";

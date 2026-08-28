@@ -24,7 +24,8 @@ import { logger } from "@omniroute/open-sse/utils/logger.ts";
 import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error.ts";
 import { getExecutor } from "@omniroute/open-sse/executors/index.ts";
 import { getCodexUsage } from "@omniroute/open-sse/services/usage/codex.ts";
-import { getSettings, getProviderConnections, updateProviderConnection } from "@/lib/localDb";
+import { getProviderConnections, updateProviderConnection } from "@/lib/db/providers"
+import { getSettings } from "@/lib/localDb";
 import { refreshAndUpdateCredentials } from "@/lib/usage/providerLimits";
 import { getCircuitBreaker } from "@/shared/utils/circuitBreaker";
 import {

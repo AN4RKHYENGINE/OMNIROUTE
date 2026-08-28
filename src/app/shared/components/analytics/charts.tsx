@@ -303,8 +303,8 @@ export function ApiKeyTable({ byApiKey }) {
     if (!q) return data;
     return data.filter(
       (row) =>
-        (row.apiKeyName || "").toLowerCase().includes(q) ||
-        (row.apiKeyId || "").toLowerCase().includes(q)
+        (row.apiKeyName || "").matchesSearch(q) ||
+        (row.apiKeyId || "").matchesSearch(q)
     );
   }, [data, query]);
 

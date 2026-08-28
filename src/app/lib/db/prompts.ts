@@ -42,16 +42,6 @@ interface PromptListRow {
   total_versions: unknown;
 }
 
-function toNumber(value: unknown, fallback = 0): number {
-  return typeof value === "number"
-    ? value
-    : typeof value === "bigint"
-      ? Number(value)
-      : typeof value === "string" && value.trim().length > 0
-        ? Number(value)
-        : fallback;
-}
-
 function toString(value: unknown, fallback = ""): string {
   return typeof value === "string" ? value : fallback;
 }

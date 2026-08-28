@@ -1,10 +1,4 @@
-import {
-  addProxyToScopePool,
-  removeProxyFromScopePool,
-  getScopeProxyPool,
-  getScopeRotationStrategy,
-  setScopeRotationStrategy,
-} from "@/lib/localDb";
+import { addProxyToScopePool, getScopeProxyPool, getScopeRotationStrategy, removeProxyFromScopePool, setScopeRotationStrategy } from "@/lib/localDb";
 import {
   proxyPoolMemberSchema,
   proxyRotationStrategySchema,

@@ -1,8 +1,5 @@
-import {
-  getProviderConnections,
-  createProviderConnection,
-  updateProviderConnection,
-} from "@/lib/localDb";
+import { getProviderConnections, updateProviderConnection } from "@/lib/db/providers"
+import { createProviderConnection } from "@/lib/localDb";
 import { CodexAuthFileError } from "@/lib/oauth/utils/codexAuthFile";
 import { pickCodexConnectionForUser } from "@/lib/oauth/utils/codexConnectionSelection";
 

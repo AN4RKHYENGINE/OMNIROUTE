@@ -6,8 +6,8 @@ import {
   getComboByNameInsensitive,
   getCachedProviderNodes,
   getCustomModels,
-} from "@/lib/localDb";
-import { getCachedSettings } from "@/lib/localDb";
+} from "@/lib/db";
+import { getCachedSettings } from "@/lib/db";
 import { getActiveSyncedCatalog } from "@/lib/db/models/activeSyncedCatalog";
 import {
   parseModel,

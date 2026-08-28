@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getApiKeys, createApiKey, pickApiKeyForInternalUse, updateSettings } from "@/lib/localDb";
+import { createApiKey, getApiKeys, pickApiKeyForInternalUse } from "@/lib/db/apiKeys"
+import { updateSettings } from "@/lib/db/settings";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud, fetchWithTimeout, CLOUD_URL } from "@/lib/cloudSync";
 import fs from "fs/promises";

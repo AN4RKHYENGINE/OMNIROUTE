@@ -1,15 +1,10 @@
 import { PROVIDER_MODELS, PROVIDER_ID_TO_ALIAS } from "@/shared/constants/models";
 import { NOAUTH_PROVIDERS } from "@/shared/constants/providers";
-import {
-  getCachedRawProviderConnections,
-  getCombos,
-  getAllCustomModels,
-  getSettings,
-  getCachedProviderNodes,
-  getModelIsHidden,
-  getModelAliases,
-  getDatabaseSettings,
-} from "@/lib/localDb";
+import { getCombos } from "@/lib/db/combos"
+import { getDatabaseSettings } from "@/lib/db/databaseSettings"
+import { getAllCustomModels } from "@/lib/db/models"
+import { getCachedProviderNodes } from "@/lib/db/readCache"
+import { getCachedRawProviderConnections, getModelAliases, getModelIsHidden, getSettings } from "@/lib/localDb";
 import { createLazyConnectionView } from "@/lib/db/providers/lazyConnectionView";
 import { extractAliasBackedModels } from "./aliasBackedModels";
 import {

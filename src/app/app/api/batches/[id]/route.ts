@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getBatch } from "@/lib/localDb";
+import { getBatch } from "@/lib/db/batches";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {

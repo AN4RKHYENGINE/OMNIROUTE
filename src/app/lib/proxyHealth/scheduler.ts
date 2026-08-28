@@ -11,7 +11,8 @@
  *   PROXY_AUTO_REMOVE_AFTER   — consecutive failures before removal (default: 3)
  */
 
-import { deleteProxyById, listProxies, updateProxy } from "@/lib/localDb";
+import { deleteProxyById, listProxies } from "@/lib/db/proxies"
+import { updateProxy } from "@/lib/localDb";
 import { createProxyDispatcher, clearDispatcherCache, proxyConfigToUrl } from "@omniroute/open-sse/utils/proxyDispatcher";
 import { fetch as undiciFetch } from "undici";
 import {

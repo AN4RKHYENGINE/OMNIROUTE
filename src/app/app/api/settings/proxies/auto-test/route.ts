@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { deleteProxyById, listProxies, updateProxy } from "@/lib/localDb";
+import { deleteProxyById, listProxies } from "@/lib/db/proxies"
+import { updateProxy } from "@/lib/localDb";
 import { createErrorResponseFromUnknown } from "@/lib/api/errorResponse";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { createProxyDispatcher, proxyConfigToUrl } from "@omniroute/open-sse/utils/proxyDispatcher";

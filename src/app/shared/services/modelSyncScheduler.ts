@@ -10,7 +10,7 @@
 
 import { randomUUID } from "node:crypto";
 import { Agent, buildConnector, fetch as undiciFetch, type Dispatcher } from "undici";
-import { getSettings, updateSettings } from "@/lib/localDb";
+import { getSettings, updateSettings } from "@/lib/db";
 import { getRuntimePorts } from "@/lib/runtime/ports";
 
 const DEFAULT_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours

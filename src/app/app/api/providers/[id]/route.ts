@@ -4,12 +4,10 @@ import {
   getProviderAuditTarget,
   summarizeProviderConnectionForAudit,
 } from "@/lib/compliance/providerAudit";
-import {
-  getCachedProviderConnectionById,
-  updateProviderConnection,
-  deleteProviderConnection,
-  isCloudEnabled,
-} from "@/lib/localDb";
+import { updateProviderConnection } from "@/lib/db/providers"
+import { getCachedProviderConnectionById } from "@/lib/db/readCache"
+import { isCloudEnabled } from "@/lib/db/settings"
+import { deleteProviderConnection } from "@/lib/localDb";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud } from "@/lib/cloudSync";
 import { updateProviderConnectionSchema } from "@/shared/validation/schemas";

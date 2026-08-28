@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import {
-  getMiddlewareHook,
-  updateMiddlewareHook,
-  deleteMiddlewareHook,
-  getHookLogs,
-} from "@/lib/localDb";
+import { deleteMiddlewareHook, getHookLogs, getMiddlewareHook, updateMiddlewareHook } from "@/lib/localDb";
 import { registerHook, unregisterHook, updateHook } from "@/lib/middleware/registry";
 import type { HookConfig } from "@/lib/middleware/types";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";

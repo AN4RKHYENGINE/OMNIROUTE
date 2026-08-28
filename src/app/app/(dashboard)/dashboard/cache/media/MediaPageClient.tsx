@@ -442,9 +442,9 @@ export default function MediaPageClient() {
   const [imageInputFile, setImageInputFile] = useState<File | null>(null);
   const [registries, setRegistries] = useState<ProviderRegistries | null>(null);
   const registriesInitialized = useRef(false);
-  const registriesInitialized = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
       if (!registriesInitialized.current && cachedRegistries) {
         registriesInitialized.current = true;
         setRegistries(cachedRegistries);
@@ -460,26 +460,6 @@ export default function MediaPageClient() {
       }
       setIsLoading(false);
       return;
-      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
-      setIsLoading(false);
-      return;
-      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
-      setIsLoading(false);
-      return;
-      if (!registriesInitialized.current && cachedRegistries && registries.length === 0) {
-        registriesInitialized.current = true;
-        setRegistries(cachedRegistries);
-      }
-      setIsLoading(false);
-      return;
-    }
-
     fetch("/api/registries")
       .then(res => res.json())
       .then(data => {

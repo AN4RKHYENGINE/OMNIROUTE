@@ -24,7 +24,8 @@ import {
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
 import { validateProviderApiKey } from "@/lib/providers/validation";
-import { getProxyForLevel, resolveProxyForProvider } from "@/lib/localDb";
+import { getProxyForLevel } from "@/lib/db/settings"
+import { resolveProxyForProvider } from "@/lib/localDb";
 import { runWithProxyContext } from "@omniroute/open-sse/utils/proxyFetch.ts";
 
 type ImportEntry = {

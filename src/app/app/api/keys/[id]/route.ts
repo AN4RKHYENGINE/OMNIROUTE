@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
-import {
-  deleteApiKey,
-  getApiKeyById,
-  updateApiKeyPermissions,
-  isCloudEnabled,
-} from "@/lib/localDb";
+import { getApiKeyById } from "@/lib/db/apiKeys"
+import { isCloudEnabled } from "@/lib/db/settings"
+import { deleteApiKey, updateApiKeyPermissions } from "@/lib/localDb";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud } from "@/lib/cloudSync";
 import { updateKeyPermissionsSchema } from "@/shared/validation/schemas";

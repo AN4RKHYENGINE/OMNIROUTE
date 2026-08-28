@@ -1,17 +1,5 @@
-import {
-  getCustomModels,
-  getAllCustomModels,
-  addCustomModel,
-  removeCustomModel,
-  replaceCustomModels,
-  deleteSyncedAvailableModelsForProvider,
-  removeSyncedAvailableModel,
-  updateCustomModel,
-  getModelCompatOverrides,
-  mergeModelCompatOverride,
-  getHiddenModelsByProvider,
-  type ModelCompatPatch,
-} from "@/lib/localDb";
+import { getAllCustomModels, getCustomModels } from "@/lib/db/models"
+import { addCustomModel, deleteSyncedAvailableModelsForProvider, getHiddenModelsByProvider, getModelCompatOverrides, mergeModelCompatOverride, removeCustomModel, removeSyncedAvailableModel, replaceCustomModels, type ModelCompatPatch, updateCustomModel } from "@/lib/localDb";
 import {
   getModelContextOverrideRecord,
   setModelContextOverride,

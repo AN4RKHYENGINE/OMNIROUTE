@@ -8,7 +8,7 @@ import {
   extractComboTestResponseText,
   extractComboTestStreamResult,
 } from "@/lib/combos/testHealth";
-import { getCustomModels } from "@/lib/localDb";
+import { getCustomModels } from "@/lib/db/models";
 import { getProviderNodeById } from "@/lib/db/providers";
 import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
 import { withRateLimit } from "@omniroute/open-sse/services/rateLimitManager";

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { LANGUAGES } from "@/i18n/config";
@@ -23,7 +24,9 @@ function CountryFlag({ emoji, alt }: { emoji: string; alt: string }) {
   const countryCode = codePoints.map((cp) => String.fromCharCode(cp - 127462 + 97)).join("");
 
   return (
-    <img
+    <Image
+      width={40}
+      height={30}
       src={`https://flagcdn.com/w40/${countryCode}.png`}
       className="w-4.5 h-3 object-cover rounded-2xs shrink-0 shadow-2xs border border-black/5 dark:border-white/5"
       alt={alt}

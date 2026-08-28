@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
-import { getSettings, updateSettings } from "@/lib/localDb";
+import { updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import {
   hasManagementPasswordConfigured,
   hashManagementPassword,

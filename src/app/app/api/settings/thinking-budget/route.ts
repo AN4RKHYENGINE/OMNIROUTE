@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { getSettings, updateSettings } from "@/lib/localDb";
+import { updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import {
   setThinkingBudgetConfig,
   getThinkingBudgetConfig,

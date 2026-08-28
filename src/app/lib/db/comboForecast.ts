@@ -40,9 +40,6 @@ type ComboForecastUsageSqlRow = {
   lastUsedAt: string | null;
 };
 
-function toNumber(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
 
 function toString(value: unknown, fallback = "unknown"): string {
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : fallback;

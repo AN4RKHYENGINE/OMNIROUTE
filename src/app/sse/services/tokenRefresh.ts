@@ -4,7 +4,7 @@ import {
   updateProviderConnection,
   resolveProxyForConnection,
   resolveProxyForProvider,
-} from "@/lib/localDb";
+} from "@/lib/db";
 import {
   TOKEN_EXPIRY_BUFFER_MS as BUFFER_MS,
   getRefreshLeadMs as _getRefreshLeadMs,

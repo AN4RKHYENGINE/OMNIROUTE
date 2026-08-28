@@ -3,7 +3,8 @@ import { isAuthenticated } from "@/shared/utils/apiAuth";
 import { validateBody, isValidationFailure } from "@/shared/validation/helpers";
 import { QdrantSettingsUpdateSchema } from "@/shared/schemas/qdrant";
 import { getQdrantConfig, normalizeQdrantConfig } from "@/lib/memory/qdrant";
-import { updateSettings, getSettings } from "@/lib/localDb";
+import { updateSettings } from "@/lib/db/settings"
+import { getSettings } from "@/lib/localDb";
 import { invalidateMemorySettingsCache } from "@/lib/memory/settings";
 import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error.ts";
 

@@ -26,7 +26,7 @@ import {
   isTlsFingerprintActive,
   type AppliedProxySink,
 } from "@omniroute/open-sse/utils/proxyFetch.ts";
-import { resolveProxyForConnection } from "@/lib/localDb";
+import { resolveProxyForConnection } from "@/lib/db";
 import { hasBlockingProxyAssignment } from "@/lib/db/proxies";
 import {
   CircuitBreakerOpenError,
@@ -96,7 +96,7 @@ function isCodexNativeResponsesRequest(
     body && typeof body === "object" && body.metadata && typeof body.metadata === "object"
       ? String(body.metadata.source || "")
       : "";
-  return metadataSource.toLowerCase().includes("codex");
+  return metadataSourcematchesSearch("codex");
 }
 
 async function hasOnlyActiveCodexAccount() {
