@@ -13,6 +13,7 @@ jobs:
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
+        with:
           node-version: '24'
           cache: 'npm'
       
@@ -24,6 +25,7 @@ jobs:
       
       - name: Upload .next artifact
         uses: actions/upload-artifact@v4
+        with:
           name: next-build
           path: .next
           retention-days: 5
