@@ -10,22 +10,22 @@ const cwd = process.cwd();
  * keep explicit `any` at zero in files already hardened.
  */
 const budget = [
-  { file: "src/app/api/settings/proxy/route.ts", maxAny: 0 },
-  { file: "src/app/api/settings/proxy/test/route.ts", maxAny: 0 },
-  { file: "src/shared/components/OAuthModal.tsx", maxAny: 0 },
+  { file: "src/app/app/api/settings/proxy/route.ts", maxAny: 0 },
+  { file: "src/app/app/api/settings/proxy/test/route.ts", maxAny: 0 },
+  { file: "src/app/shared/components/OAuthModal.tsx", maxAny: 0 },
   { file: "open-sse/translator/index.ts", maxAny: 0 },
   { file: "open-sse/translator/registry.ts", maxAny: 0 },
   // Freeze legacy hot spots to avoid any-regression while strict migration continues.
-  { file: "src/lib/db/apiKeys.ts", maxAny: 0 },
-  { file: "src/lib/db/cliToolState.ts", maxAny: 0 },
-  { file: "src/lib/db/encryption.ts", maxAny: 0 },
-  { file: "src/lib/db/prompts.ts", maxAny: 0 },
-  { file: "src/lib/db/providers.ts", maxAny: 0 },
-  { file: "src/lib/db/settings.ts", maxAny: 0 },
+  { file: "src/app/lib/db/apiKeys.ts", maxAny: 0 },
+  { file: "src/app/lib/db/cliToolState.ts", maxAny: 0 },
+  { file: "src/app/lib/db/encryption.ts", maxAny: 0 },
+  { file: "src/app/lib/db/prompts.ts", maxAny: 0 },
+  { file: "src/app/lib/db/providers.ts", maxAny: 0 },
+  { file: "src/app/lib/db/settings.ts", maxAny: 0 },
   // #3512: saveRequestUsage typed with UsageEntry (DB-entity 1:1 interface); the
   // other any's in this file (getUsageHistory filter, nextCursor cast,
   // appendRequestLog tokens, getRecentLogs catch) were cleaned in the same pass.
-  { file: "src/lib/usage/usageHistory.ts", maxAny: 0 },
+  { file: "src/app/lib/usage/usageHistory.ts", maxAny: 0 },
   { file: "open-sse/config/providerRegistry.ts", maxAny: 0 },
   { file: "open-sse/config/providerModels.ts", maxAny: 0 },
   { file: "open-sse/mcp-server/audit.ts", maxAny: 0 },

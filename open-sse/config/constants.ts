@@ -102,7 +102,7 @@ export const PROVIDERS: Record<string, LegacyProvider> = new Proxy(
 );
 
 // Claude system prompt
-export const CLAUDE_SYSTEM_PROMPT = "You are Claude Code, Anthropic"s official CLI for Claude.";
+export const CLAUDE_SYSTEM_PROMPT = `You are Claude Code, Anthropic's official CLI for Claude.`;
 
 // Antigravity default system prompt (required for API to work)
 export const ANTIGRAVITY_DEFAULT_SYSTEM =

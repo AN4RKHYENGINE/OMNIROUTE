@@ -1,5 +1,5 @@
-import Image from 'next/image';
 "use client";
+import Image from "next/image";
 
 import { useState, useEffect, useRef, useCallback, type CSSProperties } from "react";
 import Link from "next/link";
@@ -310,7 +310,6 @@ export default function Sidebar({
         break;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeHref, collapsed, pinnedSections, sidebarExpansionLoaded]);
 
   // Accordion toggle: opening a section closes all non-pinned sections
