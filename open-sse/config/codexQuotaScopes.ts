@@ -1,8 +1,8 @@
-export type CodexQuotaScope = "codex" | "spark';
+export type CodexQuotaScope = "codex" | "spark";
 
-export const CODEX_SPARK_MODEL_ID = "gpt-5.3-codex-spark';
-export const CODEX_SPARK_DISPLAY_NAME = "GPT-5.3-Codex-Spark';
-export const CODEX_SPARK_METERED_FEATURE = "gpt_5_3_codex_spark';
+export const CODEX_SPARK_MODEL_ID = "gpt-5.3-codex-spark";
+export const CODEX_SPARK_DISPLAY_NAME = "GPT-5.3-Codex-Spark";
+export const CODEX_SPARK_METERED_FEATURE = "gpt_5_3_codex_spark";
 export const CODEX_SPARK_QUOTA_SESSION = `${CODEX_SPARK_METERED_FEATURE}_session`;
 export const CODEX_SPARK_QUOTA_WEEKLY = `${CODEX_SPARK_METERED_FEATURE}_weekly`;
 
@@ -19,7 +19,7 @@ export function getCodexModelScope(model: string | null | undefined): CodexQuota
   for (const { pattern, scope } of CODEX_SCOPE_PATTERNS) {
     if (lower.includes(pattern)) return scope;
   }
-  return "codex';
+  return "codex";
 }
 
 export function getCodexRateLimitKey(accountId: string, model: string): string {
@@ -79,9 +79,9 @@ export function toCodexScopedQuotaWindowName(
 export function toCodexBaseQuotaWindowName(windowName: string | null): string | null {
   if (!windowName) return windowName;
   const normalized = windowName.trim().toLowerCase();
-  if (normalized === CODEX_SPARK_QUOTA_SESSION || normalized === "codex-spark") return "session';
+  if (normalized === CODEX_SPARK_QUOTA_SESSION || normalized === "codex-spark") return "session";
   if (normalized === CODEX_SPARK_QUOTA_WEEKLY || normalized === "codex-spark-weekly") {
-    return "weekly';
+    return "weekly";
   }
   return windowName;
 }

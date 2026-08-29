@@ -1,13 +1,13 @@
 import {
   DEFAULT_CODEX_CLIENT_VERSION,
   getCodexCliRsHeaders as buildCodexCliRsHeaders,
-} from '@/shared/constants/codexClient';
+} from "@/shared/constants/codexClient";
 
-export { DEFAULT_CODEX_CLIENT_VERSION } from '@/shared/constants/codexClient';
-const DEFAULT_CODEX_USER_AGENT_PLATFORM = "Windows 10.0.26200';
-const DEFAULT_CODEX_USER_AGENT_ARCH = "x64';
-const CODEX_VERSION_OVERRIDE_ENV = "CODEX_CLIENT_VERSION';
-const CODEX_USER_AGENT_OVERRIDE_ENV = "CODEX_USER_AGENT';
+export { DEFAULT_CODEX_CLIENT_VERSION } from "@/shared/constants/codexClient";
+const DEFAULT_CODEX_USER_AGENT_PLATFORM = "Windows 10.0.26200";
+const DEFAULT_CODEX_USER_AGENT_ARCH = "x64";
+const CODEX_VERSION_OVERRIDE_ENV = "CODEX_CLIENT_VERSION";
+const CODEX_USER_AGENT_OVERRIDE_ENV = "CODEX_USER_AGENT";
 const SAFE_HEADER_TOKEN_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,31}$/;
 const SAFE_HEADER_VALUE_PATTERN = /^[\x20-\x7E]{1,200}$/;
 const SAFE_CODEX_SESSION_ID_PATTERN = /^[A-Za-z0-9._:-]{1,200}$/;

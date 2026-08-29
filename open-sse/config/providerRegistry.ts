@@ -3,13 +3,13 @@
  * Modularized into `open-sse/config/providers/`
  */
 
-export * from './providers/shared.ts';
+export * from "./providers/shared.ts";
 export {
   ALIBABA_MODEL_STUDIO_MODELS,
   ALIBABA_MODEL_STUDIO_MODELS as ALIBABA_DASHSCOPE_MODELS,
-} from './providers/registry/alibaba/index.ts';
-export { REGISTRY } from './providers/index.ts';
-import { REGISTRY } from './providers/index.ts';
+} from "./providers/registry/alibaba/index.ts";
+export { REGISTRY } from "./providers/index.ts";
+import { REGISTRY } from "./providers/index.ts";
 import {
   RegistryModel,
   REASONING_UNSUPPORTED,
@@ -22,7 +22,7 @@ import {
   CHAT_OPENAI_COMPAT_MODELS,
   mapStainlessOs,
   mapStainlessArch,
-} from './providers/shared.ts';
+} from "./providers/shared.ts";
 
 // ── Generator Functions ───────────────────────────────────────────────────
 
@@ -239,7 +239,7 @@ export function getUnsupportedParams(provider: string, modelId: string): readonl
 
   // 3. Handle prefixed model IDs (e.g., "openai/o3" → "o3")
   if (modelId.includes("/")) {
-    const bareId = modelId.split("/").pop() || "';
+    const bareId = modelId.split("/").pop() || "";
     const bare = _unsupportedParamsMap.get(bareId);
     if (bare) return bare;
   }
@@ -272,7 +272,7 @@ export function requiresPlainStringContent(provider: string): boolean {
 export function getProviderCategory(provider: string): "oauth" | "apikey" {
   const entry = getRegistryEntry(provider);
   if (!entry) return "apikey"; // Safe default for unknown providers
-  return entry.authType === "apikey" ? "apikey" : "oauth';
+  return entry.authType === "apikey" ? "apikey" : "oauth";
 }
 
 /**
@@ -287,7 +287,7 @@ export function getClaudeCodeDefaultModels(): {
   haiku: string;
 } {
   const models = REGISTRY.claude?.models ?? [];
-  const find = (pattern: RegExp) => models.find((m) => pattern.test(m.id))?.id ?? "';
+  const find = (pattern: RegExp) => models.find((m) => pattern.test(m.id))?.id ?? "";
   return {
     fable: find(/fable/i),
     opus: find(/opus/i),

@@ -14,8 +14,8 @@ export interface SearchProviderConfig {
   id: string;
   name: string;
   baseUrl: string;
-  method: "GET" | "POST';
-  authType: "apikey" | "none';
+  method: "GET" | "POST";
+  authType: "apikey" | "none";
   authHeader: string;
   costPerQuery: number;
   freeMonthlyQuota: number;

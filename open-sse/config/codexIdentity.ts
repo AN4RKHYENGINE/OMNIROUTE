@@ -1,8 +1,8 @@
-import { createHash, randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from "node:crypto";
 
-import { normalizeCodexSessionId } from './codexClient.ts';
+import { normalizeCodexSessionId } from "./codexClient.ts";
 
-const CODEX_INSTALLATION_SALT = "omniroute-codex-installation';
+const CODEX_INSTALLATION_SALT = "omniroute-codex-installation";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export type CodexClientIdentity = {
@@ -34,7 +34,7 @@ export function getCodexInstallationId(
         ? providerSpecificData.accountId.trim()
         : typeof providerSpecificData?.email === "string" && providerSpecificData.email.trim()
           ? providerSpecificData.email.trim()
-          : "default';
+          : "default";
 
   return uuidFromStableValue(`${CODEX_INSTALLATION_SALT}:${stableSource}`);
 }
@@ -84,7 +84,7 @@ export function isCodexOriginatedHeaders(
 ): boolean {
   const getHeader = (name: string): string => {
     if (headers instanceof Headers) {
-      return headers.get(name)?.toLowerCase() ?? "';
+      return headers.get(name)?.toLowerCase() ?? "";
     }
     if (headers && typeof headers === "object") {
       for (const [key, value] of Object.entries(headers as Record<string, unknown>)) {
@@ -93,7 +93,7 @@ export function isCodexOriginatedHeaders(
         }
       }
     }
-    return "';
+    return "";
   };
 
   if (getHeader("originator").startsWith("codex")) return true;

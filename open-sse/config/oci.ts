@@ -1,7 +1,7 @@
-import { stripTrailingSlashes, normalizeBaseUrl } from '../utils/urlSanitize.ts';
+import { stripTrailingSlashes, normalizeBaseUrl } from "../utils/urlSanitize.ts";
 
 export const OCI_DEFAULT_BASE_URL =
-  "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1';
+  "https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/openai/v1";
 
 export function normalizeOciBaseUrl(value: string | null | undefined): string {
   const normalized = normalizeBaseUrl(value || OCI_DEFAULT_BASE_URL);
@@ -20,12 +20,12 @@ export function normalizeOciBaseUrl(value: string | null | undefined): string {
   try {
     const parsed = new URL(stripped);
     if (!parsed.pathname || parsed.pathname === "/") {
-      parsed.pathname = "/openai/v1';
+      parsed.pathname = "/openai/v1";
     } else if (parsed.pathname.endsWith("/openai")) {
       parsed.pathname = `${parsed.pathname}/v1`;
     }
-    parsed.search = "';
-    parsed.hash = "';
+    parsed.search = "";
+    parsed.hash = "";
     return stripTrailingSlashes(parsed.toString());
   } catch {
     return stripped;

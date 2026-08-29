@@ -27,4 +27,4 @@ export const CLAUDE_WEB_FINGERPRINT = {
  * cached `cf_clearance` token (minted under the old fingerprint) is treated
  * as stale rather than replayed under the new one.
  */
-export const CLAUDE_WEB_FINGERPRINT_VERSION = "v2-linux-unified';
+export const CLAUDE_WEB_FINGERPRINT_VERSION = "v2-linux-unified";

@@ -14,8 +14,8 @@
  * }
  */
 
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, existsSync } from "fs";
+import { join } from "path";
 
 // Fields that can be overridden per provider
 const CREDENTIAL_FIELDS = [
@@ -113,7 +113,7 @@ export function loadProviderCredentials<T extends Record<string, unknown>>(provi
     const reason =
       err instanceof SyntaxError
         ? "Invalid JSON format"
-        : (err as NodeJS.ErrnoException).code || "read error';
+        : (err as NodeJS.ErrnoException).code || "read error";
     console.log(`[CREDENTIALS] Error reading credentials file (${reason}). Using defaults.`);
   }
 

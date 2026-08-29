@@ -1,8 +1,8 @@
-import { getUpstreamTimeoutConfig } from '@/shared/utils/runtimeTimeouts';
-import { resolvePublicCred } from '../utils/publicCreds.ts';
-import type { LegacyProvider } from './providerRegistry.ts';
-import { loadProviderCredentials } from './credentialLoader.ts';
-import { generateLegacyProviders } from './providerRegistry.ts';
+import { getUpstreamTimeoutConfig } from "@/shared/utils/runtimeTimeouts";
+import { resolvePublicCred } from "../utils/publicCreds.ts";
+import type { LegacyProvider } from "./providerRegistry.ts";
+import { loadProviderCredentials } from "./credentialLoader.ts";
+import { generateLegacyProviders } from "./providerRegistry.ts";
 
 const upstreamTimeouts = getUpstreamTimeoutConfig(process.env, (message) => {
   console.warn(`[open-sse] ${message}`);
@@ -42,7 +42,7 @@ export const STREAM_READINESS_MAX_TIMEOUT_MS = upstreamTimeouts.streamReadinessM
 // Error code used when an upstream Antigravity request stalls before response
 // headers are returned. Keep it shared so executor, core normalization and
 // account fallback detection cannot drift.
-export const ANTIGRAVITY_PRE_RESPONSE_TIMEOUT_CODE = "ANTIGRAVITY_PRE_RESPONSE_TIMEOUT';
+export const ANTIGRAVITY_PRE_RESPONSE_TIMEOUT_CODE = "ANTIGRAVITY_PRE_RESPONSE_TIMEOUT";
 
 // Heartbeat interval for synthetic SSE keepalive emission toward the downstream
 // client (Capy, Claude Code, OpenAI SDK, etc). Keeps strict proxies from
@@ -102,14 +102,14 @@ export const PROVIDERS: Record<string, LegacyProvider> = new Proxy(
 );
 
 // Claude system prompt
-export const CLAUDE_SYSTEM_PROMPT = "You are Claude Code, Anthropic's official CLI for Claude.';
+export const CLAUDE_SYSTEM_PROMPT = "You are Claude Code, Anthropic's official CLI for Claude.";
 
 // Antigravity default system prompt (required for API to work)
 export const ANTIGRAVITY_DEFAULT_SYSTEM =
   "You are Antigravity, a powerful agentic AI coding assistant designed by the Google Deepmind team working on Advanced Agentic Coding.\n" +
   "You are pair programming with a USER to solve their coding task. The task may require creating a new codebase, modifying or debugging an existing codebase, or simply answering a question.\n" +
   "**Absolute paths only**\n" +
-  "**Proactiveness**';
+  "**Proactiveness**";
 
 // OAuth endpoints
 export const OAUTH_ENDPOINTS = {
@@ -192,7 +192,7 @@ export {
   getErrorInfo,
   matchErrorRuleByStatus,
   matchErrorRuleByText,
-} from './errorConfig.ts';
+} from "./errorConfig.ts";
 
 // Configurable backoff steps for rate limits (Phase 1 — enhanced rate limiting)
 // Used for per-model lockouts with increasing severity

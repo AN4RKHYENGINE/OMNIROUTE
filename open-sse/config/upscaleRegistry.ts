@@ -16,7 +16,7 @@
  * extra setup.
  */
 
-import { parseModelFromRegistry, getAllModelsFromRegistry } from './registryUtils.ts';
+import { parseModelFromRegistry, getAllModelsFromRegistry } from "./registryUtils.ts";
 
 /** Scale factors offered by default when a model does not restrict them. */
 export const DEFAULT_UPSCALE_FACTORS: readonly number[] = Object.freeze([2, 4]);
@@ -39,9 +39,9 @@ export interface UpscaleProviderConfig {
   id: string;
   alias?: string;
   baseUrl: string;
-  authType: "apikey" | "none';
+  authType: "apikey" | "none";
   authHeader: string;
-  format: "adobe-firefly-upscale" | "stability-upscale" | "topaz-upscale';
+  format: "adobe-firefly-upscale" | "stability-upscale" | "topaz-upscale";
   models: UpscaleModelEntry[];
 }
 
@@ -134,7 +134,9 @@ export const UPSCALE_PROVIDERS: Record<string, UpscaleProviderConfig> = {
   },
 };
 
-export function getUpscaleProvider(providerId: string | null | undefined): UpscaleProviderConfig | null {
+export function getUpscaleProvider(
+  providerId: string | null | undefined
+): UpscaleProviderConfig | null {
   if (!providerId) return null;
   return UPSCALE_PROVIDERS[providerId] || null;
 }

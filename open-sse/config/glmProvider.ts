@@ -1,11 +1,11 @@
-import { getClaudeCodeUserAgent } from '@/shared/constants/claudeCodeClient';
+import { getClaudeCodeUserAgent } from "@/shared/constants/claudeCodeClient";
 
-import { ANTHROPIC_VERSION_HEADER } from './anthropicHeaders.ts';
+import { ANTHROPIC_VERSION_HEADER } from "./anthropicHeaders.ts";
 
 type JsonRecord = Record<string, unknown>;
 
-export type GlmApiRegion = "international" | "china';
-export type GlmTransport = "openai" | "anthropic';
+export type GlmApiRegion = "international";
+export type GlmTransport = "openai" | "anthropic";
 
 export const GLM_DEFAULT_BASE_URLS = Object.freeze({
   international: "https://api.z.ai/api/coding/paas/v4/chat/completions",
@@ -178,7 +178,7 @@ function splitUrlQueryAndHash(url: string): { base: string; suffix: string } {
 
 export function getGlmApiRegion(providerSpecificData: unknown): GlmApiRegion {
   const data = asRecord(providerSpecificData);
-  return data.apiRegion === "china" ? "china" : "international';
+  return data.apiRegion === "china" ? "china" : "international";
 }
 
 export function buildGlmModelsUrl(
@@ -406,11 +406,11 @@ export function getGlmPrimaryTransport(
 ): GlmTransport {
   const data = asRecord(providerSpecificData);
   const configuredTransport = asString(data.primaryTransport);
-  if (configuredTransport === "anthropic") return "anthropic';
-  if (configuredTransport === "openai") return "openai';
+  if (configuredTransport === "anthropic") return "anthropic";
+  if (configuredTransport === "openai") return "openai";
   return isAnthropicGlmBaseUrl(getGlmBaseUrl(providerSpecificData, fallbackBaseUrl))
     ? "anthropic"
-    : "openai';
+    : "openai";
 }
 
 export function getGlmTransport(providerSpecificData: unknown, fallbackBaseUrl?: string | null) {

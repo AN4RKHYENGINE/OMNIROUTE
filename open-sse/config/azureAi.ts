@@ -1,6 +1,6 @@
-import { stripTrailingSlashes, normalizeBaseUrl } from '../utils/urlSanitize.ts';
+import { stripTrailingSlashes, normalizeBaseUrl } from "../utils/urlSanitize.ts";
 
-export const AZURE_AI_DEFAULT_BASE_URL = "https://example-resource.services.ai.azure.com/openai/v1';
+export const AZURE_AI_DEFAULT_BASE_URL = "https://example-resource.services.ai.azure.com/openai/v1";
 
 export function normalizeAzureAiBaseUrl(value: string | null | undefined): string {
   const normalized = normalizeBaseUrl(value || AZURE_AI_DEFAULT_BASE_URL);
@@ -28,7 +28,7 @@ export function normalizeAzureAiBaseUrl(value: string | null | undefined): strin
     parsed.hostname.endsWith(".openai.azure.com")
   ) {
     if (!parsed.pathname || parsed.pathname === "/") {
-      parsed.pathname = "/openai/v1';
+      parsed.pathname = "/openai/v1";
       return stripTrailingSlashes(parsed.toString());
     }
   }
@@ -36,12 +36,12 @@ export function normalizeAzureAiBaseUrl(value: string | null | undefined): strin
   return normalized;
 }
 
-export type AzureUrlFormat = "foundry" | "classic';
+export type AzureUrlFormat = "foundry" | "classic";
 
 export function detectAzureUrlFormat(baseUrl: string | null | undefined): AzureUrlFormat {
-  if (!baseUrl || typeof baseUrl !== "string") return "foundry';
+  if (!baseUrl || typeof baseUrl !== "string") return "foundry";
   const trimmed = baseUrl.trim();
-  if (!trimmed) return "foundry';
+  if (!trimmed) return "foundry";
 
   try {
     const urlStr =
@@ -53,23 +53,23 @@ export function detectAzureUrlFormat(baseUrl: string | null | undefined): AzureU
     const pathname = parsed.pathname.toLowerCase();
 
     if (host.endsWith(".services.ai.azure.com")) {
-      return "foundry';
+      return "foundry";
     }
 
     if (
       (host.endsWith(".openai.azure.com") || host.endsWith(".cognitiveservices.azure.com")) &&
       !pathname.includes("/v1")
     ) {
-      return "classic';
+      return "classic";
     }
 
     if (pathname.includes("/v1")) {
-      return "foundry';
+      return "foundry";
     }
 
-    return "foundry';
+    return "foundry";
   } catch {
-    return "foundry';
+    return "foundry";
   }
 }
 

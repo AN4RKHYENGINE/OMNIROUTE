@@ -1,6 +1,6 @@
-import type { TosVerdict } from './freeTierCatalog.ts';
-export { FREE_MODEL_BUDGETS } from './freeModelCatalog.data.ts';
-import { FREE_MODEL_BUDGETS } from './freeModelCatalog.data.ts';
+import type { TosVerdict } from "./freeTierCatalog.ts";
+export { FREE_MODEL_BUDGETS } from "./freeModelCatalog.data.ts";
+import { FREE_MODEL_BUDGETS } from "./freeModelCatalog.data.ts";
 
 export type FreeModelFreeType =
   | "recurring-daily"
@@ -9,7 +9,7 @@ export type FreeModelFreeType =
   | "recurring-uncapped"
   | "one-time-initial"
   | "keyless"
-  | "discontinued';
+  | "discontinued";
 
 export interface FreeModelBudget {
   provider: string;
@@ -72,7 +72,7 @@ export const FREE_TIER_BOOSTS: Record<
 };
 
 function fmt(n: number): string {
-  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M';
+  return n >= 1e9 ? (n / 1e9).toFixed(2) + "B" : Math.round(n / 1e6) + "M";
 }
 
 // Sum a per-model numeric field, counting each shared pool once (max within the pool);
@@ -80,7 +80,7 @@ function fmt(n: number): string {
 function dedupedSum(
   models: FreeModelBudget[],
   pick: (m: FreeModelBudget) => number,
-  include: (m: FreeModelBudget) => boolean,
+  include: (m: FreeModelBudget) => boolean
 ): number {
   const poolMax = new Map<string, number>();
   let loose = 0;
@@ -100,30 +100,30 @@ export function computeFreeModelTotals(opts: { excludeTosAvoid?: boolean } = {})
   const steadyRecurringTokens = dedupedSum(
     models,
     (m) => m.monthlyTokens,
-    (m) => RECURRING.has(m.freeType),
+    (m) => RECURRING.has(m.freeType)
   );
   const recurringCredits = dedupedSum(
     models,
     (m) => m.creditTokens,
-    (m) => m.freeType === "recurring-credit",
+    (m) => m.freeType === "recurring-credit"
   );
   const oneTimeCredits = dedupedSum(
     models,
     (m) => m.creditTokens,
-    (m) => m.freeType === "one-time-initial",
+    (m) => m.freeType === "one-time-initial"
   );
 
   const steadyWithRecurringCreditsTokens = steadyRecurringTokens + recurringCredits;
   const firstMonthRealisticTokens = steadyWithRecurringCreditsTokens + oneTimeCredits;
 
   const poolCount = new Set(
-    models.filter((m) => RECURRING.has(m.freeType) && m.poolKey).map((m) => m.poolKey),
+    models.filter((m) => RECURRING.has(m.freeType) && m.poolKey).map((m) => m.poolKey)
   ).size;
 
   // Deposit-unlock boost: sum the FREE_TIER_BOOSTS whose pool still has a live
   // recurring model in the (optionally ToS-filtered) set.
   const livePools = new Set(
-    models.filter((m) => RECURRING.has(m.freeType) && m.poolKey).map((m) => m.poolKey),
+    models.filter((m) => RECURRING.has(m.freeType) && m.poolKey).map((m) => m.poolKey)
   );
   const boostMonthlyTokens = Object.entries(FREE_TIER_BOOSTS)
     .filter(([pool]) => livePools.has(pool))
