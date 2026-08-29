@@ -2,8 +2,9 @@
 > omniroute@3.8.50 build
 > node scripts/build/build-next-isolated.mjs
 
-▲ Next.js 16.3.1 (Turbopack)
+▲ Next.js 16.3.1 (webpack)
 - Environments: .env.local, .env
-✓ Running next.config.mjs took 124ms
+✓ Running next.config.mjs took 79ms
 
   Creating an optimized production build ...
+Next.js build worker exited with code: null and signal: SIGKILL
