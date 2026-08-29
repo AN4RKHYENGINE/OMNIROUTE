@@ -1,7 +1,6 @@
-import Image from 'next/image';
 "use client";
 
-import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button, Card, Toggle } from "@/shared/components";
 import { useTheme } from "@/shared/hooks/useTheme";
 import useThemeStore, { COLOR_THEMES } from "@/store/themeStore";
@@ -63,7 +62,7 @@ export default function AppearanceTab() {
       }
     });
     return unsubscribe;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);  
 
   const themeOptionLabels: Record<string, string> = {
     light: t("themeLight"),

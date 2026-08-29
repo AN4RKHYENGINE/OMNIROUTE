@@ -1,59 +1,59 @@
-import { HTTP_STATUS, FETCH_TIMEOUT_MS } from '../config/constants.ts';
-import { getRegistryEntry } from '../config/providerRegistry.ts';
+import { HTTP_STATUS, FETCH_TIMEOUT_MS } from "../config/constants.ts";
+import { getRegistryEntry } from "../config/providerRegistry.ts";
 import {
   resolveAlternateFormat,
   type AlternateFormat,
-} from '../config/providers/alternateFormats.ts';
+} from "../config/providers/alternateFormats.ts";
 import {
   CLAUDE_CLI_BILLING_VERSION,
   CLAUDE_CLI_STAINLESS_RUNTIME_VERSION,
   mergeClientAnthropicBeta,
   normalizeAnthropicHeaderVariants,
-} from '../config/anthropicHeaders.ts';
-import { applyContextEditingToBody } from '../config/contextEditing.ts';
+} from "../config/anthropicHeaders.ts";
+import { applyContextEditingToBody } from "../config/contextEditing.ts";
 import {
   findOffendingField,
   detectUnsupportedParam,
   stripGroqUnsupportedFields,
-} from '../config/providerFieldStrips.ts';
+} from "../config/providerFieldStrips.ts";
 import {
   recordLearnedThinkingCap,
   parseThinkingBudgetMax,
-} from '../services/learnedThinkingCaps.ts';
+} from "../services/learnedThinkingCaps.ts";
 import {
   getParamFilterConfig,
   addParamToBlocklist,
   isAutoLearnGloballyEnabled,
-} from '@/lib/db/paramFilters';
-import { applyFingerprint, isCliCompatEnabled } from '../config/cliFingerprints.ts';
-import { supportsClaudeMaxEffort, supportsXHighEffort } from '../config/providerModels.ts';
-import { getThinkingBudgetConfig, ThinkingMode } from '../services/thinkingBudget.ts';
+} from "@/lib/db/paramFilters";
+import { applyFingerprint, isCliCompatEnabled } from "../config/cliFingerprints.ts";
+import { supportsClaudeMaxEffort, supportsXHighEffort } from "../config/providerModels.ts";
+import { getThinkingBudgetConfig, ThinkingMode } from "../services/thinkingBudget.ts";
 import {
   recordFreeWindowAttempt,
   correctFromRateLimitHeaders,
   resolveAccountKey,
   isFreeVariantModel,
-} from '../services/openrouterFreeWindow.ts';
-import { gateOutboundRequest } from '../services/wafRateLimit.ts';
-import type { PoolConfig } from '../services/sessionPool/types.ts';
-import type { Session } from '../services/sessionPool/session.ts';
-import { SessionPool } from '../services/sessionPool/sessionPool.ts';
-import { PoolRegistry } from '../services/sessionPool/poolRegistry.ts';
+} from "../services/openrouterFreeWindow.ts";
+import { gateOutboundRequest } from "../services/wafRateLimit.ts";
+import type { PoolConfig } from "../services/sessionPool/types.ts";
+import type { Session } from "../services/sessionPool/session.ts";
+import { SessionPool } from "../services/sessionPool/sessionPool.ts";
+import { PoolRegistry } from "../services/sessionPool/poolRegistry.ts";
 import {
   getRotatingApiKey,
   getValidApiKey,
   resolveKeyForRequest,
-} from '../services/apiKeyRotator.ts';
-import type { KeyHealth } from '../services/apiKeyRotator.ts';
-import { getOpenAICompatibleType, isClaudeCodeCompatible } from '../services/provider.ts';
-import { usesCcWireImage } from '../services/ccWireImageBuiltins.ts';
+} from "../services/apiKeyRotator.ts";
+import type { KeyHealth } from "../services/apiKeyRotator.ts";
+import { getOpenAICompatibleType, isClaudeCodeCompatible } from "../services/provider.ts";
+import { usesCcWireImage } from "../services/ccWireImageBuiltins.ts";
 import {
   runWithOnPersist,
   getRefreshLeadMs,
   isUnrecoverableRefreshError,
-} from '../services/tokenRefresh.ts';
-import type { ProviderRequestDefaults } from '../services/providerRequestDefaults.ts';
-import { signRequestBody } from '../services/claudeCodeCCH.ts';
+} from "../services/tokenRefresh.ts";
+import type { ProviderRequestDefaults } from "../services/providerRequestDefaults.ts";
+import { signRequestBody } from "../services/claudeCodeCCH.ts";
 import {
   appendAnthropicBetaHeader,
   CLAUDE_CODE_COMPATIBLE_REDACT_THINKING_BETA,
@@ -61,24 +61,24 @@ import {
   enforceThinkingTemperature,
   modelHasNativeContext1m,
   modelSupportsContext1mBeta,
-} from '../services/claudeCodeCompatible.ts';
-import { getClaudeCodeCompatibleRequestDefaults } from '@/lib/providers/requestDefaults';
+} from "../services/claudeCodeCompatible.ts";
+import { getClaudeCodeCompatibleRequestDefaults } from "@/lib/providers/requestDefaults";
 import {
   cloakThirdPartyToolNames,
   remapToolNamesInRequest,
-} from '../services/claudeCodeToolRemapper.ts';
-import { obfuscateInBody } from '../services/claudeCodeObfuscation.ts';
-import { sanitizeClaudeToolSchemas } from '../translator/helpers/schemaCoercion.ts';
-import { sanitizeResponsesInputItems } from '../services/responsesInputSanitizer.ts';
-import { applySystemTransformPipeline, PROVIDER_CLAUDE } from '../services/systemTransforms.ts';
-import * as prl from '../utils/providerRequestLogging.ts';
+} from "../services/claudeCodeToolRemapper.ts";
+import { obfuscateInBody } from "../services/claudeCodeObfuscation.ts";
+import { sanitizeClaudeToolSchemas } from "../translator/helpers/schemaCoercion.ts";
+import { sanitizeResponsesInputItems } from "../services/responsesInputSanitizer.ts";
+import { applySystemTransformPipeline, PROVIDER_CLAUDE } from "../services/systemTransforms.ts";
+import * as prl from "../utils/providerRequestLogging.ts";
 import {
   fixToolPairs,
   fixToolAdjacency,
   stripTrailingAssistantOrphanToolUse,
   stripTrailingAssistantForProvider,
-} from '../services/contextManager.ts';
-import { randomUUID } from 'node:crypto';
+} from "../services/contextManager.ts";
+import { randomUUID } from "node:crypto";
 import {
   CLAUDE_CODE_VERSION,
   CLAUDE_CODE_STAINLESS_VERSION,
@@ -92,16 +92,16 @@ import {
   stainlessArch,
   stainlessOS,
   stripProxyToolPrefix,
-} from './claudeIdentity.ts';
-import { withForcedResponsesUpstream } from './forceResponsesUpstream.ts';
+} from "./claudeIdentity.ts";
+import { withForcedResponsesUpstream } from "./forceResponsesUpstream.ts";
 import {
   mergeUpstreamExtraHeaders,
   setUserAgentHeader,
   applyConfiguredUserAgent,
   stripStainlessHeadersForOpenAICompat,
-} from './base/headers.ts';
-import { applyPeerTraceHeader } from '@/shared/resilience/peerRouting';
-import { applyClineProtocolHeaders } from '@/shared/utils/clineAuth';
+} from "./base/headers.ts";
+import { applyPeerTraceHeader } from "@/shared/resilience/peerRouting";
+import { applyClineProtocolHeaders } from "@/shared/utils/clineAuth";
 // Header helpers extracted to a pure leaf; re-exported for external importers
 // (executors + tests) that import them from './base.ts".
 export {
@@ -111,11 +111,11 @@ export {
   applyConfiguredUserAgent,
   isOpenAICompatibleEndpoint,
   stripStainlessHeadersForOpenAICompat,
-} from './base/headers.ts';
-import { sanitizeReasoningEffortForProvider } from './base/reasoningEffort.ts';
+} from "./base/headers.ts";
+import { sanitizeReasoningEffortForProvider } from "./base/reasoningEffort.ts";
 // Reasoning-effort sanitation extracted to a pure leaf; re-exported for external
 // importers (mimoThinking service + tests) that import it from './base.ts".
-export { sanitizeReasoningEffortForProvider } from './base/reasoningEffort.ts';
+export { sanitizeReasoningEffortForProvider } from "./base/reasoningEffort.ts";
 
 /**
  * Sanitizes a custom API path to prevent path traversal attacks.
@@ -239,7 +239,7 @@ import {
   hasActiveClaudeThinking,
   readNestedThinkingBudget,
   clampNestedThinkingBudget,
-} from '../utils/thinkingBudget.ts';
+} from "../utils/thinkingBudget.ts";
 
 /**
  * Strip the OmniRoute provider prefix from tool model fields (e.g.
@@ -1093,7 +1093,7 @@ export class BaseExecutor {
           // system[0] (billing) and system[1] (sentinel) must not carry
           // cache_control — that belongs on upstream prompt blocks at [2..].
           const billingLine = `x-anthropic-billing-header: cc_version=${CLAUDE_CLI_BILLING_VERSION}; cc_entrypoint=cli; cch=00000;`;
-          const SENTINEL = "You are Claude Code, Anthropic"s official CLI for Claude.";
+          const SENTINEL = "You are Claude Code, Anthropic's official CLI for Claude.";
 
           const sysBlocks: Array<Record<string, unknown>> = Array.isArray(tb.system)
             ? (tb.system as Array<Record<string, unknown>>)

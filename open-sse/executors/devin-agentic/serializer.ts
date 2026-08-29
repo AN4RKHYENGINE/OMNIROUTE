@@ -4,8 +4,8 @@ import {
   estimateTokens,
   type AnthropicTool,
   type DevinPrompt,
-} from './types.ts';
-import { createHash } from 'node:crypto';
+} from "./types.ts";
+import { createHash } from "node:crypto";
 
 export const MAX_TOOL_RESULT_CHARS = 65536;
 
@@ -157,7 +157,7 @@ function serializeToolCatalog(tools: AnthropicTool[]): string[] {
     [
       "[Available Tools]",
       "When a tool is required, respond with exactly one XML-wrapped JSON object:",
-      '<tool>{"name":"ToolName","arguments":{}}</tool>",
+      '<tool>{"name":"ToolName","arguments":"{}"}</tool>',
       "Use only the tools listed below. Do not claim that a tool was executed.",
       "Do not execute tools inside Devin or emit ACP tool-call events; request them only with the XML envelope.",
       "Never describe a future tool action in plain text; emit the tool envelope instead.",
