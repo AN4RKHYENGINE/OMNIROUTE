@@ -28,7 +28,7 @@ export type PersistAttemptLogsArgs = {
   clientResponse?: unknown;
   claudeCacheMeta?: Record<string, unknown>;
   claudeCacheUsageMeta?: Record<string, unknown>;
-  cacheSource?: "upstream" | "semantic';
+  cacheSource?: "upstream" | "semantic";
 };
 
 export type PersistAttemptLogsContext = {

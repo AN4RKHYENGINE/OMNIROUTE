@@ -37,7 +37,7 @@ export function getAntigravityAccountKey(
 export function getAntigravityEnvelopeUserAgent(
   _credentials?: AntigravityCredentialsLike | null
 ): "antigravity" {
-  return "antigravity';
+  return "antigravity";
 }
 
 export function generateAntigravityRequestId(): string {

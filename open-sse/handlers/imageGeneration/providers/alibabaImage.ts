@@ -115,7 +115,7 @@ export async function handleAlibabaImageGeneration({
     };
   }
 
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
   const content = [
     ...collectImageUrls(body).map((image) => ({ image })),
     ...(prompt ? [{ text: prompt }] : []),

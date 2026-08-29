@@ -1,7 +1,7 @@
 import { SHARED_BOUNDARIES, shouldBypassCavemanOutputMode } from '../outputMode.ts';
 import { OUTPUT_STYLE_IDS, outputStyleMeta } from './catalog.ts';
 
-export type OutputStyleLevel = "lite" | "full" | "ultra';
+export type OutputStyleLevel = "lite" | "full" | "ultra";
 
 export interface OutputStyleSelectionEntry {
   id: string;
@@ -30,7 +30,7 @@ export interface OutputStylesResult {
 }
 
 /** Single idempotency marker guarding the unified injection (D-A: one marker for all styles). */
-export const OUTPUT_STYLE_MARKER = "[OmniRoute Output Styles]';
+export const OUTPUT_STYLE_MARKER = "[OmniRoute Output Styles]";
 
 /**
  * Resolve the selection into the ordered, locale-gated, known styles in catalog order.

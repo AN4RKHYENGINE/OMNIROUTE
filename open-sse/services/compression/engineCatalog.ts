@@ -4,7 +4,7 @@
 // enough across requests (summarization, query-dependent pruning) that cached prefixes
 // are less likely to be reused. Source: docs/compression/COMPRESSION_GUIDE.md,
 // docs/compression/COMPRESSION_ENGINES.md (#7530).
-export type CacheImpact = "none" | "low" | "moderate" | "high';
+export type CacheImpact = "none" | "low" | "moderate" | "high";
 
 export interface EngineGuidance {
   // Short, in-product explanation of the quality/latency tradeoff — adapted from

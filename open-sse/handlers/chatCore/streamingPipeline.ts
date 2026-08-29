@@ -31,9 +31,9 @@ import { SSE_HEARTBEAT_INTERVAL_MS } from '../../config/constants.ts';
  * Each call to assembleStreamingPipeline creates one measure record:
  *   "omni-pipeline" — wall-clock duration of the full transform chain assembly.
  */
-const PIPELINE_START = "omni-pipeline-start';
-const PIPELINE_END = "omni-pipeline-end';
-const PIPELINE_MEASURE = "omni-pipeline';
+const PIPELINE_START = "omni-pipeline-start";
+const PIPELINE_END = "omni-pipeline-end";
+const PIPELINE_MEASURE = "omni-pipeline";
 
 type HeadersLike = Headers | Record<string, unknown> | null | undefined;
 
@@ -97,7 +97,7 @@ export function assembleStreamingPipeline(
     });
     // Chain: provider → transform → progress → client
     finalStream = piiStream.pipeThrough(progressTransform);
-    args.responseHeaders[OMNIROUTE_RESPONSE_HEADERS.progress] = "enabled';
+    args.responseHeaders[OMNIROUTE_RESPONSE_HEADERS.progress] = "enabled";
   } else {
     finalStream = piiStream;
   }

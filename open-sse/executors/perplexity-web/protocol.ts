@@ -2,10 +2,10 @@
 // content extraction. Extracted verbatim from perplexity-web.ts. No host state/fetch/auth.
 import { randomUUID } from 'crypto';
 
-export const PPLX_SSE_ENDPOINT = "https://www.perplexity.ai/rest/sse/perplexity_ask';
+export const PPLX_SSE_ENDPOINT = "https://www.perplexity.ai/rest/sse/perplexity_ask";
 // Perplexity's current request schema version (sent in params.version). Perplexity rejects
 // stale versions with HTTP 400 — keep this in lockstep with the website's payload.
-export const PPLX_API_VERSION = "2.18';
+export const PPLX_API_VERSION = "2.18";
 // Block use-cases the current web client advertises. The schematized API (use_schematized_api)
 // validates the request shape, so this must be present (mirrors the browser request body).
 export const PPLX_SUPPORTED_BLOCK_USE_CASES = [
@@ -45,11 +45,11 @@ export const PPLX_SUPPORTED_BLOCK_USE_CASES = [
 // Perplexity's live SSE terminator (not OpenAI's `data: [DONE]`). Using the wrong
 // EOF symbol can truncate or hang the Firefox-TLS stream tailer before answer
 // chunks land — which surfaces as "Provider returned empty content".
-export const PPLX_STREAM_EOF_SYMBOL = "event: end_of_stream';
+export const PPLX_STREAM_EOF_SYMBOL = "event: end_of_stream";
 // Firefox 148 — must match the `firefox_148` TLS profile used by perplexityTlsClient.
 // A mismatched UA vs TLS fingerprint is itself a Cloudflare bot signal (issue #2459).
 export const PPLX_USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0';
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:148.0) Gecko/20100101 Firefox/148.0";
 
 // mode / model_preference pairs — every entry posts mode:"copilot", like the live
 // www.perplexity.ai client does when a model is picked from the catalog.
@@ -179,7 +179,7 @@ export async function* readPplxSseEvents(
 ): AsyncGenerator<PplxStreamEvent> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "';
+  let buffer = "";
   let dataLines: string[] = [];
 
   function flush(): PplxStreamEvent | null | "done" {
@@ -187,7 +187,7 @@ export async function* readPplxSseEvents(
     const payload = dataLines.join("\n");
     dataLines = [];
     const trimmed = payload.trim();
-    if (!trimmed || trimmed === "[DONE]") return "done';
+    if (!trimmed || trimmed === "[DONE]") return "done";
     try {
       return JSON.parse(trimmed) as PplxStreamEvent;
     } catch {
@@ -244,14 +244,14 @@ export interface ParsedMessages {
 }
 
 export function parseOpenAIMessages(messages: Array<Record<string, unknown>>): ParsedMessages {
-  let systemMsg = "';
+  let systemMsg = "";
   const history: Array<{ role: string; content: string }> = [];
 
   for (const msg of messages) {
     let role = String(msg.role || "user");
-    if (role === "developer") role = "system';
+    if (role === "developer") role = "system";
 
-    let content = "';
+    let content = "";
     if (typeof msg.content === "string") {
       content = msg.content;
     } else if (Array.isArray(msg.content)) {
@@ -263,13 +263,13 @@ export function parseOpenAIMessages(messages: Array<Record<string, unknown>>): P
     if (!content.trim()) continue;
 
     if (role === "system") {
-      systemMsg += content + "\n';
+      systemMsg += content + "\n";
     } else if (role === "user" || role === "assistant") {
       history.push({ role, content });
     }
   }
 
-  let currentMsg = "';
+  let currentMsg = "";
   if (history.length > 0 && history[history.length - 1].role === "user") {
     currentMsg = history.pop()!.content;
   }
@@ -285,7 +285,7 @@ export function buildPplxRequestBody(
   followUpUuid: string | null,
   requestId: string
 ): Record<string, unknown> {
-  const tz = typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "UTC';
+  const tz = typeof Intl !== "undefined" ? Intl.DateTimeFormat().resolvedOptions().timeZone : "UTC";
 
   // Mirrors the current www.perplexity.ai/rest/sse/perplexity_ask request body. Perplexity's
   // schematized API validates this shape; an outdated version or missing required fields → HTTP 400.
@@ -354,7 +354,7 @@ export function buildQuery(parsed: ParsedMessages, followUpUuid: string | null):
   if (parsed.currentMsg) {
     obj.query = parsed.currentMsg;
   } else if (parsed.history.length === 0) {
-    obj.query = "';
+    obj.query = "";
   }
   const json = JSON.stringify(obj);
   return json.length > 96000 ? json.slice(-96000) : json;
@@ -406,7 +406,7 @@ export interface MarkdownAccumulator {
 // chunks array; joining it yields the cumulative answer text.
 export function applyMarkdownDiff(acc: MarkdownAccumulator, patches: PplxDiffPatch[]): void {
   for (const patch of patches) {
-    const path = patch.path ?? "';
+    const path = patch.path ?? "";
     if (path === "") {
       const value = (patch.value ?? {}) as { chunks?: unknown; answer?: unknown };
       if (Array.isArray(value.chunks)) {
@@ -431,7 +431,7 @@ export function applyMarkdownDiff(acc: MarkdownAccumulator, patches: PplxDiffPat
  * Extract the assistant answer from the COMPLETED frame's `text` step-blob.
  *
  * Live shape (Jul 2026 browser capture):
- *   text: '[{"step_type":"FINAL","content":{"answer":"{\\"answer\\":\\"Hi…\\",\\"chunks\\":[…]}"}}]'
+ *   text: "[{"step_type":"FINAL","content":{"answer":"{\\"answer\\":\\"Hi…\\",\\"chunks\\":[…]}"}}]"
  *
  * The nested `content.answer` is often a *double-encoded* JSON string. Used as a
  * safety net when diff_block / markdown_block frames were missed (truncated TLS
@@ -502,7 +502,7 @@ export function longestMarkdownAnswer(
   preferredUsage: string | null
 ): { usage: string | null; answer: string } {
   let bestUsage: string | null = preferredUsage;
-  let bestAnswer = preferredUsage ? (mdState.get(preferredUsage)?.chunks ?? []).join("") : "';
+  let bestAnswer = preferredUsage ? (mdState.get(preferredUsage)?.chunks ?? []).join("") : "";
 
   for (const [usage, acc] of mdState) {
     const joined = (acc.chunks ?? []).join("");
@@ -519,7 +519,7 @@ function extractPlanGoalDescriptions(block: PplxBlock): string[] {
   const out: string[] = [];
   if (block.plan_block?.goals) {
     for (const goal of block.plan_block.goals) {
-      const desc = goal.description ?? "';
+      const desc = goal.description ?? "";
       if (desc) out.push(desc);
     }
   }
@@ -530,7 +530,7 @@ function extractPlanGoalDescriptions(block: PplxBlock): string[] {
       const value = patch.value as { goals?: Array<{ description?: string }> } | undefined;
       if (value && Array.isArray(value.goals)) {
         for (const goal of value.goals) {
-          const desc = goal.description ?? "';
+          const desc = goal.description ?? "";
           if (desc) out.push(desc);
         }
       }
@@ -563,7 +563,7 @@ function formatUpsellError(upsell: PplxUpsellInformation | undefined): PplxQuota
     const detail = [title, desc].filter(Boolean).join(" — ");
     const base = detail
       ? `Perplexity advanced model quota exhausted: ${detail}`
-      : "Perplexity advanced model quota exhausted for this account this week. Use pplx-auto/pplx-sonar, wait for the weekly reset, or upgrade (Perplexity Max).';
+      : "Perplexity advanced model quota exhausted for this account this week. Use pplx-auto/pplx-sonar, wait for the weekly reset, or upgrade (Perplexity Max).";
     const resetSeconds = PPLX_ADVANCED_QUOTA_DEFAULT_RESET_SECONDS;
     // Append human "reset after …" so VibeProxy's existing message parsers
     // (and accountFallback.formatRetryAfter consumers) pick up the cooldown.
@@ -587,7 +587,7 @@ export async function* extractContent(
   eventStream: ReadableStream<Uint8Array>,
   signal?: AbortSignal | null
 ): AsyncGenerator<ContentChunk> {
-  let fullAnswer = "';
+  let fullAnswer = "";
   let backendUuid: string | null = null;
   let seenLen = 0;
   const seenThinking = new Set<string>();
@@ -612,14 +612,14 @@ export async function* extractContent(
 
     const blocks = event.blocks ?? [];
     for (const block of blocks) {
-      const usage = block.intended_usage ?? "';
+      const usage = block.intended_usage ?? "";
 
       // Thinking: search steps
       if (usage === "pro_search_steps" && block.plan_block?.steps) {
         for (const step of block.plan_block.steps) {
           if (step.step_type === "SEARCH_WEB") {
             for (const q of step.search_web_content?.queries ?? []) {
-              const qr = q.query ?? "';
+              const qr = q.query ?? "";
               if (qr && !seenThinking.has(qr)) {
                 seenThinking.add(qr);
                 yield { thinking: `Searching: ${qr}`, backendUuid: backendUuid ?? undefined };
@@ -678,7 +678,7 @@ export async function* extractContent(
 
       // Prefer the aggregate `ask_text` block; otherwise lock the first seen.
       if (usage === "ask_text") {
-        primaryUsage = "ask_text';
+        primaryUsage = "ask_text";
       } else if (!primaryUsage) {
         primaryUsage = usage;
       }

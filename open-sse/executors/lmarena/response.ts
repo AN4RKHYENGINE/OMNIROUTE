@@ -60,7 +60,7 @@ function isBotOrChallenge(status: number, text: string | null | undefined): bool
 
 function botBlockMessage(text: string | null | undefined, hasRecaptcha: boolean, status: number) {
   if (isCloudflareChallenge(text)) {
-    return "Arena blocked by Cloudflare bot management. Use a residential/browser-grade network if needed, paste a fresh full Cookie header (include cf_clearance / __cf_bm when present), and optionally set providerSpecificData.recaptchaV3Token from a live browser session.';
+    return "Arena blocked by Cloudflare bot management. Use a residential/browser-grade network if needed, paste a fresh full Cookie header (include cf_clearance / __cf_bm when present), and optionally set providerSpecificData.recaptchaV3Token from a live browser session.";
   }
   if (hasRecaptcha) return `Arena API error: ${status}`;
   return `Arena API error: ${status}. If this persists, supply a browser reCAPTCHA v3 token via credentials.providerSpecificData.recaptchaV3Token (in addition to the session cookie).`;
@@ -219,7 +219,7 @@ export function createOpenAIArenaStream(opts: {
 }): ReadableStream<Uint8Array> {
   const { reader, model, signal, log } = opts;
   const decoder = new TextDecoder();
-  let buffer = "';
+  let buffer = "";
 
   const onAbort = () => {
     void reader.cancel().catch(() => undefined);
@@ -243,7 +243,7 @@ export function createOpenAIArenaStream(opts: {
 
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
-          buffer = lines.pop() || "';
+          buffer = lines.pop() || "";
           for (const line of lines) {
             if (!line.trim()) continue;
             const sseLine = line.startsWith("data: ") ? line.substring(6) : line;
@@ -271,7 +271,7 @@ export async function handleNonStreamingArenaResponse(
   model: string
 ): Promise<Response> {
   const text = await response.text();
-  let fullText = "';
+  let fullText = "";
   let error: string | null = null;
 
   for (const line of text.split("\n")) {
@@ -281,7 +281,7 @@ export async function handleNonStreamingArenaResponse(
     if (!event) continue;
     if (event.type === "text" && event.content) fullText += event.content;
     else if (event.type === "error") {
-      error = event.content || "Unknown error';
+      error = event.content || "Unknown error";
       break;
     } else if (event.type === "done") break;
   }

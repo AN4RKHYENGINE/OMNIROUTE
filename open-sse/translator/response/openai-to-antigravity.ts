@@ -38,7 +38,7 @@ export function openaiToAntigravityResponse(chunk, state) {
   // Init state
   if (!state._toolCallAccum) state._toolCallAccum = {};
   if (!state._responseId) state._responseId = chunk.id || `resp_${Date.now()}`;
-  if (!state._modelVersion) state._modelVersion = chunk.model || "';
+  if (!state._modelVersion) state._modelVersion = chunk.model || "";
 
   const parts = [];
 
@@ -107,7 +107,7 @@ export function openaiToAntigravityResponse(chunk, state) {
       tool_calls: "STOP",
       content_filter: "SAFETY",
     };
-    candidate.finishReason = reasonMap[finishReason] || "STOP';
+    candidate.finishReason = reasonMap[finishReason] || "STOP";
   }
 
   // Build response

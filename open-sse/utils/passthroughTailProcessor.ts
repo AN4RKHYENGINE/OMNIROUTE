@@ -103,7 +103,7 @@ function handleResponsesTailPayload(
     const pendingKey = getFunctionCallPendingKey(item);
     if (pendingKey) {
       if (typeof item.arguments !== "string") {
-        item.arguments = "';
+        item.arguments = "";
       }
       context.passthroughResponsesPendingFunctionCalls.set(pendingKey, item);
       context.setPassthroughResponsesCurrentFunctionCallKey(pendingKey);
@@ -118,7 +118,7 @@ function handleResponsesTailPayload(
       ? context.passthroughResponsesPendingFunctionCalls.get(pendingKey)
       : undefined;
     if (pending && typeof parsed.delta === "string") {
-      const previousArgs = typeof pending.arguments === "string" ? pending.arguments : "';
+      const previousArgs = typeof pending.arguments === "string" ? pending.arguments : "";
       pending.arguments = previousArgs + parsed.delta;
     }
   }
@@ -288,7 +288,7 @@ export function processBufferedPassthroughLine(
     if (context.sanitizeUsagePayload(parsed)) {
       output = `data: ${JSON.stringify(parsed)}\n\n`;
     }
-    const parsedType = typeof parsed.type === "string" ? parsed.type : "';
+    const parsedType = typeof parsed.type === "string" ? parsed.type : "";
     const isResponses = parsedType.startsWith("response.");
     const isClaude = context.isClaudeEventPayload(parsed);
 

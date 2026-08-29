@@ -13,8 +13,8 @@ function stableJson(value: unknown): string {
 }
 
 function typeOf(value: unknown): string {
-  if (Array.isArray(value)) return "array';
-  if (value === null) return "null';
+  if (Array.isArray(value)) return "array";
+  if (value === null) return "null";
   return typeof value;
 }
 
@@ -90,7 +90,7 @@ export function parseDevinToolRequest(text: string, tools: AnthropicTool[], idSe
     throw new DevinAgenticBridgeError("Devin tool request was not valid JSON", "invalid_tool_json");
   }
 
-  const name = typeof payload.name === "string" ? payload.name.trim() : "';
+  const name = typeof payload.name === "string" ? payload.name.trim() : "";
   if (!name)
     throw new DevinAgenticBridgeError("Devin tool request is missing name", "missing_tool_name");
 

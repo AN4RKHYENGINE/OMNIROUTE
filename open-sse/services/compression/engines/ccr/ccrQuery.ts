@@ -8,7 +8,7 @@
  */
 import safeRegex from 'safe-regex';
 
-export type CcrMode = "full" | "head" | "tail" | "lines" | "grep" | "stats';
+export type CcrMode = "full" | "head" | "tail" | "lines" | "grep" | "stats";
 
 export interface CcrQuery {
   mode?: CcrMode;
@@ -90,7 +90,7 @@ function blockStats(text: string, lines: string[]): CcrQueryResult {
 }
 
 export function queryBlock(text: string, q: CcrQuery): CcrQueryResult {
-  const mode = q.mode ?? "full';
+  const mode = q.mode ?? "full";
   if (mode === "full") return ok(text);
   const lines = text.split("\n");
   switch (mode) {

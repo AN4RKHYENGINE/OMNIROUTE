@@ -34,7 +34,7 @@ export function appendSearchCitations(
   model: string
 ): string {
   if (searchResults.length === 0 || model.toLowerCase().includes("search-silent")) {
-    return "';
+    return "";
   }
   return searchResults
     .filter((r) => r.cite_index)

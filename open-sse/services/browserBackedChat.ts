@@ -363,7 +363,7 @@ export async function browserBackedChat(
           })
         );
         status = 502;
-        contentType = "application/json';
+        contentType = "application/json";
       } else {
         status = captured.status;
         contentType = captured.headers["content-type"] || null;
@@ -538,7 +538,7 @@ export async function httpBackedChat(
 
     const responseBody = Buffer.from(await response.text());
     const responseStatus = response.status;
-    const contentType = response.headers.get("content-type") || "text/event-stream';
+    const contentType = response.headers.get("content-type") || "text/event-stream";
 
     return {
       status: responseStatus,

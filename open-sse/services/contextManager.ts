@@ -64,7 +64,7 @@ function getKeepLatestImagesOverride(): number | null {
 }
 
 const DEFAULT_KEEP_LATEST_IMAGES = 2;
-const IMAGE_REMOVED_PLACEHOLDER = "[Earlier image removed to fit context window]';
+const IMAGE_REMOVED_PLACEHOLDER = "[Earlier image removed to fit context window]";
 
 // Rough chars-per-token ratio for quick estimation
 const CHARS_PER_TOKEN = 4;
@@ -107,14 +107,14 @@ function matchesClaudeSourceShape(node: Record<string, unknown>): boolean {
   const source = node.source;
   if (!source || typeof source !== "object") return false;
   const src = source as Record<string, unknown>;
-  return src.type === "base64" && typeof src.data === "string';
+  return src.type === "base64" && typeof src.data === "string";
 }
 
 // Gemini: { inlineData: { data: '...' } } | { inline_data: { data: '...' } }
 function matchesGeminiInlineDataShape(node: Record<string, unknown>): boolean {
   const inlineData = node.inlineData ?? node.inline_data;
   if (!inlineData || typeof inlineData !== "object") return false;
-  return typeof (inlineData as Record<string, unknown>).data === "string';
+  return typeof (inlineData as Record<string, unknown>).data === "string";
 }
 
 /**
@@ -305,7 +305,7 @@ export function getComboTargetTokenLimit(options: {
     if (parsedProvider === undefined) parsedProvider = parsed.provider;
     if (parsedModel === undefined) parsedModel = parsed.model;
   }
-  const provider = parsedProvider ?? options.targetProvider ?? options.provider ?? "unknown';
+  const provider = parsedProvider ?? options.targetProvider ?? options.provider ?? "unknown";
   return getTokenLimit(provider, parsedModel ?? null);
 }
 
@@ -420,7 +420,7 @@ export function compressContext(
     return { body, compressed: false, stats: {} };
   }
 
-  const provider = options.provider || "default';
+  const provider = options.provider || "default";
   const maxTokens =
     options.maxTokens || getTokenLimit(provider, (body.model as string) || options.model || null);
   const defaultReserveTokens = Math.min(16000, Math.max(256, Math.floor(maxTokens * 0.15)));

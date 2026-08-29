@@ -2,7 +2,7 @@ import { DefaultExecutor } from './default.ts';
 import type { ExecuteInput, ExecutorExecuteResult, ProviderCredentials } from './base.ts';
 
 const SENSITIVE_CONTENT_REJECTION =
-  "抱歉，系统检测到您当前输入的信息存在敏感内容，我无法响应您的请求，请检查后重新输入';
+  "抱歉，系统检测到您当前输入的信息存在敏感内容，我无法响应您的请求，请检查后重新输入";
 const LARGE_TOOL_METADATA_BYTES = 64 * 1024;
 
 function responseFromResult(result: ExecutorExecuteResult): Response {
@@ -143,13 +143,13 @@ export class CodeBuddyCnExecutor extends DefaultExecutor {
     if (eff === "none" || eff === "off") {
       delete out.reasoning_effort;
     } else if (eff) {
-      out.reasoning_summary = "auto';
+      out.reasoning_summary = "auto";
     }
 
     // --- Agent system prompt replacement ---
     // Tencent's content filter flags CLI agent system prompts as sensitive content.
     // Detect and replace them with a neutral prompt.
-    const NEUTRAL_PROMPT = "You are a helpful AI assistant that helps with software engineering tasks.';
+    const NEUTRAL_PROMPT = "You are a helpful AI assistant that helps with software engineering tasks.";
     const AGENT_PATTERN = /you are claude code|claude.?code.+official.+cli|anthropic.+official.+cli|anxthxropic.+official.+cli|you are (?:cursor|windsurf|cline|aider|continue|copilot|cody)|you are an? (?:ai )?(?:coding |code )?agent|cc_entrypoint\s*=\s*(?:cli|vscode|jetbrains|gui)|claude.?code.+issues|give feedback.+claude.?code|you are .{0,30}(?:powerful )?ai agent|orchestration capabilities|OhMyOpenCode|<agent-identity>|<Role>|<Behavior_Instructions>/i;
     const flatten = (content: unknown): string =>
       typeof content === "string"
@@ -158,7 +158,7 @@ export class CodeBuddyCnExecutor extends DefaultExecutor {
           ? (content as Array<Record<string, unknown>>)
               .map((b) => (b && typeof b.text === "string" ? b.text : ""))
               .join("\n")
-          : "';
+          : "";
 
     // Handle top-level `system` field (Anthropic format after translation)
     if (out.system) {

@@ -23,11 +23,11 @@ function extractImageUrl(part: ImagePart): string {
   const iu = part.image_url;
   if (typeof iu === "string") return iu;
   if (iu && typeof iu === "object" && typeof iu.url === "string") return iu.url;
-  return "';
+  return "";
 }
 
 function normalizeToolCallId(id: unknown): string {
-  return typeof id === "string" ? id.split("\n")[0] : "';
+  return typeof id === "string" ? id.split("\n")[0] : "";
 }
 
 function extractContent(content: unknown): string {
@@ -37,12 +37,12 @@ function extractContent(content: unknown): string {
       .filter((part): part is TextPart => {
         if (!part || typeof part !== "object") return false;
         const maybe = part as TextPart;
-        return maybe.type === "text" && typeof maybe.text === "string';
+        return maybe.type === "text" && typeof maybe.text === "string";
       })
       .map((part) => part.text as string)
       .join("");
   }
-  return "';
+  return "";
 }
 
 function sanitizeToolResultText(text: string): string {
@@ -71,7 +71,7 @@ function convertMessages(messages) {
   const toolCallMetaMap = new Map();
   const rememberToolMeta = (toolCallId: string, toolName: string) => {
     if (!toolCallId) return;
-    const name = toolName || "tool';
+    const name = toolName || "tool";
     toolCallMetaMap.set(toolCallId, { name });
     const normalized = normalizeToolCallId(toolCallId);
     if (normalized && normalized !== toolCallId) {
@@ -106,9 +106,9 @@ function convertMessages(messages) {
 
     if (msg.role === "tool") {
       const toolContent = extractContent(msg.content);
-      const toolCallId = msg.tool_call_id || "';
+      const toolCallId = msg.tool_call_id || "";
       const toolMeta = toolCallMetaMap.get(toolCallId) || {};
-      const toolName = msg.name || toolMeta.name || "tool';
+      const toolName = msg.name || toolMeta.name || "tool";
       result.push({
         role: "user",
         content: buildToolResultBlock(toolName, toolCallId, toolContent),
@@ -138,11 +138,11 @@ function convertMessages(messages) {
           }
           if (block.type === "tool_result") {
             const tr = block as ToolResultPart;
-            const toolCallId = tr.tool_use_id || "';
+            const toolCallId = tr.tool_use_id || "";
             const toolMeta =
               toolCallMetaMap.get(toolCallId) ||
               toolCallMetaMap.get(normalizeToolCallId(toolCallId));
-            const toolName = toolMeta?.name || "tool';
+            const toolName = toolMeta?.name || "tool";
             const toolContent = extractContent(tr.content);
             parts.push(buildToolResultBlock(toolName, toolCallId, toolContent));
           }

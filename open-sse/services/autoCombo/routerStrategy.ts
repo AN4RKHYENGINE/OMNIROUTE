@@ -83,9 +83,9 @@ function toSpeedCandidate(c: ProviderCandidate): SpeedCandidate {
 }
 
 class RulesStrategyImpl implements RouterStrategy {
-  readonly name = "rules';
+  readonly name = "rules";
   readonly description =
-    "6-factor weighted scoring: quota, health, cost, latency, taskFit, stability';
+    "6-factor weighted scoring: quota, health, cost, latency, taskFit, stability";
 
   select(pool: ProviderCandidate[], context: RoutingContext): RoutingDecision {
     const eligible = pool.filter((c) => c.circuitBreakerState !== "OPEN");
@@ -112,8 +112,8 @@ class RulesStrategyImpl implements RouterStrategy {
 // ── CostStrategy: always picks cheapest healthy provider ─────────────────────
 
 class CostStrategyImpl implements RouterStrategy {
-  readonly name = "cost';
-  readonly description = "Always selects cheapest available provider (by costPer1MTokens)';
+  readonly name = "cost";
+  readonly description = "Always selects cheapest available provider (by costPer1MTokens)";
 
   select(pool: ProviderCandidate[], context: RoutingContext): RoutingDecision {
     const healthy = pool.filter((c) => c.circuitBreakerState !== "OPEN");
@@ -135,9 +135,9 @@ class CostStrategyImpl implements RouterStrategy {
 // ── LatencyStrategy: prioritize low latency + reliability ───────────────────
 
 class LatencyStrategyImpl implements RouterStrategy {
-  readonly name = "latency';
+  readonly name = "latency";
   readonly description =
-    "Prioritizes the fastest reliable provider-model pair using TTFT, TPS, E2E latency, health, fail rate, and stability';
+    "Prioritizes the fastest reliable provider-model pair using TTFT, TPS, E2E latency, health, fail rate, and stability";
 
   select(pool: ProviderCandidate[], context: RoutingContext): RoutingDecision {
     const ranked = rankBySpeed(pool.map(toSpeedCandidate));
@@ -232,9 +232,9 @@ function getSlaViolationScore(candidate: ProviderCandidate, policy: Required<Sla
 }
 
 class SLAStrategyImpl implements RouterStrategy {
-  readonly name = "sla-aware';
+  readonly name = "sla-aware";
   readonly description =
-    "Selects the provider most likely to satisfy latency, error-rate, and cost SLOs';
+    "Selects the provider most likely to satisfy latency, error-rate, and cost SLOs";
 
   select(pool: ProviderCandidate[], context: RoutingContext): RoutingDecision {
     const healthy = pool.filter((c) => c.circuitBreakerState !== "OPEN");
@@ -284,7 +284,7 @@ class SLAStrategyImpl implements RouterStrategy {
     if (!best) throw new Error("[SLAStrategy] No candidates available after scoring");
 
     const anyCompliant = scored.some((entry) => entry.violationScore === 0);
-    const fallbackNote = !anyCompliant ? "; no candidate met all SLA constraints" : "';
+    const fallbackNote = !anyCompliant ? "; no candidate met all SLA constraints" : "";
     return {
       provider: best.candidate.provider,
       model: best.candidate.model,
@@ -299,8 +299,8 @@ class SLAStrategyImpl implements RouterStrategy {
 // ── LKGPStrategy: tries last known good provider first ───────────────────────
 
 class LKGPStrategyImpl implements RouterStrategy {
-  readonly name = "lkgp';
-  readonly description = "Tries last known good provider first, then falls back to rules';
+  readonly name = "lkgp";
+  readonly description = "Tries last known good provider first, then falls back to rules";
 
   select(pool: ProviderCandidate[], context: RoutingContext): RoutingDecision {
     if (context.lkgpEnabled === false) {

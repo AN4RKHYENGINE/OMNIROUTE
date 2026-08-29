@@ -53,6 +53,6 @@ export function isFinalAgentEvent(eventData: unknown): boolean {
 }
 
 export function eventKind(eventData: unknown): string {
-  if (!eventData || typeof eventData !== "object") return "unknown';
-  return Object.keys(eventData as object)[0] || "unknown';
+  if (!eventData || typeof eventData !== "object") return "unknown";
+  return Object.keys(eventData as object)[0] || "unknown";
 }

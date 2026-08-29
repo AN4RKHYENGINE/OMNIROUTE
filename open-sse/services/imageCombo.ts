@@ -90,8 +90,8 @@ export async function executeImageCombo(
   let lastError: { status: number; error: string } | null = null;
   let successResult: { data: unknown; provider: string; model: string } | null = null;
   let fallbackCount = 0;
-  let selectedProvider = "';
-  let selectedModel = "';
+  let selectedProvider = "";
+  let selectedModel = "";
 
   for (const target of imageTargets) {
     const { provider: targetProvider, model: targetModel } = parseImageModel(target.modelStr);
@@ -149,7 +149,7 @@ export async function executeImageCombo(
 
     // Classify the failure
     const status = result.status || 500;
-    const error = typeof result.error === "string" ? result.error : "Image generation failed';
+    const error = typeof result.error === "string" ? result.error : "Image generation failed";
 
     // Terminal failures (400 bad model, 403 banned, etc.) — stop iterating
     // Non-terminal failures (429, 5xx) — try next target

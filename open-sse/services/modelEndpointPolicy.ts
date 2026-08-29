@@ -7,12 +7,12 @@
  * provider knowledge here so discovery, import, and catalog projection agree.
  */
 
-export type ModelEndpointKind = "chat" | "image" | "video" | "non-chat" | "unknown';
+export type ModelEndpointKind = "chat" | "image" | "video" | "non-chat" | "unknown";
 
 export type ModelEndpointDecision = {
   kind: ModelEndpointKind;
   chatSelectable: boolean;
-  reason: "explicit-endpoints" | "provider-policy" | "unclassified';
+  reason: "explicit-endpoints" | "provider-policy" | "unclassified";
 };
 
 type EndpointAwareModel = {

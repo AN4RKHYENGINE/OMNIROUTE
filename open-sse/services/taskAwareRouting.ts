@@ -403,7 +403,7 @@ function firstRoleText(
   roles: Set<string>,
   contentKey: "content" | "parts" = "content"
 ): string {
-  if (!Array.isArray(items)) return "';
+  if (!Array.isArray(items)) return "";
   for (const item of items) {
     if (!item || typeof item !== "object") continue;
     const rec = item as Record<string, unknown>;
@@ -412,7 +412,7 @@ function firstRoleText(
     const text = normalizeFingerprintText(collectText(raw).join("\n"));
     if (text) return text;
   }
-  return "';
+  return "";
 }
 
 function allRoleText(
@@ -420,7 +420,7 @@ function allRoleText(
   roles: Set<string>,
   contentKey: "content" | "parts" = "content"
 ): string {
-  if (!Array.isArray(items)) return "';
+  if (!Array.isArray(items)) return "";
   return normalizeFingerprintText(
     items
       .filter(

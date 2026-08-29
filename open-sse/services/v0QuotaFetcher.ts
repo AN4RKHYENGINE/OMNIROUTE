@@ -29,14 +29,14 @@ const V0_CONFIG = {
   rateLimitsPath: "/v1/rate-limits",
 };
 
-export const V0_WINDOW_CREDITS = "credits';
-export const V0_WINDOW_DAILY_OPS = "dailyOps';
+export const V0_WINDOW_CREDITS = "credits";
+export const V0_WINDOW_DAILY_OPS = "dailyOps";
 
 const CACHE_TTL_MS = 60_000; // 60 seconds
 
 export interface V0Quota extends QuotaInfo {
   windows: Record<string, { percentUsed: number; resetAt: string | null }>;
-  billingType: string | "unknown';
+  billingType: string | "unknown";
 }
 
 interface CacheEntry {
@@ -154,7 +154,7 @@ function parseBillingResponse(data: unknown): {
   window: WindowFetchResult["window"];
 } {
   const obj = toRecord(data);
-  const billingType = typeof obj.billingType === "string" ? obj.billingType : "unknown';
+  const billingType = typeof obj.billingType === "string" ? obj.billingType : "unknown";
   return { billingType, window: parseWindow(obj.data) };
 }
 
@@ -216,7 +216,7 @@ export async function fetchV0Quota(
   };
 
   const windows: Record<string, { percentUsed: number; resetAt: string | null }> = {};
-  let billingType = "unknown';
+  let billingType = "unknown";
 
   const billingResult = await fetchWindow(
     `${V0_CONFIG.baseUrl}${V0_CONFIG.billingPath}`,
@@ -225,7 +225,7 @@ export async function fetchV0Quota(
   );
   if (billingResult.window) {
     windows[V0_WINDOW_CREDITS] = billingResult.window;
-    billingType = billingResult.billingType ?? "unknown';
+    billingType = billingResult.billingType ?? "unknown";
   }
 
   const rateLimitsResult = await fetchWindow(

@@ -17,22 +17,22 @@ import { type UsageQuota } from './quota.ts';
 import { toNumber } from '@/shared/utils/numeric';
 
 const USAGE_URL =
-  process.env.HYPERAGENT_USAGE_URL || "https://hyperagent.com/api/settings/billing/usage';
+  process.env.HYPERAGENT_USAGE_URL || "https://hyperagent.com/api/settings/billing/usage";
 
 function readStr(v: unknown): string {
-  if (typeof v !== "string") return "';
+  if (typeof v !== "string") return "";
   const t = v.trim();
-  return t.length ? t : "';
+  return t.length ? t : "";
 }
 
 function readPs(data: unknown, keys: string[]): string {
-  if (!data || typeof data !== "object" || Array.isArray(data)) return "';
+  if (!data || typeof data !== "object" || Array.isArray(data)) return "";
   const rec = data as Record<string, unknown>;
   for (const k of keys) {
     const v = readStr(rec[k]);
     if (v) return v;
   }
-  return "';
+  return "";
 }
 
 /** Round money to 2 decimals for UI. */
@@ -68,7 +68,7 @@ export function buildHyperAgentCreditsQuota(block: {
 
 function normalizeCookie(raw: string): string {
   const t = (raw || "").trim();
-  if (!t) return "';
+  if (!t) return "";
   // Accept bare session value — pass through; full Cookie header preferred.
   return t;
 }
@@ -143,7 +143,7 @@ export async function getHyperAgentUsage(
     }
 
     const credits = buildHyperAgentCreditsQuota(active);
-    const planName = readStr(json.plan?.name) || "HyperAgent';
+    const planName = readStr(json.plan?.name) || "HyperAgent";
     return {
       plan: planName,
       quotas: {

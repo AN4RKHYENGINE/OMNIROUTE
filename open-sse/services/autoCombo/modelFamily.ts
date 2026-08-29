@@ -13,7 +13,7 @@
  * in isolation without touching the DB/registry-backed virtual factory.
  */
 
-export type ModelFamily = "glm" | "minimax" | "mimo" | "zai" | "gemma" | "llama" | "gemini';
+export type ModelFamily = "glm" | "minimax" | "mimo" | "zai" | "gemma" | "llama" | "gemini";
 
 export const MODEL_FAMILIES: readonly ModelFamily[] = [
   "glm",

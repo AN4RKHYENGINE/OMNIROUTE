@@ -58,25 +58,25 @@ function calculateConfidence(
 }
 
 export function getSpecificityLevel(score: number): SpecificityLevel {
-  if (score <= 5) return "trivial';
-  if (score <= 20) return "simple';
-  if (score <= 40) return "moderate';
-  if (score <= 65) return "complex';
-  return "expert';
+  if (score <= 5) return "trivial";
+  if (score <= 20) return "simple";
+  if (score <= 40) return "moderate";
+  if (score <= 65) return "complex";
+  return "expert";
 }
 
 export function getRecommendedMinTier(level: SpecificityLevel): string {
   switch (level) {
     case "trivial":
-      return "free';
+      return "free";
     case "simple":
-      return "free';
+      return "free";
     case "moderate":
-      return "cheap';
+      return "cheap";
     case "complex":
-      return "cheap';
+      return "cheap";
     case "expert":
-      return "premium';
+      return "premium";
   }
 }
 

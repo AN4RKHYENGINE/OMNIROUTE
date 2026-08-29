@@ -29,14 +29,14 @@ const STREAM_TIMEOUT_MS = parseInt(process.env.TRAE_STREAM_TIMEOUT_MS || "300000
 function flattenQuery(messages: ChatMessage[]): string {
   const parts: string[] = [];
   for (const m of messages) {
-    let content = "';
+    let content = "";
     if (typeof m.content === "string") content = m.content;
     else if (Array.isArray(m.content)) {
       content = m.content
         .map((p) => {
           if (typeof p === "string") return p;
           if (p && typeof p === "object") return String((p as JsonRecord).text ?? "");
-          return "';
+          return "";
         })
         .join("");
     }
@@ -59,7 +59,7 @@ export class TraeExecutor extends BaseExecutor {
   }
 
   buildHeaders(credentials): Record<string, string> {
-    const token = (credentials.accessToken as string) || "';
+    const token = (credentials.accessToken as string) || "";
     const psd = (credentials.providerSpecificData as JsonRecord) || {};
     return {
       Authorization: `Cloud-IDE-JWT ${token}`,
@@ -84,15 +84,15 @@ export class TraeExecutor extends BaseExecutor {
    * auto strategy with an empty model_name, since it has no model selection.
    */
   private resolveMode(model: string): {
-    mode: "code" | "work';
-    strategy: "auto" | "manual';
+    mode: "code" | "work";
+    strategy: "auto" | "manual";
     modelName: string;
   } {
     const m = (model || "").trim().toLowerCase();
     if (m === "work" || m === "auto-work" || m === "solo-work") {
       return { mode: "work", strategy: "auto", modelName: "" };
     }
-    const auto = !m || m === "auto';
+    const auto = !m || m === "auto";
     return { mode: "code", strategy: auto ? "auto" : "manual", modelName: auto ? "" : model };
   }
 
@@ -181,7 +181,7 @@ export class TraeExecutor extends BaseExecutor {
       if (!res.ok || !res.body) throw new Error(`[${res.status}] events stream failed`);
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
-      let buf = "';
+      let buf = "";
       let ev: string | null = null;
       for (;;) {
         const { done, value } = await reader.read();
@@ -257,9 +257,9 @@ export class TraeExecutor extends BaseExecutor {
     let errorEvent: JsonRecord | null = null;
     const renderNewText = (data: JsonRecord): string => {
       const pid = data.id as string | undefined;
-      if (!pid) return "';
+      if (!pid) return "";
       if (!(pid in thoughts)) order.push(pid);
-      const t = (data.thought as string) || "';
+      const t = (data.thought as string) || "";
       if (t.length >= (thoughts[pid] || "").length) thoughts[pid] = t;
       const full = order.map((i) => thoughts[i]).join("");
       const piece = full.slice(sent);
@@ -304,7 +304,7 @@ export class TraeExecutor extends BaseExecutor {
                       choices: [{ index: 0, delta: { content: piece }, finish_reason: null }],
                     });
                 }
-                return ev === "done';
+                return ev === "done";
               },
               signal as AbortSignal
             );
@@ -378,7 +378,7 @@ export class TraeExecutor extends BaseExecutor {
           }
           if (ev === "token_usage") usage = data;
           if (ev === "plan_item") renderNewText(data);
-          return ev === "done';
+          return ev === "done";
         },
         signal as AbortSignal
       );

@@ -13,7 +13,7 @@ export function isRecordLike(v: unknown): v is Record<string, unknown> {
  */
 export function toolChoiceDirectiveLine(toolChoice: unknown): string {
   if (toolChoice === "required") {
-    return "\nYou MUST call at least one of the available tools now; do not answer without calling a tool.';
+    return "\nYou MUST call at least one of the available tools now; do not answer without calling a tool.";
   }
   if (
     isRecordLike(toolChoice) &&
@@ -24,7 +24,7 @@ export function toolChoiceDirectiveLine(toolChoice: unknown): string {
   ) {
     return `\nYou MUST call the \`${toolChoice.function.name}\` tool now and not any other tool.`;
   }
-  return "';
+  return "";
 }
 
 /**
@@ -71,5 +71,5 @@ export function buildCursorOutputConstraints(body: {
 
   return constraints.length
     ? `\n\nOUTPUT CONSTRAINTS:\n${constraints.map((c) => `- ${c}`).join("\n")}`
-    : "';
+    : "";
 }

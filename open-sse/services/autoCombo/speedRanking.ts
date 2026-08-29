@@ -25,7 +25,7 @@
  * `modePacks.speed-first`) can rebalance without duplicating the math.
  */
 
-import type { ProviderCandidate } from './scoring.ts";
+import type { ProviderCandidate } from "./scoring.ts";
 
 /** Optional per-candidate telemetry surfaced by the ranking. */
 export interface SpeedCandidate extends ProviderCandidate {

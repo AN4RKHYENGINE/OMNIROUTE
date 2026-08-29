@@ -32,7 +32,7 @@ export function findOffendingField(bodyText: string): string | null {
  * Matches:
  *   - "Unsupported parameter(s): thinking"
  *   - "Unsupported parameter: max_tokens"
- *   - "Unsupported parameter 'reasoning_budget'"
+ *   - "Unsupported parameter 'reasoning_budget""
  */
 export const UNSUPPORTED_PARAM_RE =
   /unsupported\s+parameter\w*(?:\s*\(s\))?[:\s]+["'`]?(\w+)["'`]?/i;

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import "./setupPolyfill.ts';
+import "./setupPolyfill.ts";
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { fetch as undiciFetch, Agent } from 'undici';
 import {
@@ -76,7 +76,7 @@ const RELAY_FETCH_TIMEOUT_MS = readRelayFetchTimeoutMs();
 const RETRY_BACKOFF_MS = Math.max(Number(process.env.OMNIROUTE_RETRY_BACKOFF_MS) || 10, 0);
 
 function isTlsFingerprintEnabled() {
-  return process.env.ENABLE_TLS_FINGERPRINT === "true';
+  return process.env.ENABLE_TLS_FINGERPRINT === "true";
 }
 
 function tlsFingerprintProviderAllowed(
@@ -142,8 +142,8 @@ function isProxyUnreachableError(err: unknown): boolean {
 function tagProxyUnreachable<T>(err: T): T {
   if (isProxyUnreachableError(err)) {
     const e = err as Error & { code?: string; errorCode?: string };
-    e.code = "PROXY_UNREACHABLE';
-    e.errorCode = "proxy_unreachable';
+    e.code = "PROXY_UNREACHABLE";
+    e.errorCode = "proxy_unreachable";
   }
   return err;
 }
@@ -359,7 +359,7 @@ type PatchState = {
   isPatched: boolean;
 };
 
-const isCloud = typeof caches !== "undefined" && typeof caches === "object';
+const isCloud = typeof caches !== "undefined" && typeof caches === "object";
 const PATCH_STATE_KEY = Symbol.for("omniroute.proxyFetch.state");
 const DIRECT_PROXY_CONTEXT = Symbol.for("omniroute.proxyFetch.direct-context");
 
@@ -627,7 +627,7 @@ export async function runWithProxyContext(
         return runDirect();
       }
       const e = familyErr as Error & { code?: string; statusCode?: number };
-      e.code = e.code || "PROXY_FAMILY_UNAVAILABLE';
+      e.code = e.code || "PROXY_FAMILY_UNAVAILABLE";
       e.statusCode = e.statusCode || 503;
       throw e;
     }
@@ -679,8 +679,8 @@ export async function runWithProxyContext(
         errorCode?: string;
         statusCode?: number;
       };
-      err.code = "PROXY_UNREACHABLE';
-      err.errorCode = "proxy_unreachable';
+      err.code = "PROXY_UNREACHABLE";
+      err.errorCode = "proxy_unreachable";
       err.statusCode = 503;
       throw err;
     }
@@ -865,7 +865,7 @@ async function patchedFetch(
             source === "direct" &&
             isFeatureFlagEnabled("PROXY_AUTO_SELECT_ENABLED")
           ) {
-            let targetHostname = "';
+            let targetHostname = "";
             try {
               targetHostname = new URL(targetUrl).hostname;
             } catch {
@@ -991,8 +991,8 @@ async function patchedFetch(
           const timeoutErr = new Error(
             `[ProxyFetch] Relay timed out after ${RELAY_FETCH_TIMEOUT_MS}ms (${proxyUrlForLogs(relayUrl)})`
           ) as Error & { code?: string; errorCode?: string; statusCode?: number };
-          timeoutErr.code = "RELAY_TIMEOUT';
-          timeoutErr.errorCode = "relay_timeout';
+          timeoutErr.code = "RELAY_TIMEOUT";
+          timeoutErr.errorCode = "relay_timeout";
           timeoutErr.statusCode = 504;
           throw timeoutErr;
         }

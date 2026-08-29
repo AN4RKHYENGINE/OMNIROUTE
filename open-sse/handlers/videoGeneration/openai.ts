@@ -67,7 +67,7 @@ async function fetchVideoEndpoint(
     };
   } catch (err) {
     const message = err?.message;
-    const isTimeout = err instanceof FetchTimeoutError || err?.name === "AbortError';
+    const isTimeout = err instanceof FetchTimeoutError || err?.name === "AbortError";
     log?.error?.(
       "VIDEO",
       `${isTimeout ? "Timeout" : "Request error"} for ${url}: ${sanitizeErrorMessage(message || err)}`

@@ -15,14 +15,14 @@
  *                  → response.videos[0].bytesBase64Encoded (MP4)
  */
 
-import { Buffer } from 'node:buffer";
-import { sleep } from '../utils/sleep.ts";
+import { Buffer } from "node:buffer";
+import { sleep } from "../utils/sleep.ts";
 import {
   parseSAFromApiKey,
   getAccessToken,
   looksLikeServiceAccountJson,
   isExpressApiKey,
-} from './vertex.ts";
+} from "./vertex.ts";
 
 export interface VertexMediaCredentials {
   apiKey?: string | null;

@@ -41,7 +41,7 @@ export function unwrapClinepassEnvelope(
             ? ((rawError as Record<string, unknown>).message as string | undefined)
             : undefined) ||
           (typeof record.message === "string" ? record.message : undefined) ||
-          "Upstream error';
+          "Upstream error";
     const statusCode = typeof record.statusCode === "number" ? record.statusCode : null;
     return { body: null, error: { message, status: statusCode } };
   }

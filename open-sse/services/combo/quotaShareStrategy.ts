@@ -89,7 +89,7 @@ function filterEligibleBySaturation(
   const modelName = bareModelName(modelStr);
 
   const eligible = targets.filter((target) => {
-    const connId = target.connectionId ?? "';
+    const connId = target.connectionId ?? "";
     if (connId === "") return true; // no connection → cannot be saturation-scored
     const saturated =
       isBucketSaturated(connId, "5h", nowMs) ||
@@ -142,7 +142,7 @@ function partitionByConcurrencyCap(
   const atCap: ResolvedComboTarget[] = [];
 
   for (const target of targets) {
-    const connId = target.connectionId ?? "';
+    const connId = target.connectionId ?? "";
     const cap = resolveConnectionCap(connId, caps);
     if (cap === null) {
       withRoom.push(target); // no limit → always has room
@@ -314,7 +314,7 @@ export function selectQuotaShareTarget(
   }
 
   // Reserve the winner's in-flight slot immediately.
-  const winnerConnectionId = winner.connectionId ?? "';
+  const winnerConnectionId = winner.connectionId ?? "";
   if (winnerConnectionId) incrementInflight(winnerConnectionId, undefined, nowMs);
 
   // Fallback order: winner → remaining-with-room → at-cap → saturated. Both

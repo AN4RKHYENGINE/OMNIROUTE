@@ -145,12 +145,12 @@ function applyMetricOutcome(
 
   if (success) {
     metric.successes++;
-    metric.lastStatus = "ok';
+    metric.lastStatus = "ok";
     return;
   }
 
   metric.failures++;
-  metric.lastStatus = "error';
+  metric.lastStatus = "error";
 }
 
 function buildTargetMetric(

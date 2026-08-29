@@ -26,7 +26,7 @@ export async function handleModeration({ body, credentials }) {
   }
 
   // Default to latest moderation model
-  const model = body.model || "omni-moderation-latest';
+  const model = body.model || "omni-moderation-latest";
   const { provider: providerId, model: modelId } = parseModerationModel(model);
   const providerConfig = providerId ? getModerationProvider(providerId) : null;
 

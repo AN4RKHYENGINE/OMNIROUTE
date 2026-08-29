@@ -59,7 +59,7 @@ function isClaudeFormatReasoningProvider(provider?: string | null): boolean {
   const normalized = provider.toLowerCase();
   if (OFFICIAL_CLAUDE_FORMAT_PROVIDERS.has(normalized)) return false;
   const entry = getRegistryEntry(normalized);
-  return entry?.format === "claude';
+  return entry?.format === "claude";
 }
 
 function isCodexGpt5x(provider?: string | null, model?: string | null): boolean {
@@ -90,9 +90,9 @@ function isHighReasoningEffort(
       const nested = (reasoning as Record<string, unknown>)["effort"];
       if (typeof nested === "string") return nested;
     }
-    return "';
+    return "";
   })();
-  return effort.toLowerCase() === "high';
+  return effort.toLowerCase() === "high";
 }
 
 export function resolveStreamReadinessTimeout(

@@ -32,11 +32,11 @@ export function extractAntigravityProjectIdFromPayload(
 export function getStoredAntigravityProjectId(
   connection: Pick<AntigravityProjectConnectionLike, "projectId" | "providerSpecificData">
 ): string | null {
-  const column = typeof connection.projectId === "string" ? connection.projectId.trim() : "';
+  const column = typeof connection.projectId === "string" ? connection.projectId.trim() : "";
   if (column) return column;
 
   const psd = connection.providerSpecificData as Record<string, unknown> | undefined;
-  const fromPsd = typeof psd?.projectId === "string" ? psd.projectId.trim() : "';
+  const fromPsd = typeof psd?.projectId === "string" ? psd.projectId.trim() : "";
   return fromPsd || null;
 }
 

@@ -15,7 +15,7 @@ export async function handleLeonardoImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "';
+  const token = credentials?.apiKey || "";
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   if (log) {
     log.info("IMAGE", `${provider}/${model} (leonardo) | prompt: "${prompt.slice(0, 60)}..."`);

@@ -149,7 +149,7 @@ export function pruneByScore(text: string, keepRate = 0.5, minScore = 0.3): stri
       if (/^\s+$/.test(t)) return t;
       const keep = !toPrune.has(wordIdx);
       wordIdx++;
-      return keep ? t : "';
+      return keep ? t : "";
     })
     .join("")
     .replace(/\s{2,}/g, " ")

@@ -91,7 +91,7 @@ class AntigravityPreResponseTimeoutError extends Error {
 
   constructor(timeoutMs: number, url: string) {
     super(`Antigravity upstream did not return response headers within ${timeoutMs}ms: ${url}`);
-    this.name = "TimeoutError';
+    this.name = "TimeoutError";
   }
 }
 
@@ -262,7 +262,7 @@ function serializeAntigravityRequest(
 
 function getRequestTargetModel(body: Record<string, unknown>): string {
   const target = body.model;
-  return typeof target === "string" && target.length > 0 ? target : "unknown';
+  return typeof target === "string" && target.length > 0 ? target : "unknown";
 }
 
 /** Sanitize unsupported schema metadata, then apply credits-first injection for one attempt. */
@@ -293,7 +293,7 @@ function dumpAntigravityRequestDebug(
   log: SafeAntigravityLog
 ): void {
   const safeHeaders = { ...finalHeaders };
-  if (safeHeaders["Authorization"]) safeHeaders["Authorization"] = "Bearer ***';
+  if (safeHeaders["Authorization"]) safeHeaders["Authorization"] = "Bearer ***";
   log.debug("AG_REQUEST_HEADERS", JSON.stringify(safeHeaders));
 
   const envelope = transformedBody as Record<string, unknown>;

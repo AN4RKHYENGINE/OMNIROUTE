@@ -4,7 +4,7 @@ const CLAUDE_CODE_COMPATIBLE_BASE_BETAS = [
   "effort-2025-11-24",
 ];
 
-export const CLAUDE_CODE_COMPATIBLE_REDACT_THINKING_BETA = "redact-thinking-2026-02-12';
+export const CLAUDE_CODE_COMPATIBLE_REDACT_THINKING_BETA = "redact-thinking-2026-02-12";
 
 export type ClaudeCodeCompatibleBetaOptions = {
   redactThinking?: boolean;

@@ -3,7 +3,7 @@
  *
  * Pure, stateless utility for reducing a tool manifest to the subset
  * permitted by a caller profile. Announcing fewer tools in the MCP
- * manifest saves tokens in the model's context window ("layer 5"
+ * manifest saves tokens in the model"s context window ("layer 5"
  * compression).
  *
  * ACTIVATION NOTE: The live MCP server registration loop in server.ts is

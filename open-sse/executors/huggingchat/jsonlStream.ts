@@ -46,9 +46,9 @@ export async function* streamJsonlToOpenAi(
 ): AsyncGenerator<string> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "';
+  let buffer = "";
   let emittedRole = false;
-  let fullText = "';
+  let fullText = "";
   let finished = false;
 
   try {
@@ -61,7 +61,7 @@ export async function* streamJsonlToOpenAi(
       buffer += decoder.decode(value, { stream: true });
 
       const lines = buffer.split("\n");
-      buffer = lines.pop() || "';
+      buffer = lines.pop() || "";
 
       for (const line of lines) {
         const trimmed = line.trim();
@@ -77,7 +77,7 @@ export async function* streamJsonlToOpenAi(
             model,
             choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
           });
-          yield "data: [DONE]\n\n';
+          yield "data: [DONE]\n\n";
           finished = true;
           return;
         }
@@ -172,7 +172,7 @@ export async function* streamJsonlToOpenAi(
       model,
       choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
     });
-    yield "data: [DONE]\n\n';
+    yield "data: [DONE]\n\n";
   }
 }
 
@@ -182,8 +182,8 @@ export async function readJsonlResponse(
 ): Promise<string> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "';
-  let fullText = "';
+  let buffer = "";
+  let fullText = "";
 
   try {
     while (true) {
@@ -195,7 +195,7 @@ export async function readJsonlResponse(
       buffer += decoder.decode(value, { stream: true });
 
       const lines = buffer.split("\n");
-      buffer = lines.pop() || "';
+      buffer = lines.pop() || "";
 
       for (const line of lines) {
         const trimmed = line.trim();

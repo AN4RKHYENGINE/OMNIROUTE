@@ -6,7 +6,7 @@ import { normalizeOpenAICompatibleFinishReasonString } from '../../utils/finishR
 type AccumulatedToolCall = {
   id: string;
   index: number;
-  type: "function';
+  type: "function";
   function: { name: string; arguments: string };
 };
 
@@ -146,7 +146,7 @@ function buildChatCompletionFromAccumulator(
   let finishReason = acc.finishReason;
   if (acc.toolCalls.length > 0) {
     message.tool_calls = acc.toolCalls;
-    finishReason = "tool_calls';
+    finishReason = "tool_calls";
   }
 
   const result: Record<string, unknown> = {

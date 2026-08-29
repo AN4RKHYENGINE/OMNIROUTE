@@ -57,7 +57,7 @@ export class CloudflareAIExecutor extends BaseExecutor {
     };
 
     if (stream) {
-      headers["Accept"] = "text/event-stream';
+      headers["Accept"] = "text/event-stream";
     }
 
     return headers;
@@ -85,7 +85,7 @@ export class CloudflareAIExecutor extends BaseExecutor {
       if (typeof content === "string" || !Array.isArray(content)) return content;
       return content
         .map((part) => {
-          if (!part || typeof part !== "object") return "';
+          if (!part || typeof part !== "object") return "";
           const p = part as Record<string, unknown>;
           if (p.type === "text" && typeof p.text === "string") return p.text;
           throw new Error(

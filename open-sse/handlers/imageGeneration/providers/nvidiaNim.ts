@@ -16,8 +16,8 @@
 import { saveCallLog } from '@/lib/usageDb';
 import { sanitizeErrorMessage } from '../../../utils/error.ts';
 
-const FLUX_1_DEV = "black-forest-labs/flux.1-dev';
-const FLUX_1_KONTEXT_DEV = "black-forest-labs/flux.1-kontext-dev';
+const FLUX_1_DEV = "black-forest-labs/flux.1-dev";
+const FLUX_1_KONTEXT_DEV = "black-forest-labs/flux.1-kontext-dev";
 
 function numberFromInput(value: unknown): number | null {
   if (value === undefined || value === null || value === "") return null;
@@ -100,7 +100,7 @@ export function buildNvidiaNimRequestBody(
   }
 
   if (model === FLUX_1_DEV) {
-    const mode = body.mode || "base';
+    const mode = body.mode || "base";
     req.mode = mode;
     if (mode !== "base") {
       const images = normalizeImageArray(body.image);
@@ -193,7 +193,7 @@ export async function handleNvidiaNimImageGeneration({
   } | null;
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || credentials?.accessToken || "';
+  const token = credentials?.apiKey || credentials?.accessToken || "";
 
   if (model === FLUX_1_KONTEXT_DEV && !body.image) {
     return {

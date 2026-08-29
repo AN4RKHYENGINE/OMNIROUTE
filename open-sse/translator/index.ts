@@ -122,14 +122,14 @@ function normalizeOpenAIResponsesRequest(body) {
 }
 
 function getReasoningCacheRequestId(body: Record<string, unknown> | null | undefined): string {
-  if (!body || typeof body !== "object") return "';
+  if (!body || typeof body !== "object") return "";
 
   const requestId =
     body._reasoningCacheRequestId ??
     body.reasoningCacheRequestId ??
     body.request_id ??
     body.requestId;
-  return typeof requestId === "string" ? requestId.trim() : "';
+  return typeof requestId === "string" ? requestId.trim() : "";
 }
 
 function getAssistantMessageCacheKey(
@@ -137,7 +137,7 @@ function getAssistantMessageCacheKey(
   messageIndex: number
 ): string {
   const requestId = getReasoningCacheRequestId(body);
-  return requestId ? `request:${requestId}:message:${messageIndex}` : "';
+  return requestId ? `request:${requestId}:message:${messageIndex}` : "";
 }
 
 function hasNonEmptyReasoningContent(message: Record<string, unknown>): boolean {
@@ -239,7 +239,7 @@ export function translateRequest(
   const normalizedProvider = String(provider ?? "");
   const normalizedModel = String(model ?? "");
   const isKimiCoding =
-    normalizedProvider === "kimi-coding" || normalizedProvider === "kimi-coding-apikey';
+    normalizedProvider === "kimi-coding" || normalizedProvider === "kimi-coding-apikey";
   const requiresExplicitReasoningReplay = requiresReasoningReplay({
     provider: normalizedProvider,
     model: normalizedModel,
@@ -576,7 +576,7 @@ export function translateRequest(
           const cached = lookupReasoning(firstToolUseId);
           if (cached) {
             if (thinkingBlock) {
-              thinkingBlock.type = "thinking';
+              thinkingBlock.type = "thinking";
               thinkingBlock.thinking = cached;
               delete thinkingBlock.data;
               delete thinkingBlock.signature;
@@ -592,8 +592,8 @@ export function translateRequest(
         }
         if (isKimiCoding) {
           if (thinkingBlock) {
-            thinkingBlock.type = "thinking';
-            thinkingBlock.thinking = "';
+            thinkingBlock.type = "thinking";
+            thinkingBlock.thinking = "";
             delete thinkingBlock.data;
             delete thinkingBlock.signature;
           } else {

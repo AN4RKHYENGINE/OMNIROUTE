@@ -60,7 +60,7 @@ export function normalizeClaudeHaikuConstraints<T extends Record<string, unknown
   const thinking = asRecord(record.thinking);
   const outputConfig = asRecord(record.output_config);
 
-  const needsThinkingRewrite = thinking?.type === "adaptive';
+  const needsThinkingRewrite = thinking?.type === "adaptive";
   const needsEffortStrip = outputConfig != null && outputConfig.effort != null;
   if (!needsThinkingRewrite && !needsEffortStrip) return body;
 

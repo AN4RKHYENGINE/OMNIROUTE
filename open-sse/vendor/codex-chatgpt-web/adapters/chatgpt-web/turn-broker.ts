@@ -49,7 +49,7 @@ interface TurnChannel {
 
 interface BrokerRequest {
   id: string;
-  method: "claim" | "resolve" | "release" | "invoke';
+  method: "claim" | "resolve" | "release" | "invoke";
   token?: string;
   bindingId?: string;
   wireName?: string;
@@ -242,7 +242,7 @@ export class TurnBroker {
   }
 
   private handleSocket(socket: Socket): void {
-    let buffered = "';
+    let buffered = "";
     let handled = false;
     socket.setEncoding("utf8");
     socket.on("error", () => {});
@@ -444,7 +444,7 @@ export async function callTurnBroker<T>(
   const id = opaqueId("request");
   return new Promise<T>((resolveCall, rejectCall) => {
     const socket = createConnection(socketPath);
-    let buffered = "';
+    let buffered = "";
     let settled = false;
     const finishError = (error: Error) => {
       if (settled) return;

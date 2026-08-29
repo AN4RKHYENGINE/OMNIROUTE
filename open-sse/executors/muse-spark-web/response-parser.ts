@@ -23,7 +23,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 export function parseMetaSseFrames(text: string): MetaSseFrame[] {
   const frames: MetaSseFrame[] = [];
   const lines = text.split(/\r?\n/);
-  let currentEvent = "message';
+  let currentEvent = "message";
   let dataLines: string[] = [];
 
   const flush = () => {
@@ -36,7 +36,7 @@ export function parseMetaSseFrames(text: string): MetaSseFrame[] {
       data: dataLines.join("\n").trim(),
     });
 
-    currentEvent = "message';
+    currentEvent = "message";
     dataLines = [];
   };
 
@@ -51,7 +51,7 @@ export function parseMetaSseFrames(text: string): MetaSseFrame[] {
     }
 
     if (line.startsWith("event:")) {
-      currentEvent = line.slice("event:".length).trim() || "message';
+      currentEvent = line.slice("event:".length).trim() || "message";
       continue;
     }
 
@@ -194,7 +194,7 @@ export function collectReasoningTexts(
     return [];
   }
 
-  const typename = typeof value.__typename === "string" ? value.__typename : "';
+  const typename = typeof value.__typename === "string" ? value.__typename : "";
   const localForce = force || /reasoning|thinking|thought/i.test(typename);
   const parts: string[] = [];
 
@@ -224,7 +224,7 @@ export function extractAssistantContent(message: Record<string, unknown>): strin
 
   const contentRenderer = isRecord(message.contentRenderer) ? message.contentRenderer : null;
   if (!contentRenderer) {
-    return "';
+    return "";
   }
 
   const parts = collectRendererTexts(contentRenderer, new Set());
@@ -288,9 +288,9 @@ export function parseMetaAiResponseText(
   text: string,
   isThinkingModel: boolean
 ): ParsedMetaAiResponse {
-  let lastContent = "';
+  let lastContent = "";
   const deltas: string[] = [];
-  let lastReasoning = "';
+  let lastReasoning = "";
   const reasoningDeltas: string[] = [];
   let errorCode: string | null = null;
   let errorMessage: string | null = null;

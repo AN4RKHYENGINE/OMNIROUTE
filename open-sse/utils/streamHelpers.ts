@@ -232,10 +232,10 @@ export function createSSEEventPrefixBuffer(): SSEEventPrefixBuffer {
         const match = lines[i].trim().match(/^event:\s*(.+)$/i);
         if (match) return match[1].trim();
       }
-      return "';
+      return "";
     },
     flush() {
-      return hasUnemitted() ? prefix("\n") : "';
+      return hasUnemitted() ? prefix("\n") : "";
     },
     prefixData(output, line) {
       return line.startsWith("data:") ? prefix(output) : output;
@@ -342,7 +342,7 @@ export function isKnownNonClaudeStreamPayload(
     return hasOpenAICompatibleStreamValue(parsed);
   }
 
-  const objectType = typeof parsed.object === "string" ? parsed.object : "';
+  const objectType = typeof parsed.object === "string" ? parsed.object : "";
   if (
     objectType === "chat.completion.chunk" ||
     objectType === "text_completion" ||
@@ -379,7 +379,7 @@ export function hasValuableContent(chunk: Record<string, unknown>, format: strin
 
   // Claude format
   if (format === FORMATS.CLAUDE) {
-    const isContentBlockDelta = chunk.type === "content_block_delta';
+    const isContentBlockDelta = chunk.type === "content_block_delta";
     if (isContentBlockDelta) {
       const delta = isRecord(chunk.delta) ? chunk.delta : {};
       const hasText = typeof delta.text === "string" && delta.text.length > 0;
@@ -458,7 +458,7 @@ function cleanPerfMetrics(data: unknown): unknown {
 // Format output as SSE
 export function formatSSE(data: unknown, sourceFormat: string): string {
   if (data === null || data === undefined) return ""; // Skip null/undefined — never send `data: null` (#483)
-  if (isRecord(data) && data.done) return "data: [DONE]\n\n';
+  if (isRecord(data) && data.done) return "data: [DONE]\n\n";
 
   // OpenAI Responses API format
   if (isRecord(data) && data.event && data.data) {
@@ -540,7 +540,7 @@ export function injectThinkingSignature(
     parsed.content_block?.type === "thinking" &&
     parsed.content_block.signature === undefined
   ) {
-    parsed.content_block.signature = "';
+    parsed.content_block.signature = "";
     return true;
   }
   return false;

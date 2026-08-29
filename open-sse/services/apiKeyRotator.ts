@@ -53,7 +53,7 @@ export function connectionHasExtraKeys(connectionId: string, extraKeys?: string[
 // In-memory health status (synced to DB on state changes)
 // Key format: "primary" | "extra_0" | "extra_1" | ...
 interface KeyHealth {
-  status: "active" | "warning" | "invalid';
+  status: "active" | "warning" | "invalid";
   failures: number; // consecutive failures
   lastFailure: string | null; // ISO timestamp
   lastSuccess: string | null; // ISO timestamp
@@ -181,9 +181,9 @@ export function recordKeyFailure(connectionId: string, keyId: string): KeyHealth
   health.lastFailure = new Date().toISOString();
 
   if (health.failures >= FAILURE_THRESHOLD) {
-    health.status = "invalid';
+    health.status = "invalid";
   } else if (health.failures > 0) {
-    health.status = "warning';
+    health.status = "warning";
   }
 
   return { ...health };
@@ -207,7 +207,7 @@ export function recordKeyTerminal(connectionId: string, keyId: string): KeyHealt
   health.totalRequests++;
   health.totalFailures++;
   health.lastFailure = new Date().toISOString();
-  health.status = "invalid';
+  health.status = "invalid";
 
   return { ...health };
 }
@@ -225,7 +225,7 @@ export function recordKeySuccess(connectionId: string, keyId: string): KeyHealth
   health.failures = 0;
   health.totalRequests++;
   health.lastSuccess = new Date().toISOString();
-  health.status = "active';
+  health.status = "active";
 
   return { ...health };
 }
@@ -276,7 +276,7 @@ export function getKeyHealthStats(
 export function resetKeyStatus(connectionId: string, keyId: string): KeyHealth {
   const health = getOrCreateHealth(connectionId, keyId);
   health.failures = 0;
-  health.status = "active';
+  health.status = "active";
   health.lastFailure = null;
   return { ...health };
 }

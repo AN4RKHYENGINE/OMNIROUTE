@@ -18,7 +18,7 @@ import type { ResolvedComboTarget } from './types.ts';
 const FINGERPRINT_PROVIDERS: ReadonlySet<string> = new Set(["mimocode", "mcode", "opencode"]);
 
 /** Separator the combo builder UI uses to encode an account pin (#6087). */
-const FP_PIN_SEPARATOR = "|fp|';
+const FP_PIN_SEPARATOR = "|fp|";
 
 /** Check whether a provider uses fingerprint-based multi-account. */
 export function isFingerprintProvider(provider: string): boolean {

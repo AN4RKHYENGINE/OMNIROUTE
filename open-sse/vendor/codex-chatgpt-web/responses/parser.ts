@@ -53,7 +53,7 @@ function inputContentParts(blocks: unknown[] | string | undefined): string | Cod
       const ref =
         (block as { file_id?: string; filename?: string }).file_id ??
         (block as { filename?: string }).filename ??
-        "?';
+        "?";
       parts.push({ type: "text", text: `[file: ${ref}]` });
     }
   }
@@ -98,9 +98,9 @@ function mapToolChoice(value: unknown): CodexRequestOptions["toolChoice"] {
             allowedTools: [...new Set(names)],
             mode: value.mode === "required" ? "required" : "auto",
           }
-        : "none';
+        : "none";
     }
-    return "auto';
+    return "auto";
   }
   return undefined;
 }
@@ -109,7 +109,7 @@ function allowedToolName(tool: unknown): string | undefined {
   if (!isObj(tool)) return undefined;
   if (typeof tool.name === "string" && tool.name.length > 0) return tool.name;
   if (tool.type === "web_search" || tool.type === "web_search_preview") return WEB_SEARCH_TOOL_NAME;
-  if (tool.type === "tool_search") return "tool_search';
+  if (tool.type === "tool_search") return "tool_search";
   return undefined;
 }
 
@@ -220,7 +220,7 @@ function outputToToolResultContent(
   output: string | unknown[] | undefined
 ): string | CodexContentPart[] {
   if (typeof output === "string") return output;
-  if (!Array.isArray(output)) return "';
+  if (!Array.isArray(output)) return "";
   const parts: CodexContentPart[] = [];
   let hasImage = false;
   for (const raw of output) {
@@ -388,7 +388,7 @@ export function parseRequest(body: unknown): CodexParsedRequest {
         const msg = item as {
           role?: string;
           content?: unknown;
-          phase?: "commentary" | "final_answer';
+          phase?: "commentary" | "final_answer";
         };
         switch (msg.role) {
           case "system": {
@@ -452,7 +452,7 @@ export function parseRequest(body: unknown): CodexParsedRequest {
             ...(envelope?.red ? { redacted: envelope.red } : {}),
             ...(reasoning.id ? { itemId: reasoning.id } : {}),
           };
-          const envelopeSigned = typeof envelope?.sig === "string';
+          const envelopeSigned = typeof envelope?.sig === "string";
           const previous = pendingReasoning[pendingReasoning.length - 1];
 
           if (!envelopeSigned && previous && !previous.envelopeSigned) {
@@ -549,7 +549,7 @@ export function parseRequest(body: unknown): CodexParsedRequest {
         // Preserve the model's prior tool_search call as an assistant tool call so multi-turn
         // history stays complete (otherwise the model re-issues tool_search forever).
         const call = item as { id?: string; call_id?: string; arguments?: unknown };
-        const callId = call.call_id ?? call.id ?? "';
+        const callId = call.call_id ?? call.id ?? "";
         assistantHolderWithReasoning().content.push({
           type: "toolCall",
           id: callId,
@@ -579,7 +579,7 @@ export function parseRequest(body: unknown): CodexParsedRequest {
           }
         }
         const failed =
-          typeof out.status === "string" && out.status !== "completed" && out.status !== "success';
+          typeof out.status === "string" && out.status !== "completed" && out.status !== "success";
         messages.push({
           role: "toolResult",
           toolCallId: out.call_id ?? "",
@@ -713,5 +713,5 @@ function detectStructuredOutput(text: unknown): boolean {
   const format = (text as { format?: unknown }).format;
   if (!isObj(format)) return false;
   const t = (format as { type?: unknown }).type;
-  return t === "json_schema" || t === "json_object';
+  return t === "json_schema" || t === "json_object";
 }

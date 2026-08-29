@@ -3,7 +3,7 @@ import { getProviderConnections } from '@lib/db/providers.ts';
 import { AI_PROVIDERS, NOAUTH_PROVIDERS } from '@shared/constants/providers.ts';
 
 type JsonRecord = Record<string, unknown>;
-type McpCatalogStatus = "available" | "degraded" | "unavailable';
+type McpCatalogStatus = "available" | "degraded" | "unavailable";
 
 type McpCatalogResponse = {
   models: Array<{
@@ -68,15 +68,15 @@ function buildProviderAliasMap(): Record<string, string> {
 function normalizeCapability(value: string): string {
   switch (value) {
     case "embeddings":
-      return "embedding';
+      return "embedding";
     case "images":
-      return "image';
+      return "image";
     case "videos":
-      return "video';
+      return "video";
     case "moderations":
-      return "moderation';
+      return "moderation";
     case "chat-completions":
-      return "chat';
+      return "chat";
     default:
       return value;
   }
@@ -111,8 +111,8 @@ function normalizeCatalogStatus(
     return explicitStatus;
   }
 
-  if (warning || source === "local_catalog") return "degraded';
-  return "available';
+  if (warning || source === "local_catalog") return "degraded";
+  return "available";
 }
 
 function getConnectionThinkingEffort(connection: ProviderConnectionLike): string | undefined {
@@ -120,7 +120,7 @@ function getConnectionThinkingEffort(connection: ProviderConnectionLike): string
   const providerSpecificData = toRecord(connection.providerSpecificData);
 
   if (provider === "codex") {
-    return getCodexRequestDefaults(providerSpecificData).reasoningEffort || "medium';
+    return getCodexRequestDefaults(providerSpecificData).reasoningEffort || "medium";
   }
 
   const rawThinkingEffort = toString(providerSpecificData.thinkingEffort);

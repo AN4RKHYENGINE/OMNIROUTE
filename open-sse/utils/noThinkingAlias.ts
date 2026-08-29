@@ -29,7 +29,7 @@
  */
 import { getModelSpec } from '@/shared/constants/modelSpecs';
 
-export const NO_THINKING_PREFIX = "no-think/';
+export const NO_THINKING_PREFIX = "no-think/";
 
 // Ids that already carry a Claude reasoning-effort suffix (see
 // claudeEffortVariants.ts's identical constant) — a no-think variant of an effort
@@ -85,7 +85,7 @@ export function applyNoThinkingAlias(
     // Lanes that reject reasoning_effort are still cleaned up downstream by the
     // per-lane unsupported-param strip (paramSupport.ts), which removes it just
     // like it would have been removed here — same end state, correct on more lanes.
-    body.reasoning_effort = "none';
+    body.reasoning_effort = "none";
   }
   delete body.reasoning;
   return { applied: true, realModel };

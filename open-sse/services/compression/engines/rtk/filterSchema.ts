@@ -141,8 +141,8 @@ export interface RtkFilterDefinition {
   rtkTomlHeadLines?: number;
   rtkTomlTailLines?: number;
   rtkTomlMaxLines?: number;
-  sourceFormat?: "omniroute-json" | "rtk-toml-v1';
-  source?: "project" | "global" | "builtin';
+  sourceFormat?: "omniroute-json" | "rtk-toml-v1";
+  source?: "project" | "global" | "builtin";
   tests: Array<{ name: string; input: string; expected: string; command?: string }>;
 }
 

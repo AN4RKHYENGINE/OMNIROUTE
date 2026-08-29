@@ -128,7 +128,7 @@ function buildDeepinfraCatchError(
   err: unknown,
   log?: DeepinfraHandlerArgs["log"]
 ) {
-  const errorMessage = sanitizeErrorMessage(err) || "Video provider error';
+  const errorMessage = sanitizeErrorMessage(err) || "Video provider error";
   log?.error?.("VIDEO", `${ctx.provider} deepinfra-video error: ${errorMessage}`);
   logDeepinfraCall(ctx, 502, { error: errorMessage });
   return { success: false, status: 502, error: errorMessage };
@@ -175,7 +175,7 @@ export async function handleDeepinfraVideoGeneration({
     const videoUrl = typeof data.video_url === "string" ? data.video_url : null;
     if (!videoUrl) {
       const errorMessage =
-        extractDeepinfraErrorMessage(data) || "DeepInfra video generation did not return video_url';
+        extractDeepinfraErrorMessage(data) || "DeepInfra video generation did not return video_url";
       return { success: false, status: 502, error: errorMessage };
     }
 

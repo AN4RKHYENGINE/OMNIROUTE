@@ -76,7 +76,7 @@ export function buildFirecrawlSearchRequest(
   const rawBase = envBase || customBase;
   const url = rawBase ? `${rawBase}/v2/search` : config.baseUrl;
   const { includes, excludes } = parseDomainFilter(params.domainFilter);
-  const source = params.searchType === "news" ? "news" : "web';
+  const source = params.searchType === "news" ? "news" : "web";
 
   const body: Record<string, unknown> = {
     query: params.query,
@@ -119,7 +119,7 @@ export function collectFirecrawlSearchHits(
   data: FirecrawlSearchEnvelope,
   searchType: string
 ): FirecrawlNormalizedHit[] {
-  const isNews = searchType === "news';
+  const isNews = searchType === "news";
   return pickFirecrawlSearchItems(data, searchType).map((item) => ({
     title: item.title || item.metadata?.title || "",
     url: item.url || item.metadata?.sourceURL || item.link || "",

@@ -14,8 +14,8 @@ import {
 } from './resourcePressureSampler.ts';
 
 const MB = 1024 * 1024;
-const RETRY_AFTER_SECONDS = "5';
-const PRESSURE_MESSAGE = "Service temporarily unavailable due to resource pressure. Retry shortly.';
+const RETRY_AFTER_SECONDS = "5";
+const PRESSURE_MESSAGE = "Service temporarily unavailable due to resource pressure. Retry shortly.";
 
 export type ResourcePressureGuardResult = {
   success: false;

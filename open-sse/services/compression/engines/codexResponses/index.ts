@@ -13,7 +13,7 @@ import type {
 import { CODEX_RESPONSE_ITEM_META } from '../../bodyAdapter.ts';
 import { countTextTokens } from '@shared/utils/tiktokenCounter.ts';
 
-const ENGINE_ID = "codex-responses';
+const ENGINE_ID = "codex-responses";
 
 function countCodexTokens(text: string): number {
   if (!text) return 0;

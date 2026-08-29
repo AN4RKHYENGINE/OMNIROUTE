@@ -40,7 +40,7 @@ function resolveDevinBin(): string {
   if (envBin) return envBin;
 
   // 2. Common name (PATH lookup handled by spawn shell option)
-  const isWin = process.platform === "win32';
+  const isWin = process.platform === "win32";
 
   // 3. Windows installer default: %LOCALAPPDATA%\devin\cli\bin\devin.exe
   if (isWin) {
@@ -59,13 +59,13 @@ function resolveDevinBin(): string {
   }
 
   // Fallback — rely on PATH
-  return isWin ? "devin.exe" : "devin';
+  return isWin ? "devin.exe" : "devin";
 }
 
 // ─── ACP JSON-RPC helpers ────────────────────────────────────────────────────
 
 type AcpMessage = {
-  jsonrpc: "2.0';
+  jsonrpc: "2.0";
   method?: string;
   result?: unknown;
   error?: { code: number; message: string };
@@ -76,7 +76,7 @@ type AcpMessage = {
 function rpc(method: string, params: unknown, id?: number): string {
   const msg: AcpMessage = { jsonrpc: "2.0", method, params };
   if (id !== undefined) msg.id = id;
-  return JSON.stringify(msg) + "\n';
+  return JSON.stringify(msg) + "\n";
 }
 
 // ─── Multi-turn message → single prompt builder ───────────────────────────────
@@ -89,7 +89,7 @@ function buildPromptText(messages: OpenAIMsg[]): string {
   const lines: string[] = [];
   for (const m of messages) {
     const role = String(m.role || "user");
-    let text = "';
+    let text = "";
     if (typeof m.content === "string") {
       text = m.content;
     } else if (Array.isArray(m.content)) {
@@ -108,7 +108,7 @@ function buildPromptText(messages: OpenAIMsg[]): string {
       lines.push(`[User]\n${text}`);
     }
   }
-  return lines.join("\n\n") || "(empty)';
+  return lines.join("\n\n") || "(empty)";
 }
 
 // ─── DevinCliExecutor ─────────────────────────────────────────────────────────
@@ -119,7 +119,7 @@ export class DevinCliExecutor extends BaseExecutor {
   }
 
   buildUrl(): string {
-    return "devin://acp/stdio';
+    return "devin://acp/stdio";
   }
 
   buildHeaders(): Record<string, string> {
@@ -140,7 +140,7 @@ export class DevinCliExecutor extends BaseExecutor {
     const messages: OpenAIMsg[] = Array.isArray(b.messages) ? (b.messages as OpenAIMsg[]) : [];
     const promptText = buildPromptText(messages);
     const apiKey =
-      credentials.apiKey || credentials.accessToken || process.env.WINDSURF_API_KEY || "';
+      credentials.apiKey || credentials.accessToken || process.env.WINDSURF_API_KEY || "";
     const devinBin = resolveDevinBin();
 
     log?.info?.("DEVIN", `devin acp → model=${model}, bin=${devinBin}`);
@@ -192,7 +192,7 @@ export class DevinCliExecutor extends BaseExecutor {
         let responseId = `chatcmpl-devin-${Date.now()}`;
         let created = Math.floor(Date.now() / 1000);
         let roleEmitted = false;
-        let totalText = "';
+        let totalText = "";
         let finished = false;
 
         const sendRpc = (method: string, params: unknown) => {
@@ -254,7 +254,7 @@ export class DevinCliExecutor extends BaseExecutor {
         };
 
         // ── stdout reader (NDJSON) ──────────────────────────────────────────
-        let buffer = "';
+        let buffer = "";
 
         child.stdout.on("data", (chunk: Buffer) => {
           buffer += chunk.toString("utf8");
@@ -365,7 +365,7 @@ export class DevinCliExecutor extends BaseExecutor {
                   (params.content as string) ||
                   (params.delta as string) ||
                   (params.text as string) ||
-                  "';
+                  "";
                 if (delta) {
                   if (!roleEmitted) {
                     emit(
@@ -440,7 +440,7 @@ export class DevinCliExecutor extends BaseExecutor {
                   );
                 }
               }
-              const stopReason = (res?.stopReason as string) || "';
+              const stopReason = (res?.stopReason as string) || "";
               if (stopReason && stopReason !== "cancelled") {
                 finish();
               }
@@ -507,7 +507,7 @@ function extractChunkText(content: unknown): string {
     const text = (content as Record<string, unknown>).text;
     if (typeof text === "string") return text;
   }
-  return "';
+  return "";
 }
 
 function extractResultText(result: Record<string, unknown>): string {
@@ -527,5 +527,5 @@ function extractResultText(result: Record<string, unknown>): string {
       .map((m) => String(m.content || ""))
       .join("\n");
   }
-  return "';
+  return "";
 }

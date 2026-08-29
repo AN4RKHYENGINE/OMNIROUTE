@@ -92,7 +92,7 @@ export function buildEmptyComboTargetsPayload(
     const minCtxLabel =
       typeof minContextWindow === "number" && minContextWindow > 0
         ? ` (minContextWindow: ${minContextWindow})`
-        : "';
+        : "";
     return {
       message: `Combo has no executable targets after context requirements filtering${minCtxLabel}`,
       diagnostics: {

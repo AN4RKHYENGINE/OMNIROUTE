@@ -28,8 +28,8 @@ import { join } from 'node:path';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const BILLING_URL = "https://cli-chat-proxy.grok.com/v1/billing?format=credits';
-const DEFAULT_ISSUER = "https://auth.x.ai';
+const BILLING_URL = "https://cli-chat-proxy.grok.com/v1/billing?format=credits";
+const DEFAULT_ISSUER = "https://auth.x.ai";
 const FETCH_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes — matches grok-web rate limit cooldown
 const REQUEST_TIMEOUT_MS = 10_000;
 const EXPIRY_SKEW_MS = 60_000; // refresh a bit before actual expiry
@@ -46,7 +46,7 @@ function getAuthPath(): string {
  * Stable window identifier for the grok-web weekly quota.
  * Surfaced in the dashboard as "Weekly" under provider limits.
  */
-export const GROK_WINDOW_WEEKLY = "weekly';
+export const GROK_WINDOW_WEEKLY = "weekly";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -156,7 +156,7 @@ function pickAuthEntry(file: Record<string, GrokAuthEntry>): ResolvedAuth | null
   const now = Date.now();
   const scored = Object.entries(file)
     .map(([entryId, e]) => {
-      const token = typeof e?.key === "string" ? e.key.trim() : "';
+      const token = typeof e?.key === "string" ? e.key.trim() : "";
       const exp = e?.expires_at ? Date.parse(e.expires_at) : Number.POSITIVE_INFINITY;
       const expired = Number.isFinite(exp) ? exp <= now + EXPIRY_SKEW_MS : false;
       const hasRefresh = typeof e?.refresh_token === "string" && e.refresh_token.length > 0;
@@ -300,17 +300,17 @@ async function resolveAuth(signal: AbortSignal): Promise<ResolvedAuth> {
 // ─── Billing fetch ───────────────────────────────────────────────────────────
 
 function periodShort(type?: string): string {
-  if (!type) return "';
-  if (type.includes("WEEKLY")) return "weekly';
-  if (type.includes("MONTHLY")) return "monthly';
-  if (type.includes("DAILY")) return "daily';
-  return "period';
+  if (!type) return "";
+  if (type.includes("WEEKLY")) return "weekly";
+  if (type.includes("MONTHLY")) return "monthly";
+  if (type.includes("DAILY")) return "daily";
+  return "period";
 }
 
 function resetLocalLabel(endIso?: string): string {
-  if (!endIso) return "';
+  if (!endIso) return "";
   const end = new Date(endIso);
-  if (Number.isNaN(end.getTime())) return "';
+  if (Number.isNaN(end.getTime())) return "";
   const weekday = end.toLocaleDateString(undefined, { weekday: "short" });
   const hour = end.toLocaleTimeString(undefined, {
     hour: "2-digit",
@@ -457,7 +457,7 @@ export async function fetchGrokWebQuota(
         quotaCache.set(connectionId, { quota, error: null, fetchedAt: Date.now() });
         return quota;
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "';
+        const msg = err instanceof Error ? err.message : "";
         // One retry with token refresh on auth errors
         if (msg.startsWith("auth ") && auth.refreshToken) {
           auth = await refreshAccessToken(auth, controller.signal);

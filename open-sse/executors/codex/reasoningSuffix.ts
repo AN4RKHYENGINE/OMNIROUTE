@@ -15,7 +15,7 @@ export function splitCodexReasoningSuffix(model: unknown): {
   baseModel: string;
   effort: CodexEffortLevel | null;
 } {
-  const modelId = typeof model === "string" ? model : "';
+  const modelId = typeof model === "string" ? model : "";
   const gpt56Match = /^(gpt-5\.6-(?:sol|terra|luna))(?:-(max|ultra)|\((max|ultra)\))$/.exec(
     modelId
   );

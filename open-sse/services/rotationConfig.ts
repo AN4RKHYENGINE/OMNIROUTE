@@ -46,7 +46,7 @@ export interface RotationConfig {
   badRequest400: RotationErrorClassConfig;
 }
 
-const GLOBAL_KEY = "__omniroute_rotation_config__';
+const GLOBAL_KEY = "__omniroute_rotation_config__";
 const DEFAULT_WINDOW_MS = 120_000;
 
 function envBool(name: string, dflt: boolean): boolean {
@@ -226,7 +226,7 @@ export function rateLimitCooldownOverrideMs(cfg: RotationConfig): number | null 
 
 // ── Sliding-window per-key error counter (for threshold-based fallback) ──────────────────────
 
-const COUNTER_KEY = "__omniroute_rotation_counters__';
+const COUNTER_KEY = "__omniroute_rotation_counters__";
 
 function counters(): Map<string, number[]> {
   const g = globalThis as Record<string, unknown>;

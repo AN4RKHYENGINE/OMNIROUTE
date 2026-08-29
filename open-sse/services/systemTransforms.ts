@@ -52,7 +52,7 @@ export {
 // ────────────────────────────────────────────────────────────────────────────
 
 export interface ObfuscateWordsOp {
-  kind: "obfuscate_words';
+  kind: "obfuscate_words";
   /** Words to obfuscate via zero-width joiner insertion. Case-insensitive. */
   words: string[];
   /** Where to apply obfuscation. Defaults to ["system", "messages", "tools"]. */
@@ -143,14 +143,14 @@ export const HERMES_IDENTITY_PREFIXES = ["You are Hermes Agent"];
  * Billing+sentinel is already prepended by native code; DSL on this path
  * runs cosmetic ops only (no `inject_billing_header`).
  */
-export const PROVIDER_CLAUDE = "claude';
+export const PROVIDER_CLAUDE = "claude";
 
 /**
  * Provider key prefix for the Claude-Code-compatible bridge.
  * `claudeCodeCompatible.ts` invokes the pipeline via
  * `applyCcBridgeTransformPipeline` (kept for backward compatibility).
  */
-export const PROVIDER_CC_BRIDGE = "anthropic-compatible-cc';
+export const PROVIDER_CC_BRIDGE = "anthropic-compatible-cc";
 
 /**
  * Default pipeline for the native `claude` provider path.
@@ -279,7 +279,7 @@ function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-const ZWJ = "\u200d';
+const ZWJ = "\u200d";
 
 function obfuscateWord(word: string): string {
   if (word.length <= 1) return word;
@@ -381,7 +381,7 @@ export interface ApplyPipelineResult {
 }
 
 function isObfuscateWordsOp(op: TransformOp): op is ObfuscateWordsOp {
-  return op.kind === "obfuscate_words';
+  return op.kind === "obfuscate_words";
 }
 
 /**
@@ -487,7 +487,7 @@ function resolveProviderConfig(
 // reaches the request path (the #5312-class module-graph bug; the protective
 // compiled default still runs, but operator customizations were silently dropped).
 // Mirrors systemPrompt.ts (#2470) and thinkingBudget.ts (#5312).
-const GLOBAL_KEY = "__omniroute_systemTransforms_config__';
+const GLOBAL_KEY = "__omniroute_systemTransforms_config__";
 const _store = globalThis as unknown as Record<string, SystemTransformsConfig | undefined>;
 
 function getStore(): SystemTransformsConfig {

@@ -55,7 +55,7 @@ import {
 import type { ComboLike } from './types.ts';
 
 /** Sentinel pattern used for "all models of a provider". */
-const PROVIDER_WILDCARD_SENTINEL = "*';
+const PROVIDER_WILDCARD_SENTINEL = "*";
 
 /**
  * Return true if `entry` is a provider-wildcard step.
@@ -72,7 +72,7 @@ export function isProviderWildcardEntry(entry: unknown): boolean {
   }
   if (entry && typeof entry === "object" && !Array.isArray(entry)) {
     const rec = entry as Record<string, unknown>;
-    return rec.kind === "provider-wildcard" && typeof rec.providerId === "string';
+    return rec.kind === "provider-wildcard" && typeof rec.providerId === "string";
   }
   return false;
 }
@@ -107,7 +107,7 @@ function parseWildcardEntry(entry: unknown): ProviderWildcardSpec | null {
   if (entry && typeof entry === "object" && !Array.isArray(entry)) {
     const rec = entry as Record<string, unknown>;
     if (rec.kind !== "provider-wildcard") return null;
-    const providerId = typeof rec.providerId === "string" ? rec.providerId.trim() : "';
+    const providerId = typeof rec.providerId === "string" ? rec.providerId.trim() : "";
     if (!providerId) return null;
     const modelPattern =
       typeof rec.modelPattern === "string" ? rec.modelPattern.trim() : PROVIDER_WILDCARD_SENTINEL;

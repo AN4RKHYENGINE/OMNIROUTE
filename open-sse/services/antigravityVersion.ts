@@ -1,12 +1,12 @@
 const ANTIGRAVITY_IDE_RELEASE_FEED_URL =
-  "https://antigravity-auto-updater-974169037036.us-central1.run.app/releases';
+  "https://antigravity-auto-updater-974169037036.us-central1.run.app/releases";
 const ANTIGRAVITY_CLI_RELEASE_URL =
-  "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/latest';
+  "https://api.github.com/repos/google-antigravity/antigravity-cli/releases/latest";
 
 export const ANTIGRAVITY_VERSION_CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 export const ANTIGRAVITY_VERSION_FETCH_TIMEOUT_MS = 5_000;
-export const ANTIGRAVITY_IDE_FALLBACK_VERSION = "2.1.1';
-export const ANTIGRAVITY_CLI_FALLBACK_VERSION = "1.1.5';
+export const ANTIGRAVITY_IDE_FALLBACK_VERSION = "2.1.1";
+export const ANTIGRAVITY_CLI_FALLBACK_VERSION = "1.1.5";
 
 type VersionCache = {
   fetchedAt: number;

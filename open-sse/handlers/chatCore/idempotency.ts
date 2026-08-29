@@ -33,14 +33,14 @@ export function composeIdempotencyKey({
   messages: unknown;
 }): string | null {
   if (!rawKey) return null;
-  let digest = "';
+  let digest = "";
   try {
     digest = createHash("sha256")
       .update(JSON.stringify(messages ?? ""))
       .digest("hex")
       .slice(0, 16);
   } catch {
-    digest = "nodigest';
+    digest = "nodigest";
   }
   return `${rawKey}|${provider}|${model}|${digest}`;
 }

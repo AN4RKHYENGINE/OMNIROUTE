@@ -352,7 +352,7 @@ export type CursorRoutingLevel = (typeof CURSOR_ROUTING_LEVELS)[number];
  * ModelParameter id for Cursor's Cost/Balance/Intelligence control on wire model
  * `default` (OpenCodex `CURSOR_ROUTING_LEVEL_PARAMETER_ID`).
  */
-export const CURSOR_ROUTING_LEVEL_PARAMETER_ID = "optimization';
+export const CURSOR_ROUTING_LEVEL_PARAMETER_ID = "optimization";
 
 export type ResolveRequestedModelOptions = {
   /**
@@ -591,12 +591,12 @@ export type DecodedDelta =
   | { kind: "tool_call_started" }
   | { kind: "tool_call_completed" }
   | {
-      kind: "native_todo_write';
+      kind: "native_todo_write";
       toolCallId: string;
       merge: boolean;
       todos: Array<{
         content: string;
-        status: "pending" | "in_progress" | "completed" | "cancelled';
+        status: "pending" | "in_progress" | "completed" | "cancelled";
       }>;
     }
   | { kind: "kv_server_message" }
@@ -684,7 +684,7 @@ export function decodeExecRequestContext(payload: Buffer): { id: number; execId:
 
 export type KvServerEvent =
   | {
-      kind: "kv_get_blob';
+      kind: "kv_get_blob";
       kvId: number;
       blobId: Buffer;
       // Opaque metadata cursor sends with the request; echoed back in the
@@ -693,7 +693,7 @@ export type KvServerEvent =
       requestMetadata: Buffer | null;
     }
   | {
-      kind: "kv_set_blob';
+      kind: "kv_set_blob";
       kvId: number;
       blobId: Buffer;
       blobData: Buffer;
@@ -767,7 +767,7 @@ export type ExecServerEvent =
   | { kind: "exec_grep"; execMsgId: number; execId: string }
   | { kind: "exec_diagnostics"; execMsgId: number; execId: string }
   | {
-      kind: "exec_shell';
+      kind: "exec_shell";
       execMsgId: number;
       execId: string;
       command: string;
@@ -777,7 +777,7 @@ export type ExecServerEvent =
       hardTimeout: number;
     }
   | {
-      kind: "exec_shell_stream';
+      kind: "exec_shell_stream";
       execMsgId: number;
       execId: string;
       command: string;
@@ -787,7 +787,7 @@ export type ExecServerEvent =
       hardTimeout: number;
     }
   | {
-      kind: "exec_bg_shell';
+      kind: "exec_bg_shell";
       execMsgId: number;
       execId: string;
       command: string;
@@ -799,7 +799,7 @@ export type ExecServerEvent =
   | { kind: "exec_fetch"; execMsgId: number; execId: string; url: string }
   | { kind: "exec_write_shell_stdin"; execMsgId: number; execId: string }
   | {
-      kind: "exec_mcp';
+      kind: "exec_mcp";
       execMsgId: number;
       execId: string;
       toolName: string;
@@ -841,7 +841,7 @@ export function decodeExecServerEvent(payload: Buffer): ExecServerEvent | null {
     if (top.fieldNumber !== ASM_EXEC_SERVER_MESSAGE || top.wireType !== 2) continue;
 
     let execMsgId = 0;
-    let execId = "';
+    let execId = "";
     let variantField = 0;
     let variantBytes: Buffer | null = null;
 
@@ -937,8 +937,8 @@ export function decodeExecServerEvent(payload: Buffer): ExecServerEvent | null {
         // McpArgs.args is map<string, bytes>; each value is a protobuf-
         // encoded google.protobuf.Value. Decode keys and value-bytes here,
         // then convert each Value to its JSON shape.
-        let toolName = "';
-        let toolCallId = "';
+        let toolName = "";
+        let toolCallId = "";
         const args: Record<string, unknown> = {};
         for (const f of decodeFields(variantBytes)) {
           if (f.wireType !== 2) continue;
@@ -951,7 +951,7 @@ export function decodeExecServerEvent(payload: Buffer): ExecServerEvent | null {
             toolCallId = f.bytes.toString("utf8");
           } else if (f.fieldNumber === MCA_ARGS) {
             // FieldsEntry { key (1): string, value (2): bytes }
-            let key = "';
+            let key = "";
             let valueBytes: Buffer | null = null;
             for (const entry of decodeFields(f.bytes)) {
               if (entry.fieldNumber === MAP_KEY && entry.wireType === 2) {
@@ -1297,7 +1297,7 @@ export function decodeProtobufValue(buf: Buffer): unknown {
           pos += lenN;
           return value;
         }
-        return "';
+        return "";
       }
       case VAL_BOOL: {
         if (wireType === WT_VARINT) {
@@ -1351,7 +1351,7 @@ function decodeProtobufStruct(buf: Buffer): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const f of decodeFields(buf)) {
     if (f.fieldNumber === STRUCT_FIELDS && f.wireType === 2) {
-      let key = "';
+      let key = "";
       let valueBytes: Buffer | null = null;
       for (const entry of decodeFields(f.bytes)) {
         if (entry.fieldNumber === MAP_KEY && entry.wireType === 2) {
@@ -1417,7 +1417,7 @@ function encodeProtobufValue(value: unknown): Buffer {
 // ─── User message extractor (for chat-completions input) ───────────────────
 
 export type ChatMessage = {
-  role: "user" | "assistant" | "system" | "tool';
+  role: "user" | "assistant" | "system" | "tool";
   content?: string | Array<{ type: string; text?: string }> | null;
   tool_calls?: Array<{
     id: string;
@@ -1438,12 +1438,12 @@ export type ChatMessage = {
  * cursor's model has been observed to handle this layout reliably.
  */
 export function flattenMessages(messages: ChatMessage[]): string {
-  if (!Array.isArray(messages) || messages.length === 0) return "';
+  if (!Array.isArray(messages) || messages.length === 0) return "";
 
   const partsToText = (content: ChatMessage["content"]): string => {
     if (typeof content === "string") return content;
-    if (content == null) return "';
-    if (!Array.isArray(content)) return "';
+    if (content == null) return "";
+    if (!Array.isArray(content)) return "";
     return content
       .map((p) => (typeof p?.text === "string" ? p.text : ""))
       .filter(Boolean)
@@ -1477,7 +1477,7 @@ export function flattenMessages(messages: ChatMessage[]): string {
       if (text) lines.push(`Assistant: ${text}`);
       if (Array.isArray(m.tool_calls)) {
         for (const tc of m.tool_calls) {
-          const args = tc.function?.arguments ?? "';
+          const args = tc.function?.arguments ?? "";
           lines.push(
             `Assistant called tool ${tc.function?.name ?? "(unknown)"} ` +
               `(${tc.id}) with arguments: ${args}`
@@ -1485,7 +1485,7 @@ export function flattenMessages(messages: ChatMessage[]): string {
         }
       }
     } else if (m.role === "tool") {
-      const callId = m.tool_call_id ?? "(unknown)';
+      const callId = m.tool_call_id ?? "(unknown)";
       lines.push(`Tool result (${callId}): ${text}`);
     } else {
       if (text) lines.push(`${m.role}: ${text}`);

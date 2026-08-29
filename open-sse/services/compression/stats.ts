@@ -23,7 +23,7 @@ const CHARS_PER_TOKEN = 4;
  * char-counting that block, same as before.
  */
 interface AnthropicImageBlock {
-  type: "image';
+  type: "image";
   source: { type: "base64"; media_type: string; data: string };
 }
 
@@ -175,8 +175,8 @@ export function createCompressionStats(
 
 export function trackCompressionStats(stats: CompressionStats): void {
   if (stats.originalTokens <= 0) return;
-  const rulesInfo = stats.rulesApplied?.length ? ` rules=${stats.rulesApplied.join(",")}` : "';
-  const durationInfo = stats.durationMs !== undefined ? ` ${stats.durationMs}ms` : "';
+  const rulesInfo = stats.rulesApplied?.length ? ` rules=${stats.rulesApplied.join(",")}` : "";
+  const durationInfo = stats.durationMs !== undefined ? ` ${stats.durationMs}ms` : "";
   // Compression stats tracking — no-op in production (use structured logging if needed)
 }
 

@@ -46,7 +46,7 @@ export async function refreshKimiCodingToken(
   const persistedDeviceModel =
     typeof providerSpecificData?.deviceModel === "string"
       ? providerSpecificData.deviceModel.trim()
-      : "';
+      : "";
   const deviceModel = persistedDeviceModel || getKimiDeviceModel();
 
   try {

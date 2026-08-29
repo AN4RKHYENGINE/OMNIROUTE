@@ -13,7 +13,7 @@ export interface CommandDetectionResult {
     | "package"
     | "infra"
     | "cloud"
-    | "generic';
+    | "generic";
   matchedPatterns: string[];
 }
 

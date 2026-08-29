@@ -24,7 +24,7 @@ export async function handleSegmindVideoGeneration({
   credentials,
   log,
 }) {
-  const token = credentials?.apiKey || credentials?.accessToken || "';
+  const token = credentials?.apiKey || credentials?.accessToken || "";
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   const upstreamBody = buildSegmindVideoBody(body, prompt);
 

@@ -28,7 +28,7 @@ export function resolveEffectiveServiceTier(
   providerSpecificData: unknown,
   requestBody?: unknown
 ): EffectiveServiceTier {
-  if (provider !== "codex") return "standard';
+  if (provider !== "codex") return "standard";
   const requestRecord =
     requestBody && typeof requestBody === "object" && !Array.isArray(requestBody)
       ? (requestBody as Record<string, unknown>)
@@ -38,7 +38,7 @@ export function resolveEffectiveServiceTier(
     const normalizedServiceTier = normalizeCodexServiceTier(rawServiceTier);
     if (normalizedServiceTier) return normalizedServiceTier;
   }
-  return getCodexRequestDefaults(providerSpecificData).serviceTier ?? "standard';
+  return getCodexRequestDefaults(providerSpecificData).serviceTier ?? "standard";
 }
 
 /**

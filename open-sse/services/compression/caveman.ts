@@ -220,11 +220,11 @@ function cleanupArtifacts(text: string): string {
 }
 
 function isHorizontalWhitespace(char: string): boolean {
-  return char === " " || char === "\t';
+  return char === " " || char === "\t";
 }
 
 function isSentencePunctuation(char: string): boolean {
-  return char === "." || char === "!" || char === "?';
+  return char === "." || char === "!" || char === "?";
 }
 
 function isCleanupPunctuation(char: string): boolean {
@@ -244,7 +244,7 @@ function hasRepeatedHorizontalWhitespace(text: string): boolean {
 }
 
 function collapseHorizontalWhitespaceRuns(text: string): string {
-  let output = "';
+  let output = "";
   let changed = false;
 
   for (let index = 0; index < text.length; index++) {
@@ -260,7 +260,7 @@ function collapseHorizontalWhitespaceRuns(text: string): string {
     }
 
     if (index > start) {
-      output += " ';
+      output += " ";
       changed = true;
     } else {
       output += char;
@@ -271,7 +271,7 @@ function collapseHorizontalWhitespaceRuns(text: string): string {
 }
 
 function removeHorizontalWhitespaceBeforePunctuation(text: string): string {
-  let output = "';
+  let output = "";
   let changed = false;
 
   for (let index = 0; index < text.length; index++) {
@@ -299,7 +299,7 @@ function removeHorizontalWhitespaceBeforePunctuation(text: string): string {
 }
 
 function collapseRepeatedSentencePunctuation(text: string): string {
-  let output = "';
+  let output = "";
   let changed = false;
 
   for (let index = 0; index < text.length; index++) {
@@ -343,7 +343,7 @@ function stripLineTrailingHorizontalWhitespace(text: string): string {
 }
 
 function collapseExcessNewlines(text: string): string {
-  let output = "';
+  let output = "";
   let changed = false;
 
   for (let index = 0; index < text.length; index++) {
@@ -360,7 +360,7 @@ function collapseExcessNewlines(text: string): string {
 
     const newlineCount = index - start + 1;
     if (newlineCount > 2) {
-      output += "\n\n';
+      output += "\n\n";
       changed = true;
     } else {
       output += text.slice(start, index + 1);

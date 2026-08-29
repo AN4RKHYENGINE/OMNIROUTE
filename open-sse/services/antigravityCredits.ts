@@ -48,12 +48,12 @@ export function handleCreditsFailure(authKey: string): boolean {
  * - "retry"  — inject credits only as a 429 fallback
  * - "always" — inject credits on every request (skip normal quota path)
  */
-export type CreditsMode = "off" | "retry" | "always';
+export type CreditsMode = "off" | "retry" | "always";
 
 export function getCreditsMode(): CreditsMode {
   const raw = (process.env.ANTIGRAVITY_CREDITS || "").trim().toLowerCase();
   if (raw === "always" || raw === "retry") return raw;
-  return "off';
+  return "off";
 }
 
 /**

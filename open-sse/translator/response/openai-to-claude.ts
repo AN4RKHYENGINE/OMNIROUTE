@@ -33,10 +33,10 @@ function extractXmlInvokeBlocks(
 
   // Prepend any incomplete content from previous chunk
   const combined = (state._xmlInvokeBuffer || "") + text;
-  state._xmlInvokeBuffer = "';
+  state._xmlInvokeBuffer = "";
 
   let remaining = combined;
-  let cleaned = "';
+  let cleaned = "";
 
   while (true) {
     const startMatch = remaining.match(/<invoke\s+name="([^"]*)"\s*>/);
@@ -156,10 +156,10 @@ export function openaiToClaudeResponse(chunk, state) {
       state.messageId =
         chunk.extend_fields?.requestId || chunk.extend_fields?.traceId || `msg_${Date.now()}`;
     }
-    state.model = chunk.model || "unknown';
+    state.model = chunk.model || "unknown";
     state.nextBlockIndex = 0;
     state._pendingXmlToolCalls = [];
-    state._xmlInvokeBuffer = "';
+    state._xmlInvokeBuffer = "";
     results.push({
       type: "message_start",
       message: {
@@ -280,7 +280,7 @@ export function openaiToClaudeResponse(chunk, state) {
 
       // Strip the Claude OAuth prefix from an incoming tool name (if any).
       const incomingName = (() => {
-        let n = tc.function?.name || "';
+        let n = tc.function?.name || "";
         n = caseInsensitiveToolNameLookup(n, state.toolNameMap) ?? n;
         if (n.startsWith(CLAUDE_OAUTH_TOOL_PREFIX)) n = n.slice(CLAUDE_OAUTH_TOOL_PREFIX.length);
         return n;
@@ -338,7 +338,7 @@ export function openaiToClaudeResponse(chunk, state) {
         if (toolInfo) {
           // Always buffer the raw stream so shimmed tools can re-emit a
           // corrected JSON at stop time.
-          const existingArgs = toolInfo.argBuffer || "';
+          const existingArgs = toolInfo.argBuffer || "";
           const nextArgs = appendToolCallArgumentDelta(existingArgs, tc.function.arguments);
           let deltaStr = nextArgs.slice(existingArgs.length);
           toolInfo.argBuffer = nextArgs;
@@ -466,11 +466,11 @@ export function openaiToClaudeResponse(chunk, state) {
 function convertFinishReason(reason) {
   switch (reason) {
     case "stop":
-      return "end_turn';
+      return "end_turn";
     case "length":
-      return "max_tokens';
+      return "max_tokens";
     case "tool_calls":
-      return "tool_use';
+      return "tool_use";
     default:
       // Gemini/Antigravity abort reasons (e.g. MALFORMED_FUNCTION_CALL,
       // UNEXPECTED_TOOL_CALL — see isAbortFinishReason) reach here unrecognized
@@ -481,7 +481,7 @@ function convertFinishReason(reason) {
       // so the client does not treat the turn as done. Genuinely unknown future
       // reasons still fall back to "end_turn" so a benign new value does not
       // start misreporting every Gemini-family turn as an unfinished tool call.
-      return isAbortFinishReason(reason) ? "tool_use" : "end_turn';
+      return isAbortFinishReason(reason) ? "tool_use" : "end_turn";
   }
 }
 

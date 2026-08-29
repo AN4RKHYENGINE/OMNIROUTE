@@ -33,7 +33,7 @@ function resolveTypeScript(): TypeScriptModule | null {
       console.warn(
         "[compression/rtk] optional dependency 'typescript' is not installed; " +
           "skipping AST-based code-comment stripping (compression still works). " +
-          "Install 'typescript' to re-enable it."
+          "Install 'typescript" to re-enable it."
       );
     }
   }
@@ -61,7 +61,7 @@ export type CodeLanguage =
   | "go"
   | "ruby"
   | "java"
-  | "unknown';
+  | "unknown";
 
 export interface CodeStripperOptions {
   removeComments?: boolean;
@@ -88,21 +88,21 @@ const LANGUAGE_ALIASES: Record<string, CodeLanguage> = {
 };
 
 export function normalizeCodeLanguage(language?: string | null): CodeLanguage {
-  if (!language) return "unknown';
-  return LANGUAGE_ALIASES[language.trim().toLowerCase()] ?? "unknown';
+  if (!language) return "unknown";
+  return LANGUAGE_ALIASES[language.trim().toLowerCase()] ?? "unknown";
 }
 
 export function detectCodeLanguage(text: string): CodeLanguage {
   if (/\b(?:interface|type)\s+\w+\s*=|:\s*(?:string|number|boolean)\b/.test(text)) {
-    return "typescript';
+    return "typescript";
   }
-  if (/\b(?:const|let|function|import|export)\b|=>/.test(text)) return "javascript';
-  if (/\bdef\s+\w+\(|\bimport\s+\w+|print\(/.test(text)) return "python';
-  if (/\bfn\s+\w+\(|\blet\s+mut\b|println!\(/.test(text)) return "rust';
-  if (/\bfunc\s+\w+\(|package\s+\w+/.test(text)) return "go';
-  if (/\bclass\s+\w+|System\.out\.println/.test(text)) return "java';
-  if (/\bdef\s+\w+|puts\s+|end\s*$/.test(text)) return "ruby';
-  return "unknown';
+  if (/\b(?:const|let|function|import|export)\b|=>/.test(text)) return "javascript";
+  if (/\bdef\s+\w+\(|\bimport\s+\w+|print\(/.test(text)) return "python";
+  if (/\bfn\s+\w+\(|\blet\s+mut\b|println!\(/.test(text)) return "rust";
+  if (/\bfunc\s+\w+\(|package\s+\w+/.test(text)) return "go";
+  if (/\bclass\s+\w+|System\.out\.println/.test(text)) return "java";
+  if (/\bdef\s+\w+|puts\s+|end\s*$/.test(text)) return "ruby";
+  return "unknown";
 }
 
 /**

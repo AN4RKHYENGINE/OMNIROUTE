@@ -62,17 +62,17 @@ export function buildConolUsageResult(balance: ConolBalance): ConolUsageResult {
 }
 
 function readString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "';
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function readProviderValue(data: unknown, keys: readonly string[]): string {
-  if (!data || typeof data !== "object" || Array.isArray(data)) return "';
+  if (!data || typeof data !== "object" || Array.isArray(data)) return "";
   const record = data as Record<string, unknown>;
   for (const key of keys) {
     const value = readString(record[key]);
     if (value) return value;
   }
-  return "';
+  return "";
 }
 
 export async function getConolUsage(

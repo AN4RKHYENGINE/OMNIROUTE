@@ -70,7 +70,7 @@ function loopbackHttpGetJson<T = unknown>(
   });
 }
 
-const FIREFLY_HOME_URL = "https://firefly.adobe.com/';
+const FIREFLY_HOME_URL = "https://firefly.adobe.com/";
 // Bounded quantifiers (Hard Rule: avoid ReDoS on adversarial Authorization headers).
 const ADOBE_BEARER_REGEX =
   /^Bearer\s+(eyJ[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096}\.[A-Za-z0-9_-]{1,4096})/i;
@@ -170,7 +170,7 @@ export function extractUserJwtFromStorageRaw(raw: string): string {
   for (const tok of sorted) {
     if (looksLikeAdobeJwt(tok) && isAdobeUserAccessToken(tok)) return tok;
   }
-  return "';
+  return "";
 }
 
 function resolveAdobeFireflyDataRoot(): string {
@@ -184,7 +184,7 @@ function resolveAdobeFireflyDataRoot(): string {
 }
 
 export function adobeFireflyBrowserSessionKey(value: unknown): string {
-  const raw = String(value || "legacy-default").trim() || "legacy-default';
+  const raw = String(value || "legacy-default").trim() || "legacy-default";
   return createHash("sha256").update(raw).digest("hex").slice(0, 32);
 }
 
@@ -207,7 +207,7 @@ export function clampAdobeFireflyLoginTimeout(value: unknown): number {
 /** Extract an IMS JWT from an Authorization header value. Exported for unit tests. */
 export function extractAdobeBearerTokenFromAuthorization(authHeader: string): string {
   const m = String(authHeader || "").match(ADOBE_BEARER_REGEX);
-  return m?.[1] || "';
+  return m?.[1] || "";
 }
 
 /** Build a single cookie header from relevant Firefly cookies. Exported for unit tests. */
@@ -238,20 +238,20 @@ export function buildAdobeFireflyCookieHeader(
 }
 
 function humanAdobeLabel(value: unknown): string {
-  const label = typeof value === "string" ? value.trim() : "';
-  if (!label || /@(Adobe|Guest)ID$/i.test(label)) return "';
+  const label = typeof value === "string" ? value.trim() : "";
+  if (!label || /@(Adobe|Guest)ID$/i.test(label)) return "";
   return label;
 }
 
 /** Human-readable label claims only; opaque Adobe IDs are intentionally excluded. */
 export function accountLabelFromAdobeJwt(token: string): string {
   const obj = decodeAdobeJwtPayload(token);
-  if (!obj) return "';
+  if (!obj) return "";
   for (const key of ["email", "preferred_username", "name", "display_name"]) {
     const label = humanAdobeLabel(obj[key]);
     if (label) return label;
   }
-  return "';
+  return "";
 }
 
 /** Resolve email/display name from Adobe IMS; never expose the opaque user_id as a label. */
@@ -261,7 +261,7 @@ export async function resolveAdobeAccountLabel(
 ): Promise<string> {
   const claimLabel = accountLabelFromAdobeJwt(token);
   const payload = decodeAdobeJwtPayload(token);
-  const clientId = humanAdobeLabel(payload?.client_id) || "clio-playground-web';
+  const clientId = humanAdobeLabel(payload?.client_id) || "clio-playground-web";
   try {
     const response = await fetchImpl(
       `https://ims-na1.adobelogin.com/ims/userinfo/v2?client_id=${encodeURIComponent(clientId)}`,
@@ -284,7 +284,7 @@ export async function resolveAdobeAccountLabel(
   } catch {
     // JWT label or generic fallback below keeps login successful if userinfo is unavailable.
   }
-  return claimLabel || "Adobe account';
+  return claimLabel || "Adobe account";
 }
 
 /** Resolve system Chrome/Edge executable. Exported for unit tests. */
@@ -292,9 +292,9 @@ export function resolveSystemBrowserExecutable(): string | null {
   const configured = process.env.OMNIROUTE_LOGIN_BROWSER_PATH?.trim();
   if (configured && existsSync(configured)) return configured;
 
-  const pf = process.env.ProgramFiles || "C:\\Program Files';
-  const pf86 = process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)';
-  const local = process.env.LOCALAPPDATA || "';
+  const pf = process.env.ProgramFiles || "C:\\Program Files";
+  const pf86 = process.env["ProgramFiles(x86)"] || "C:\\Program Files (x86)";
+  const local = process.env.LOCALAPPDATA || "";
   const candidates = [
     join(pf, "Google", "Chrome", "Application", "chrome.exe"),
     join(pf86, "Google", "Chrome", "Application", "chrome.exe"),
@@ -339,7 +339,7 @@ async function waitForCdpReady(
   timeoutMs: number
 ): Promise<{ webSocketDebuggerUrl: string }> {
   const deadline = Date.now() + timeoutMs;
-  let lastError = "CDP endpoint not ready';
+  let lastError = "CDP endpoint not ready";
   while (Date.now() < deadline) {
     try {
       // Use node:http — never proxy-patched fetch (see loopbackHttpGetJson).
@@ -351,7 +351,7 @@ async function waitForCdpReady(
       if (body?.webSocketDebuggerUrl) {
         return { webSocketDebuggerUrl: body.webSocketDebuggerUrl };
       }
-      lastError = "CDP /json/version missing webSocketDebuggerUrl';
+      lastError = "CDP /json/version missing webSocketDebuggerUrl";
     } catch (err) {
       lastError = err instanceof Error ? err.message : String(err);
     }
@@ -368,7 +368,7 @@ export type AdobeBrowserCookie = {
   expires?: number;
   httpOnly?: boolean;
   secure?: boolean;
-  sameSite?: "Strict" | "Lax" | "None';
+  sameSite?: "Strict" | "Lax" | "None";
 };
 
 type CdpCookie = AdobeBrowserCookie;
@@ -451,7 +451,7 @@ function parseCookieHeader(cookieHeader: string): Array<{ name: string; value: s
 }
 
 function cookieValue(cookies: CdpCookie[], name: string): string {
-  return cookies.find((cookie) => cookie.name.toLowerCase() === name.toLowerCase())?.value || "';
+  return cookies.find((cookie) => cookie.name.toLowerCase() === name.toLowerCase())?.value || "";
 }
 
 class CdpSocket {
@@ -580,9 +580,9 @@ async function captureViaCdp(opts: {
   cookies: CdpCookie[];
   arpSessionId: string;
 }> {
-  let capturedAccessToken = "';
-  let storageAccessToken = "';
-  let capturedArpSessionId = "';
+  let capturedAccessToken = "";
+  let storageAccessToken = "";
+  let capturedArpSessionId = "";
   let latestCookies: CdpCookie[] = [];
   /** Flatten auto-attach page sessions only — do NOT also open page WebSockets (double-attach freezes Chrome: "Debugger paused in another tab"). */
   const pageSessionIds = new Set<string>();
@@ -651,14 +651,14 @@ async function captureViaCdp(opts: {
         { url?: string; headers?: Record<string, string> } | undefined;
       if (!request?.url || !isAdobeFireflyApiUrl(request.url)) return;
       const headers = request.headers || {};
-      const auth = headers.Authorization || headers.authorization || headers.AUTHORIZATION || "';
+      const auth = headers.Authorization || headers.authorization || headers.AUTHORIZATION || "";
       const token = extractAdobeBearerTokenFromAuthorization(auth);
       if (token && isAdobeUserAccessToken(token)) capturedAccessToken = token;
       const arp =
         headers["x-arp-session-id"] ||
         headers["X-Arp-Session-Id"] ||
         headers["X-ARP-SESSION-ID"] ||
-        "';
+        "";
       if (typeof arp === "string" && arp.trim()) capturedArpSessionId = arp.trim();
     } else if (method === "Target.attachedToTarget") {
       const sessionId = String(params.sessionId || "");
@@ -677,7 +677,7 @@ async function captureViaCdp(opts: {
   };
 
   const readSpaJwtFromSession = async (sessionId: string): Promise<string> => {
-    if (!browserCdp || !sessionId) return "';
+    if (!browserCdp || !sessionId) return "";
     try {
       await resumeTargetIfNeeded(sessionId);
       await browserCdp.send("Runtime.enable", {}, sessionId).catch(() => undefined);
@@ -693,7 +693,7 @@ async function captureViaCdp(opts: {
       )) as { result?: { value?: string } };
       return extractUserJwtFromStorageRaw(String(result?.result?.value || ""));
     } catch {
-      return "';
+      return "";
     }
   };
 
@@ -990,7 +990,7 @@ async function captureViaCdp(opts: {
     }
 
     const fallbackRaw = String(opts.fallbackAccessToken || "").trim();
-    const fallback = isAdobeUserAccessToken(fallbackRaw) ? fallbackRaw : "';
+    const fallback = isAdobeUserAccessToken(fallbackRaw) ? fallbackRaw : "";
     if (fallback && latestCookies.length > 0 && !requireFreshRisk) {
       return {
         accessToken: capturedAccessToken || storageAccessToken || fallback,
@@ -1052,7 +1052,7 @@ function killProcessTree(child: ChildProcess | null): void {
  * ADOBE_FIREFLY_CHROME_HEADLESS=1 (known-broken for media; debug only).
  */
 export function adobeFireflyBackgroundUsesHeadlessChrome(): boolean {
-  return process.env.ADOBE_FIREFLY_CHROME_HEADLESS === "1';
+  return process.env.ADOBE_FIREFLY_CHROME_HEADLESS === "1";
 }
 
 export function buildAdobeFireflyBrowserArgs(opts: {
@@ -1146,7 +1146,7 @@ async function runAdobeFireflyCdpBrowser(opts: {
       /* parent resolve already mkdir'd base */
     }
 
-    let lastError = "Browser failed to start';
+    let lastError = "Browser failed to start";
     for (let launchAttempt = 1; launchAttempt <= 2; launchAttempt++) {
       if (child) {
         killProcessTree(child);

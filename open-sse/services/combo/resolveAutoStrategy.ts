@@ -322,7 +322,7 @@ export async function resolveAutoStrategyOrder(
     let selectedProvider: string | null = null;
     let selectedModel: string | null = null;
     let selectedConnectionId: string | null = null;
-    let selectionReason = "';
+    let selectionReason = "";
 
     if (routingStrategy !== "rules") {
       try {

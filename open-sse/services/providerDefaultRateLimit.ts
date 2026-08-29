@@ -111,7 +111,7 @@ function sleepOrAbort(ms: number, signal: AbortSignal | null): Promise<void> {
           reason instanceof Error
             ? reason
             : new Error(typeof reason === "string" ? reason : "The operation was aborted");
-        err.name = "AbortError';
+        err.name = "AbortError";
         reject(err);
       };
       signal.addEventListener("abort", onAbort, { once: true });

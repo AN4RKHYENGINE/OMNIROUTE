@@ -51,7 +51,7 @@ async function submitNovitaTask(
   if (taskId) return { taskId };
 
   const errorMessage =
-    (submitData as { message?: unknown })?.message || "Novita did not return a task_id';
+    (submitData as { message?: unknown })?.message || "Novita did not return a task_id";
   log?.error?.("VIDEO", `Novita createTask failed: ${JSON.stringify(submitData)}`);
   return {
     error: {
@@ -81,7 +81,7 @@ async function pollNovitaTask(
   deadline: number,
   pollIntervalMs: number
 ): Promise<NovitaHandlerResult> {
-  let lastStatus = "UNKNOWN';
+  let lastStatus = "UNKNOWN";
 
   while (Date.now() < deadline) {
     await sleep(pollIntervalMs);

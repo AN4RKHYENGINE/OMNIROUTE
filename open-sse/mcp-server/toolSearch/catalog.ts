@@ -31,7 +31,7 @@ type AnyToolLike = {
 
 function normalizeEntry(raw: AnyToolLike): ToolCatalogEntry | null {
   const name = typeof raw.name === "string" ? raw.name : null;
-  const description = typeof raw.description === "string" ? raw.description : "';
+  const description = typeof raw.description === "string" ? raw.description : "";
   if (!name) return null;
 
   const scopes: readonly string[] = Array.isArray(raw.scopes)

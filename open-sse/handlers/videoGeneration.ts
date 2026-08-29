@@ -727,7 +727,7 @@ async function handleKieVideoGeneration({
         createData?.msg ||
         createData?.message ||
         createData?.error ||
-        "KIE video generation did not return taskId';
+        "KIE video generation did not return taskId";
       if (log) {
         log.error("VIDEO", `KIE createTask failed: ${JSON.stringify(createData)}`);
       }
@@ -766,7 +766,7 @@ async function handleKieVideoGeneration({
 
     const record = isJsonObject(recordData) ? recordData : {};
     const data = isJsonObject(record.data) ? record.data : {};
-    const errorMessage = data.failMsg || data.errorMessage || record.msg || "KIE video task failed';
+    const errorMessage = data.failMsg || data.errorMessage || record.msg || "KIE video task failed";
     return { success: false, status: 502, error: String(errorMessage) };
   } catch (err: unknown) {
     return {
@@ -859,7 +859,7 @@ async function handleRunwayVideoGeneration({
     }
 
     const submitData = await submitResponse.json();
-    const taskId = typeof submitData?.id === "string" ? submitData.id : "';
+    const taskId = typeof submitData?.id === "string" ? submitData.id : "";
     if (!taskId) {
       const errorText = `Runway submit did not return task id: ${JSON.stringify(submitData).slice(0, 400)}`;
       saveCallLog({
@@ -997,7 +997,7 @@ async function handleHaiperVideoGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "';
+  const token = credentials?.apiKey || "";
   const res = await fetch(providerConfig.baseUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json", HAIPER_KEY: token },

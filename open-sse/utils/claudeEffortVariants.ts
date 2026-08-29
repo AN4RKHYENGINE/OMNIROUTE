@@ -34,7 +34,7 @@ import { supportsXHighEffort } from '../config/providerModels.ts';
 /** Base reasoning-effort levels advertised for every effort-capable Claude model. */
 export const CLAUDE_EFFORT_VARIANT_LEVELS = ["low", "medium", "high"] as const;
 /** Extra level advertised only for models that support extra-high effort. */
-export const CLAUDE_XHIGH_EFFORT_LEVEL = "xhigh';
+export const CLAUDE_XHIGH_EFFORT_LEVEL = "xhigh";
 
 export type ClaudeEffortVariantLevel =
   (typeof CLAUDE_EFFORT_VARIANT_LEVELS)[number] | typeof CLAUDE_XHIGH_EFFORT_LEVEL;
@@ -42,7 +42,7 @@ export type ClaudeEffortVariantLevel =
 // Ids that already carry a reasoning-effort suffix — never double-suffix them.
 const CLAUDE_EFFORT_SUFFIX_RE = /-(?:xhigh|high|medium|low)$/i;
 const CLAUDE_NAME_RE = /claude/i;
-const NO_THINKING_PREFIX = "no-think/';
+const NO_THINKING_PREFIX = "no-think/";
 
 interface CatalogModelEntry {
   id?: unknown;
@@ -60,7 +60,7 @@ function bareModelName(id: string): string {
 
 /** Human label for an effort level, matching the VS Code catalog casing. */
 export function formatClaudeEffortLabel(level: string): string {
-  if (level === CLAUDE_XHIGH_EFFORT_LEVEL) return "XHigh';
+  if (level === CLAUDE_XHIGH_EFFORT_LEVEL) return "XHigh";
   return level.charAt(0).toUpperCase() + level.slice(1);
 }
 
@@ -148,7 +148,7 @@ export function appendClaudeEffortVariants<T extends CatalogModelEntry>(
     const rawId = model.id;
     const qualifiedId = aliasToCanonical ? normalizeProviderPrefix(rawId, aliasToCanonical) : rawId;
     const slash = qualifiedId.indexOf("/");
-    const providerId = slash >= 0 ? qualifiedId.slice(0, slash) : "';
+    const providerId = slash >= 0 ? qualifiedId.slice(0, slash) : "";
     const bareName = bareModelName(qualifiedId);
     for (const level of claudeEffortLevelsFor(providerId, bareName)) {
       const variantId = `${qualifiedId}-${level}`;

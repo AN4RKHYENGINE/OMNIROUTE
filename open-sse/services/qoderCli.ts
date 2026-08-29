@@ -10,7 +10,7 @@ export { getQoderCliCommand } from './qoderCliResolve"; // #6263 public entry po
 
 const DEFAULT_TIMEOUT_MS = 45_000;
 const DEFAULT_MODELS_TIMEOUT_MS = 20_000;
-const QODER_DEFAULT_MODEL = "qwen3.8-max-preview';
+const QODER_DEFAULT_MODEL = "qwen3.8-max-preview";
 const QODER_MODEL_LEVELS = {
   "qwen3.8-max-preview": "qmodel_preview",
   "qwen3.7-max": "qmodel_latest",
@@ -58,7 +58,7 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function getString(value: unknown): string {
-  return typeof value === "string" ? value : "';
+  return typeof value === "string" ? value : "";
 }
 
 export function getQoderCliWorkspace(): string {
@@ -128,8 +128,8 @@ async function spawnQoderCli(options: SpawnQoderCliOptions): Promise<QoderCliRun
   if (token) env.QODER_PERSONAL_ACCESS_TOKEN = token;
 
   return new Promise<QoderCliRunResult>((resolve) => {
-    let stdout = "';
-    let stderr = "';
+    let stdout = "";
+    let stderr = "";
     let settled = false;
     let timedOut = false;
 
@@ -320,10 +320,10 @@ export function resolveQoderModelName(
   availableNames: string[]
 ): string {
   const normalized = normalizeQoderModelKey(requested);
-  if (!normalized) return "auto';
+  if (!normalized) return "auto";
   const match = (availableNames || []).find((name) => normalizeQoderModelKey(name) === normalized);
   if (match) return match;
-  return mapQoderModelToLevel(requested) || "auto';
+  return mapQoderModelToLevel(requested) || "auto";
 }
 
 // Per-token cache of the `--list-models` display names (the catalog is stable and
@@ -337,7 +337,7 @@ async function getCachedQoderCliModelNames(
   token?: string | null,
   options: { command?: string | null; signal?: AbortSignal | null; now?: number } = {}
 ): Promise<string[]> {
-  const key = String(token || "").trim() || "default';
+  const key = String(token || "").trim() || "default";
   const now = options.now ?? Date.now();
   const cached = qoderModelNamesCache.get(key);
   if (cached && cached.expiresAt > now) return cached.names;
@@ -422,7 +422,7 @@ export function parseQoderCliResult(stdout: string): {
 
   const result = getString(parsed.result);
   const isError =
-    parsed.is_error === true || getString(parsed.subtype).trim().toLowerCase() === "error';
+    parsed.is_error === true || getString(parsed.subtype).trim().toLowerCase() === "error";
   return {
     text: result,
     isError,
@@ -443,7 +443,7 @@ export function isQoderCliTransport(providerSpecificData: unknown = {}): boolean
   const transport = getString(data.transport).trim().toLowerCase();
   const authMode = getString(data.authMode).trim().toLowerCase();
   if (transport === "http-legacy") return false;
-  return transport === "qodercli" || authMode === "pat';
+  return transport === "qodercli" || authMode === "pat";
 }
 
 export function getStaticQoderModels() {
@@ -464,31 +464,31 @@ export function mapQoderModelToLevel(model: string | null | undefined): string |
     .toLowerCase();
   if (!normalized) return null;
   // Keep Qoder's retired pre-3.8 level as an alias for the current preview.
-  if (normalized === "q35model_preview") return "qmodel_preview';
+  if (normalized === "q35model_preview") return "qmodel_preview";
   // A caller may pass a qodercli level key directly (e.g. "gm51model") — honor it.
   if (QODER_LEVEL_KEYS.has(normalized)) return normalized;
   const currentLevel = resolveQoderModelLevel(normalized);
   if (currentLevel) return currentLevel;
   // Legacy public ids stay accepted without keeping the retired abstract tiers.
-  if (normalized.includes("deepseek-r1")) return "dmodel';
+  if (normalized.includes("deepseek-r1")) return "dmodel";
   if (normalized.includes("glm")) return "gm51model"; // GLM-5.2 (`qoder/glm-5.2`)
-  if (normalized.includes("minimax")) return "mmodel';
-  if (normalized.includes("qwen3-max-preview")) return "qmodel_preview';
-  if (normalized.includes("qwen3-max")) return "qmodel_latest';
-  if (normalized.includes("kimi-k2")) return "kmodel';
-  if (normalized.includes("qwen3-coder")) return "qmodel';
-  if (normalized.includes("qoder-rome")) return "qmodel';
-  return "auto';
+  if (normalized.includes("minimax")) return "mmodel";
+  if (normalized.includes("qwen3-max-preview")) return "qmodel_preview";
+  if (normalized.includes("qwen3-max")) return "qmodel_latest";
+  if (normalized.includes("kimi-k2")) return "kmodel";
+  if (normalized.includes("qwen3-coder")) return "qmodel";
+  if (normalized.includes("qoder-rome")) return "qmodel";
+  return "auto";
 }
 
 function flattenMessageContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
 
   return content
     .map((item) => {
       if (typeof item === "string") return item;
-      if (!item || typeof item !== "object") return "';
+      if (!item || typeof item !== "object") return "";
 
       const record = item as JsonRecord;
       const itemType = getString(record.type);
@@ -496,18 +496,18 @@ function flattenMessageContent(content: unknown): string {
         return getString(record.text);
       }
       if (itemType === "image_url" || itemType === "input_image") {
-        return "[Image omitted]';
+        return "[Image omitted]";
       }
-      return "';
+      return "";
     })
     .filter(Boolean)
     .join("\n");
 }
 
 function formatMessage(message: unknown): string {
-  if (!message || typeof message !== "object") return "';
+  if (!message || typeof message !== "object") return "";
   const record = message as JsonRecord;
-  const role = getString(record.role).trim().toUpperCase() || "UNKNOWN';
+  const role = getString(record.role).trim().toUpperCase() || "UNKNOWN";
   const base = flattenMessageContent(record.content);
 
   if (role === "TOOL") {
@@ -522,7 +522,7 @@ function formatMessage(message: unknown): string {
         const toolRecord = asRecord(toolCall);
         const functionRecord = asRecord(toolRecord.function);
         const toolName =
-          getString(functionRecord.name).trim() || getString(toolRecord.name).trim() || "tool';
+          getString(functionRecord.name).trim() || getString(toolRecord.name).trim() || "tool";
         const toolArgs =
           getString(functionRecord.arguments).trim() || getString(toolRecord.arguments).trim();
         return `TOOL_CALL ${toolName}: ${toolArgs}`.trim();
@@ -603,7 +603,7 @@ export function extractTextFromQoderEnvelope(parsed: unknown): string {
   const content = messageRecord.content ?? record.content ?? record.delta ?? record.text ?? null;
 
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
 
   return content
     .map((item) => {
@@ -612,7 +612,7 @@ export function extractTextFromQoderEnvelope(parsed: unknown): string {
       if (itemType === "text" || !itemType) {
         return getString(itemRecord.text);
       }
-      return "';
+      return "";
     })
     .filter(Boolean)
     .join("");
@@ -680,7 +680,7 @@ export function buildQoderChunk({
 export function parseQoderCliFailure(stderrText: string, stdoutText = ""): QoderCliFailure {
   const stderr = String(stderrText || "").trim();
   const stdout = String(stdoutText || "").trim();
-  const combined = `${stderr}\n${stdout}`.trim() || "Qoder API request failed';
+  const combined = `${stderr}\n${stdout}`.trim() || "Qoder API request failed";
   const normalized = combined.toLowerCase();
 
   if (
@@ -735,7 +735,7 @@ export function buildCosyHeadersForValidation(bodyStr: string, token: string) {
   const aesKeyStr = aesKeyBytes.toString("hex").slice(0, 16);
   const aesKeyBuf = Buffer.from(aesKeyStr, "utf8");
 
-  const uid = "omniroute.user@qoder.sh';
+  const uid = "omniroute.user@qoder.sh";
   const userInfo = {
     uid: uid,
     security_oauth_token: token,
@@ -762,7 +762,7 @@ export function buildCosyHeadersForValidation(bodyStr: string, token: string) {
     ideVersion: "",
   });
   const payloadB64 = Buffer.from(payloadStr).toString("base64");
-  const sigPath = "/api/v2/service/pro/sse/agent_chat_generation';
+  const sigPath = "/api/v2/service/pro/sse/agent_chat_generation";
   const sigInput = `${payloadB64}\n${cosyKeyB64}\n${timestamp}\n${bodyStr}\n${sigPath}`;
   const sig = crypto.createHash("md5").update(sigInput).digest("hex");
 
@@ -782,7 +782,7 @@ export function buildCosyHeadersForValidation(bodyStr: string, token: string) {
 // envelope for chat. Passing the raw `pt-*` makes Cosy return a generic 500, which
 // OmniRoute mis-surfaced as "PAT may not be valid for the chat API". We mirror the
 // exchange here and cache the `jt-*` for its lifetime.
-const QODER_JOB_TOKEN_EXCHANGE_URL = "https://openapi.qoder.sh/api/v1/jobToken/exchange';
+const QODER_JOB_TOKEN_EXCHANGE_URL = "https://openapi.qoder.sh/api/v1/jobToken/exchange";
 // Refresh a little before the ~24h expiry to avoid using a just-expired token.
 const QODER_JOB_TOKEN_DEFAULT_TTL_MS = 23 * 60 * 60 * 1000;
 const QODER_JOB_TOKEN_MIN_TTL_MS = 60 * 1000;
@@ -818,7 +818,7 @@ export function parseQoderJobTokenResponse(json: unknown): {
     data.jt,
     data.token,
   ];
-  const jobToken = candidates.map(getString).find((v) => v.trim().startsWith("jt-")) || "';
+  const jobToken = candidates.map(getString).find((v) => v.trim().startsWith("jt-")) || "";
   if (!jobToken) return null;
 
   const expiresRaw = [root.expires_in, root.expiresIn, data.expires_in, data.expiresIn].find(

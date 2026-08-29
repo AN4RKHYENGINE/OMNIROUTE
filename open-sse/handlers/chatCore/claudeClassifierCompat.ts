@@ -20,9 +20,9 @@
 import { FORMATS } from '../../translator/formats.ts';
 
 /** The literal system-prompt marker Claude Code's classifier request carries. */
-const SECURITY_MONITOR_MARKER = "You are a security monitor for autonomous AI coding agents';
+const SECURITY_MONITOR_MARKER = "You are a security monitor for autonomous AI coding agents";
 
-export type ClaudeClassifierCompatMode = "off" | "auto" | "always';
+export type ClaudeClassifierCompatMode = "off" | "auto" | "always";
 
 function extractSystemTexts(body: Record<string, unknown> | null | undefined): string[] {
   const system = body?.system;

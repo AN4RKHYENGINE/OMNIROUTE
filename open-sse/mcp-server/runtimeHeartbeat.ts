@@ -14,14 +14,14 @@ export type McpHeartbeatSnapshot = {
   startedAt: string;
   lastHeartbeatAt: string;
   version: string;
-  transport: "stdio';
+  transport: "stdio";
   scopesEnforced: boolean;
   allowedScopes: string[];
   toolCount: number;
 };
 
-const HEARTBEAT_FILE = "mcp-heartbeat.json';
-const RUNTIME_DIR = "runtime';
+const HEARTBEAT_FILE = "mcp-heartbeat.json";
+const RUNTIME_DIR = "runtime";
 const DEFAULT_INTERVAL_MS = 5000;
 
 function resolveDataDir(): string {
@@ -118,7 +118,7 @@ export async function readMcpHeartbeat(): Promise<McpHeartbeatSnapshot | null> {
     }
 
     const allowedScopes = parsed.allowedScopes.filter((scope): scope is string => {
-      return typeof scope === "string';
+      return typeof scope === "string";
     });
 
     return {

@@ -29,7 +29,7 @@
 import { FORMATS } from '../translator/formats.ts';
 
 /** Header clients send to explicitly opt in/out of the `</think>` close marker. */
-export const THINKING_MARKER_HEADER = "x-omniroute-thinking-marker';
+export const THINKING_MARKER_HEADER = "x-omniroute-thinking-marker";
 
 // Lowercased User-Agent substrings of clients that historically rendered the
 // textual `</think>` marker verbatim (#5245 / #1061). Kept for direct callers;

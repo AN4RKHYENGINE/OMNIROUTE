@@ -183,7 +183,7 @@ export async function handlePipelineChat({
     );
   }
 
-  let prevOutput = "';
+  let prevOutput = "";
   for (let i = 0; i < chain.length; i++) {
     const step = chain[i];
     const stepModel = getStepModel(step);

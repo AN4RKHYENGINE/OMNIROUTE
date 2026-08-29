@@ -47,7 +47,7 @@ async function applyOmniglyph(
   body: Record<string, unknown>,
   options?: CompressionEngineApplyOptions
 ): Promise<CompressionResult> {
-  const model = options?.model ?? (body as { model?: string }).model ?? "';
+  const model = options?.model ?? (body as { model?: string }).model ?? "";
   if (options?.supportsVision !== true) return skip(body, "no_vision");
   if (!isOmniGlyphSupportedModel(model)) return skip(body, "model_not_approved");
   if (options?.providerTransport !== "direct") return skip(body, "transport_not_direct");

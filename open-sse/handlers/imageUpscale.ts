@@ -40,7 +40,7 @@ export async function handleImageUpscale({
   log?: UpscaleLogger;
   fetchImpl?: typeof fetch;
 }): Promise<UpscaleHandlerResult> {
-  const requestedModel = typeof body.model === "string" ? body.model : "';
+  const requestedModel = typeof body.model === "string" ? body.model : "";
   const { provider, model } = parseUpscaleModel(requestedModel);
 
   if (!provider || !model) {

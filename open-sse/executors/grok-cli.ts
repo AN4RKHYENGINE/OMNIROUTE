@@ -43,7 +43,7 @@ const GROK_BUILD_UNSUPPORTED_PARAMS = [
  * Normalize outputs to valid JSON text (or plain text) before dispatch (#7611).
  */
 function sanitizeGrokBuildFunctionCallOutput(output: unknown): string {
-  if (output == null) return "';
+  if (output == null) return "";
   if (typeof output === "string") {
     const value = output;
     try {
@@ -285,7 +285,7 @@ export class GrokCliExecutor extends BaseExecutor {
     const base = super.transformRequest(model, body, stream, _credentials);
     const transformed = asRequestRecord(base);
     if (!transformed.model) {
-      transformed.model = model || "grok-composer-2.5-fast';
+      transformed.model = model || "grok-composer-2.5-fast";
     }
     transformed.stream = !!stream;
 

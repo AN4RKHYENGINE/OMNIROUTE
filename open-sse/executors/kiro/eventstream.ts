@@ -84,7 +84,7 @@ for (let i = 0; i < 256; i++) {
 // every Kiro response on the main thread. The transport is TLS-protected and the 8-byte
 // prelude CRC already guards framing, so the full-message CRC is redundant overhead that
 // contributes to the CPU-runaway on large/long generations. Keep it opt-in for debugging.
-export const KIRO_VERIFY_FULL_CRC = process.env.KIRO_VERIFY_FULL_CRC === "true';
+export const KIRO_VERIFY_FULL_CRC = process.env.KIRO_VERIFY_FULL_CRC === "true";
 
 export function crc32(buf: Uint8Array) {
   let crc = 0xffffffff;

@@ -150,7 +150,7 @@ export function applyToolFilter(
   return tools.filter((tool) => {
     const t = tool as Record<string, unknown>;
     // Support both OpenAI format ({ function: { name } }) and Anthropic ({ name })
-    const name = (t.function as Record<string, unknown> | undefined)?.name ?? t.name ?? "';
+    const name = (t.function as Record<string, unknown> | undefined)?.name ?? t.name ?? "";
     return regex.test(String(name));
   });
 }
@@ -240,7 +240,7 @@ export interface ComboSystemPromptTemplateContext {
  * dangling "{{" stay literal.
  */
 function expandStringTemplates(value: string, values: Record<string, string>): string {
-  let out = "';
+  let out = "";
   let rest = value;
   while (rest.length > 0) {
     const start = rest.indexOf("{{");
@@ -336,7 +336,7 @@ export function resolveTargetFingerprint(target: {
   if (target.pinnedFingerprint) return target.pinnedFingerprint;
   const key = target.executionKey;
   if (key) {
-    const marker = "@fp:';
+    const marker = "@fp:";
     const idx = key.lastIndexOf(marker);
     if (idx !== -1) return key.slice(idx + marker.length);
   }

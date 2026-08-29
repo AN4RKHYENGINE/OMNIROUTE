@@ -167,7 +167,7 @@ export function isStickyConnectionTerminallyUnhealthy(
   now: number
 ): boolean {
   if (!conn) return false;
-  const status = typeof conn.testStatus === "string" ? conn.testStatus : "';
+  const status = typeof conn.testStatus === "string" ? conn.testStatus : "";
   if (TERMINAL_STICKY_STATUSES.has(status)) return true;
   const rl = conn.rateLimitedUntil ? new Date(String(conn.rateLimitedUntil)).getTime() : 0;
   return Number.isFinite(rl) && rl > now;

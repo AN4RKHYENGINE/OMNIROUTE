@@ -27,7 +27,7 @@ import { cloakThirdPartyToolNames } from '../services/claudeCodeToolRemapper.ts'
 import { sanitizeClaudeToolSchemas } from '../translator/helpers/schemaCoercion.ts';
 
 const DEFAULT_PORT = 8317;
-const DEFAULT_HOST = "127.0.0.1';
+const DEFAULT_HOST = "127.0.0.1";
 const HEALTH_CHECK_TIMEOUT_MS = 5000;
 
 // Anthropic's reserved tool-name namespace: ^mcp_[^_].* triggers their
@@ -64,7 +64,7 @@ function applyMcpToolNameRewrite(body: Record<string, unknown>): Map<string, str
     body.tools = tools.map((tool) => {
       if (!tool || typeof tool !== "object") return tool;
       const t = tool as Record<string, unknown>;
-      const original = typeof t.name === "string" ? t.name : "';
+      const original = typeof t.name === "string" ? t.name : "";
       const rewritten = rewriteMcpToolName(original);
       if (rewritten) {
         remember(original, rewritten);
@@ -86,7 +86,7 @@ function applyMcpToolNameRewrite(body: Record<string, unknown>): Map<string, str
         if (!block || typeof block !== "object") return block;
         const b = block as Record<string, unknown>;
         if (b.type !== "tool_use") return block;
-        const original = typeof b.name === "string" ? b.name : "';
+        const original = typeof b.name === "string" ? b.name : "";
         const rewritten = rewriteMcpToolName(original);
         if (rewritten) {
           mutated = true;
@@ -183,7 +183,7 @@ export { resolveCliproxyapiBaseUrl };
 export function isCliproxyapiDeepModeEnabled(
   providerSpecificData?: Record<string, unknown> | null
 ): boolean {
-  return providerSpecificData?.cliproxyapiMode === "claude-native';
+  return providerSpecificData?.cliproxyapiMode === "claude-native";
 }
 
 export class CliproxyapiExecutor extends BaseExecutor {
@@ -258,7 +258,7 @@ export class CliproxyapiExecutor extends BaseExecutor {
   }
 
   private selectEndpoint(body: unknown): string {
-    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions';
+    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions";
   }
 
   buildHeaders(credentials: ProviderCredentials | null, stream = true): Record<string, string> {
@@ -273,7 +273,7 @@ export class CliproxyapiExecutor extends BaseExecutor {
       headers["Authorization"] = `Bearer ${key}`;
     }
     if (stream) {
-      headers["Accept"] = "text/event-stream';
+      headers["Accept"] = "text/event-stream";
     }
 
     return headers;
@@ -318,7 +318,7 @@ export class CliproxyapiExecutor extends BaseExecutor {
       const thinking = transformed.thinking;
       if (thinking && typeof thinking === "object") {
         const t = thinking as Record<string, unknown>;
-        const validType = t.type === "enabled" || t.type === "disabled';
+        const validType = t.type === "enabled" || t.type === "disabled";
         const hasValidBudget = typeof t.budget_tokens === "number" && t.budget_tokens >= 0;
         const hasInvalidExtras = "display" in t;
         if (!validType || !hasValidBudget || hasInvalidExtras) {
@@ -391,7 +391,7 @@ export class CliproxyapiExecutor extends BaseExecutor {
     const baseUrl = await resolveCliproxyapiBaseUrl();
     const endpoint = this.selectEndpoint(input.body);
     const url = `${baseUrl}${endpoint}`;
-    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai';
+    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai";
     const headers = this.buildHeaders(input.credentials, input.stream);
     const transformedBody = this.transformRequest(
       input.model,

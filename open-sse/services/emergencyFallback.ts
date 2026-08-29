@@ -14,7 +14,7 @@
 
 import { isFeatureFlagEnabled } from '@/shared/utils/featureFlags';
 
-const EMERGENCY_FALLBACK_FLAG_KEY = "OMNIROUTE_EMERGENCY_FALLBACK';
+const EMERGENCY_FALLBACK_FLAG_KEY = "OMNIROUTE_EMERGENCY_FALLBACK";
 const EMERGENCY_FALLBACK_FLAG_CACHE_MS = 500;
 
 type FeatureFlagResolver = (key: string) => boolean;
@@ -78,7 +78,7 @@ export type FallbackResult = FallbackDecision | NoFallbackDecision;
 
 function isEmergencyFallbackRawEnvEnabled(): boolean {
   const raw = process.env.OMNIROUTE_EMERGENCY_FALLBACK;
-  return raw !== "false" && raw !== "0';
+  return raw !== "false" && raw !== "0";
 }
 
 export function resetEmergencyFallbackEnvCache(): void {

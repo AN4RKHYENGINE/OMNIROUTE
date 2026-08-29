@@ -12,33 +12,33 @@ import {
 } from '@/lib/providers/webCookieAuth';
 import { type ParsedMetaAiResponse, isRecord } from './muse-spark-web/response-parser.ts';
 
-const META_AI_GRAPHQL_API = "https://www.meta.ai/api/graphql';
+const META_AI_GRAPHQL_API = "https://www.meta.ai/api/graphql";
 // Meta rebranded "Abra" to "Ecto"; `abra_sess` became `ecto_1_sess`.
 // `normalizeSessionCookieHeader` only uses this constant for bare values with no
 // `name=` prefix; full cookie lines (with any cookie names) pass through
 // untouched, so users who paste their entire DevTools cookie line still work.
-const META_AI_DEFAULT_COOKIE = "ecto_1_sess';
+const META_AI_DEFAULT_COOKIE = "ecto_1_sess";
 // Persisted-query id and friendly name for the current send-message
 // operation. The previous Abra mutation (doc_id 078dfdff...) was retired
 // when Meta removed the RewriteOptionsInput type from the schema; it now
 // fails server-side validation with `Unknown type "RewriteOptionsInput"`.
 // The new operation is a Subscription rather than a Mutation, but Meta's
 // GraphQL endpoint still accepts it over POST and streams the response.
-const META_AI_WARMUP_DOC_ID = "e7f802582dbfed8e181b012e010993eb';
-const META_AI_MODE_SWITCH_DOC_ID = "c32bbe999c48e64e855dc63177d5153f';
-const META_WS_APP_ID = "1522763855472543';
-const META_WS_APP_VERSION = "1.0.0';
-const META_WS_AUTHTYPE = "15:0';
-const META_WS_DGW_VERSION = "5';
-const META_WS_DGW_UUID = "0';
-const META_WS_TIER = "prod';
+const META_AI_WARMUP_DOC_ID = "e7f802582dbfed8e181b012e010993eb";
+const META_AI_MODE_SWITCH_DOC_ID = "c32bbe999c48e64e855dc63177d5153f";
+const META_WS_APP_ID = "1522763855472543";
+const META_WS_APP_VERSION = "1.0.0";
+const META_WS_AUTHTYPE = "15:0";
+const META_WS_DGW_VERSION = "5";
+const META_WS_DGW_UUID = "0";
+const META_WS_TIER = "prod";
 const META_WS_INTRO_FRAME_TYPE = 0x0f;
 const META_WS_PROMPT_FRAME_TYPE = 0x0d;
 const META_WS_PROMPT_FRAME_FLAG = 0x80;
-const META_AI_ROOT_BRANCH_PATH = "0';
+const META_AI_ROOT_BRANCH_PATH = "0";
 const META_AI_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
-const BASE62_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+const BASE62_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 type MuseSparkModelInfo = {
   mode: string;
@@ -57,19 +57,19 @@ function extractMessageText(content: unknown): string {
   }
 
   if (!Array.isArray(content)) {
-    return "';
+    return "";
   }
 
   return content
     .map((part) => {
-      if (!isRecord(part)) return "';
+      if (!isRecord(part)) return "";
       if (part.type === "text" && typeof part.text === "string") {
         return part.text;
       }
       if (part.type === "input_text" && typeof part.text === "string") {
         return part.text;
       }
-      return "';
+      return "";
     })
     .filter((part) => part.trim().length > 0)
     .join("\n")
@@ -104,7 +104,7 @@ function parseOpenAIMessages(messages: Array<Record<string, unknown>>): ParsedHi
 
   for (const message of messages) {
     let role = String(message.role || "user");
-    if (role === "developer") role = "system';
+    if (role === "developer") role = "system";
 
     const content = extractMessageText(message.content);
     if (!content) continue;
@@ -146,7 +146,7 @@ function parseOpenAIMessages(messages: Array<Record<string, unknown>>): ParsedHi
     .join("\n\n")
     .trim();
 
-  const latestUserContent = lastUserIndex >= 0 ? extracted[lastUserIndex].content : "';
+  const latestUserContent = lastUserIndex >= 0 ? extracted[lastUserIndex].content : "";
 
   return { foldedPrompt, latestUserContent, lastAssistantIndex, normalized: extracted };
 }
@@ -157,7 +157,7 @@ function estimateTokens(text: string): number {
 
 function encodeBase62(value: bigint, padLength: number): string {
   let remaining = value;
-  let encoded = "';
+  let encoded = "";
 
   while (remaining > 0n) {
     encoded = BASE62_ALPHABET[Number(remaining % 62n)] + encoded;
@@ -225,7 +225,7 @@ function normalizeMetaLocale(): string {
   const locale =
     typeof Intl !== "undefined"
       ? Intl.DateTimeFormat().resolvedOptions().locale || "en-US"
-      : "en-US';
+      : "en-US";
   return locale.replace(/-/g, "_");
 }
 
@@ -548,7 +548,7 @@ function selectMetaAiCookieHeader(credentials: ExecuteInput["credentials"]): str
   );
 
   if (normalizedPool.length === 0) {
-    return "';
+    return "";
   }
 
   if (normalizedPool.length === 1 || !credentials.connectionId) {
@@ -628,9 +628,9 @@ function getOpenAiMessages(body: unknown): Array<Record<string, unknown>> | null
 // low-signal for anti-fraud. No fingerprint randomization is warranted.
 
 const META_WS_HOME_TEMPLATE_B64 =
-  "CrYGCsQDCiBLQURBQlJBX19IT01FX19VTklGSUVEX0lOUFVUX0JBUhIQMTUyMjc2Mzg1NTQ3MjU0MyInNWE1Yi04ZDRlLWYwNTQtOTllZi1iMmRlLWRiMDItMGQwNS01MmM3KigqJgokOGYxMjliMjUtYzNlMC00NzNiLWFlNzktNWViM2YyNGU1NjRjMAU6C0hVTUFOX0FHRU5UQiIKDzg2NzA1MTMxNDc2NzY5NhIPODY3MDUxMzE0NzY3Njk2UgVFQ1RPMVoRQWJyYSBXZWIgTWFpbiBLZXliCRoDCOgHIgIIAWoITWFjIE9TIFhyCnVzZXJfaW5wdXR6dU1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xNDYuMC4wLjAgU2FmYXJpLzUzNy4zNoIBC2Rlc2t0b3Bfd2VimgFHCkBlMmI4OGY5ODQ2Mzc5Y2JjMjY5NjBmYTNhZTFkMjIyMDFkZmIxOWRmNzg5MGFlNmEzYWM4YTI4ODcwYmFjNjgyFQAAAEASFAi4w6XTk4/yARC4w6XTk4/yARgCGgIgASIAKg4Ix6D+ldkzGJ6g/pXZMzIkZWU3YTM1ZWItZGY4Yy00NzkzLWExYzAtMTBhZTQxNGY1ZTZlOgBKBxIFZW4tVVNScgokNTYwN2Y0YzAtYjljZi00ZjZlLWJlYTYtZTc2N2E1OGJhMjhlGiRlMDliN2FhMC1jYzYwLTQyYTktYjk2OS00YzY1YjViZGZlNGIiJDhmMTI5YjI1LWMzZTAtNDczYi1hZTc5LTVlYjNmMjRlNTY0Y3oRIg9BbWVyaWNhL0NoaWNhZ2+CAQOwAQGSAQwKBnN0b2NrcxICCAGSAQ0KB3dlYXRoZXISAggBkgEkCh5tZXRhX2tub3dsZWRnZV9zZWFyY2hfY2Fyb3VzZWwSAggBkgEiChxtZXRhX2NhdGFsb2dfc2VhcmNoX2Nhcm91c2VsEgIIAZIBEwoNbWVkaWFfZ2FsbGVyeRICCAGiAQEDEpIBCmEKJGFiOWRkNzg5LWRlOGQtNDc5MS05ODE1LWI5YjBmMTU1MDdiNBI3CiQ4ZjEyOWIyNS1jM2UwLTQ3M2ItYWU3OS01ZWIzZjI0ZTU2NGMQyKD+ldkzGKbcxozB/KuyZygBEihIZWxsbyB0aGlzIGlzIGFub3RoZXIgdGVzdCBvZiB5b3VyIHBvd2VyIgMKATA=';
+  "CrYGCsQDCiBLQURBQlJBX19IT01FX19VTklGSUVEX0lOUFVUX0JBUhIQMTUyMjc2Mzg1NTQ3MjU0MyInNWE1Yi04ZDRlLWYwNTQtOTllZi1iMmRlLWRiMDItMGQwNS01MmM3KigqJgokOGYxMjliMjUtYzNlMC00NzNiLWFlNzktNWViM2YyNGU1NjRjMAU6C0hVTUFOX0FHRU5UQiIKDzg2NzA1MTMxNDc2NzY5NhIPODY3MDUxMzE0NzY3Njk2UgVFQ1RPMVoRQWJyYSBXZWIgTWFpbiBLZXliCRoDCOgHIgIIAWoITWFjIE9TIFhyCnVzZXJfaW5wdXR6dU1vemlsbGEvNS4wIChNYWNpbnRvc2g7IEludGVsIE1hYyBPUyBYIDEwXzE1XzcpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xNDYuMC4wLjAgU2FmYXJpLzUzNy4zNoIBC2Rlc2t0b3Bfd2VimgFHCkBlMmI4OGY5ODQ2Mzc5Y2JjMjY5NjBmYTNhZTFkMjIyMDFkZmIxOWRmNzg5MGFlNmEzYWM4YTI4ODcwYmFjNjgyFQAAAEASFAi4w6XTk4/yARC4w6XTk4/yARgCGgIgASIAKg4Ix6D+ldkzGJ6g/pXZMzIkZWU3YTM1ZWItZGY4Yy00NzkzLWExYzAtMTBhZTQxNGY1ZTZlOgBKBxIFZW4tVVNScgokNTYwN2Y0YzAtYjljZi00ZjZlLWJlYTYtZTc2N2E1OGJhMjhlGiRlMDliN2FhMC1jYzYwLTQyYTktYjk2OS00YzY1YjViZGZlNGIiJDhmMTI5YjI1LWMzZTAtNDczYi1hZTc5LTVlYjNmMjRlNTY0Y3oRIg9BbWVyaWNhL0NoaWNhZ2+CAQOwAQGSAQwKBnN0b2NrcxICCAGSAQ0KB3dlYXRoZXISAggBkgEkCh5tZXRhX2tub3dsZWRnZV9zZWFyY2hfY2Fyb3VzZWwSAggBkgEiChxtZXRhX2NhdGFsb2dfc2VhcmNoX2Nhcm91c2VsEgIIAZIBEwoNbWVkaWFfZ2FsbGVyeRICCAGiAQEDEpIBCmEKJGFiOWRkNzg5LWRlOGQtNDc5MS05ODE1LWI5YjBmMTU1MDdiNBI3CiQ4ZjEyOWIyNS1jM2UwLTQ3M2ItYWU3OS01ZWIzZjI0ZTU2NGMQyKD+ldkzGKbcxozB/KuyZygBEihIZWxsbyB0aGlzIGlzIGFub3RoZXIgdGVzdCBvZiB5b3VyIHBvd2VyIgMKATA=";
 const META_WS_CHAT_TEMPLATE_B64 =
-  "CrIGCsADCiBLQURBQlJBX19DSEFUX19VTklGSUVEX0lOUFVUX0JBUhIQMTUyMjc2Mzg1NTQ3MjU0MyInNWE1Yi04ZDRlLWYwNTQtOTllZi1iMmRlLWRiMDItMGQwNS01MmM3KigqJgokYjA4Mzg1YTYtNWE1My00ZjE0LTk2NmUtMzQ3ZjI4MDg4NDU0MAU6C0hVTUFOX0FHRU5UQiIKDzg2NzA1MTMxNDc2NzY5NhIPODY3MDUxMzE0NzY3Njk2UgVFQ1RPMVoRQWJyYSBXZWIgTWFpbiBLZXliBRoDCOgHaghNYWMgT1MgWHIKdXNlcl9pbnB1dHp1TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0Ni4wLjAuMCBTYWZhcmkvNTM3LjM2ggELZGVza3RvcF93ZWKaAUcKQGUyYjg4Zjk4NDYzNzljYmMyNjk2MGZhM2FlMWQyMjIwMWRmYjE5ZGY3ODkwYWU2YTNhYzhhMjg4NzBiYWM2ODIVAAAAQBIUCLjDpdOTj/IBELjDpdOTj/IBGAIaAiABIgAqDgikgvuW2TMYoYL7ltkzMiRjNmI1ZDI2MS02NjI0LTQ5YWYtOTBjNy0wOWI0NWMwYTZiZWY6AEoHEgVlbi1VU1JyCiQxZDNjZGQzYy1jYTFhLTRlMDItODk1My1kZTBiYTM0NzI5ODkaJDcxODNhMzM0LTFiNWEtNGQyNi1iMjcxLWJjY2Y1NDY2NmJiZiIkYjA4Mzg1YTYtNWE1My00ZjE0LTk2NmUtMzQ3ZjI4MDg4NDU0ehEiD0FtZXJpY2EvQ2hpY2Fnb4IBA7ABAZIBDAoGc3RvY2tzEgIIAZIBDQoHd2VhdGhlchICCAGSASQKHm1ldGFfa25vd2xlZGdlX3NlYXJjaF9jYXJvdXNlbBICCAGSASIKHG1ldGFfY2F0YWxvZ19zZWFyY2hfY2Fyb3VzZWwSAggBkgETCg1tZWRpYV9nYWxsZXJ5EgIIAaIBAQMSlgEKfAokMTc4MDVmYjEtOTY3Zi00YmYyLTlmMjctOWRhYmRhMzYyMTJkEjcKJGIwODM4NWE2LTVhNTMtNGYxNC05NjZlLTM0N2YyODA4ODQ1NBCkgvuW2TMYxN23xoT2rbJnIhtlLjAwcHlKMUtxa3BHTmg5Sk9oWElNdnJRWlYSEWZvbGxvdyB1cCBwcm9iZSAyIgMKATI=';
+  "CrIGCsADCiBLQURBQlJBX19DSEFUX19VTklGSUVEX0lOUFVUX0JBUhIQMTUyMjc2Mzg1NTQ3MjU0MyInNWE1Yi04ZDRlLWYwNTQtOTllZi1iMmRlLWRiMDItMGQwNS01MmM3KigqJgokYjA4Mzg1YTYtNWE1My00ZjE0LTk2NmUtMzQ3ZjI4MDg4NDU0MAU6C0hVTUFOX0FHRU5UQiIKDzg2NzA1MTMxNDc2NzY5NhIPODY3MDUxMzE0NzY3Njk2UgVFQ1RPMVoRQWJyYSBXZWIgTWFpbiBLZXliBRoDCOgHaghNYWMgT1MgWHIKdXNlcl9pbnB1dHp1TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzE0Ni4wLjAuMCBTYWZhcmkvNTM3LjM2ggELZGVza3RvcF93ZWKaAUcKQGUyYjg4Zjk4NDYzNzljYmMyNjk2MGZhM2FlMWQyMjIwMWRmYjE5ZGY3ODkwYWU2YTNhYzhhMjg4NzBiYWM2ODIVAAAAQBIUCLjDpdOTj/IBELjDpdOTj/IBGAIaAiABIgAqDgikgvuW2TMYoYL7ltkzMiRjNmI1ZDI2MS02NjI0LTQ5YWYtOTBjNy0wOWI0NWMwYTZiZWY6AEoHEgVlbi1VU1JyCiQxZDNjZGQzYy1jYTFhLTRlMDItODk1My1kZTBiYTM0NzI5ODkaJDcxODNhMzM0LTFiNWEtNGQyNi1iMjcxLWJjY2Y1NDY2NmJiZiIkYjA4Mzg1YTYtNWE1My00ZjE0LTk2NmUtMzQ3ZjI4MDg4NDU0ehEiD0FtZXJpY2EvQ2hpY2Fnb4IBA7ABAZIBDAoGc3RvY2tzEgIIAZIBDQoHd2VhdGhlchICCAGSASQKHm1ldGFfa25vd2xlZGdlX3NlYXJjaF9jYXJvdXNlbBICCAGSASIKHG1ldGFfY2F0YWxvZ19zZWFyY2hfY2Fyb3VzZWwSAggBkgETCg1tZWRpYV9nYWxsZXJ5EgIIAaIBAQMSlgEKfAokMTc4MDVmYjEtOTY3Zi00YmYyLTlmMjctOWRhYmRhMzYyMTJkEjcKJGIwODM4NWE2LTVhNTMtNGYxNC05NjZlLTM0N2YyODA4ODQ1NBCkgvuW2TMYxN23xoT2rbJnIhtlLjAwcHlKMUtxa3BHTmg5Sk9oWElNdnJRWlYSEWZvbGxvdyB1cCBwcm9iZSAyIgMKATI=";
 
 // ─── Proto helpers ─────────────────────────────────────────────────────────────
 
@@ -941,7 +941,7 @@ async function graphqlPost(
     try {
       const json = JSON.parse(text);
       if (json && Array.isArray(json.errors) && json.errors.length > 0) {
-        const msg = json.errors[0]?.message || "Unknown GraphQL error';
+        const msg = json.errors[0]?.message || "Unknown GraphQL error";
         return { ok: false, error: `${label} failed: ${msg}` };
       }
     } catch {
@@ -961,7 +961,7 @@ async function graphqlPost(
 // ─── WS response parser ────────────────────────────────────────────────────────
 
 type WsResponseEvent = {
-  type: "full" | "patch';
+  type: "full" | "patch";
   response?: { sections?: Array<{ view_model?: { primitive?: { text?: string } } }> };
   operations?: Array<{ op?: string; path?: string; value?: string }>;
 };
@@ -1050,7 +1050,7 @@ async function wsChat(
       },
     });
     let settled = false;
-    let accumulatedText = "';
+    let accumulatedText = "";
     const contentDeltas: string[] = [];
     let timeout: ReturnType<typeof setTimeout> | null = null;
     let abortHandler: (() => void) | null = null;
@@ -1080,7 +1080,7 @@ async function wsChat(
     };
 
     ws.onmessage = (event) => {
-      let raw = "';
+      let raw = "";
       if (typeof event.data === "string") {
         raw = event.data;
       } else if (Buffer.isBuffer(event.data)) {
@@ -1094,7 +1094,7 @@ async function wsChat(
         if (evt.type === "full") {
           const sections = evt.response?.sections || [];
           for (const section of sections) {
-            const text = section?.view_model?.primitive?.text || "';
+            const text = section?.view_model?.primitive?.text || "";
             if (text && text !== accumulatedText) {
               const delta = accumulatedText ? text.slice(accumulatedText.length) || text : text;
               if (delta) contentDeltas.push(delta);
@@ -1217,7 +1217,7 @@ async function buildSuccessResult(
     const bodyText = await (response as Response).text();
     try {
       const json = JSON.parse(bodyText);
-      const rawContent = json?.choices?.[0]?.message?.content || "';
+      const rawContent = json?.choices?.[0]?.message?.content || "";
       const { content, toolCalls, finishReason } = buildToolAwareResult(
         rawContent,
         requestedTools,
@@ -1280,9 +1280,9 @@ export class MuseSparkWebExecutor extends BaseExecutor {
       authorization = credentials.providerSpecificData.authorization.trim();
     } else if (typeof credentials.apiKey === "string") {
       const match = credentials.apiKey.match(/ecto1:[^\s;]+/i);
-      authorization = match ? match[0].trim() : "';
+      authorization = match ? match[0].trim() : "";
     } else {
-      authorization = "';
+      authorization = "";
     }
     if (!authorization) {
       return errorResult(
@@ -1371,7 +1371,7 @@ export class MuseSparkWebExecutor extends BaseExecutor {
       return errorResult(status, message, "meta_ai_ws_error", headers, body);
     }
 
-    const content = wsResult.content || "';
+    const content = wsResult.content || "";
 
     // Empty WS response is an upstream failure, not a successful empty completion.
     if (!content && !wsResult.deltas.length) {

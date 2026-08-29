@@ -73,8 +73,8 @@ export async function emitSearchProxyEvent(
 ): Promise<void> {
   try {
     const { logProxyEvent } = await import("@/lib/proxyLogger");
-    let targetOrigin = "';
-    let targetPath = "';
+    let targetOrigin = "";
+    let targetPath = "";
     try {
       const u = new URL(targetUrl);
       targetOrigin = u.origin;
@@ -230,7 +230,7 @@ export async function executeProviderFetch(p: ExecuteProviderFetchParams): Promi
   } catch (err: unknown) {
     clearTimeout(timer);
     const error = err instanceof Error ? err : new Error(String(err));
-    const isTimeout = error.name === "AbortError';
+    const isTimeout = error.name === "AbortError";
     if (log) {
       log.error("SEARCH", `${config.id} ${isTimeout ? "timeout" : "fetch error"}: ${error.message}`);
     }

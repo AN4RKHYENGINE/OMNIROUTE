@@ -89,7 +89,7 @@ export function flushBufferedToolArgs(
   if (!state.toolArgsBuffered || state.toolArgsBuffered.size === 0) return;
   const { responseId, created, model } = ctx;
   for (const [toolCallId, info] of state.toolArgsBuffered) {
-    const alreadyEmitted = state.toolArgsEmitted.get(toolCallId) || "';
+    const alreadyEmitted = state.toolArgsEmitted.get(toolCallId) || "";
     if (info.canonical && info.canonical !== alreadyEmitted) {
       const argsChunk: JsonRecord = {
         id: responseId,
@@ -266,7 +266,7 @@ export class KiroExecutor extends BaseExecutor {
       typeof credentials.providerSpecificData?.authMethod === "string"
         ? credentials.providerSpecificData.authMethod
         : undefined;
-    const isApiKey = authMethod === "api_key';
+    const isApiKey = authMethod === "api_key";
     const token = isApiKey
       ? credentials.apiKey || credentials.accessToken
       : credentials.accessToken;
@@ -274,7 +274,7 @@ export class KiroExecutor extends BaseExecutor {
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
       // Long-lived Kiro/CodeWhisperer API keys authenticate with `tokentype: API_KEY`.
-      if (isApiKey) headers["tokentype"] = "API_KEY';
+      if (isApiKey) headers["tokentype"] = "API_KEY";
 
       // Enterprise / Microsoft Entra "Your organization" (external_idp) logins send an
       // org-IdP-issued access token. CodeWhisperer only binds it to the Amazon Q Developer
@@ -368,7 +368,7 @@ export class KiroExecutor extends BaseExecutor {
             unknown
           >
         )?.userInputMessage as Record<string, unknown>
-      )?.content as string) || "';
+      )?.content as string) || "";
     const thinkingExpected = userContent.includes("<thinking_mode>enabled</thinking_mode>");
     const transformedResponse = this.transformEventStreamToSSE(response, model, {
       thinkingExpected,
@@ -574,7 +574,7 @@ export class KiroExecutor extends BaseExecutor {
               controller.enqueue(TEXT_ENCODER.encode(`data: ${JSON.stringify(startChunk)}\n\n`));
             }
 
-            const eventType = event.headers[":event-type"] || "';
+            const eventType = event.headers[":event-type"] || "";
 
             // Track total content length for token estimation
             if (!state.totalContentLength) state.totalContentLength = 0;
@@ -593,7 +593,7 @@ export class KiroExecutor extends BaseExecutor {
               const rp = event.payload as Record<string, unknown> | undefined;
               const rt = rp?.reasoningText;
               if (eventType === "reasoningContentEvent" || rt !== undefined) {
-                let nativeReasoning = "';
+                let nativeReasoning = "";
                 if (rt && typeof rt === "object") {
                   const rto = rt as { text?: unknown; Text?: unknown };
                   nativeReasoning =
@@ -601,7 +601,7 @@ export class KiroExecutor extends BaseExecutor {
                       ? rto.text
                       : typeof rto.Text === "string"
                         ? rto.Text
-                        : "';
+                        : "";
                 } else if (typeof rt === "string") {
                   nativeReasoning = rt;
                 } else if (typeof rp?.text === "string") {
@@ -633,7 +633,7 @@ export class KiroExecutor extends BaseExecutor {
             // Handle assistantResponseEvent
             if (eventType === "assistantResponseEvent") {
               const content =
-                typeof event.payload?.content === "string" ? event.payload.content : "';
+                typeof event.payload?.content === "string" ? event.payload.content : "";
               if (!content) {
                 continue;
               }

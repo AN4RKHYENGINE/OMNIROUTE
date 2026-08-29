@@ -34,7 +34,7 @@ export function extractSystemMessagesToBody(payload: Record<string, unknown>) {
   const messages = payload.messages as ClaudeMessage[];
   const isSystemRole = (role: unknown): boolean => {
     const normalized = String(role || "").toLowerCase();
-    return normalized === "system" || normalized === "developer';
+    return normalized === "system" || normalized === "developer";
   };
   const systemMessages = messages.filter((m) => isSystemRole(m.role));
   if (systemMessages.length === 0) return;
@@ -130,7 +130,7 @@ export function normalizeClaudeUpstreamMessages(
             block.content ??
             block.text;
           const fileName =
-            (block.file as Record<string, unknown>)?.name ?? block.name ?? "attachment';
+            (block.file as Record<string, unknown>)?.name ?? block.name ?? "attachment";
           if (typeof fileContent === "string" && fileContent.length > 0) {
             return [withCacheControl({ type: "text", text: `[${fileName}]\n${fileContent}` }, block)];
           }
@@ -142,8 +142,8 @@ export function normalizeClaudeUpstreamMessages(
         if (preserveToolResultBlocks) {
           return [block];
         }
-        const toolId = block.tool_use_id ?? block.id ?? "unknown';
-        const resultContent = block.content ?? block.text ?? block.output ?? "';
+        const toolId = block.tool_use_id ?? block.id ?? "unknown";
+        const resultContent = block.content ?? block.text ?? block.output ?? "";
         const resultText =
           typeof resultContent === "string"
             ? resultContent

@@ -145,7 +145,7 @@ function buildCloudflareAiRules(): ProviderErrorRule[] {
         if (status !== 429) return null;
         const text = JSON.stringify(body ?? "").toLowerCase();
         // Body: "you have used up your daily free allocation of 10,000 neurons,
-        //        please upgrade to Cloudflare's Workers Paid plan..."
+        //        please upgrade to Cloudflare"s Workers Paid plan..."
         if (!text.includes("daily free allocation")) return null;
         // No cooldownMs: recordModelLockoutFailure already sets
         // quota_exhausted without one to "next UTC midnight".

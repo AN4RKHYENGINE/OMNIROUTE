@@ -19,24 +19,24 @@ export function stripLooseGrokMarkup(text: string): string {
 }
 
 export class GrokMarkupFilter {
-  private buffer = "';
+  private buffer = "";
   private suppressedUntil: string | null = null;
 
   feed(text: string): string {
-    if (!text) return "';
+    if (!text) return "";
     this.buffer += text;
     return this.drain(false);
   }
 
   flush(): string {
     const out = this.drain(true);
-    this.buffer = "';
+    this.buffer = "";
     this.suppressedUntil = null;
     return out;
   }
 
   private drain(flush: boolean): string {
-    let out = "';
+    let out = "";
 
     while (this.buffer) {
       if (this.suppressedUntil) {
@@ -51,7 +51,7 @@ export class GrokMarkupFilter {
       }
 
       let nextStart = -1;
-      let nextEnd = "';
+      let nextEnd = "";
       for (const marker of BLOCKED_GROK_MARKUP) {
         const idx = this.buffer.indexOf(marker.start);
         if (idx >= 0 && (nextStart < 0 || idx < nextStart)) {
@@ -70,7 +70,7 @@ export class GrokMarkupFilter {
           }
         }
         out += stripLooseGrokMarkup(this.buffer);
-        this.buffer = "';
+        this.buffer = "";
         return out;
       }
 
@@ -112,26 +112,26 @@ export function cleanGrokContentText(text: string): string {
 }
 
 export function cleanGrokThinkingText(resp: GrokStreamResponse): string {
-  const text = resp.token || "';
+  const text = resp.token || "";
   const cleaned = cleanGrokText(text);
   const trimmed = cleaned.trim();
-  if (!trimmed) return "';
+  if (!trimmed) return "";
   const isGenericOpeningHeader =
     resp.messageTag === "header" &&
     resp.messageStepId === 0 &&
     /^(?:\.{3}|thinking(?: about your request)?)$/i.test(trimmed);
-  if (isGenericOpeningHeader) return "';
+  if (isGenericOpeningHeader) return "";
   if (resp.messageTag === "header") return `${trimmed}\n`;
   if (resp.messageTag === "summary") return `${trimmed}\n`;
   return cleaned;
 }
 
 export function extractStructuredReasoning(value: object | undefined): string {
-  if (!value) return "';
+  if (!value) return "";
   const record = value as Record<string, unknown>;
   for (const key of ["reasoning", "reasoningContent", "reasoning_content", "thinking", "thought"]) {
     const candidate = record[key];
     if (typeof candidate === "string" && candidate.trim()) return cleanGrokText(candidate);
   }
-  return "';
+  return "";
 }

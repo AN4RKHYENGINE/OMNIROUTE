@@ -2,7 +2,7 @@
  * LMArena live model list parsing, catalog normalization, and name→UUID resolution.
  */
 
-export const LMARENA_API_BASE = "https://arena.ai';
+export const LMARENA_API_BASE = "https://arena.ai";
 export const LMARENA_STREAM_URL = `${LMARENA_API_BASE}/nextjs-api/stream/create-evaluation`;
 /**
  * Current Chrome stable UA (header surface).
@@ -11,7 +11,7 @@ export const LMARENA_STREAM_URL = `${LMARENA_API_BASE}/nextjs-api/stream/create-
  * fingerprint stays at the newest native profile we can actually impersonate.
  */
 export const LMARENA_USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
 export const LMARENA_MODEL_ID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -24,9 +24,9 @@ export function buildLmarenaBrowserHeaders(extra?: Record<string, string>): Reco
     Pragma: "no-cache",
     Origin: LMARENA_API_BASE,
     Referer: `${LMARENA_API_BASE}/`,
-    "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"',
+    "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"",
     "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
+    "Sec-Ch-Ua-Platform": '"Windows"",
     "Sec-Fetch-Dest": "empty",
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-origin",
@@ -158,7 +158,7 @@ function lmarenaModelResolutionScore(entry: LMArenaModelMetadata): number {
 }
 
 function getLMArenaPublicModelId(entry: LMArenaModelMetadata): string {
-  return entry.publicName || entry.displayName || entry.name || entry.id || "';
+  return entry.publicName || entry.displayName || entry.name || entry.id || "";
 }
 
 export function normalizeLMArenaModelsForCatalog(models: LMArenaModelMetadata[]): Array<{
@@ -166,7 +166,7 @@ export function normalizeLMArenaModelsForCatalog(models: LMArenaModelMetadata[])
   name: string;
   owned_by: string;
   supportsVision?: boolean;
-  apiFormat: "chat-completions';
+  apiFormat: "chat-completions";
   supportedEndpoints: ["chat"];
 }> {
   const bestByPublicId = new Map<string, { entry: LMArenaModelMetadata; index: number }>();
@@ -228,15 +228,15 @@ export function pickLMArenaModelId(model: string, models: LMArenaModelMetadata[]
 }
 
 export function parseLMArenaInitialModels(html: string): LMArenaModelMetadata[] {
-  const escapedMarker = '\\"initialModels\\":[';
-  const plainMarker = '"initialModels":[';
+  const escapedMarker = "\\"initialModels\\":[";
+  const plainMarker = ""initialModels":[";
   const marker = html.includes(escapedMarker) ? escapedMarker : plainMarker;
   const markerIndex = html.indexOf(marker);
   if (markerIndex < 0) return [];
 
   const arrayStart = markerIndex + marker.length - 1;
-  const escapedEnd = '],\\"initialModelAId\\"';
-  const plainEnd = '],"initialModelAId"';
+  const escapedEnd = "],\\"initialModelAId\\"";
+  const plainEnd = "],"initialModelAId"";
   const arrayEnd = html.indexOf(escapedEnd, arrayStart);
   const fallbackEnd = html.indexOf(plainEnd, arrayStart);
   const endIndex = arrayEnd >= 0 ? arrayEnd : fallbackEnd;

@@ -43,7 +43,7 @@ export function createCreditsExtractionTransform(
   onCreditsUpdate: (accountId: string, balance: number) => void,
   bufferSize = 0
 ): TransformStream<Uint8Array, Uint8Array> {
-  let buffer = "';
+  let buffer = "";
   const decoder = new TextDecoder();
 
   return new TransformStream(
@@ -60,7 +60,7 @@ export function createCreditsExtractionTransform(
               buffer = buffer.slice(lastNewline + 1);
             } else {
               // No newline in the discard region -- incomplete line, discard entirely.
-              buffer = "';
+              buffer = "";
             }
           }
         } catch {
@@ -85,7 +85,7 @@ export function createCreditsExtractionTransform(
               if (Array.isArray(parsed?.remainingCredits)) {
                 const googleCredit = parsed.remainingCredits.find((c: unknown) => {
                   const credit = asCreditRecord(c);
-                  return credit?.creditType === "GOOGLE_ONE_AI';
+                  return credit?.creditType === "GOOGLE_ONE_AI";
                 }) as AntigravityCreditEntry | undefined;
                 if (googleCredit) {
                   const balance = parseInt(String(googleCredit.creditAmount ?? ""), 10);
@@ -99,7 +99,7 @@ export function createCreditsExtractionTransform(
         } catch {
           /* credits extraction is best-effort */
         }
-        buffer = "';
+        buffer = "";
       },
     },
     { highWaterMark: 16384 },

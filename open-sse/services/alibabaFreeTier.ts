@@ -9,7 +9,7 @@
 
 import { isModelLocked, lockModel } from './accountFallback.ts';
 
-export type AlibabaBillingMode = "free" | "paid';
+export type AlibabaBillingMode = "free" | "paid";
 
 type AlibabaConnectionLike = {
   id: string;
@@ -63,7 +63,7 @@ export function getAlibabaBillingMode(
   providerSpecificData: Record<string, unknown> | null | undefined
 ): AlibabaBillingMode {
   const raw = asRecord(providerSpecificData).alibabaBillingMode;
-  return raw === "free" ? "free" : "paid';
+  return raw === "free" ? "free" : "paid";
 }
 
 export function getAlibabaFreeDrainedModels(
@@ -99,7 +99,7 @@ export function mergeAlibabaFreeDrainedModels(
 export function shouldUseLiveAlibabaFreeModelDiscovery(
   providerSpecificData: Record<string, unknown> | null | undefined
 ): boolean {
-  return getAlibabaBillingMode(providerSpecificData) === "free';
+  return getAlibabaBillingMode(providerSpecificData) === "free";
 }
 
 export function filterAlibabaFreeTierModels(

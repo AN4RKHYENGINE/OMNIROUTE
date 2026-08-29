@@ -110,7 +110,7 @@ export function isPaidTierAutoId(autoId: string): boolean {
   const suffix = autoId.slice("auto/".length);
   if (suffix.startsWith("pro-")) return true;
   const parsed = parseAutoSuffix(suffix);
-  return parsed.valid && parsed.tier === "pro';
+  return parsed.valid && parsed.tier === "pro";
 }
 
 /**

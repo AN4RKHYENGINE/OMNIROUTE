@@ -34,7 +34,7 @@ export async function refreshGitLabDuoToken(
     PROVIDERS["gitlab-duo"]?.clientId ||
     process.env.GITLAB_DUO_OAUTH_CLIENT_ID ||
     process.env.GITLAB_OAUTH_CLIENT_ID ||
-    "';
+    "";
 
   try {
     const response = await runWithProxyContext(proxyConfig, () =>

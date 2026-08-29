@@ -60,21 +60,21 @@ function isDoneStatus(
   done: string[],
   failed: string[]
 ): "done" | "failed" | "pending" {
-  if (typeof status !== "string") return "pending';
-  if (failed.includes(status)) return "failed';
-  if (done.includes(status)) return "done';
-  return "pending';
+  if (typeof status !== "string") return "pending";
+  if (failed.includes(status)) return "failed";
+  if (done.includes(status)) return "done";
+  return "pending";
 }
 
 export type VideoJobPreset = {
   id: string;
   displayName: string;
   /** auth header name plus value scheme */
-  authHeaderName: "x-api-key" | "Authorization';
-  authScheme: "bearer" | "raw';
+  authHeaderName: "x-api-key" | "Authorization";
+  authScheme: "bearer" | "raw";
   baseUrlFallback: string;
   submit: {
-    method: "POST';
+    method: "POST";
     /** may contain {model} — substituted before POST */
     path: string;
     buildBody: (params: {
@@ -326,7 +326,7 @@ function buildJobHeaders(preset: VideoJobPreset, credentials?: unknown): Record<
       ? creds.apiKey
       : typeof creds?.accessToken === "string" && creds.accessToken
         ? creds.accessToken
-        : "';
+        : "";
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (!apiKey) return headers;
   if (preset.authScheme === "raw") {

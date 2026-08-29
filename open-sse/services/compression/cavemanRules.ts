@@ -18,7 +18,7 @@ const CAVEMAN_RULES: CavemanRule[] = [
         "you should": "",
         "remember to": "",
       };
-      return map[match.trim().toLowerCase()] ?? "';
+      return map[match.trim().toLowerCase()] ?? "";
     },
     context: "all",
     category: "structural",

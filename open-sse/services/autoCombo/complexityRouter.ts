@@ -22,7 +22,7 @@ import {
 import type { RuleInput, SpecificityLevel } from '../specificityTypes';
 import { generateRoutingHints, type RoutingHint } from '../manifestAdapter';
 
-export type ComplexityTier = "free" | "cheap" | "premium';
+export type ComplexityTier = "free" | "cheap" | "premium";
 
 export interface ComplexityClassification {
   /** 0..100 specificity / difficulty score. */

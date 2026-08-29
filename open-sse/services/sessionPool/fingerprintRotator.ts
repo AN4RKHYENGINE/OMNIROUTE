@@ -16,8 +16,8 @@ const PROFILES: Fingerprint[] = [
     userAgent:
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
     acceptLanguage: "en-US,en;q=0.9",
-    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"',
-    secChUaPlatform: '"macOS"',
+    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"",
+    secChUaPlatform: '"macOS"",
     secChUaMobile: "?0",
   },
   {
@@ -25,8 +25,8 @@ const PROFILES: Fingerprint[] = [
     userAgent:
       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
     acceptLanguage: "en-US,en;q=0.9",
-    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"',
-    secChUaPlatform: '"Linux"',
+    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"",
+    secChUaPlatform: '"Linux"",
     secChUaMobile: "?0",
   },
   {
@@ -34,8 +34,8 @@ const PROFILES: Fingerprint[] = [
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
     acceptLanguage: "en-US,en;q=0.9",
-    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"',
-    secChUaPlatform: '"Windows"',
+    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Google Chrome";v="149"",
+    secChUaPlatform: '"Windows"",
     secChUaMobile: "?0",
   },
   {
@@ -60,8 +60,8 @@ const PROFILES: Fingerprint[] = [
     userAgent:
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0",
     acceptLanguage: "en-US,en;q=0.9",
-    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Microsoft Edge";v="149"',
-    secChUaPlatform: '"macOS"',
+    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Microsoft Edge";v="149"",
+    secChUaPlatform: '"macOS"",
     secChUaMobile: "?0",
   },
   {
@@ -69,8 +69,8 @@ const PROFILES: Fingerprint[] = [
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36 Edg/149.0.0.0",
     acceptLanguage: "en-US,en;q=0.9",
-    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Microsoft Edge";v="149"',
-    secChUaPlatform: '"Windows"',
+    secChUa: '"Not-A.Brand";v="99", "Chromium";v="149", "Microsoft Edge";v="149"",
+    secChUaPlatform: '"Windows"",
     secChUaMobile: "?0",
   },
 ];
@@ -113,8 +113,8 @@ export class FingerprintRotator {
     };
     if (fingerprint.secChUa) {
       headers["Sec-CH-UA"] = fingerprint.secChUa;
-      headers["Sec-CH-UA-Mobile"] = fingerprint.secChUaMobile ?? "?0';
-      headers["Sec-CH-UA-Platform"] = fingerprint.secChUaPlatform ?? '"Windows"';
+      headers["Sec-CH-UA-Mobile"] = fingerprint.secChUaMobile ?? "?0";
+      headers["Sec-CH-UA-Platform"] = fingerprint.secChUaPlatform ?? ""Windows"";
     }
     return headers;
   }

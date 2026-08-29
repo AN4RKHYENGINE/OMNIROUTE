@@ -157,7 +157,7 @@ export function finalizeValidatedChatGptWebCodexSecrets(
   validationId: string
 ): { encodedCredential: string; storageState: Record<string, unknown> } {
   const parsed = JSON.parse(encodedCredential) as Record<string, unknown>;
-  const rawCookie = typeof parsed.cookie === "string" ? cookieHeaderValue(parsed.cookie) : "';
+  const rawCookie = typeof parsed.cookie === "string" ? cookieHeaderValue(parsed.cookie) : "";
   if (!rawCookie) throw new Error("A fresh ChatGPT Cookie is required for browser validation");
   if (!/^validation-[a-f0-9]{24}$/.test(validationId)) {
     throw new Error("ChatGPT browser validation reference is invalid");
@@ -174,7 +174,7 @@ export function finalizeValidatedChatGptWebCodexSecrets(
     throw new Error("ChatGPT browser validation does not match the supplied Cookie");
   }
   const storageState = readConnectionStorageState(paths.storageStatePath);
-  const runtimeKey = typeof parsed.runtimeKey === "string" ? parsed.runtimeKey.trim() : "';
+  const runtimeKey = typeof parsed.runtimeKey === "string" ? parsed.runtimeKey.trim() : "";
   const next = JSON.stringify({
     version: 2,
     storageState,

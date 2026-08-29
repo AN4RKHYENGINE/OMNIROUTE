@@ -121,7 +121,7 @@ function buildAuthHeader(providerConfig, token) {
     const returnDocuments = options.return_documents !== false;
     const scored = (Array.isArray(data.scores) ? data.scores : []).map((score, index) => {
       const doc = documents[index];
-      const text = typeof doc === "string" ? doc : doc?.text || "';
+      const text = typeof doc === "string" ? doc : doc?.text || "";
       return {
         index,
         relevance_score: typeof score === "number" ? score : 0,
@@ -149,14 +149,14 @@ function buildAuthHeader(providerConfig, token) {
     // strings, so we replicate that filter here to get original → filtered mapping.
     const indexMap = [];
     documents.forEach((doc, i) => {
-      const text = typeof doc === "string" ? doc : doc?.text || "';
+      const text = typeof doc === "string" ? doc : doc?.text || "";
       if (text !== "") indexMap.push(i);
     });
     const scored = (Array.isArray(data.data) ? data.data : []).map((entry) => {
       const filteredIdx = entry.index ?? 0;
       const originalIdx = indexMap[filteredIdx] ?? filteredIdx;
       const doc = documents[originalIdx];
-      const text = typeof doc === "string" ? doc : doc?.text || "';
+      const text = typeof doc === "string" ? doc : doc?.text || "";
       return {
         index: originalIdx,
         relevance_score: typeof entry.relevance_score === "number" ? entry.relevance_score : 0,

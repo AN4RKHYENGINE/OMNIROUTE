@@ -1,6 +1,6 @@
-const ANTIGRAVITY_PROVIDER_ID = "antigravity';
+const ANTIGRAVITY_PROVIDER_ID = "antigravity";
 
-export type AntigravityQuotaFamily = "gemini" | "claude" | "other';
+export type AntigravityQuotaFamily = "gemini" | "claude" | "other";
 
 function normalizeModelId(model: string | null | undefined): string {
   return String(model || "")
@@ -23,7 +23,7 @@ export function getAntigravityQuotaFamily(
   const bare = slashIndex >= 0 ? normalized.slice(slashIndex + 1) : normalized;
 
   if (bare.startsWith("gemini-") || bare.includes("/gemini-") || bare.includes("gemini")) {
-    return "gemini';
+    return "gemini";
   }
   if (
     bare.startsWith("claude-") ||
@@ -32,9 +32,9 @@ export function getAntigravityQuotaFamily(
     bare.includes("/cloud-") ||
     bare.includes("anthropic")
   ) {
-    return "claude';
+    return "claude";
   }
-  return "other';
+  return "other";
 }
 
 export function getQuotaScopedModelForProvider(
@@ -51,6 +51,6 @@ export function getQuotaScopeLabelForProvider(
   provider: string | null | undefined,
   model: string | null | undefined
 ): string {
-  if (provider !== "antigravity" && provider !== "agy") return "model';
-  return getAntigravityQuotaFamily(model) === "other" ? "model" : "family';
+  if (provider !== "antigravity" && provider !== "agy") return "model";
+  return getAntigravityQuotaFamily(model) === "other" ? "model" : "family";
 }

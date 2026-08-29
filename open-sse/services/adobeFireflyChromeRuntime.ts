@@ -30,7 +30,7 @@ import {
 } from './adobeFireflyClient.ts';
 
 const DEFAULT_CDP_PORT = Number(process.env.ADOBE_FIREFLY_CHROME_CDP_PORT || 9334);
-const PROFILE_DIR_NAME = "adobe-chrome-profile';
+const PROFILE_DIR_NAME = "adobe-chrome-profile";
 
 type Log = { info?: (...a: unknown[]) => void; warn?: (...a: unknown[]) => void };
 
@@ -61,10 +61,10 @@ let modeOverride: "offscreen" | "visible" | "headless" | null = null;
  */
 function resolveChromeMode(): "offscreen" | "visible" | "headless" {
   if (modeOverride) return modeOverride;
-  if (process.env.ADOBE_FIREFLY_CHROME_VISIBLE === "1") return "visible';
+  if (process.env.ADOBE_FIREFLY_CHROME_VISIBLE === "1") return "visible";
   // True headless is opt-in only — colligo rejects its Forter tokens (API 408, browser OK).
-  if (process.env.ADOBE_FIREFLY_CHROME_HEADLESS === "1") return "headless';
-  return "offscreen';
+  if (process.env.ADOBE_FIREFLY_CHROME_HEADLESS === "1") return "headless";
+  return "offscreen";
 }
 
 async function safePageWait(page: import("playwright").Page, ms: number): Promise<void> {
@@ -105,7 +105,7 @@ function dataDir(): string {
 
 function profileDir(): string {
   // Prefer LOCALAPPDATA when present so the managed Chrome profile survives restarts.
-  const local = process.env.LOCALAPPDATA || process.env.HOME || process.env.USERPROFILE || "';
+  const local = process.env.LOCALAPPDATA || process.env.HOME || process.env.USERPROFILE || "";
   if (local) {
     const p = join(local, "OmniRoute", PROFILE_DIR_NAME);
     try {
@@ -298,7 +298,7 @@ function resetChromeWindowPlacementOnDisk(dir: string, log?: Log): void {
       obj.browser = browser;
       // Avoid session restore putting us back off-screen.
       if (obj.profile && typeof obj.profile === "object") {
-        (obj.profile as Record<string, unknown>).exit_type = "Normal';
+        (obj.profile as Record<string, unknown>).exit_type = "Normal";
         (obj.profile as Record<string, unknown>).exited_cleanly = true;
       }
       writeFileSync(path, JSON.stringify(obj), "utf8");
@@ -561,7 +561,7 @@ function extractUserJwtFromStorageRaw(raw: string): string {
   for (const tok of matches) {
     if (looksLikeAdobeJwt(tok) && isAdobeUserAccessToken(tok)) return tok;
   }
-  return "';
+  return "";
 }
 
 async function readSpaUserJwt(page: import("playwright").Page): Promise<string> {
@@ -587,7 +587,7 @@ async function readSpaUserJwt(page: import("playwright").Page): Promise<string> 
     const tok = extractUserJwtFromStorageRaw(raw);
     if (tok) return tok;
   }
-  return "';
+  return "";
 }
 
 async function injectUserJwt(page: import("playwright").Page, token: string): Promise<void> {
@@ -603,7 +603,7 @@ async function injectUserJwt(page: import("playwright").Page, token: string): Pr
           obj.valid = true;
           obj.expire = Date.now() + 20 * 3600 * 1000;
           obj.expires_in = 86400000;
-          obj.client_id = "clio-playground-web';
+          obj.client_id = "clio-playground-web";
           sessionStorage.setItem(key, JSON.stringify(obj));
         } catch {
           /* skip */
@@ -682,7 +682,7 @@ async function buildArpFromContext(
     buildAdobeArpSessionIdFromCookies(blob, {
       bfp: ls.bfp || undefined,
       fpjs: ls.fpjs || undefined,
-    }) || "';
+    }) || "";
   return { arp, cookie: extractAdobeCookieHeader(blob) || blob };
 }
 
@@ -976,7 +976,7 @@ export async function loginAdobeFireflyViaChrome(opts: {
   }
   const log = opts.log;
   const prev = modeOverride;
-  modeOverride = "visible';
+  modeOverride = "visible";
   const fresh = opts.freshSession !== false; // default true for multi-account Add Account
   try {
     // Fresh visible window (a cached off-screen CDP would be parked off-display for login).
@@ -991,9 +991,9 @@ export async function loginAdobeFireflyViaChrome(opts: {
     if (fresh) {
       await clearAdobeBrowserSession(context, page, log);
       page = await ensureLivePage(context, null);
-      rt.lastCookieSeed = "';
+      rt.lastCookieSeed = "";
     } else {
-      const cookieIn = opts.cookie ? extractAdobeCookieHeader(opts.cookie) || opts.cookie : "';
+      const cookieIn = opts.cookie ? extractAdobeCookieHeader(opts.cookie) || opts.cookie : "";
       if (cookieIn) {
         const n = await seedCookies(context, cookieIn);
         rt.lastCookieSeed = cookieIn;
@@ -1014,7 +1014,7 @@ export async function loginAdobeFireflyViaChrome(opts: {
     const waitMs =
       opts.waitForLoginMs ?? Number(process.env.ADOBE_FIREFLY_LOGIN_WAIT_MS || 300_000);
     const start = Date.now();
-    let jwt = "';
+    let jwt = "";
     while (Date.now() - start < waitMs) {
       await safePageWait(page, 2500);
       page = await ensureLivePage(context, page);
@@ -1025,15 +1025,15 @@ export async function loginAdobeFireflyViaChrome(opts: {
     const account = ok ? String(decodeAdobeJwtPayload(jwt)?.user_id || "") : undefined;
 
     // Capture durable credentials BEFORE closing the window (sessionStorage JWT dies with the tab).
-    let cookie = "';
-    let arpSessionId = "';
+    let cookie = "";
+    let arpSessionId = "";
     if (ok) {
       try {
         const built = await buildArpFromContext(context, page);
-        cookie = extractAdobeCookieHeader(built.cookie) || built.cookie || "';
-        arpSessionId = built.arp || "';
+        cookie = extractAdobeCookieHeader(built.cookie) || built.cookie || "";
+        arpSessionId = built.arp || "";
       } catch {
-        cookie = (await jarCookieHeader(context).catch(() => "")) || "';
+        cookie = (await jarCookieHeader(context).catch(() => "")) || "";
       }
     }
 
@@ -1087,7 +1087,7 @@ async function pingGenerateInPage(
         const claims = JSON.parse(
           atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
         ) as { user_id?: string };
-        const prompt = "ping';
+        const prompt = "ping";
         const data = new TextEncoder().encode(String(claims.user_id || "") + "-" + prompt);
         const hash = await crypto.subtle.digest("SHA-256", data);
         const nonce = [...new Uint8Array(hash)]

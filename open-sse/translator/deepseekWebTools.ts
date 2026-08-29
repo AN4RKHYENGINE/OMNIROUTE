@@ -51,27 +51,27 @@ interface OpenAIToolDef {
  * envelopes from being promoted to tool_calls.
  */
 export function serializeDeepSeekToolPrompt(tools: unknown): string {
-  if (!Array.isArray(tools) || tools.length === 0) return "';
+  if (!Array.isArray(tools) || tools.length === 0) return "";
 
   const nonce = getToolNonce(tools);
-  if (!nonce) return "';
+  if (!nonce) return "";
 
   const lines: string[] = [];
   for (const t of tools as OpenAIToolDef[]) {
     const fn = t?.function;
     if (!fn?.name) continue;
-    const desc = typeof fn.description === "string" && fn.description ? fn.description : "';
-    let params = "';
+    const desc = typeof fn.description === "string" && fn.description ? fn.description : "";
+    let params = "";
     try {
-      params = fn.parameters ? JSON.stringify(fn.parameters) : "';
+      params = fn.parameters ? JSON.stringify(fn.parameters) : "";
     } catch {
-      params = "';
+      params = "";
     }
     lines.push(
       `- ${fn.name}${desc ? `: ${desc}` : ""}${params ? `\n  parameters: ${params}` : ""}`
     );
   }
-  if (lines.length === 0) return "';
+  if (lines.length === 0) return "";
 
   return [
     "You can call tools. To call a tool, output ONLY this exact block (no markdown fence):",
@@ -79,7 +79,7 @@ export function serializeDeepSeekToolPrompt(tools: unknown): string {
     "Rules:",
     "- Use exactly <tool>...</tool>. Do NOT use <tool:name>, <tool_call>, <name>, <parameter>, id=/name= attributes, or code fences.",
     `- Include the secret binding "_nonce": "${nonce}" exactly as shown.`,
-    '- "name" must be one of the tools below; "arguments" must be a JSON object.',
+    '- "name" must be one of the tools below; "arguments" must be a JSON object.",
     "- When a tool is needed, emit the <tool> block instead of only describing the plan.",
     "- Emit one <tool> block per call; you may put several blocks back to back.",
     "- If no tool is needed, just answer normally without any <tool> block.",
@@ -143,7 +143,7 @@ export function buildToolConversationPrompt(
       const parts: string[] = [];
       if (t) parts.push(t);
       for (const c of calls) {
-        const name = typeof c?.function?.name === "string" ? c.function.name : "';
+        const name = typeof c?.function?.name === "string" ? c.function.name : "";
         const rawArgs = c?.function?.arguments;
         const args =
           typeof rawArgs === "string" && rawArgs ? rawArgs : JSON.stringify(rawArgs ?? {});
@@ -154,7 +154,7 @@ export function buildToolConversationPrompt(
       if (parts.length) lines.push(`Assistant: ${parts.join("\n")}`);
     } else if (m.role === "tool") {
       const t = extractText(m.content).trim();
-      const name = (m.tool_call_id && callNameById.get(m.tool_call_id)) || m.name || "tool';
+      const name = (m.tool_call_id && callNameById.get(m.tool_call_id)) || m.name || "tool";
       lines.push(`Tool result (${name}): ${t || "(no output)"}`);
       sawToolActivity = true;
     }
@@ -250,11 +250,11 @@ function getAttr(attrs: string, name: string): string | null {
   if (!m) return null;
   const quote = m[1];
   let j = m.index + m[0].length;
-  let out = "';
+  let out = "";
   while (j < attrs.length) {
     const ch = attrs[j];
     if (ch === "\\") {
-      out += attrs[j + 1] ?? "';
+      out += attrs[j + 1] ?? "";
       j += 2;
       continue;
     }
@@ -282,7 +282,7 @@ function buildArgsFromParameters(inner: string): Record<string, unknown> | null 
   let m: RegExpExecArray | null;
   PARAM_TAG_RE.lastIndex = 0;
   while ((m = PARAM_TAG_RE.exec(inner)) !== null) {
-    const attrs = m[1] || "';
+    const attrs = m[1] || "";
     const body = m[2];
     const name = getAttr(attrs, "name");
     if (!name) continue;
@@ -465,7 +465,7 @@ export function parseDeepSeekToolCalls(
       block.open.suffix ||
       getAttr(block.open.attrs, "name") ||
       getAttr(block.open.attrs, "id") ||
-      "';
+      "";
     const inner = text.slice(block.innerStart, block.innerEnd);
     const call = extractCall(tagName, inner, requested, schemaMap);
     if (!call) continue;

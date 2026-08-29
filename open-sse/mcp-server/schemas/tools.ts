@@ -253,7 +253,7 @@ export const checkQuotaInput = z.object({
     .string()
     .optional()
     .describe(
-      "Filter by provider name (e.g., 'claude', 'gemini'). If omitted, returns all providers."
+      "Filter by provider name (e.g., 'claude', 'gemini"). If omitted, returns all providers."
     ),
   connectionId: z.string().optional().describe("Filter by specific connection ID"),
 });

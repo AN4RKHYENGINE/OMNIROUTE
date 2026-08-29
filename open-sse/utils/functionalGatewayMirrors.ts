@@ -17,7 +17,7 @@
  * already key-filtered list — no I/O.
  */
 
-export const FUNCTIONAL_GATEWAY_MIRROR_SUFFIX = " (via ';
+export const FUNCTIONAL_GATEWAY_MIRROR_SUFFIX = " (via ";
 
 const FUNCTIONAL_GATEWAY_MIRROR = Symbol("functionalGatewayMirror");
 

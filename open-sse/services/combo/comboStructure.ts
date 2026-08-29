@@ -56,7 +56,7 @@ export function providerSupportsEmulatedToolCalling(
   const provider =
     getProviderById(providerIdOrAlias) || getProviderByAlias(providerIdOrAlias) || null;
   if (!provider || typeof provider !== "object") return false;
-  return (provider as { toolCalling?: unknown }).toolCalling === "emulated';
+  return (provider as { toolCalling?: unknown }).toolCalling === "emulated";
 }
 
 function toTrimmedString(value: unknown): string | null {
@@ -449,7 +449,7 @@ function sortModelsByContextSize(models: string[]): string[] {
 
 export function getModelContextLimitForModelString(modelStr: string) {
   const parsed = parseModel(modelStr);
-  const provider = parsed.provider || parsed.providerAlias || "unknown';
+  const provider = parsed.provider || parsed.providerAlias || "unknown";
   const model = parsed.model || modelStr;
   return getModelContextLimit(provider, model);
 }
@@ -477,7 +477,7 @@ function requestRequiresTools(body: Record<string, unknown>): boolean {
 function requestRequiresStructuredOutput(body: Record<string, unknown>): boolean {
   const responseFormat = isRecord(body.response_format) ? body.response_format : null;
   const type = typeof responseFormat?.type === "string" ? responseFormat.type : null;
-  return type === "json_object" || type === "json_schema';
+  return type === "json_object" || type === "json_schema";
 }
 
 function estimateRequestInputTokens(body: Record<string, unknown>): number {
@@ -647,7 +647,7 @@ export function describeCapabilityFilterExhaustion(
       ? "vision"
       : unmet[0];
   const toolCount = Array.isArray(body.tools) ? body.tools.length : 0;
-  const name = comboName && comboName.trim().length > 0 ? comboName : "this combo';
+  const name = comboName && comboName.trim().length > 0 ? comboName : "this combo";
   let message: string;
   if (primary === "tools") {
     message = `No target in combo ${name} supports tool calling; request carried ${toolCount} tools`;

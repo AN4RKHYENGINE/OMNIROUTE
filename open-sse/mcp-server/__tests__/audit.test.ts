@@ -104,7 +104,7 @@ describe("MCP audit shutdown", () => {
     const bindingErr = new Error(
       "Could not locate the bindings file. Tried: …/better_sqlite3.node"
     ) as Error & { code?: string };
-    bindingErr.code = "MODULE_NOT_FOUND';
+    bindingErr.code = "MODULE_NOT_FOUND";
 
     // node:sqlite IS loaded via dynamic import(), so doMock works for it.
     // Its DatabaseSync does not expose a boolean `open` property — the

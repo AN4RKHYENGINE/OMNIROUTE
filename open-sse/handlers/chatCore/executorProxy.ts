@@ -148,7 +148,7 @@ export async function resolveExecutorWithProxy(
     fallbackBackend === "dario"
       ? getExecutor("dario")
       : resolveCliproxyapiExecutor(cfg.cliproxyapiModelMapping, dedicatedApiKey);
-  const backendLabel = fallbackBackend === "dario" ? "Dario" : "CLIProxyAPI';
+  const backendLabel = fallbackBackend === "dario" ? "Dario" : "CLIProxyAPI";
   const isRetryableStatus = (s: number) => fallbackCodes.includes(s) || s === 0;
 
   const wrapper = Object.create(nativeExec);

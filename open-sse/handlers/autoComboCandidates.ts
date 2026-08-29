@@ -60,7 +60,7 @@ async function decorateCandidate(candidate: {
       const connection = await getProviderConnectionById(candidate.connectionId);
       connectionCooldown =
         hasFutureRateLimit((connection as Record<string, unknown> | null)?.rateLimitedUntil) ||
-        (connection as Record<string, unknown> | null)?.testStatus === "unavailable';
+        (connection as Record<string, unknown> | null)?.testStatus === "unavailable";
     } catch {
       // Fail-open: an unresolved connection lookup should not mark a
       // candidate unreachable — the panel is read-only transparency, not the
@@ -97,7 +97,7 @@ export async function getAutoComboCandidates(
 
   // The bare "auto" channel (no variant/spec overlay) is handled directly by
   // virtualFactory — createBuiltinAutoCombo() only recognizes `auto/<suffix>`
-  // ids (matches classifyAutoModel()'s special-casing of the literal "auto"
+  // ids (matches classifyAutoModel()"s special-casing of the literal "auto"
   // model string in src/sse/handlers/autoRouting.ts).
   let virtualCombo;
   if (channel === "auto") {

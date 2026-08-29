@@ -18,7 +18,7 @@ import { createNonStreamingResponse, createStreamingResponse } from './bypassRes
  * @returns {object|null} Bypass response or null to proceed normally
  */
 export function handleBypassRequest(body, model, userAgent = "") {
-  const normalizedUserAgent = typeof userAgent === "string" ? userAgent : "';
+  const normalizedUserAgent = typeof userAgent === "string" ? userAgent : "";
   if (!normalizedUserAgent.includes("claude-cli")) return null;
   if (!body.messages?.length) return null;
 
@@ -31,7 +31,7 @@ export function handleBypassRequest(body, model, userAgent = "") {
         .map((c) => c.text)
         .join(" ");
     }
-    return "';
+    return "";
   };
 
   let shouldBypass = false;

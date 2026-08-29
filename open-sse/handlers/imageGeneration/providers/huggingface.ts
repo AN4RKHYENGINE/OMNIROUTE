@@ -17,7 +17,7 @@ export async function handleHuggingFaceImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || credentials?.accessToken || "';
+  const token = credentials?.apiKey || credentials?.accessToken || "";
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
 
   if (log) {

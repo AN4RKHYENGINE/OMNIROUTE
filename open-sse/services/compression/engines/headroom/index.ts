@@ -47,7 +47,7 @@ export { encodeTabular, decodeTabular } from './tabular.ts';
 
 // ─── constants ────────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "headroom';
+const ENGINE_ID = "headroom";
 
 // ─── schema & validation ──────────────────────────────────────────────────────
 

@@ -9,7 +9,7 @@
  */
 import { isAccountUnavailable, isModelLocked } from '../accountFallback.ts';
 
-export const SYNTHETIC_NOAUTH_CONNECTION_ID = "noauth';
+export const SYNTHETIC_NOAUTH_CONNECTION_ID = "noauth";
 
 const TERMINAL_CONNECTION_STATUSES = new Set([
   "banned",

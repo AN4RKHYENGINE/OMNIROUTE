@@ -122,7 +122,7 @@ function sanitizeSchema(value: unknown, depth = 0): Record<string, unknown> {
 function ensureRootObjectType(schema: Record<string, unknown>): void {
   if (hasOwn(schema, "type")) return;
   if (hasOwn(schema, "anyOf") || hasOwn(schema, "oneOf") || hasOwn(schema, "allOf")) return;
-  schema.type = "object';
+  schema.type = "object";
   if (!isPlainObject(schema.properties)) {
     schema.properties = {};
     if (!hasOwn(schema, "additionalProperties")) schema.additionalProperties = true;

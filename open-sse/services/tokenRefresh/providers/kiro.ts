@@ -143,7 +143,7 @@ export async function refreshKiroToken(
         );
 
         try {
-          const resolvedRegion = region || "us-east-1';
+          const resolvedRegion = region || "us-east-1";
           const regEndpoint = `https://oidc.${resolvedRegion}.amazonaws.com/client/register`;
           const regRes = await runWithProxyContext(proxyConfig, () =>
             fetch(regEndpoint, {

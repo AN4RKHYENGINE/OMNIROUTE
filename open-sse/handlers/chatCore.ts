@@ -457,7 +457,7 @@ export async function handleChatCore({
       comboName: comboName || undefined,
     });
   });
-  const traceEnabled = process.env.OMNIROUTE_TRACE === "true" || process.env.DEBUG === "true';
+  const traceEnabled = process.env.OMNIROUTE_TRACE === "true" || process.env.DEBUG === "true";
   // Stage trace extracted to chatCore/stageTrace.ts (#3501); bind the per-request inputs once so the
   // call sites stay byte-identical.
   const trace = (label: string, extra?: Record<string, unknown>) =>
@@ -530,7 +530,7 @@ export async function handleChatCore({
       `long-running goal mode enabled: readinessMax=${agentGoalPolicy.readinessMaxTimeoutMs}ms streamRecovery=${agentGoalPolicy.streamRecoveryEnabled}`
     );
   }
-  let effectiveServiceTier: EffectiveServiceTier = "standard';
+  let effectiveServiceTier: EffectiveServiceTier = "standard";
   // Codex service-tier resolvers extracted to chatCore/serviceTier.ts (#3501); bind the per-request
   // provider/credentials once and delegate so the existing call sites stay byte-identical.
   const resolveEffectiveServiceTier = (requestBody?: unknown): EffectiveServiceTier =>
@@ -917,7 +917,7 @@ export async function handleChatCore({
     typeof credentials.providerSpecificData === "object" &&
     typeof credentials.providerSpecificData.customUserAgent === "string"
       ? credentials.providerSpecificData.customUserAgent.trim()
-      : "';
+      : "";
 
   // #8369: connection-level custom upstream headers from provider_specific_data.
   const connectionCustomHeaders =
@@ -1214,15 +1214,15 @@ export async function handleChatCore({
           ["lite", "full", "ultra"].includes(compressionCombo.outputModeIntensity)
             ? compressionCombo.outputModeIntensity
             : (config.cavemanOutputMode?.intensity ?? "full")
-        ) as "lite" | "full" | "ultra';
+        ) as "lite" | "full" | "ultra";
         const comboDefaultLanguage =
           comboLanguagePacks.find((pack) => pack === config.languageConfig?.defaultLanguage) ??
           comboLanguagePacks[0] ??
           config.languageConfig?.defaultLanguage ??
-          "en';
+          "en";
         const comboOverrides = { ...(config.comboOverrides ?? {}) };
         for (const id of routingOverrideIds) {
-          if (id) comboOverrides[id] = "stacked';
+          if (id) comboOverrides[id] = "stacked";
         }
         config = {
           ...config,
@@ -1397,7 +1397,7 @@ export async function handleChatCore({
             const outputStyleLanguage =
               config.languageConfig?.enabled === true
                 ? config.languageConfig.defaultLanguage
-                : "en';
+                : "en";
             outputStyleResult = applyOutputStyles(
               body as Parameters<typeof applyOutputStyles>[0],
               selection,
@@ -1819,7 +1819,7 @@ export async function handleChatCore({
         const layersInfo =
           stats && "layers" in stats && Array.isArray(stats.layers)
             ? ` (layers: ${stats.layers.map((l: { name: string }) => l.name).join(", ")})`
-            : "';
+            : "";
 
         log?.info?.(
           "CONTEXT",
@@ -2239,7 +2239,7 @@ export async function handleChatCore({
       Number.isInteger(parsedStatus) && parsedStatus >= 400 && parsedStatus <= 599
         ? parsedStatus
         : HTTP_STATUS.SERVER_ERROR;
-    const message = error?.message || "Invalid request';
+    const message = error?.message || "Invalid request";
     const errorType = typeof error?.errorType === "string" ? error.errorType : null;
 
     log?.warn?.("TRANSLATE", `Request translation failed: ${message}`);
@@ -3346,7 +3346,7 @@ export async function handleChatCore({
         connectionId,
         status: `FAILED ${error.code}`,
       }).catch(() => {});
-      const failureMessage = error.message || "Semaphore timeout';
+      const failureMessage = error.message || "Semaphore timeout";
       persistAttemptLogs({
         status: HTTP_STATUS.RATE_LIMITED,
         error: failureMessage,
@@ -3372,7 +3372,7 @@ export async function handleChatCore({
     // #8376: proxyFetch tags unreachable transport failures so they remain
     // distinguishable from ordinary provider 5xx responses.
     const isProxyUnreachableFailure =
-      !isRequestAborted && (error as { errorCode?: unknown })?.errorCode === "proxy_unreachable';
+      !isRequestAborted && (error as { errorCode?: unknown })?.errorCode === "proxy_unreachable";
     const errorCode = getUpstreamErrorIdentifier(error);
     const localRateLimitFailure = localLimiterErrors.getClientSafeLocalRateLimitError(error);
     const failureStatus = isRequestAborted
@@ -3459,7 +3459,7 @@ export async function handleChatCore({
   }
   let upstreamErrorParsed = false;
   let parsedStatusCode = providerResponse.status;
-  let parsedMessage = "';
+  let parsedMessage = "";
   let parsedRetryAfterMs: number | null = null;
   let upstreamErrorBody: unknown = null;
 
@@ -3510,7 +3510,7 @@ export async function handleChatCore({
     // connection's refresh_token past the one we presented — overwriting would revert it
     // and revoke the token family. No connectionId ⇒ no guard (behavior unchanged).
     const casConnectionId =
-      typeof credentials?.connectionId === "string" ? credentials.connectionId.trim() : "';
+      typeof credentials?.connectionId === "string" ? credentials.connectionId.trim() : "";
     const casReread = casConnectionId
       ? async () => {
           const latest = await getProviderConnectionById(casConnectionId);
@@ -3631,7 +3631,7 @@ export async function handleChatCore({
     trackPendingRequest(model, provider, connectionId, false);
 
     let statusCode = providerResponse.status;
-    let message = "';
+    let message = "";
     let retryAfterMs: number | null = null;
     let upstreamErrorCode: string | undefined;
     let upstreamErrorType: string | undefined;
@@ -4201,7 +4201,7 @@ export async function handleChatCore({
         connectionId,
         status: `FAILED ${HTTP_STATUS.BAD_GATEWAY}`,
       }).catch(() => {});
-      const emptyContentMessage = "Provider returned empty content';
+      const emptyContentMessage = "Provider returned empty content";
       persistAttemptLogs({
         status: HTTP_STATUS.BAD_GATEWAY,
         error: emptyContentMessage,
@@ -4478,7 +4478,7 @@ export async function handleChatCore({
       : 0;
 
     if (postCallGuardrails.blocked) {
-      const guardrailMessage = postCallGuardrails.message || "Response blocked by guardrail';
+      const guardrailMessage = postCallGuardrails.message || "Response blocked by guardrail";
       persistAttemptLogs({
         status: HTTP_STATUS.BAD_REQUEST,
         tokens: usage,

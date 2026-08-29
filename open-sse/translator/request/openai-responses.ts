@@ -55,9 +55,9 @@ function toolOutputContentToString(output: unknown): string {
       continue;
     }
     const rec = item as Record<string, unknown>;
-    const type = typeof rec.type === "string" ? rec.type : "';
+    const type = typeof rec.type === "string" ? rec.type : "";
     if (type === "input_text" || type === "output_text") {
-      const text = typeof rec.text === "string" ? rec.text : "';
+      const text = typeof rec.text === "string" ? rec.text : "";
       if (text) parts.push(text);
     } else if (type === "input_image") {
       parts.push("[Image omitted: not supported on Chat Completions tool results]");
@@ -74,7 +74,7 @@ function toolOutputContentToString(output: unknown): string {
 }
 
 function getReasoningSummaryText(item: JsonRecord): string {
-  if (!Array.isArray(item.summary)) return "';
+  if (!Array.isArray(item.summary)) return "";
   return item.summary
     .map((part) => toString(toRecord(part).text))
     .filter((text) => text.length > 0)
@@ -82,7 +82,7 @@ function getReasoningSummaryText(item: JsonRecord): string {
 }
 
 function appendReasoningContent(current: unknown, next: string): string {
-  const existing = typeof current === "string" ? current : "';
+  const existing = typeof current === "string" ? current : "";
   return existing ? `${existing}\n\n${next}` : next;
 }
 
@@ -217,7 +217,7 @@ export function openaiResponsesToOpenAIRequest(
   // Group items by conversation turn
   let currentAssistantMsg: JsonRecord | null = null;
   let pendingToolResults: JsonRecord[] = [];
-  let pendingReasoningContent = "';
+  let pendingReasoningContent = "";
 
   // Upstream providers reject messages:[] with "400: at least one message is required".
   // When the client sends input:[] (empty), inject a placeholder user message — mirrors
@@ -246,7 +246,7 @@ export function openaiResponsesToOpenAIRequest(
           content: null,
           reasoning_content: pendingReasoningContent,
         });
-        pendingReasoningContent = "';
+        pendingReasoningContent = "";
       }
 
       // Flush pending tool results
@@ -295,7 +295,7 @@ export function openaiResponsesToOpenAIRequest(
       const message: JsonRecord = { role, content };
       if (role === "assistant" && pendingReasoningContent) {
         message.reasoning_content = pendingReasoningContent;
-        pendingReasoningContent = "';
+        pendingReasoningContent = "";
       }
       messages.push(message);
       continue;
@@ -324,7 +324,7 @@ export function openaiResponsesToOpenAIRequest(
         };
         if (pendingReasoningContent) {
           currentAssistantMsg.reasoning_content = pendingReasoningContent;
-          pendingReasoningContent = "';
+          pendingReasoningContent = "";
         }
       }
 
@@ -387,7 +387,7 @@ export function openaiResponsesToOpenAIRequest(
         };
         if (pendingReasoningContent) {
           currentAssistantMsg.reasoning_content = pendingReasoningContent;
-          pendingReasoningContent = "';
+          pendingReasoningContent = "";
         }
       }
       const toolCalls = Array.isArray(currentAssistantMsg.tool_calls)
@@ -787,7 +787,7 @@ export function openaiResponsesToOpenAIRequest(
       credentialRecord._copilotClient === true &&
       shouldRequestClaudeSummarizedThinking(reasoningRec.summary)
     ) {
-      result[COPILOT_REASONING_SUMMARY_MARKER] = "summarized';
+      result[COPILOT_REASONING_SUMMARY_MARKER] = "summarized";
     }
   }
   delete result.reasoning;
@@ -872,10 +872,10 @@ export function openaiResponsesToOpenAIRequest(
  * Only the first two carry a usable provider hint.
  */
 function extractProviderHint(model: unknown): string {
-  if (typeof model !== "string" || model.length === 0) return "';
+  if (typeof model !== "string" || model.length === 0) return "";
   if (getRegisteredProviders().includes(model)) return model;
   const prefix = model.split("/")[0];
-  return getRegisteredProviders().includes(prefix) ? prefix : "';
+  return getRegisteredProviders().includes(prefix) ? prefix : "";
 }
 
 // Register both directions

@@ -128,7 +128,7 @@ export function pinIsDurablyUnhealthy(
   // The pin survives as long as AT LEAST ONE connection is healthy or only
   // briefly cooling down — failover only when every connection is durably down.
   const anyUsable = connections.some((c) => {
-    const status = typeof c.testStatus === "string" ? c.testStatus : "';
+    const status = typeof c.testStatus === "string" ? c.testStatus : "";
     if (TERMINAL_PIN_STATUSES.has(status)) return false;
     if (Number(c.backoffLevel ?? 0) >= backoffThreshold) return false;
     const rl = c.rateLimitedUntil ? new Date(String(c.rateLimitedUntil)).getTime() : 0;
@@ -163,7 +163,7 @@ async function isPinnedModelDurablyUnhealthy(pinnedModel: string): Promise<boole
 }
 
 export function normalizeNestedComboMode(value: unknown): NestedComboMode {
-  return value === "execute" ? "execute" : "flatten';
+  return value === "execute" ? "execute" : "flatten";
 }
 
 function buildDefaultNesting(
@@ -522,7 +522,7 @@ async function orderRuntimeUnits(args: {
         stickyUnit,
         ...runtimeUnits.filter((unit) => unit.executionKey !== stickyUnit.executionKey),
       ];
-      unitExecutionStrategy = "priority';
+      unitExecutionStrategy = "priority";
     }
   }
   if (strategy === "random") runtimeUnits = fisherYatesShuffle([...runtimeUnits]);

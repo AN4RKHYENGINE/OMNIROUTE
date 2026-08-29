@@ -31,7 +31,7 @@ const KIMI_CONFIG = {
  * LEVEL_ADVANCED = Allegro, LEVEL_STANDARD = Vivace
  */
 function getKimiPlanName(level: unknown): string {
-  if (!level) return "';
+  if (!level) return "";
   const normalizedLevel = String(level);
 
   const levelMap = {

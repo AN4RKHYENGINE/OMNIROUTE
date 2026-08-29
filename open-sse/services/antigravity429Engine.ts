@@ -18,10 +18,10 @@
  *   - full_quota_exhausted:          24h cooldown, skip this account
  */
 
-export type Category = "unknown" | "rate_limited" | "quota_exhausted" | "soft_rate_limit';
+export type Category = "unknown" | "rate_limited" | "quota_exhausted" | "soft_rate_limit";
 
 export type DecisionKind =
-  "soft_retry" | "instant_retry_same_auth" | "short_cooldown_switch_auth" | "full_quota_exhausted';
+  "soft_retry" | "instant_retry_same_auth" | "short_cooldown_switch_auth" | "full_quota_exhausted";
 
 export interface Decision {
   kind: DecisionKind;
@@ -66,17 +66,17 @@ export function classify429(errorMessage: string): Category {
   // evidence than the generic wording, so retry briefly instead of applying
   // the durable quota cooldown.
   if (/\breset\s+(?:after|in)\s+0s\b/.test(lower)) {
-    return "rate_limited';
+    return "rate_limited";
   }
 
   // Check for quota exhaustion first (most specific)
   for (const kw of QUOTA_EXHAUSTED_KEYWORDS) {
-    if (lower.includes(kw)) return "quota_exhausted';
+    if (lower.includes(kw)) return "quota_exhausted";
   }
 
   // Check for credits exhaustion (also quota-related)
   for (const kw of CREDITS_EXHAUSTED_KEYWORDS) {
-    if (lower.includes(kw)) return "quota_exhausted';
+    if (lower.includes(kw)) return "quota_exhausted";
   }
 
   // Check for RPM/rate limit indicators
@@ -87,7 +87,7 @@ export function classify429(errorMessage: string): Category {
     lower.includes("rate_limit") ||
     lower.includes("too many requests")
   ) {
-    return "rate_limited';
+    return "rate_limited";
   }
 
   // Check for free tier exhaustion
@@ -96,15 +96,15 @@ export function classify429(errorMessage: string): Category {
     lower.includes("daily limit") ||
     lower.includes("exhausted your capacity")
   ) {
-    return "quota_exhausted';
+    return "quota_exhausted";
   }
 
   // Check for soft/burst limits
   if (lower.includes("try again") || lower.includes("temporarily")) {
-    return "soft_rate_limit';
+    return "soft_rate_limit";
   }
 
-  return "unknown';
+  return "unknown";
 }
 
 export function decide429(category: Category, retryAfterMs: number | null): Decision {

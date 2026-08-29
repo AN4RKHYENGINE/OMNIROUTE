@@ -9,7 +9,7 @@
 
 import type { z } from 'zod';
 
-export type AuditLevel = "none" | "basic" | "full';
+export type AuditLevel = "none" | "basic" | "full";
 
 export interface McpToolDefinition<TInput extends z.ZodTypeAny, TOutput extends z.ZodTypeAny> {
   /** Tool name (MCP identifier) */

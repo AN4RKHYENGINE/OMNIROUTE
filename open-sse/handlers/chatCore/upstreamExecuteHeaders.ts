@@ -84,7 +84,7 @@ export function buildUpstreamHeadersForExecute(opts: {
     typeof settings !== "undefined" &&
     shouldRequestClaudeFastMode(settings, modelToCall)
   ) {
-    upstreamHeaders[CPA_FORCE_FAST_MODE_HEADER] = "1';
+    upstreamHeaders[CPA_FORCE_FAST_MODE_HEADER] = "1";
   }
 
   return upstreamHeaders;

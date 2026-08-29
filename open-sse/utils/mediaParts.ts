@@ -4,7 +4,7 @@
  * and the combo compatibility filter (open-sse/) — the two previously kept
  * divergent copies (guardrail missed input_image; combo saw it).
  */
-export type MediaKind = "image" | "audio';
+export type MediaKind = "image" | "audio";
 
 export interface MediaPart {
   kind: MediaKind;
@@ -43,7 +43,7 @@ export interface MediaPart {
      * may be "". Boolean callers (combo compatibility filter) count it;
      * ref-consuming callers (vision bridge) must skip empty refs.
      */
-    | "image_indicator';
+    | "image_indicator";
 }
 
 const MAX_DEPTH = 8;
@@ -99,7 +99,7 @@ function inspectImageShapes(
   if (type === "image") {
     const source = obj.source as Record<string, unknown> | undefined;
     if (source?.type === "base64" && typeof source.data === "string") {
-      const media = typeof source.media_type === "string" ? source.media_type : "image/png';
+      const media = typeof source.media_type === "string" ? source.media_type : "image/png";
       pushPart(ctx, "image", `data:${media};base64,${source.data}`, "image_base64", depth);
       return true;
     }

@@ -52,7 +52,7 @@ type Body = Record<string, unknown>;
  * leaf content → string step reuses the translator's own extractTextContent.
  */
 export function extractPanelText(json: unknown): string {
-  if (!json || typeof json !== "object") return "';
+  if (!json || typeof json !== "object") return "";
   const j = json as Record<string, unknown>;
 
   // OpenAI chat completion
@@ -94,7 +94,7 @@ export function extractPanelText(json: unknown): string {
     if (t.trim()) return t;
   }
 
-  return "';
+  return "";
 }
 
 /**
@@ -150,7 +150,7 @@ export function buildJudgePrompt(answers: Array<{ text: string }>): string {
 export function isToolBearingRequest(body: Body): boolean {
   const hasTools = Array.isArray(body.tools) && body.tools.length > 0;
   if (!hasTools) return false;
-  return body.tool_choice !== "none';
+  return body.tool_choice !== "none";
 }
 
 type Sentinel = { __timeout?: true; __error?: unknown };

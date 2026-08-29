@@ -17,7 +17,7 @@
  * equal to 0.95 ..."). Clients such as the VS Code Copilot "Ollama" provider
  * routinely send other values (e.g. temperature 0.7, top_p 0.9), and thinking
  * can be injected by per-model requestDefaults *after* the request is built, so
- * normalize here: pin temperature to 1 and drop top_p (Anthropic's "unset"
+ * normalize here: pin temperature to 1 and drop top_p (Anthropic"s "unset"
  * branch — which also preserves the "never send both temperature and top_p"
  * invariant).
  */

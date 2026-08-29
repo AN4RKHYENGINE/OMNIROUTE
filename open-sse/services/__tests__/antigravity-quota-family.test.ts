@@ -13,7 +13,7 @@ import {
   clearModelLock,
 } from '../../services/accountFallback.ts';
 
-const provider = "antigravity';
+const provider = "antigravity";
 
 describe("Antigravity account quota-family cooldown", () => {
   beforeEach(() => {

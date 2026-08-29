@@ -53,7 +53,7 @@ export async function refreshOpenferenceToken(refreshToken, log, proxyConfig: un
       }
 
       if (response.status === 401) {
-        const code = errorCode || "unauthorized';
+        const code = errorCode || "unauthorized";
         log?.error?.(
           "TOKEN_REFRESH",
           "Openference OAuth token endpoint returned 401. Re-authentication required.",

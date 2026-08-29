@@ -11,7 +11,7 @@ function toolName(value: unknown): string {
     ? tool.name.trim()
     : typeof nestedFunction.name === "string" && nestedFunction.name.trim()
       ? nestedFunction.name.trim()
-      : "';
+      : "";
 }
 
 function toolIdentity(value: unknown): string | null {

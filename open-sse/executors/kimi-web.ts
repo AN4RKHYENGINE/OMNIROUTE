@@ -38,10 +38,10 @@ import {
 
 export { extractKimiAccessToken };
 
-const BASE_URL = "https://www.kimi.com';
+const BASE_URL = "https://www.kimi.com";
 const CHAT_URL = `${BASE_URL}/apiv2/kimi.gateway.chat.v1.ChatService/Chat`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 export function resolveModelConfig(modelId: string): KimiWebModelConfig | null {
   return resolveKimiWebModelConfig(modelId);
@@ -126,8 +126,8 @@ export function getConnectEndStreamError(frame: ConnectFrame): string | null {
   const error = frame.message?.error;
   if (!error || typeof error !== "object" || Array.isArray(error)) return null;
   const record = error as Record<string, unknown>;
-  const code = typeof record.code === "string" ? record.code : "unknown';
-  const message = typeof record.message === "string" ? record.message : "upstream error';
+  const code = typeof record.code === "string" ? record.code : "unknown";
+  const message = typeof record.message === "string" ? record.message : "upstream error";
   return `${code}: ${message}`;
 }
 
@@ -514,8 +514,8 @@ export class KimiWebExecutor extends BaseExecutor {
     }
 
     // Non-streaming: collect all deltas into a single chat.completion JSON.
-    let answer = "';
-    let reasoning = "';
+    let answer = "";
+    let reasoning = "";
     const reader = sourceStream.getReader();
     let buffer = new Uint8Array(0);
     let sawSuccessfulEndStream = false;

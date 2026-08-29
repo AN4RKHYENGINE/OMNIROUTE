@@ -75,7 +75,7 @@ export async function checkSemanticCache({
         cacheSource: "semantic",
       });
       trackPendingRequest(model, provider, connectionId, false);
-      const cachedSse = stream ? synthesizeOpenAiSseFromJson(JSON.stringify(cached)) : "';
+      const cachedSse = stream ? synthesizeOpenAiSseFromJson(JSON.stringify(cached)) : "";
       const headers: Record<string, string> = {
         "Content-Type": cachedSse ? "text/event-stream" : "application/json",
         [OMNIROUTE_RESPONSE_HEADERS.cache]: "HIT",

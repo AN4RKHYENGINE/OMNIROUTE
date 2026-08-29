@@ -12,8 +12,8 @@ export interface ClaudeWebStreamOptions {
   log?: ExecutorLog | null;
 }
 
-type StreamPhase = "awaiting_message" | "in_message" | "stopped" | "failed';
-type BlockKind = "thinking" | "text" | "tool_use" | "other';
+type StreamPhase = "awaiting_message" | "in_message" | "stopped" | "failed";
+type BlockKind = "thinking" | "text" | "tool_use" | "other";
 const MAX_CLAUDE_WEB_SSE_PENDING_CHARS = 1024 * 1024;
 type SemanticEvent =
   | { kind: "content"; text: string }
@@ -63,7 +63,7 @@ interface StreamControl {
 class ClaudeWebProtocolError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "ClaudeWebProtocolError';
+    this.name = "ClaudeWebProtocolError";
   }
 }
 
@@ -74,7 +74,7 @@ async function* decodeSseData(
   const reader = source.getReader();
   control.reader = reader;
   const decoder = new TextDecoder();
-  let buffer = "';
+  let buffer = "";
   let dataLines: string[] = [];
   let dataChars = 0;
   let reachedEof = false;
@@ -207,7 +207,7 @@ interface ProtocolState {
 }
 
 function protocolFailure(state: ProtocolState, message: string): never {
-  state.phase = "failed';
+  state.phase = "failed";
   throw new ClaudeWebProtocolError(message);
 }
 
@@ -244,15 +244,15 @@ function handleMessageStart(state: ProtocolState): null {
   if (state.phase !== "awaiting_message") {
     protocolFailure(state, "message_start is out of order");
   }
-  state.phase = "in_message';
+  state.phase = "in_message";
   return null;
 }
 
 function blockKind(block: Record<string, unknown>): BlockKind {
-  if (block.type === "thinking") return "thinking';
-  if (block.type === "text") return "text';
-  if (block.type === "tool_use") return "tool_use';
-  return "other';
+  if (block.type === "thinking") return "thinking";
+  if (block.type === "text") return "text";
+  if (block.type === "tool_use") return "tool_use";
+  return "other";
 }
 
 function handleContentBlockStart(
@@ -268,14 +268,14 @@ function handleContentBlockStart(
   state.openBlocks.set(index, kind);
 
   if (kind === "tool_use") {
-    const id = typeof contentBlock.id === "string" ? contentBlock.id : "';
-    const name = typeof contentBlock.name === "string" ? contentBlock.name : "';
-    let initialInput = "';
+    const id = typeof contentBlock.id === "string" ? contentBlock.id : "";
+    const name = typeof contentBlock.name === "string" ? contentBlock.name : "";
+    let initialInput = "";
     if (contentBlock.input !== undefined) {
       try {
         initialInput = JSON.stringify(contentBlock.input);
       } catch {
-        initialInput = "';
+        initialInput = "";
       }
     }
     state.toolBlocks.set(index, { id, name, inputParts: [], initialInput });
@@ -330,7 +330,7 @@ function handleContentBlockStop(
     state.toolBlocks.delete(index);
     if (!toolBlock) protocolFailure(state, "Tool block stop has no tool state");
 
-    let inputStr = "';
+    let inputStr = "";
     if (toolBlock.inputParts.length > 0) {
       inputStr = toolBlock.inputParts.join("");
     } else if (toolBlock.initialInput) {
@@ -357,7 +357,7 @@ function handleMessageDelta(event: Record<string, unknown>, state: ProtocolState
 
 function handleMessageStop(state: ProtocolState): SemanticEvent {
   assertInMessage(state, "message_stop", true);
-  state.phase = "stopped';
+  state.phase = "stopped";
   return { kind: "finish", stopReason: state.stopReason };
 }
 
@@ -419,9 +419,9 @@ async function* parseClaudeWebEvents(
 }
 
 function openAiFinishReason(stopReason: string): string {
-  if (stopReason === "max_tokens") return "length';
-  if (stopReason === "tool_use") return "tool_calls';
-  return "stop';
+  if (stopReason === "max_tokens") return "length";
+  if (stopReason === "tool_use") return "tool_calls";
+  return "stop";
 }
 
 function makeChunk(
@@ -454,8 +454,8 @@ function makeChunk(
 
 function protocolErrorBody(): Record<string, unknown> {
   const body = buildErrorBody(502, "Claude Web stream protocol error");
-  body.error.type = "upstream_protocol_error';
-  body.error.code = "claude_web_protocol_error';
+  body.error.type = "upstream_protocol_error";
+  body.error.code = "claude_web_protocol_error";
   return body as unknown as Record<string, unknown>;
 }
 
@@ -502,9 +502,9 @@ async function createBufferedResponse(
 ): Promise<Response> {
   const id = `chatcmpl-${randomUUID()}`;
   const created = Math.floor(Date.now() / 1000);
-  let assistantText = "';
-  let reasoningText = "';
-  let stopReason = "end_turn';
+  let assistantText = "";
+  let reasoningText = "";
+  let stopReason = "end_turn";
   const toolCalls: Array<{ id: string; name: string; input: string }> = [];
   const metadataEvents: Array<{ type: string; data: Record<string, unknown> }> = [];
   const control: StreamControl = { reader: null, cancelled: false };
@@ -579,7 +579,7 @@ interface StreamingState {
   iterator: AsyncIterator<SemanticEvent, void, void>;
   pendingChunks: Uint8Array[];
   assistantText: string;
-  outcome: "pending" | "completed" | "failed';
+  outcome: "pending" | "completed" | "failed";
   terminal: boolean;
   closed: boolean;
 }
@@ -590,7 +590,7 @@ function encodeStreamEvent(state: StreamingState, value: Record<string, unknown>
 
 function failStreamOnce(state: StreamingState, options: ClaudeWebStreamOptions): void {
   if (state.outcome !== "pending") return;
-  state.outcome = "failed';
+  state.outcome = "failed";
   notifyFailure(options);
 }
 
@@ -681,7 +681,7 @@ async function queueSemanticEvent(
   }
 
   await state.iterator.return?.();
-  state.outcome = "completed';
+  state.outcome = "completed";
   notifyComplete(options, { assistantText: state.assistantText, stopReason: event.stopReason });
   state.pendingChunks.push(
     encodeStreamEvent(

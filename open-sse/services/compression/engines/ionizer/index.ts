@@ -9,7 +9,7 @@ import type {
 } from '../types.ts';
 import type { CompressionResult } from '../../types.ts';
 
-const ENGINE_ID = "ionizer';
+const ENGINE_ID = "ionizer";
 
 type MessageLike = { role?: string; content?: unknown; [key: string]: unknown };
 

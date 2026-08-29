@@ -59,7 +59,7 @@ function toRecord(value: unknown): JsonRecord {
 }
 
 function isNodeTestRunnerChild(): boolean {
-  return typeof process.env.NODE_TEST_CONTEXT === "string';
+  return typeof process.env.NODE_TEST_CONTEXT === "string";
 }
 
 function logRateLimit(...args: unknown[]): void {
@@ -209,8 +209,8 @@ function reconcileEnabledConnections(
 
   for (const connRaw of connectionsRaw) {
     const conn = toRecord(connRaw);
-    const connectionId = typeof conn.id === "string" ? conn.id : "';
-    const provider = typeof conn.provider === "string" ? conn.provider : "';
+    const connectionId = typeof conn.id === "string" ? conn.id : "";
+    const provider = typeof conn.provider === "string" ? conn.provider : "";
     const isActive = conn.isActive === true;
     const rateLimitProtection = conn.rateLimitProtection === true;
     if (!connectionId || !provider) continue;
@@ -535,7 +535,7 @@ export async function withRateLimit(provider, connectionId, model, fn, signal = 
     const reason = signal.reason;
     if (reason instanceof Error) throw reason;
     const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-    err.name = "AbortError';
+    err.name = "AbortError";
     throw err;
   }
 
@@ -585,7 +585,7 @@ export async function withRateLimit(provider, connectionId, model, fn, signal = 
           return;
         }
         const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-        err.name = "AbortError';
+        err.name = "AbortError";
         if (reason !== undefined) {
           (err as Error & { cause?: unknown }).cause = reason;
         }
@@ -948,8 +948,8 @@ async function loadPersistedLimits() {
       // Skip stale entries (older than 24h)
       if (lastUpdated > 0 && Date.now() - lastUpdated > 24 * 60 * 60 * 1000) continue;
 
-      const connectionId = typeof data.connectionId === "string" ? data.connectionId : "';
-      const provider = typeof data.provider === "string" ? data.provider : "';
+      const connectionId = typeof data.connectionId === "string" ? data.connectionId : "";
+      const provider = typeof data.provider === "string" ? data.provider : "";
       const limit = toNumber(data.limit, 0);
       const remaining = toNumber(data.remaining, 0);
       const minTime = toNumber(data.minTime, 0);

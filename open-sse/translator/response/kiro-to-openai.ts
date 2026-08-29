@@ -23,8 +23,8 @@ export function convertKiroToOpenAI(chunk, state) {
   if (typeof chunk === "string") {
     // Parse SSE format: event:xxx\ndata:xxx
     const lines = chunk.split("\n");
-    let eventType = "';
-    let eventData = "';
+    let eventType = "";
+    let eventData = "";
 
     for (const line of lines) {
       if (line.startsWith("event:")) {
@@ -59,11 +59,11 @@ export function convertKiroToOpenAI(chunk, state) {
     state.chunkIndex = 0;
   }
 
-  const eventType = data._eventType || data.event || "';
+  const eventType = data._eventType || data.event || "";
 
   // Handle different Kiro event types
   if (eventType === "assistantResponseEvent" || data.assistantResponseEvent) {
-    const content = data.assistantResponseEvent?.content || data.content || "';
+    const content = data.assistantResponseEvent?.content || data.content || "";
     if (!content) return null;
 
     const openaiChunk = {
@@ -89,7 +89,7 @@ export function convertKiroToOpenAI(chunk, state) {
 
   // Handle reasoning/thinking events
   if (eventType === "reasoningContentEvent" || data.reasoningContentEvent) {
-    const content = data.reasoningContentEvent?.content || data.content || "';
+    const content = data.reasoningContentEvent?.content || data.content || "";
     if (!content) return null;
 
     const openaiChunk = {
@@ -120,7 +120,7 @@ export function convertKiroToOpenAI(chunk, state) {
     // #1375: long tool names were hash-truncated for Kiro (sanitizeKiroTools).
     // Map the streamed name back to the original so the client sees the name
     // it sent. `state.toolNameMap` carries truncated → original entries.
-    const rawName = toolUse.name || "';
+    const rawName = toolUse.name || "";
     const toolName =
       state.toolNameMap instanceof Map ? state.toolNameMap.get(rawName) || rawName : rawName;
     const toolInput = toolUse.input || {};
@@ -165,7 +165,7 @@ export function convertKiroToOpenAI(chunk, state) {
   if (eventType === "messageStopEvent" || eventType === "done" || data.messageStopEvent) {
     // #3980: if the stream produced tool calls, the terminal finish_reason must
     // be "tool_calls" (OpenAI semantics), not "stop".
-    const finishReason = state.sawToolUse ? "tool_calls" : "stop';
+    const finishReason = state.sawToolUse ? "tool_calls" : "stop";
     state.finishReason = finishReason; // Mark for usage injection in stream.js
 
     const openaiChunk: Record<string, unknown> = {

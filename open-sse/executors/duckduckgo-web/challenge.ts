@@ -233,7 +233,7 @@ type DuckDuckGoChallengeResult = {
  * Origin the solved challenge claims to come from. The duck.ai frontend stamps
  * `meta.origin` with its own origin and the upstream cross-checks it.
  */
-export const DUCKDUCKGO_CHALLENGE_ORIGIN = "https://duck.ai';
+export const DUCKDUCKGO_CHALLENGE_ORIGIN = "https://duck.ai";
 
 /**
  * `meta.stack` mimics the frontend's captured Error stack. The upstream only
@@ -276,7 +276,7 @@ export async function solveDuckDuckGoChallenge(
   // when every client_hash is correct (confirmed by capturing a real browser's
   // x-vqd-hash-1 header, which always carries all three).
   const origin = options.origin ?? DUCKDUCKGO_CHALLENGE_ORIGIN;
-  const bundlePath = options.bundlePath ?? "/dist/duckai-dist/entry.duckai.js';
+  const bundlePath = options.bundlePath ?? "/dist/duckai-dist/entry.duckai.js";
   const meta = (result.meta ?? {}) as Record<string, unknown>;
   result.meta = {
     ...meta,

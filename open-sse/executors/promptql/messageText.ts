@@ -16,7 +16,7 @@ export interface ChatMessage {
 
 export function extractMessageText(content: unknown): string {
   if (typeof content === "string") return content;
-  if (content == null) return "';
+  if (content == null) return "";
   if (Array.isArray(content)) {
     return content
       .map((part) => {
@@ -31,7 +31,7 @@ export function extractMessageText(content: unknown): string {
             return `${p.name}:${typeof args === "string" ? args : JSON.stringify(args ?? {})}`;
           }
         }
-        return "';
+        return "";
       })
       .filter(Boolean)
       .join("\n");
@@ -39,12 +39,12 @@ export function extractMessageText(content: unknown): string {
   if (content && typeof content === "object" && typeof (content as { text?: string }).text === "string") {
     return (content as { text: string }).text;
   }
-  return "';
+  return "";
 }
 
 /** Serialize OpenAI tool_calls / function_call into stable fingerprint text. */
 export function extractToolCallsText(message: ChatMessage | null | undefined): string {
-  if (!message) return "';
+  if (!message) return "";
   const parts: string[] = [];
   const tcs = message.tool_calls;
   if (Array.isArray(tcs)) {
@@ -54,7 +54,7 @@ export function extractToolCallsText(message: ChatMessage | null | undefined): s
       const fn = rec.function;
       if (fn && typeof fn === "object") {
         const f = fn as Record<string, unknown>;
-        const name = typeof f.name === "string" ? f.name : "';
+        const name = typeof f.name === "string" ? f.name : "";
         const args = typeof f.arguments === "string" ? f.arguments : JSON.stringify(f.arguments ?? {});
         if (name) parts.push(`tool_call:${name}:${args}`);
       } else if (typeof rec.name === "string") {
@@ -65,7 +65,7 @@ export function extractToolCallsText(message: ChatMessage | null | undefined): s
   const fc = message.function_call;
   if (fc && typeof fc === "object") {
     const f = fc as Record<string, unknown>;
-    const name = typeof f.name === "string" ? f.name : "';
+    const name = typeof f.name === "string" ? f.name : "";
     const args = typeof f.arguments === "string" ? f.arguments : JSON.stringify(f.arguments ?? {});
     if (name) parts.push(`function_call:${name}:${args}`);
   }
@@ -77,7 +77,7 @@ export function extractToolCallsText(message: ChatMessage | null | undefined): s
  * content is null (OpenAI agent clients often re-send assistants that way).
  */
 export function extractMessageTextFromMessage(message: ChatMessage | null | undefined): string {
-  if (!message) return "';
+  if (!message) return "";
   const fromContent = extractMessageText(message.content);
   const fromTools = extractToolCallsText(message);
   if (fromContent && fromTools) return `${fromContent}\n${fromTools}`;
@@ -87,5 +87,5 @@ export function extractMessageTextFromMessage(message: ChatMessage | null | unde
 /** User / human / tool / function — any role that ends an OpenAI "turn" for sticky. */
 export function isUserLikeRole(role: string): boolean {
   const r = (role || "").toLowerCase();
-  return r === "user" || r === "human" || r === "tool" || r === "function';
+  return r === "user" || r === "human" || r === "tool" || r === "function";
 }

@@ -78,10 +78,10 @@ export interface VirtualAutoComboCandidate {
 }
 
 type VirtualAutoCombo = AutoComboConfig & {
-  strategy: "auto';
+  strategy: "auto";
   models: Array<{
     id: string;
-    kind: "model';
+    kind: "model";
     model: string;
     providerId: string;
     connectionId: string | null;
@@ -754,7 +754,7 @@ export async function createVirtualAutoComboFromPrepared(
   // Provider diversity: when multiple candidates from the same provider exist, only
   // the highest-scored model per provider is included. This prevents a single
   // provider from monopolizing the panel and gives the IDE truly diverse answers.
-  const isChaos = variant === "chaos';
+  const isChaos = variant === "chaos";
   const CHAOS_MAX_PANEL = (() => {
     const env = process.env.OMNIROUTE_CHAOS_MAX_PANEL;
     const parsed = env ? parseInt(env, 10) : 5;

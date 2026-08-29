@@ -24,7 +24,7 @@ export interface VolumeSignals {
   /** Whether the request includes image/screenshot content */
   hasImages: boolean;
   /** Rough complexity level derived from signals */
-  complexity: "trivial" | "low" | "medium" | "high" | "critical';
+  complexity: "trivial" | "low" | "medium" | "high" | "critical";
 }
 
 /** Strategy override recommendation */
@@ -113,15 +113,15 @@ export function detectVolumeSignals(body: Record<string, unknown>): VolumeSignal
   let complexity: VolumeSignals["complexity"];
 
   if (toolCount > 3 || (hasBrowser && toolCount > 1) || hasHighKeywords) {
-    complexity = "critical';
+    complexity = "critical";
   } else if (toolCount > 1 || hasBrowser || hasImages || estimatedTokens > 10000) {
-    complexity = "high';
+    complexity = "high";
   } else if (toolCount === 1 || estimatedTokens > 2000) {
-    complexity = "medium';
+    complexity = "medium";
   } else if (estimatedTokens > 500) {
-    complexity = "low';
+    complexity = "low";
   } else {
-    complexity = "trivial';
+    complexity = "trivial";
   }
 
   return {

@@ -19,7 +19,7 @@
  */
 import { getGitHubCopilotChatHeaders } from '../config/providerHeaderProfiles.ts';
 
-export const GITHUB_COPILOT_MODELS_URL = "https://api.githubcopilot.com/models';
+export const GITHUB_COPILOT_MODELS_URL = "https://api.githubcopilot.com/models";
 export const GITHUB_COPILOT_MODEL_ALLOWLIST = [
   "claude-fable-5",
   "claude-opus-5",
@@ -110,7 +110,7 @@ export type FetchGitHubCopilotModelsOptions = {
 export type GitHubCopilotModelsResult = {
   models: GitHubCopilotModel[];
   /** "api" = live discovery; "fallback" = static catalog (offline/unauthed/error). */
-  source: "api" | "fallback';
+  source: "api" | "fallback";
 };
 
 function toFallbackResult(

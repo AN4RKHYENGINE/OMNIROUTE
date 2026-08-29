@@ -41,7 +41,7 @@ export type CursorSession = {
   h2Req: ClientHttp2Stream;
   blobStore: Map<string, Buffer>;
   pendingToolCalls: Map<string, { execMsgId: number; execId: string; toolName: string }>;
-  state: "running" | "awaiting_tool_result" | "closed';
+  state: "running" | "awaiting_tool_result" | "closed";
   lastActivityTs: number;
   idleTimer?: ReturnType<typeof setTimeout>;
 };
@@ -67,7 +67,7 @@ export class CursorSessionManager {
     if (!session) return undefined;
     if (session.state !== "awaiting_tool_result") return undefined;
     this.clearIdleTimer(session);
-    session.state = "running';
+    session.state = "running";
     session.lastActivityTs = Date.now();
     return session;
   }
@@ -108,7 +108,7 @@ export class CursorSessionManager {
   release(session: CursorSession, finalState: "awaiting_tool_result" | "idle" | "closed"): void {
     session.lastActivityTs = Date.now();
     if (finalState === "awaiting_tool_result") {
-      session.state = "awaiting_tool_result';
+      session.state = "awaiting_tool_result";
       this.armIdleTimer(session);
       return;
     }
@@ -117,7 +117,7 @@ export class CursorSessionManager {
 
   close(session: CursorSession): void {
     if (session.state === "closed") return;
-    session.state = "closed';
+    session.state = "closed";
     this.clearIdleTimer(session);
     try {
       session.h2Req.close();
@@ -206,7 +206,7 @@ export class CursorSessionManager {
       for (const session of this.sessions.values()) {
         if (session.state === "awaiting_tool_result" && session.pendingToolCalls.has(id)) {
           this.clearIdleTimer(session);
-          session.state = "running';
+          session.state = "running";
           session.lastActivityTs = Date.now();
           return session;
         }

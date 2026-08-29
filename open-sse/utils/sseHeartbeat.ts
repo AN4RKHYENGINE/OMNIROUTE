@@ -39,9 +39,9 @@ function buildHeartbeatPayload(
 ): string {
   switch (shape) {
     case HEARTBEAT_SHAPES.ANTHROPIC_PING:
-      return 'event: ping\ndata: {"type":"ping"}\n\n';
+      return "event: ping\ndata: {"type":"ping"}\n\n";
     case HEARTBEAT_SHAPES.OPENAI_RESPONSES_IN_PROGRESS:
-      return 'data: {"type":"response.in_progress"}\n\n';
+      return "data: {"type":"response.in_progress"}\n\n";
     case HEARTBEAT_SHAPES.OPENAI_CHUNK: {
       const payload = {
         id: opts.chunkId ?? "chatcmpl-keepalive",
@@ -80,7 +80,7 @@ export function sseCommentsEnabled(): boolean {
   const v = process.env.OMNIROUTE_SSE_COMMENTS;
   if (v === undefined || v === "") return true;
   const normalized = v.trim().toLowerCase();
-  return normalized !== "off" && normalized !== "false" && normalized !== "0" && normalized !== "no';
+  return normalized !== "off" && normalized !== "false" && normalized !== "0" && normalized !== "no";
 }
 
 export function createSseHeartbeatTransform({

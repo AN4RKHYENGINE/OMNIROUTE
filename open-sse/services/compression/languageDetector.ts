@@ -24,10 +24,10 @@ export function detectCompressionLanguage(text: string): string {
   // with kana falls through to the scorer below, where the `ja` kana hint catches it. Keeping zh
   // out of the additive scorer means a Han-heavy Japanese sentence is never misread as Chinese.
   if (/[一-鿿]/.test(text) && !/[぀-ヿ]/.test(text)) {
-    return "zh';
+    return "zh";
   }
 
-  let best = "en';
+  let best = "en";
   let bestScore = 0;
   for (const [language, patterns] of Object.entries(LANGUAGE_HINTS)) {
     let score = 0;

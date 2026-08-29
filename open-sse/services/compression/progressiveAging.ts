@@ -20,11 +20,11 @@ type StructuredKind = "json" | "fenced" | null;
 
 function structuredKind(text: string): StructuredKind {
   const trimmed = text.trim();
-  if (FENCE_RE.test(trimmed) && trimmed.endsWith("```")) return "fenced';
+  if (FENCE_RE.test(trimmed) && trimmed.endsWith("```")) return "fenced";
   if (JSON_PREFIX_RE.test(trimmed)) {
     try {
       JSON.parse(trimmed);
-      return "json';
+      return "json";
     } catch {
       return null;
     }
@@ -74,7 +74,7 @@ export function applyAging(
     summarize: (msgs: unknown[]) => {
       const typed = msgs as ChatMessage[];
       const last = typed.filter((m) => m.role === "assistant").pop();
-      return last ? extractTextContent(last.content).slice(0, 200) : "';
+      return last ? extractTextContent(last.content).slice(0, 200) : "";
     },
   };
 
@@ -131,7 +131,7 @@ export function applyAging(
         saved += estimateTokens(text) - estimateTokens(tagged);
         result.push(setContent(msg, tagged));
       } else if (msg.role === "user") {
-        const firstLine = text.split("\n")[0]?.slice(0, 120) ?? "';
+        const firstLine = text.split("\n")[0]?.slice(0, 120) ?? "";
         const tagged = tagAged("fullSummary", text, firstLine);
         saved += estimateTokens(text) - estimateTokens(tagged);
         result.push(setContent(msg, tagged));

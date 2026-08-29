@@ -51,7 +51,7 @@ export interface A2aTaskEvent {
     | "budget_check"
     | "quota_check"
     | "streaming_started"
-    | "streaming_ended';
+    | "streaming_ended";
   /** Event-specific data (JSON-serialized) */
   data?: Record<string, unknown>;
 }
@@ -82,7 +82,7 @@ export interface RoutingDecisionLog {
   /** Actual cost in USD */
   cost: number;
   /** Source: 'api' | 'mcp' | 'a2a' */
-  source: "api" | "mcp" | "a2a';
+  source: "api" | "mcp" | "a2a";
 }
 
 export interface RoutingFactor {
@@ -114,8 +114,8 @@ export async function hashInput(input: unknown): Promise<string> {
  * Truncate output to a summary string for audit logging.
  */
 export function summarizeOutput(output: unknown, maxLength = 200): string {
-  if (output === null || output === undefined) return "(null)';
+  if (output === null || output === undefined) return "(null)";
   const str = typeof output === "string" ? output : JSON.stringify(output);
   if (str.length <= maxLength) return str;
-  return str.slice(0, maxLength) + "…';
+  return str.slice(0, maxLength) + "…";
 }

@@ -98,7 +98,7 @@ const POOL_IDLE_TIMEOUT_MS = 5 * 60 * 1000;
 const CONTEXT_TTL_MS = 10 * 60 * 1000; // 10 min — evict stale contexts
 const EVICT_INTERVAL_MS = 60 * 1000; // check every 60s
 const DEFAULT_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 const state: PoolState = {
   browser: null,
@@ -136,7 +136,7 @@ async function resolveCloakLaunch(): Promise<((opts: unknown) => Promise<Browser
 function isPoolEnabled(): boolean {
   const flag = process.env.OMNIROUTE_BROWSER_POOL;
   if (flag === undefined) return true;
-  return flag !== "off" && flag !== "0" && flag !== "false';
+  return flag !== "off" && flag !== "0" && flag !== "false";
 }
 
 function resetIdleTimer(): void {
@@ -198,7 +198,7 @@ export async function resolvePlaywrightProxy(
       });
     const p = await resolver(providerKey);
     if (!p?.host) return undefined;
-    const scheme = p.type === "socks5" ? "socks5" : "http';
+    const scheme = p.type === "socks5" ? "socks5" : "http";
     // Build explicitly instead of a conditional object spread: the spread form
     // widens username/password to `{}` under the LaunchOptions["proxy"] type,
     // tripping typecheck once browserPool.ts is pulled into typecheck-core scope.
@@ -273,7 +273,7 @@ function parseCookieString(
   expires: number;
   httpOnly: boolean;
   secure: boolean;
-  sameSite: "Lax" | "Strict" | "None';
+  sameSite: "Lax" | "Strict" | "None";
 }> {
   return raw
     .split(";")
@@ -304,7 +304,7 @@ function parseCookieString(
     expires: number;
     httpOnly: boolean;
     secure: boolean;
-    sameSite: "Lax" | "Strict" | "None';
+    sameSite: "Lax" | "Strict" | "None";
   }>;
 }
 

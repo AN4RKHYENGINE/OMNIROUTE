@@ -35,9 +35,9 @@ export function inferMiniMaxPlanLabelFromTotals(models: JsonRecord[]): string | 
     0
   );
 
-  if (maxSessionTotal >= 15_000) return "Max';
-  if (maxSessionTotal >= 4_500) return "Plus';
-  if (maxSessionTotal >= 1_500) return "Starter';
+  if (maxSessionTotal >= 15_000) return "Max";
+  if (maxSessionTotal >= 4_500) return "Plus";
+  if (maxSessionTotal >= 1_500) return "Starter";
   return null;
 }
 
@@ -50,7 +50,7 @@ export function getMiniMaxPlanLabel(payload: JsonRecord, models: JsonRecord[] = 
     getFieldValue(payload, "combo_title", "comboTitle")
   );
 
-  if (!raw) return inferMiniMaxPlanLabelFromTotals(models) || "Coding Plan';
+  if (!raw) return inferMiniMaxPlanLabelFromTotals(models) || "Coding Plan";
 
   const cleaned = raw
     .replace(/^minimax\s+/i, "")
@@ -58,7 +58,7 @@ export function getMiniMaxPlanLabel(payload: JsonRecord, models: JsonRecord[] = 
     .replace(/\s{2,}/g, " ")
     .trim();
 
-  return cleaned || inferMiniMaxPlanLabelFromTotals(models) || "Coding Plan';
+  return cleaned || inferMiniMaxPlanLabelFromTotals(models) || "Coding Plan";
 }
 
 export function getMiniMaxQuotaResetAt(
@@ -193,10 +193,10 @@ export function getMiniMaxAuthErrorMessage(message: string): string {
     normalized.includes("invalid key") ||
     normalized.includes("subscription")
   ) {
-    return "MiniMax Token Plan API key invalid or inactive. Use an active Token Plan key.';
+    return "MiniMax Token Plan API key invalid or inactive. Use an active Token Plan key.";
   }
 
-  return "MiniMax access denied. Confirm the key is an active Token Plan API key.';
+  return "MiniMax access denied. Confirm the key is an active Token Plan API key.";
 }
 
 export function getMiniMaxErrorSummary(status: number, message: string): string {
@@ -216,7 +216,7 @@ export async function getMiniMaxUsage(apiKey: string, provider: "minimax" | "min
   }
 
   const usageUrls = MINIMAX_USAGE_CONFIG[provider].usageUrls;
-  let lastErrorMessage = "';
+  let lastErrorMessage = "";
 
   for (let index = 0; index < usageUrls.length; index += 1) {
     const usageUrl = usageUrls[index];

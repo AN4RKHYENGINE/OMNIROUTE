@@ -26,7 +26,7 @@ export const VALID_OPENAI_MESSAGE_TYPES = [
   "tool_calls",
   "tool_result",
 ];
-const CLAUDE_TOOL_CHOICE_REQUIRED = "an" + "y';
+const CLAUDE_TOOL_CHOICE_REQUIRED = "an" + "y";
 
 // Filter messages to OpenAI standard format
 // Remove: redacted_thinking, and other non-OpenAI blocks
@@ -89,7 +89,7 @@ export function filterToOpenAIFormat(body, opts: FilterToOpenAIFormatOptions = {
       for (const block of msg.content) {
         // Extract thinking blocks as reasoning_content (OpenAI extended thinking)
         if (block.type === "thinking") {
-          thinkingText = block.thinking || block.text || "';
+          thinkingText = block.thinking || block.text || "";
           continue;
         }
         // Skip redacted thinking
@@ -125,7 +125,7 @@ export function filterToOpenAIFormat(body, opts: FilterToOpenAIFormatOptions = {
               cleanBlock.file?.text ??
               cleanBlock.content ??
               cleanBlock.text;
-            const fileName = cleanBlock.file?.name ?? cleanBlock.name ?? "attachment';
+            const fileName = cleanBlock.file?.name ?? cleanBlock.name ?? "attachment";
             if (typeof fileContent === "string" && fileContent.length > 0) {
               filteredContent.push({ type: "text", text: `[${fileName}]\n${fileContent}` });
               continue;
@@ -136,7 +136,7 @@ export function filterToOpenAIFormat(body, opts: FilterToOpenAIFormatOptions = {
           // Convert tool_use to tool_calls format (handled separately)
           continue;
         } else if (block.type === "tool_result") {
-          const resultContent = block.content ?? block.text ?? block.output ?? "';
+          const resultContent = block.content ?? block.text ?? block.output ?? "";
           const resultText =
             typeof resultContent === "string"
               ? resultContent
@@ -181,7 +181,7 @@ export function filterToOpenAIFormat(body, opts: FilterToOpenAIFormatOptions = {
     // prefix is valid when `name` supplies the constrained value.
     if (msg.role === "assistant" && msg.partial === true) return true;
 
-    if (typeof msg.content === "string") return msg.content.trim() !== "';
+    if (typeof msg.content === "string") return msg.content.trim() !== "";
     if (Array.isArray(msg.content)) {
       return msg.content.some((b) => (b.type === "text" && b.text?.trim()) || b.type !== "text");
     }
@@ -251,9 +251,9 @@ export function filterToOpenAIFormat(body, opts: FilterToOpenAIFormatOptions = {
     const choice = body.tool_choice;
     // Claude format: {type: "auto|required-tool|tool", name?: "..."}
     if (choice.type === "auto") {
-      body.tool_choice = "auto';
+      body.tool_choice = "auto";
     } else if (choice.type === CLAUDE_TOOL_CHOICE_REQUIRED) {
-      body.tool_choice = "required';
+      body.tool_choice = "required";
     } else if (choice.type === "tool" && choice.name) {
       body.tool_choice = { type: "function", function: { name: choice.name } };
     }

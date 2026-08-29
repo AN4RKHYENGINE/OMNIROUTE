@@ -5,7 +5,7 @@
  * params and return HTTP 400 rather than ignoring them:
  *
  *   - `max_tokens`      -> "Unsupported parameter: 'max_tokens' is not supported
- *                          with this model. Use 'max_completion_tokens' instead."
+ *                          with this model. Use 'max_completion_tokens" instead."
  *   - `temperature`     -> only the default (1) is accepted.
  *   - `reasoning_effort` -> "Function tools with reasoning_effort are not
  *                          supported ... Please use /v1/responses instead."

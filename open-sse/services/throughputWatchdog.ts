@@ -17,18 +17,18 @@ export interface ThroughputWatchdogOptions {
 
 export interface ThroughputWatchdogDecision {
   abort: boolean;
-  reason?: "throughput_too_low';
+  reason?: "throughput_too_low";
   usefulBytes: number;
   rateBytesPerSecond: number;
   protectedPhase: boolean;
 }
 
 export class ThroughputWatchdogError extends Error {
-  readonly code = "STREAM_THROUGHPUT_TOO_LOW';
+  readonly code = "STREAM_THROUGHPUT_TOO_LOW";
 
   constructor(message = "Upstream stream throughput remained below the configured minimum") {
     super(message);
-    this.name = "ThroughputWatchdogError';
+    this.name = "ThroughputWatchdogError";
   }
 }
 
@@ -60,7 +60,7 @@ function parseEvent(event: string): ParsedEvent {
   }
 
   const choices = Array.isArray(record.choices) ? record.choices : [];
-  let useful = "';
+  let useful = "";
   let protectedPhase = false;
   for (const choice of choices) {
     const delta = (choice as Record<string, unknown>).delta;
@@ -85,7 +85,7 @@ function parseEvent(event: string): ParsedEvent {
   const nestedDelta = record.delta;
   if (nestedDelta && typeof nestedDelta === "object") {
     const nested = nestedDelta as Record<string, unknown>;
-    const nestedType = typeof nested.type === "string" ? nested.type : "';
+    const nestedType = typeof nested.type === "string" ? nested.type : "";
     if (/(reasoning|thinking|tool|function_call)/i.test(nestedType)) {
       protectedPhase = true;
     }
@@ -98,7 +98,7 @@ function parseEvent(event: string): ParsedEvent {
       protectedPhase = true;
     }
   }
-  if (protectedPhase) useful = "';
+  if (protectedPhase) useful = "";
   return {
     usefulBytes: useful ? new TextEncoder().encode(useful).byteLength : 0,
     protectedPhase,
@@ -113,7 +113,7 @@ export class ThroughputWatchdog {
   private readonly minimumBytes: number;
   private readonly now: () => number;
   private startedAt: number | null = null;
-  private buffer = "';
+  private buffer = "";
   private readonly decoder = new TextDecoder();
   private samples: Array<{ at: number; bytes: number }> = [];
   private protectedPhase = false;
@@ -133,7 +133,7 @@ export class ThroughputWatchdog {
     if (!this.enabled) return this.decision(false, 0);
     this.buffer += typeof chunk === "string" ? chunk : this.decoder.decode(chunk, { stream: true });
     const events = this.buffer.split(/\r?\n\r?\n/);
-    this.buffer = events.pop() ?? "';
+    this.buffer = events.pop() ?? "";
     let useful = 0;
     for (const event of events) {
       const parsed = parseEvent(event);

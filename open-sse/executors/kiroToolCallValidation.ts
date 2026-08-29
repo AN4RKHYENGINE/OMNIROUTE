@@ -9,12 +9,12 @@ import { TEXT_ENCODER } from './kiro/eventstream.ts';
 
 export type JsonRecord = Record<string, unknown>;
 
-export const KIRO_TOOL_CALL_WRAPPER = "tool_call';
+export const KIRO_TOOL_CALL_WRAPPER = "tool_call";
 
 export type PendingKiroWrapperToolCall = {
   toolCallId: string;
   toolName: string;
-  inputKind?: "string" | "object';
+  inputKind?: "string" | "object";
   inputText?: string;
   inputObject?: Record<string, unknown>;
 };
@@ -30,7 +30,7 @@ export function parseKiroToolInput(toolInput: unknown): unknown {
 }
 
 export function validateKiroToolName(toolUse: JsonRecord): string {
-  const toolName = typeof toolUse.name === "string" ? toolUse.name.trim() : "';
+  const toolName = typeof toolUse.name === "string" ? toolUse.name.trim() : "";
   if (!toolName) throw new Error("Invalid Kiro toolUseEvent: missing tool name");
   return toolName;
 }
@@ -72,7 +72,7 @@ export function appendBufferedKiroToolInput(
     if (toolCall.inputKind && toolCall.inputKind !== "string") {
       throw new Error("Invalid Kiro tool_call payload: mixed input fragment types");
     }
-    toolCall.inputKind = "string';
+    toolCall.inputKind = "string";
     toolCall.inputText = `${toolCall.inputText || ""}${toolInput}`;
     return;
   }
@@ -80,7 +80,7 @@ export function appendBufferedKiroToolInput(
     if (toolCall.inputKind && toolCall.inputKind !== "object") {
       throw new Error("Invalid Kiro tool_call payload: mixed input fragment types");
     }
-    toolCall.inputKind = "object';
+    toolCall.inputKind = "object";
     toolCall.inputObject = toolInput as Record<string, unknown>;
   }
 }

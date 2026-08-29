@@ -46,7 +46,7 @@ export async function handleAdobeFireflyVideoGeneration({
   fetchImpl?: typeof fetch;
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
   if (!prompt) {
     return {
       success: false,

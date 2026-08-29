@@ -35,7 +35,7 @@ export function cursorImageAttachmentPath(uuid: string, mimeType?: string): stri
         ? "gif"
         : normalized === "image/webp"
           ? "webp"
-          : "png';
+          : "png";
   return `attachment-${uuid}.${ext}`;
 }
 

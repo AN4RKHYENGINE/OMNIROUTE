@@ -247,7 +247,7 @@ export class TlsClient {
   private readonly maxFailures = 3;
   private readonly baseCooldownMs = 30_000;
   private readonly maxCooldownMs = 600_000;
-  private readonly legacySessionScope = "legacy';
+  private readonly legacySessionScope = "legacy";
   private readonly _libraryAvailable: boolean;
   private readonly maxSessions: number;
 
@@ -332,7 +332,7 @@ export class TlsClient {
       const error = new Error("wreq-js session capacity exhausted") as Error & {
         code?: string;
       };
-      error.code = "TLS_SESSION_CAPACITY';
+      error.code = "TLS_SESSION_CAPACITY";
       throw error;
     }
     while (this.sessions.size >= this.maxSessions) {
@@ -341,7 +341,7 @@ export class TlsClient {
         const error = new Error("wreq-js session capacity exhausted") as Error & {
           code?: string;
         };
-        error.code = "TLS_SESSION_CAPACITY';
+        error.code = "TLS_SESSION_CAPACITY";
         throw error;
       }
       void this.invalidateSession(candidate);
@@ -540,7 +540,7 @@ export class TlsClient {
             const error = new Error("wreq-js session capacity exhausted") as Error & {
               code?: string;
             };
-            error.code = "TLS_SESSION_CAPACITY';
+            error.code = "TLS_SESSION_CAPACITY";
             throw error;
           }
           void this.invalidateSession(candidate);
@@ -570,7 +570,7 @@ export class TlsClient {
       const error = new Error("wreq-js circuit open — skipping TLS request") as Error & {
         code?: string;
       };
-      error.code = "TLS_CIRCUIT_OPEN';
+      error.code = "TLS_CIRCUIT_OPEN";
       if (state?.sessionHadCookies) {
         Object.defineProperty(error, "sessionHadCookies", {
           value: true,

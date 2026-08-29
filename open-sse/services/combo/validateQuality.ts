@@ -77,7 +77,7 @@ function asObject(parsed: Record<string, unknown>, key: string): Record<string, 
  */
 function contentBlockStartIsRealSignal(parsed: Record<string, unknown>): boolean {
   const blockType = asObject(parsed, "content_block")?.type;
-  return blockType === "tool_use" || blockType === "redacted_thinking';
+  return blockType === "tool_use" || blockType === "redacted_thinking";
 }
 
 /**
@@ -88,7 +88,7 @@ function contentBlockStartIsRealSignal(parsed: Record<string, unknown>): boolean
 function contentBlockDeltaIsRealSignal(parsed: Record<string, unknown>): boolean {
   const delta = asObject(parsed, "delta");
   if (!delta) return false;
-  const deltaType = typeof delta.type === "string" ? delta.type : "';
+  const deltaType = typeof delta.type === "string" ? delta.type : "";
   if (deltaType === "input_json_delta") return true;
   if (deltaType !== "text_delta" && deltaType !== "thinking_delta") return false;
   const text = delta.text ?? delta.thinking;
@@ -253,7 +253,7 @@ export async function validateResponseQuality(
   //
   // Non-text/event-stream streaming responses are not buffered at all.
   if (isStreaming) {
-    const contentType = response.headers.get("content-type") || "';
+    const contentType = response.headers.get("content-type") || "";
     if (!contentType.includes("text/event-stream")) {
       return { valid: true };
     }
@@ -271,7 +271,7 @@ export async function validateResponseQuality(
     // Decoded text accumulated across chunks for incremental SSE parsing.
     // Only the tail of the most-recently-processed line window remains here
     // between iterations (incomplete lines are deferred to the next chunk).
-    let decodedSoFar = "';
+    let decodedSoFar = "";
 
     // SSE lifecycle state.
     //
@@ -309,7 +309,7 @@ export async function validateResponseQuality(
     let sawStructuredSSE = false;
     let sawTerminator = false;
     const sseLineNormalizer = createSSEDataLineNormalizer();
-    let pendingEventType = "';
+    let pendingEventType = "";
 
     /**
      * Parse any complete SSE lines from `decodedSoFar`, updating lifecycle
@@ -348,7 +348,7 @@ export async function validateResponseQuality(
       }
 
       if (!trimmed.startsWith("data:")) {
-        if (!trimmed) pendingEventType = "';
+        if (!trimmed) pendingEventType = "";
         return null;
       }
 
@@ -383,21 +383,21 @@ export async function validateResponseQuality(
         if (openAi.hasTerminalMarker) sawTerminator = true;
 
         const eventType =
-          (typeof parsed.type === "string" ? parsed.type : null) || pendingEventType || "';
-        pendingEventType = "';
+          (typeof parsed.type === "string" ? parsed.type : null) || pendingEventType || "";
+        pendingEventType = "";
 
         if (isStreamingUpstreamError(parsed, eventType)) {
-          return "error';
+          return "error";
         }
 
         if (isTerminalUsageOnlyChunk(parsed, eventType)) sawTerminator = true;
 
         if (isKnownNonClaudeStreamPayload(parsed, eventType)) {
-          return "content';
+          return "content";
         }
 
         if (applySseLifecycleEvent(eventType, parsed, sse)) {
-          return "content';
+          return "content";
         }
         if (sse.hasLifecycleEnd) sawTerminator = true;
       }
@@ -451,7 +451,7 @@ export async function validateResponseQuality(
           // Stream finished — flush the TextDecoder and parse any remaining text.
           const tail = decoder.decode(undefined, { stream: false });
           if (tail) decodedSoFar += tail;
-          if (decodedSoFar.trim()) decodedSoFar += "\n\n';
+          if (decodedSoFar.trim()) decodedSoFar += "\n\n";
           const terminalOutcome = parseAccumulatedSse();
 
           if (terminalOutcome === "error") {
@@ -572,7 +572,7 @@ export async function validateResponseQuality(
     }
   }
 
-  const contentType = response.headers.get("content-type") || "';
+  const contentType = response.headers.get("content-type") || "";
   if (!contentType.includes("application/json") && !contentType.includes("text/")) {
     return { valid: true };
   }
@@ -643,7 +643,7 @@ export async function validateResponseQuality(
   if (json?.object === "response") {
     if (!responsesApiOutputHasContent(json.output))
       return { valid: false, reason: "empty_choices" };
-    const status = typeof json.status === "string" ? json.status : "';
+    const status = typeof json.status === "string" ? json.status : "";
     if (status && !["completed", "done"].includes(status)) {
       return { valid: false, reason: "no_terminal" };
     }
@@ -714,7 +714,7 @@ export async function validateResponseQuality(
   // empty but reasoning_content exists, and usage shows reasoning consumed nearly
   // all completion tokens, treat as invalid so the combo loop retries with more
   // tokens or falls back to a non-reasoning model.
-  const contentIsEmpty = content === null || content === undefined || content === "';
+  const contentIsEmpty = content === null || content === undefined || content === "";
   if (contentIsEmpty && hasReasoningContent && !hasToolCalls) {
     const usage = json?.usage as Record<string, unknown> | undefined;
     if (usage) {

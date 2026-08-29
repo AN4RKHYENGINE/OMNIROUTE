@@ -125,11 +125,11 @@ function codexWebSocketUnavailableResponse(): Response {
 // Ref: sub2api PR #1129 (feat(openai): split codex spark rate limiting from codex)
 export { getCodexModelScope, getCodexRateLimitKey, type CodexQuotaScope };
 
-const CODEX_FAST_WIRE_VALUE = "priority';
-const CODEX_RESPONSES_WS_URL = "wss://chatgpt.com/backend-api/codex/responses';
-const CODEX_RESPONSES_LITE_HEADER = "x-openai-internal-codex-responses-lite';
+const CODEX_FAST_WIRE_VALUE = "priority";
+const CODEX_RESPONSES_WS_URL = "wss://chatgpt.com/backend-api/codex/responses";
+const CODEX_RESPONSES_LITE_HEADER = "x-openai-internal-codex-responses-lite";
 const CODEX_RESPONSES_LITE_WS_METADATA_KEY =
-  "ws_request_header_x_openai_internal_codex_responses_lite';
+  "ws_request_header_x_openai_internal_codex_responses_lite";
 
 // The official Codex client marks Responses Lite over an HTTP header or, for WebSocket
 // requests, mirrors the same signal into client_metadata. Lite rejects parallel tool calls.
@@ -215,11 +215,11 @@ function convertSystemToDeveloperRole(body: Record<string, unknown>): void {
     }
 
     const item = itemValue as Record<string, unknown>;
-    const role = typeof item.role === "string" ? item.role : "';
-    const type = typeof item.type === "string" ? item.type : "';
+    const role = typeof item.role === "string" ? item.role : "";
+    const type = typeof item.type === "string" ? item.type : "";
     const isSystemMessage = role === "system" && (!type || type === "message");
     if (isSystemMessage) {
-      item.role = "developer';
+      item.role = "developer";
     }
   }
 }
@@ -286,10 +286,10 @@ function getResponsesSubpath(endpointPath: unknown): string | null {
 
   const lower = normalizedEndpoint.toLowerCase();
   if (lower === "responses" || lower.endsWith("/responses")) {
-    return "';
+    return "";
   }
 
-  const responsesSlash = "/responses/';
+  const responsesSlash = "/responses/";
   const idx = lower.lastIndexOf(responsesSlash);
   if (idx !== -1) {
     return normalizedEndpoint.slice(idx + "/responses".length);
@@ -303,7 +303,7 @@ function getResponsesSubpath(endpointPath: unknown): string | null {
 }
 
 export function isCompactResponsesEndpoint(endpointPath: unknown): boolean {
-  return getResponsesSubpath(endpointPath)?.toLowerCase() === "/compact';
+  return getResponsesSubpath(endpointPath)?.toLowerCase() === "/compact";
 }
 
 function normalizeServiceTierValue(value: unknown): string | undefined {
@@ -335,7 +335,7 @@ const MAX_EFFORT_BY_MODEL: Record<string, EffortLevel> = {
  * Returns the original value if within limits, or the cap if it exceeds it.
  */
 function clampEffort(model: string, requested: string): string {
-  const max: EffortLevel = MAX_EFFORT_BY_MODEL[model] ?? "xhigh';
+  const max: EffortLevel = MAX_EFFORT_BY_MODEL[model] ?? "xhigh";
   const reqIdx = EFFORT_ORDER.indexOf(requested as EffortLevel);
   const maxIdx = EFFORT_ORDER.indexOf(max);
   if (reqIdx > maxIdx) {
@@ -345,8 +345,8 @@ function clampEffort(model: string, requested: string): string {
   return requested;
 }
 
-const CODEX_REASONING_ENCRYPTED_CONTENT_INCLUDE = "reasoning.encrypted_content';
-const CODEX_DEFAULT_REASONING_SUMMARY = "auto';
+const CODEX_REASONING_ENCRYPTED_CONTENT_INCLUDE = "reasoning.encrypted_content";
+const CODEX_DEFAULT_REASONING_SUMMARY = "auto";
 
 function normalizeEffortValue(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
@@ -450,12 +450,12 @@ function toCodexResponseFailedEvent(parsed: Record<string, unknown>): Record<str
       ? upstreamError.code
       : typeof upstreamError.type === "string"
         ? upstreamError.type
-        : "upstream_error';
-  const type = typeof upstreamError.type === "string" ? upstreamError.type : "';
+        : "upstream_error";
+  const type = typeof upstreamError.type === "string" ? upstreamError.type : "";
   const message =
     typeof upstreamError.message === "string" && upstreamError.message.trim()
       ? upstreamError.message
-      : "Codex upstream error';
+      : "Codex upstream error";
   const error: Record<string, unknown> = { code, message };
   const explicitStatus =
     toStatusCode(parsed.status_code) ??
@@ -488,7 +488,7 @@ function toCodexResponseFailedEvent(parsed: Record<string, unknown>): Record<str
 // closed". Opt-in so the default still forwards them for clients that want them.
 function codexDropNonstandardEvents(): boolean {
   const v = process.env.OMNIROUTE_CODEX_DROP_NONSTANDARD_EVENTS;
-  return v === "true" || v === "1" || v === "yes';
+  return v === "true" || v === "1" || v === "yes";
 }
 
 // SSE block filter for the HTTP Responses path (super.execute). The HTTP
@@ -499,13 +499,13 @@ function codexDropNonstandardEvents(): boolean {
 // Exported for unit testing (#4715). Strips `codex.*` SSE event blocks from a
 // streaming Response when the OMNIROUTE_CODEX_DROP_NONSTANDARD_EVENTS kill-switch is on.
 export function filterNonstandardCodexSse(response: Response): Response {
-  const contentType = response.headers.get("content-type") || "';
+  const contentType = response.headers.get("content-type") || "";
   if (!response.body || !contentType.includes("text/event-stream")) {
     return response;
   }
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
-  let buffer = "';
+  let buffer = "";
   const dropBlock = (block: string): boolean => {
     const match = /^event:\s*(.+)$/m.exec(block);
     return !!match && match[1].trim().startsWith("codex.");
@@ -599,7 +599,7 @@ export async function peekCodexSseTransientError(
   response: Response,
   timeoutMs: number = FETCH_BODY_TIMEOUT_MS
 ): Promise<CodexSseTransientErrorPeek> {
-  const contentType = response.headers.get("content-type") || "';
+  const contentType = response.headers.get("content-type") || "";
   // #7536: check content-type BEFORE touching `response.body`. On the wreq-js
   // TLS-fingerprint transport (used by Codex), the Response is backed by a native
   // body handle and merely accessing `.body` disturbs it, so a downstream
@@ -615,7 +615,7 @@ export async function peekCodexSseTransientError(
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   const chunks: Uint8Array[] = [];
-  let text = "';
+  let text = "";
   let matched: string | null = null;
 
   try {
@@ -673,7 +673,7 @@ export async function peekCodexSseTransientError(
 }
 
 export function encodeResponseSseEvent(raw: string): { sse: string; terminal: boolean } {
-  let eventType = "message';
+  let eventType = "message";
   let payload = raw;
   let terminal = false;
 
@@ -684,9 +684,9 @@ export function encodeResponseSseEvent(raw: string): { sse: string; terminal: bo
       if (eventType === "error" || eventType === "response.failed") {
         const failed = toCodexResponseFailedEvent(parsed as Record<string, unknown>);
         payload = JSON.stringify(failed);
-        eventType = "response.failed';
+        eventType = "response.failed";
       }
-      terminal = eventType === "response.completed" || eventType === "response.failed';
+      terminal = eventType === "response.completed" || eventType === "response.failed";
     }
   } catch {
     console.warn("[codex] SSE payload parse failed, using raw payload");
@@ -744,7 +744,7 @@ function normalizeCodexWsHeaders(headers: Record<string, string>): Record<string
     }
     result[key] = value;
   }
-  result.Origin = "https://chatgpt.com';
+  result.Origin = "https://chatgpt.com";
   return result;
 }
 
@@ -1057,7 +1057,7 @@ export class CodexExecutor extends BaseExecutor {
 
     // Originator header — identifies the client type to the Codex backend.
     // Ref: openai/codex login/src/auth/default_client.rs DEFAULT_ORIGINATOR = "codex_cli_rs"
-    headers["originator"] = "codex_cli_rs';
+    headers["originator"] = "codex_cli_rs";
 
     // session_id header — enables prompt cache affinity on the Codex backend.
     // The official Codex client sets this to conversation_id (a stable UUID per session).
@@ -1247,7 +1247,7 @@ export class CodexExecutor extends BaseExecutor {
         !body.instructions ||
         (typeof body.instructions === "string" && body.instructions.trim() === "")
       ) {
-        body.instructions = "Follow the developer instructions in the conversation.';
+        body.instructions = "Follow the developer instructions in the conversation.";
       }
     } else {
       // Translated: keep the full Codex tool instructions only for tool-capable

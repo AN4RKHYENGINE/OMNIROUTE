@@ -19,7 +19,7 @@ export interface EncoderComparison {
   gcf: EncoderSize;
   toon: EncoderSize;
   toonAvailable: boolean;
-  winner: "gcf" | "toon" | "json';
+  winner: "gcf" | "toon" | "json";
 }
 
 type MessageLike = { role?: string; content?: unknown };

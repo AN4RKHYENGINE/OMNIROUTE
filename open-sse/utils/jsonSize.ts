@@ -50,7 +50,7 @@ function encodedStringLength(value: string): number {
 
 /** True for values JSON.stringify drops (object values) or renders as null (array items). */
 function isOmitted(value: unknown): boolean {
-  return value === undefined || typeof value === "function" || typeof value === "symbol';
+  return value === undefined || typeof value === "function" || typeof value === "symbol";
 }
 
 function isPlainContainer(value: object): boolean {

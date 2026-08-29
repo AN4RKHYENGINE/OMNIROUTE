@@ -1,6 +1,6 @@
 import { CONOL_SESSION_COOKIE_NAME, normalizeConolCookie } from './conolAuth.ts';
 
-export type ConolEffort = "minimal" | "low" | "medium" | "high" | "xhigh';
+export type ConolEffort = "minimal" | "low" | "medium" | "high" | "xhigh";
 
 /** Ordered weakest → strongest. Used to clamp a requested effort onto a model. */
 export const CONOL_EFFORT_ORDER: readonly ConolEffort[] = [
@@ -111,7 +111,7 @@ const CONOL_FALLBACK_EFFORTS = new Map<string, ConolEffort[]>(
 );
 
 function readString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "';
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function toEfforts(value: unknown): ConolEffort[] | null {
@@ -255,7 +255,7 @@ export function parseConolAgentServers(payload: unknown): ConolModelDiscovery {
  * Effort applied when the caller does not pin one via the `-<effort>` model suffix.
  * Clamped per-model, so models without an `xhigh` rung fall back to their strongest rung.
  */
-export const CONOL_DEFAULT_EFFORT: ConolEffort = "xhigh';
+export const CONOL_DEFAULT_EFFORT: ConolEffort = "xhigh";
 
 export function resolveConolModelSelection(value: unknown): {
   model: string;
@@ -267,7 +267,7 @@ export function resolveConolModelSelection(value: unknown): {
   if (model.startsWith("conol-web/")) model = model.slice("conol-web/".length);
   else if (model.startsWith("conol/")) model = model.slice("conol/".length);
   else if (model.startsWith("cnl/")) model = model.slice("cnl/".length);
-  model ||= "claude-sonnet-5';
+  model ||= "claude-sonnet-5";
 
   const effortMatch = model.match(/-(xhigh|high|medium|low|minimal)$/);
   if (!effortMatch) return { model, effort: CONOL_DEFAULT_EFFORT, effortExplicit: false };

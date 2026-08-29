@@ -40,11 +40,11 @@ function asRecord(value: unknown): JsonRecord | null {
  */
 function hasActiveReasoning(record: JsonRecord, model: string): boolean {
   const effort = record.reasoning_effort;
-  if (typeof effort === "string") return effort.toLowerCase() !== "none';
+  if (typeof effort === "string") return effort.toLowerCase() !== "none";
 
   const reasoning = asRecord(record.reasoning);
   if (reasoning && typeof reasoning.effort === "string") {
-    return reasoning.effort.toLowerCase() !== "none';
+    return reasoning.effort.toLowerCase() !== "none";
   }
 
   if (NONE_EFFORT_SUFFIX.test(model)) return false;
@@ -94,8 +94,8 @@ function hasFunctionTools(record: JsonRecord): boolean {
   return record.tools.some((toolValue) => {
     const tool = asRecord(toolValue);
     if (!tool) return false;
-    const toolType = typeof tool.type === "string" ? tool.type : "';
-    return toolType === "" || toolType === "function';
+    const toolType = typeof tool.type === "string" ? tool.type : "";
+    return toolType === "" || toolType === "function";
   });
 }
 

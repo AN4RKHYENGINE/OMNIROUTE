@@ -31,7 +31,7 @@ export function isValidToolCallHeaderPrefix(candidate: string): boolean {
 
   const afterBracket = candidate.slice(bracketIndex + 1);
   const leadingWhitespaceMatch = afterBracket.match(/^[\s\r\n]*/);
-  const leadingWhitespace = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : "';
+  const leadingWhitespace = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : "";
   const textAfterWhitespace = afterBracket.slice(leadingWhitespace.length);
 
   if (textAfterWhitespace.length === 0) {
@@ -42,7 +42,7 @@ export function isValidToolCallHeaderPrefix(candidate: string): boolean {
     return false;
   }
 
-  const expectedText = "Arguments:';
+  const expectedText = "Arguments:";
   if (expectedText.startsWith(textAfterWhitespace)) {
     return true;
   }

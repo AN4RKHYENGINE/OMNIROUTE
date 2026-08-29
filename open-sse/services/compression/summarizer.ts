@@ -134,11 +134,11 @@ function extractLastDecision(
       if (text) return text;
     }
   }
-  return "';
+  return "";
 }
 
 function trimCodeFences(text: string): string {
-  let output = "';
+  let output = "";
   let cursor = 0;
 
   while (cursor < text.length) {
@@ -191,7 +191,7 @@ function extractText(content?: string | unknown[]): string {
       .map((p) => p.text ?? "")
       .join("\n");
   }
-  return "';
+  return "";
 }
 
 export class RuleBasedSummarizer implements Summarizer {
@@ -207,7 +207,7 @@ export class RuleBasedSummarizer implements Summarizer {
       return !COMPRESSED_MARKER_RE.test(text);
     });
 
-    if (filtered.length === 0) return "';
+    if (filtered.length === 0) return "";
 
     const intents = extractIntents(filtered);
     const files = extractFilePaths(filtered);
@@ -232,7 +232,7 @@ export class RuleBasedSummarizer implements Summarizer {
 
     let result = parts.join(" ");
     if (result.length > maxLen) {
-      result = result.slice(0, maxLen - 3) + "...';
+      result = result.slice(0, maxLen - 3) + "...";
     }
 
     return result;

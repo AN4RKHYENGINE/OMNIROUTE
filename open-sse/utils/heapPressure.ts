@@ -44,7 +44,7 @@ export const HEAP_PRESSURE_THRESHOLD_MB = computeHeapPressureThresholdMb(
 );
 
 const HEAP_PRESSURE_MESSAGE =
-  "Service temporarily unavailable due to resource pressure. Retry shortly.';
+  "Service temporarily unavailable due to resource pressure. Retry shortly.";
 
 export type HeapPressureGuardResult = {
   success: false;

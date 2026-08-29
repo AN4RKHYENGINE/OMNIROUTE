@@ -40,7 +40,7 @@ function isCommentaryStart(
   commentaryItemIds: Set<string>,
   commentaryIndexes: Set<number>
 ): boolean {
-  const isAddedEvent = eventType === "response.output_item.added';
+  const isAddedEvent = eventType === "response.output_item.added";
   if (!isAddedEvent || !isResponsesCommentaryMessageItem(parsed.item)) return false;
 
   if (eventItemId) commentaryItemIds.add(eventItemId);

@@ -55,7 +55,7 @@ const defaultDeps: WebSessionPoolHealthDeps = {
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-export type PoolHealthStatus = "healthy" | "degraded" | "down';
+export type PoolHealthStatus = "healthy" | "degraded" | "down";
 
 export interface WebSessionPoolPoolInfo {
   totalSessions: number;
@@ -80,7 +80,7 @@ export interface WebSessionPoolBreakerInfo {
 export interface WebSessionPoolSessionInfo {
   id: string;
   fingerprint: string;
-  status: "active" | "cooldown" | "dead';
+  status: "active" | "cooldown" | "dead";
   totalRequests: number;
   successfulRequests: number;
   successRate: string;
@@ -234,7 +234,7 @@ function mapSessionDetails(
  * Examples: "2h 15m", "5s", "30m", "none"
  */
 function formatDuration(ms: number): string {
-  if (ms <= 0) return "none';
+  if (ms <= 0) return "none";
 
   const seconds = Math.floor(ms / 1000);
   if (seconds < 60) return `${seconds}s`;

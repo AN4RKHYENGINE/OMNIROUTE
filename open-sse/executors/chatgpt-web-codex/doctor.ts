@@ -27,7 +27,7 @@ export async function getChatGptWebCodexDoctorStatus(connection: {
   providerSpecificData?: unknown;
   lastError?: unknown;
 }) {
-  const connectionId = typeof connection.id === "string" ? connection.id : "';
+  const connectionId = typeof connection.id === "string" ? connection.id : "";
   const data = record(connection.providerSpecificData);
   const paths = connectionRuntimePaths(connectionId);
   const tunnelPaths = tunnelClientPaths();

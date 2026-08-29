@@ -24,7 +24,7 @@ function getCustomUserAgent(providerSpecificData) {
 
 function toText(value) {
   if (typeof value === "string") return value;
-  if (value === null || value === undefined) return "';
+  if (value === null || value === undefined) return "";
   try {
     return JSON.stringify(value);
   } catch {
@@ -45,8 +45,8 @@ function decodeBase64(value) {
 }
 
 function normalizeRole(role) {
-  if (role === "assistant") return "assistant';
-  return "user';
+  if (role === "assistant") return "assistant";
+  return "user";
 }
 
 function normalizeToolUseId(value) {
@@ -64,7 +64,7 @@ function textBlocksFromContent(content, options = {}) {
       continue;
     }
     const p = asRecord(part);
-    const type = typeof p.type === "string" ? p.type : "';
+    const type = typeof p.type === "string" ? p.type : "";
     if ((type === "text" || type === "input_text") && typeof p.text === "string") {
       if (p.text.trim()) blocks.push({ text: p.text });
       continue;
@@ -278,7 +278,7 @@ function messagesFromOpenAI(messages) {
     });
     for (const call of toolCalls) {
       const fn = asRecord(call.function);
-      const rawArgs = typeof fn.arguments === "string" ? fn.arguments : "{}';
+      const rawArgs = typeof fn.arguments === "string" ? fn.arguments : "{}";
       let input = {};
       try {
         input = rawArgs.trim() ? JSON.parse(rawArgs) : {};
@@ -318,7 +318,7 @@ function toolConfigFromOpenAI(tools, toolChoice) {
   for (const tool of tools) {
     const t = asRecord(tool);
     const fn = t.type === "function" ? asRecord(t.function) : t;
-    const name = typeof fn.name === "string" ? fn.name.trim() : "';
+    const name = typeof fn.name === "string" ? fn.name.trim() : "";
     if (!name) continue;
     bedrockTools.push({
       toolSpec: {
@@ -335,7 +335,7 @@ function toolConfigFromOpenAI(tools, toolChoice) {
   else if (toolChoice === "auto") config.toolChoice = { auto: {} };
   else if (toolChoice && typeof toolChoice === "object") {
     const fn = asRecord(toolChoice.function);
-    const name = typeof fn.name === "string" ? fn.name : "';
+    const name = typeof fn.name === "string" ? fn.name : "";
     if (name) config.toolChoice = { tool: { name } };
   }
   return config;
@@ -376,13 +376,13 @@ export function openAIToBedrockConverse(model, body) {
 function convertStopReason(reason) {
   switch (reason) {
     case "tool_use":
-      return "tool_calls';
+      return "tool_calls";
     case "max_tokens":
-      return "length';
+      return "length";
     case "stop_sequence":
     case "end_turn":
     default:
-      return "stop';
+      return "stop";
   }
 }
 
@@ -513,7 +513,7 @@ function statusFromStreamException(exception) {
 function createOpenAIStreamFromBedrock(stream, model) {
   const blockToolIndexes = new Map();
   let nextToolIndex = 0;
-  let finishReason = "stop';
+  let finishReason = "stop";
   let finalUsage = null;
 
   return new ReadableStream({

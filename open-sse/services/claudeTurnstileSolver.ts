@@ -16,7 +16,7 @@ import {
   CLAUDE_WEB_FINGERPRINT_VERSION,
 } from '../config/claudeWebFingerprint.ts';
 
-const CLAUDE_WEB_URL = "https://claude.ai';
+const CLAUDE_WEB_URL = "https://claude.ai";
 const CHALLENGE_TIMEOUT = 60000; // 60s to solve challenge
 const CHALLENGE_CHECK_INTERVAL = 500; // Check every 500ms
 const MAX_RETRIES = 3;

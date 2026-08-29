@@ -1,10 +1,10 @@
 import type { CompressionConfig, CompressionResult } from '../types.ts';
 
-export type CompressionEngineTarget = "messages" | "tool_results" | "code_blocks';
+export type CompressionEngineTarget = "messages" | "tool_results" | "code_blocks";
 
 export interface EngineConfigField {
   key: string;
-  type: "boolean" | "number" | "string" | "select" | "multiselect';
+  type: "boolean" | "number" | "string" | "select" | "multiselect";
   label: string;
   i18nKey?: string;
   description?: string;
@@ -23,7 +23,7 @@ export interface CompressionEngineMetadata {
   id: string;
   name: string;
   description: string;
-  inputScope: "messages" | "tool-results" | "mixed';
+  inputScope: "messages" | "tool-results" | "mixed";
   targetLatencyMs: number;
   supportsPreview: boolean;
   stable: boolean;
@@ -36,7 +36,7 @@ export interface CompressionEngineApplyOptions {
    *  agregador que pode reprocessar imagens ('aggregator'). O engine omniglyph
    *  exige 'direct' — medição 2026-07-06: agregadores redimensionam as páginas
    *  e destroem a legibilidade. undefined = desconhecido = skip (fail-closed). */
-  providerTransport?: "direct" | "aggregator';
+  providerTransport?: "direct" | "aggregator";
   config?: CompressionConfig;
   compressionComboId?: string | null;
   stepConfig?: Record<string, unknown>;

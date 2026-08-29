@@ -48,7 +48,7 @@ export async function getDeepseekUsage(connectionId: string, apiKey: string) {
       };
     }
 
-    const plan = isAvailable ? "DeepSeek" : "DeepSeek (Insufficient Balance)';
+    const plan = isAvailable ? "DeepSeek" : "DeepSeek (Insufficient Balance)";
 
     return {
       plan,

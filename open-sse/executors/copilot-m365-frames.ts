@@ -124,7 +124,7 @@ export function keepaliveFrame(): string {
 export function splitFrames(buffer: string): { frames: string[]; rest: string } {
   const parts = buffer.split(RECORD_SEPARATOR);
   // The last element is either "" (buffer ended on a separator) or a partial frame.
-  const rest = parts.pop() ?? "';
+  const rest = parts.pop() ?? "";
   const frames = parts.filter((p) => p.length > 0);
   return { frames, rest };
 }
@@ -271,7 +271,7 @@ export function buildChatInvocation(opts: ChatInvocationOptions): Record<string,
 
 /** True when the frame is a SignalR invocation/streamItem (`type:1`) update. */
 export function isUpdateFrame(frame: Record<string, unknown> | null): boolean {
-  return !!frame && frame.type === 1 && frame.target === "update';
+  return !!frame && frame.type === 1 && frame.target === "update";
 }
 
 /** True when the frame is the SignalR completion (`type:3`) for the chat invocation. */
@@ -319,8 +319,8 @@ export function extractBotText(frame: Record<string, unknown> | null): string | 
  * previous (a replace/rewrite), the whole new text is returned so nothing is lost.
  */
 export function incrementalDelta(previous: string, next: string): string {
-  if (!next) return "';
-  if (next === previous) return "';
+  if (!next) return "";
+  if (next === previous) return "";
   if (next.startsWith(previous)) return next.slice(previous.length);
   return next;
 }

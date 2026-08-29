@@ -33,10 +33,10 @@ export type CompressionMode =
   | "rtk"
   | "codex-responses"
   | "omniglyph"
-  | "stacked';
-export type CavemanIntensity = "lite" | "full" | "ultra';
-export type RtkIntensity = "minimal" | "standard" | "aggressive';
-export type RtkRawOutputRetention = "never" | "failures" | "always';
+  | "stacked";
+export type CavemanIntensity = "lite" | "full" | "ultra";
+export type RtkIntensity = "minimal" | "standard" | "aggressive";
+export type RtkRawOutputRetention = "never" | "failures" | "always";
 export type CompressionEngineId =
   | "lite"
   | "caveman"
@@ -49,15 +49,15 @@ export type CompressionEngineId =
   | "llmlingua"
   | "relevance"
   | "omniglyph"
-  | "codex-responses';
+  | "codex-responses";
 
 export interface CavemanRule {
   name: string;
   pattern: RegExp;
   replacement: string | ((match: string, ...groups: string[]) => string);
-  context: "all" | "user" | "system" | "assistant';
+  context: "all" | "user" | "system" | "assistant";
   preservePatterns?: RegExp[];
-  category?: "filler" | "context" | "structural" | "dedup" | "terse" | "ultra';
+  category?: "filler" | "context" | "structural" | "dedup" | "terse" | "ultra";
   description?: string;
   minIntensity?: CavemanIntensity;
 }
@@ -80,7 +80,7 @@ export interface CavemanOutputModeConfig {
   autoClarity: boolean;
 }
 
-export type OutputStyleLevel = "lite" | "full" | "ultra';
+export type OutputStyleLevel = "lite" | "full" | "ultra";
 
 export interface OutputStyleSelectionEntry {
   id: string;
@@ -175,7 +175,7 @@ export interface EngineToggle {
 }
 
 /** T05/C5 — system-prompt preservation intent (see `CompressionConfig.preserveSystemPromptMode`). */
-export type PreserveSystemPromptMode = "always" | "whenNoCache" | "never';
+export type PreserveSystemPromptMode = "always" | "whenNoCache" | "never";
 
 export interface CompressionConfig {
   enabled: boolean;
@@ -271,7 +271,7 @@ export interface CompressionConfig {
    * "heuristic" = Tier-A token pruner (`pruneByScore`, default, byte-identical to pre-B).
    * "slm" = Tier-B LLMLingua-2 ONNX worker when available, else fail-open to Tier-A.
    */
-  ultraEngine?: "heuristic" | "slm';
+  ultraEngine?: "heuristic" | "slm";
   /**
    * Phase 4 (B): best-effort pre-warm of the SLM model on the enable transition
    * and on a cold restart when `ultraEngine: "slm"` is already set. Failures are
@@ -311,7 +311,7 @@ export interface CompressionStats {
    * "heuristic" — Tier-A used directly (ultraEngine !== "slm" or SLM unavailable).
    * Consumed by D0's persister as `CompressionRunTelemetry.ultraTier`.
    */
-  ultraTier?: "slm" | "heuristic-fallback" | "heuristic';
+  ultraTier?: "slm" | "heuristic-fallback" | "heuristic";
   preservedBlockCount?: number;
   rtkRawOutputPointers?: Array<{
     id: string;
@@ -324,7 +324,7 @@ export interface CompressionStats {
     promptTokens?: number;
     completionTokens?: number;
     totalTokens?: number;
-    source: "provider" | "estimated" | "stream';
+    source: "provider" | "estimated" | "stream";
   };
   aggressive?: {
     summarizerSavings: number;

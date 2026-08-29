@@ -84,12 +84,12 @@ export {
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 // Both app.notion.com and www.notion.so work; prefer the AI surface host.
-const BASE_URL = "https://app.notion.com';
+const BASE_URL = "https://app.notion.com";
 const NOTION_URL = `${BASE_URL}/api/v3/runInferenceTranscript`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36";
 // Match a recent live browser capture (web_providers/notion.txt, 2026-07-20).
-const NOTION_CLIENT_VERSION = "23.13.20260720.1949';
+const NOTION_CLIENT_VERSION = "23.13.20260720.1949";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -107,9 +107,9 @@ interface NotionRequestBody {
 // ─── Helpers — credential resolution ───────────────────────────────────────
 
 function readCredentialString(value: unknown): string {
-  if (typeof value !== "string") return "';
+  if (typeof value !== "string") return "";
   const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : "';
+  return trimmed.length > 0 ? trimmed : "";
 }
 
 function readProviderSpecificString(
@@ -121,23 +121,23 @@ function readProviderSpecificString(
     typeof providerSpecificData !== "object" ||
     Array.isArray(providerSpecificData)
   ) {
-    return "';
+    return "";
   }
   const data = providerSpecificData as Record<string, unknown>;
   for (const key of keys) {
     const value = readCredentialString(data[key]);
     if (value) return value;
   }
-  return "';
+  return "";
 }
 
 function buildStructuredOutputInstruction(responseFormat: unknown): string {
   if (!responseFormat || typeof responseFormat !== "object" || Array.isArray(responseFormat)) {
-    return "';
+    return "";
   }
   const format = responseFormat as Record<string, unknown>;
-  const type = typeof format.type === "string" ? format.type : "';
-  if (type !== "json_object" && type !== "json_schema") return "';
+  const type = typeof format.type === "string" ? format.type : "";
+  if (type !== "json_object" && type !== "json_schema") return "";
 
   const lines = [
     "Structured output requirement:",
@@ -170,7 +170,7 @@ function appendStructuredOutputInstruction(
  * token or an already-prefixed `token_v2=...` value. */
 export function normalizeNotionCookieInput(raw: string, cookieName = "token_v2"): string {
   const trimmed = raw.trim();
-  if (!trimmed) return "';
+  if (!trimmed) return "";
   return trimmed.includes("=") ? trimmed : `${cookieName}=${trimmed}`;
 }
 
@@ -218,7 +218,7 @@ export function extractSpaceIdFromCookie(cookie: string): string {
   const match = cookie.match(/(?:^|;\s*)space_id=([^;]+)/i);
   if (match) return match[1].trim();
   const camel = cookie.match(/(?:^|;\s*)spaceId=([^;]+)/);
-  return camel ? camel[1].trim() : "';
+  return camel ? camel[1].trim() : "";
 }
 
 function extractUserIdFromCookie(cookie: string): string {
@@ -308,7 +308,7 @@ function pseudoStreamResponse(content: string, model: string, threadId?: string)
 }
 
 function clientFacingModelId(model: unknown): string {
-  let clientFacingModel = typeof model === "string" ? model.trim() : "';
+  let clientFacingModel = typeof model === "string" ? model.trim() : "";
   if (clientFacingModel.startsWith("notion-web/")) {
     clientFacingModel = clientFacingModel.slice("notion-web/".length);
   } else if (clientFacingModel.startsWith("nw/")) {
@@ -349,7 +349,7 @@ function buildNotionInferenceRequestBody(opts: {
 }): Record<string, unknown> {
   const { spaceId, threadId, transcript, createThread, agent } = opts;
   const isCustom = Boolean(agent?.workflowId);
-  const workflowId = agent?.workflowId || "';
+  const workflowId = agent?.workflowId || "";
   // Follow-ups: isPartialTranscript true matches open-source Notion bridges and
   // avoids re-validating the entire prior transcript (a source of transient errors).
   const isFollowUp = !createThread;
@@ -416,7 +416,7 @@ function buildNotionExecuteHeaders(opts: {
 /** Normalize a pasted workflow/agent id (with or without dashes). */
 export function normalizeNotionWorkflowId(raw: string | undefined | null): string {
   const s = String(raw || "").trim();
-  if (!s) return "';
+  if (!s) return "";
   // URL path segment …/agent/<id>?… or bare hex
   const fromUrl = s.match(/\/agent\/([a-f0-9-]{20,})/i);
   let id = fromUrl ? fromUrl[1]! : s;
@@ -451,17 +451,17 @@ export function resolveNotionAgentOptions(
       "notion_workflow_id",
       "agentId",
       "agent_id",
-    ]) || "';
+    ]) || "";
   const pageFromPs =
     readProviderSpecificString(ps, [
       "contextPageId",
       "context_page_id",
       "notionContextPageId",
-    ]) || "';
+    ]) || "";
 
   const readCookie = (name: string): string => {
     const m = cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`, "i"));
-    if (!m) return "';
+    if (!m) return "";
     const raw = m[1]!.trim();
     try {
       return decodeURIComponent(raw);
@@ -480,7 +480,7 @@ export function resolveNotionAgentOptions(
     pageFromPs ||
     readCookie("context_page_id") ||
     readCookie("notion_context_page_id") ||
-    "';
+    "";
 
   return {
     workflowId: workflowId || undefined,
@@ -502,7 +502,7 @@ async function sendNotionInferenceRequest(opts: {
   // temporarily-unavailable (HTTP 200, no assistant text). Always use the
   // Chrome-JA3 tls-client path for runInferenceTranscript.
   let status = 0;
-  let rawText = "';
+  let rawText = "";
   try {
     const tlsRes = await tlsFetchNotion(NOTION_URL, {
       method: "POST",
@@ -514,7 +514,7 @@ async function sendNotionInferenceRequest(opts: {
         Number.parseInt(process.env.OMNIROUTE_NOTION_TLS_TIMEOUT_MS || "", 10) || 180_000,
     });
     status = tlsRes.status;
-    rawText = tlsRes.text ?? "';
+    rawText = tlsRes.text ?? "";
   } catch (err) {
     if (err instanceof TlsClientUnavailableError) {
       // Fall back to plain fetch only when the native TLS sidecar is missing —
@@ -623,7 +623,7 @@ export class NotionWebExecutor extends BaseExecutor {
     // on the wire; we echo the client-facing id in the OpenAI response.
     const notionCodename = resolveNotionCodename(model);
     const clientFacing = clientFacingModelId(model);
-    const modelId = clientFacing || notionCodename || "notion-ai';
+    const modelId = clientFacing || notionCodename || "notion-ai";
 
     // Thread continuity (sticky) — see resolveNotionThreadBinding:
     // - Prefer X-Notion-Thread-Id / body pin from the client
@@ -702,7 +702,7 @@ export class NotionWebExecutor extends BaseExecutor {
         return { ok: false, errorResult, retryable, reqBody };
       }
 
-      const raw = rawText || "';
+      const raw = rawText || "";
       const upstreamErr = extractNotionUpstreamError(raw);
       if (upstreamErr) {
         // In-band Notion error (often HTTP 200 NDJSON). Sticky thread stays bound.

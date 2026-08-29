@@ -69,7 +69,7 @@ export type ApplyComboTargetExhaustionOptions = {
   sets: ComboExhaustionSets;
   log: ComboLogger;
   tag: string;
-  exhaustedLogLevel: "info" | "debug';
+  exhaustedLogLevel: "info" | "debug";
   /** Structured error object from upstream response — preferred over raw errorText for classification */
   structuredError?: { code?: string; type?: string; message?: string };
 };

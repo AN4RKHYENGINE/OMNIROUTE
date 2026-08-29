@@ -19,7 +19,7 @@ import {
   conolEffortsForModel,
   type ConolEffort,
   type ConolModel,
-} from './conolModels.ts";
+} from "./conolModels.ts";
 
 export const CONOL_ORIGIN = "https://conol.ai";
 

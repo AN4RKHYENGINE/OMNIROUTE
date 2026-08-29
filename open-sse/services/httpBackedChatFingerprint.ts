@@ -18,8 +18,8 @@ export interface HttpBackedChatFingerprint {
 const DUCKDUCKGO_FALLBACK_FINGERPRINT: HttpBackedChatFingerprint = {
   userAgent:
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
-  secChUa: '"Chromium";v="149", "Google Chrome";v="149", "Not-A.Brand";v="99"',
-  secChUaPlatform: '"macOS"',
+  secChUa: '"Chromium";v="149", "Google Chrome";v="149", "Not-A.Brand";v="99"",
+  secChUaPlatform: '"macOS"",
 };
 
 export function resolveHttpBackedChatFingerprint(

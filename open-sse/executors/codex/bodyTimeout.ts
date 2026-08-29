@@ -15,7 +15,7 @@
 import { readStreamChunkWithTimeout } from '../../handlers/chatCore/upstreamTimeouts.ts';
 
 function isBodyTimeoutError(err: unknown): boolean {
-  return err instanceof Error && err.name === "BodyTimeoutError';
+  return err instanceof Error && err.name === "BodyTimeoutError";
 }
 
 async function cancelReaderSafely(reader: ReadableStreamDefaultReader<Uint8Array>): Promise<void> {

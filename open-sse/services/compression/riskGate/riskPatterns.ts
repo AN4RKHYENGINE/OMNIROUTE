@@ -10,7 +10,7 @@ export type RiskCategory =
   | "secret_assignment"
   | "k8s_secret"
   | "db_migration"
-  | "legal';
+  | "legal";
 
 export const MAX_PEM_LEN = 4096;
 

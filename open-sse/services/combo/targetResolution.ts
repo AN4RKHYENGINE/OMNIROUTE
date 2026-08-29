@@ -401,7 +401,7 @@ async function dispatchSmartPipeline(
 }
 
 function logPipelineFallthrough(pipelineErr: unknown, log: ComboLogger): void {
-  const pipelineMsg = pipelineErr instanceof Error ? pipelineErr.message : "';
+  const pipelineMsg = pipelineErr instanceof Error ? pipelineErr.message : "";
   if (pipelineMsg === "PIPELINE_DISABLED") {
     log.info("COMBO", "Pipeline disabled, falling through to standard auto routing");
   } else if (pipelineMsg === "PIPELINE_TOKEN_THRESHOLD") {
@@ -588,7 +588,7 @@ function applyTaskAwareOrdering(
     : taskReordered;
   if (nextOrder[0]?.modelStr !== orderedTargets[0]?.modelStr) {
     const reasons =
-      Array.isArray(task.reasons) && task.reasons.length > 0 ? ` (${task.reasons.join(",")})` : "';
+      Array.isArray(task.reasons) && task.reasons.length > 0 ? ` (${task.reasons.join(",")})` : "";
     log.info(
       "COMBO",
       `task-route task=${task.level}${reasons} cacheKey=${conversationCacheKey ?? "none"} → ${nextOrder[0]?.modelStr}`

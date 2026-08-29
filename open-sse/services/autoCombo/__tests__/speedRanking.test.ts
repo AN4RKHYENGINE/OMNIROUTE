@@ -7,13 +7,13 @@
  *   - the latency-optimized playground preview (via the same shared core)
  */
 
-import { describe, it, expect } from 'vitest";
+import { describe, it, expect } from "vitest";
 import {
   rankBySpeed,
   pickFastest,
   DEFAULT_SPEED_WEIGHTS,
-} from '../speedRanking";
-import type { SpeedCandidate } from '../speedRanking";
+} from "../speedRanking";
+import type { SpeedCandidate } from "../speedRanking";
 
 function candidate(overrides: Partial<SpeedCandidate> = {}): SpeedCandidate {
   return {

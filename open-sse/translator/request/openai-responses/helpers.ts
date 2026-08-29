@@ -2,8 +2,8 @@
 // translators. Extracted verbatim from openai-responses.ts (no host imports).
 
 export type JsonRecord = Record<string, unknown>;
-export const RESPONSES_STORE_MARKER = "_omnirouteResponsesStore';
-export const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary';
+export const RESPONSES_STORE_MARKER = "_omnirouteResponsesStore";
+export const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary";
 
 // Forward-compatible regex: matches web_search, web_search_20250305, and future versioned names.
 export const WEB_SEARCH_TOOL_TYPES = /^web_search/;
@@ -69,12 +69,12 @@ function supportsNativeMaxReasoningEffort(model: unknown): boolean {
 export function normalizeResponsesReasoningEffort(value: unknown, model?: unknown): string {
   const effort = toString(value).toLowerCase();
   if (effort !== "max") return effort;
-  return supportsNativeMaxReasoningEffort(model) ? "max" : "xhigh';
+  return supportsNativeMaxReasoningEffort(model) ? "max" : "xhigh";
 }
 
 export function shouldRequestClaudeSummarizedThinking(value: unknown): boolean {
   const summary = toString(value).toLowerCase();
-  return !!summary && summary !== "off" && summary !== "none" && summary !== "disabled';
+  return !!summary && summary !== "off" && summary !== "none" && summary !== "disabled";
 }
 
 export function unsupportedFeature(
@@ -82,6 +82,6 @@ export function unsupportedFeature(
 ): Error & { statusCode: number; errorType: string } {
   const error = new Error(message) as Error & { statusCode: number; errorType: string };
   error.statusCode = 400;
-  error.errorType = "unsupported_feature';
+  error.errorType = "unsupported_feature";
   return error;
 }

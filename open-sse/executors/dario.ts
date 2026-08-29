@@ -34,7 +34,7 @@ import { HTTP_STATUS, FETCH_TIMEOUT_MS } from '../config/constants.ts';
 import { getProviderPluginManifestHeader } from '../config/providerPluginManifestUrl.ts';
 
 const DEFAULT_PORT = 3456;
-const DEFAULT_HOST = "127.0.0.1';
+const DEFAULT_HOST = "127.0.0.1";
 const HEALTH_CHECK_TIMEOUT_MS = 5000;
 
 // Cached URL from settings (loaded once, invalidated via clearDarioUrlCache).
@@ -110,7 +110,7 @@ export { resolveDarioBaseUrl };
 export function isDarioDeepModeEnabled(
   providerSpecificData?: Record<string, unknown> | null
 ): boolean {
-  return providerSpecificData?.darioMode === "claude-native';
+  return providerSpecificData?.darioMode === "claude-native";
 }
 
 export class DarioExecutor extends BaseExecutor {
@@ -171,7 +171,7 @@ export class DarioExecutor extends BaseExecutor {
   }
 
   private selectEndpoint(body: unknown): string {
-    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions';
+    return this.isAnthropicShape(body) ? "/v1/messages" : "/v1/chat/completions";
   }
 
   buildHeaders(credentials: ProviderCredentials | null, stream = true): Record<string, string> {
@@ -180,7 +180,7 @@ export class DarioExecutor extends BaseExecutor {
     // forward whatever key is on the credentials if present — harmless — and
     // default to the documented "dario" placeholder so an Authorization header
     // is always present.
-    const key = credentials?.apiKey || credentials?.accessToken || "dario';
+    const key = credentials?.apiKey || credentials?.accessToken || "dario";
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -189,7 +189,7 @@ export class DarioExecutor extends BaseExecutor {
 
     headers["Authorization"] = `Bearer ${key}`;
     if (stream) {
-      headers["Accept"] = "text/event-stream';
+      headers["Accept"] = "text/event-stream";
     }
 
     return headers;
@@ -225,7 +225,7 @@ export class DarioExecutor extends BaseExecutor {
     const baseUrl = await resolveDarioBaseUrl();
     const endpoint = this.selectEndpoint(input.body);
     const url = `${baseUrl}${endpoint}`;
-    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai';
+    const shape = endpoint === "/v1/messages" ? "anthropic" : "openai";
     const headers = this.buildHeaders(input.credentials, input.stream);
     const transformedBody = this.transformRequest(
       input.model,

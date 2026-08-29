@@ -228,10 +228,10 @@ interface ModelCapRow {
 }
 
 function deriveTierFromCapabilities(cap: ModelCapRow): string {
-  if (cap.reasoning === true) return "premium';
-  if (cap.tool_call === true && (cap.limit_context ?? 0) >= 128000) return "standard';
-  if (cap.tool_call === true) return "fast';
-  return "budget';
+  if (cap.reasoning === true) return "premium";
+  if (cap.tool_call === true && (cap.limit_context ?? 0) >= 128000) return "standard";
+  if (cap.tool_call === true) return "fast";
+  return "budget";
 }
 
 function loadModelCapabilities(): Record<string, ModelCapRow> | null {
@@ -248,7 +248,7 @@ function loadModelCapabilities(): Record<string, ModelCapRow> | null {
     const cache: Record<string, ModelCapRow> = {};
 
     for (const row of rows) {
-      const modelId = typeof row.model_id === "string" ? row.model_id : "';
+      const modelId = typeof row.model_id === "string" ? row.model_id : "";
       if (!modelId) continue;
 
       cache[modelId.toLowerCase()] = {
@@ -383,7 +383,7 @@ export function getTaskFitnessWithSource(
 }
 
 /** Suffix used to mark free-tier model variants (e.g. "mimo-v2.5-free"). */
-const FREE_SUFFIX = "-free';
+const FREE_SUFFIX = "-free";
 
 /**
  * Strip a trailing "-free" suffix from the model id and re-query arena_elo.

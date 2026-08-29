@@ -75,25 +75,25 @@ export function classifyAlibabaFreeTierQuotaEntry(
   nowMs: number = Date.now()
 ): "available" | "capable_unknown" | "drained" | "not_capable" {
   if (isAlibabaQuotaValidityExpired(entry, nowMs)) {
-    return "not_capable';
+    return "not_capable";
   }
 
   if (!entry.freeTierOnly) {
-    return "not_capable';
+    return "not_capable";
   }
 
   if (entry.quotaStatus === "VALID") {
     if (typeof entry.quotaTotal === "number") {
-      return entry.quotaTotal > 0 ? "available" : "drained';
+      return entry.quotaTotal > 0 ? "available" : "drained";
     }
-    return "capable_unknown';
+    return "capable_unknown";
   }
 
   if (entry.quotaStatus === "UNKNOWN") {
-    return "capable_unknown';
+    return "capable_unknown";
   }
 
-  return "not_capable';
+  return "not_capable";
 }
 
 export function classifyAlibabaVisionFreeTierQuotaEntry(
@@ -101,24 +101,24 @@ export function classifyAlibabaVisionFreeTierQuotaEntry(
   nowMs: number = Date.now()
 ): "available" | "drained" | "not_capable" {
   if (isAlibabaQuotaValidityExpired(entry, nowMs)) {
-    return "not_capable';
+    return "not_capable";
   }
 
   if (!isDashscopeVisionModelId(entry.model)) {
-    return "not_capable';
+    return "not_capable";
   }
 
   if (entry.quotaStatus === "VALID") {
     if (typeof entry.quotaTotal === "number") {
-      return entry.quotaTotal > 0 ? "available" : "drained';
+      return entry.quotaTotal > 0 ? "available" : "drained";
     }
     if (typeof entry.quotaInitTotal === "number") {
-      return entry.quotaInitTotal > 0 ? "available" : "drained';
+      return entry.quotaInitTotal > 0 ? "available" : "drained";
     }
-    return "not_capable';
+    return "not_capable";
   }
 
-  return "not_capable';
+  return "not_capable";
 }
 
 export function classifyAlibabaVisionFreeTierQuotaEntries(
@@ -300,8 +300,8 @@ export function pickCanonicalAlibabaFreeTierConnection(
   const pool = withEligibility.length > 0 ? withEligibility : synced;
   return pool.reduce<AlibabaConnectionLike | undefined>((best, current) => {
     if (!best) return current;
-    const bestTime = getAlibabaFreeTierQuotaLastSyncAt(best.providerSpecificData) || "';
-    const currentTime = getAlibabaFreeTierQuotaLastSyncAt(current.providerSpecificData) || "';
+    const bestTime = getAlibabaFreeTierQuotaLastSyncAt(best.providerSpecificData) || "";
+    const currentTime = getAlibabaFreeTierQuotaLastSyncAt(current.providerSpecificData) || "";
     return currentTime.localeCompare(bestTime) > 0 ? current : best;
   }, undefined);
 }
@@ -368,7 +368,7 @@ function buildAlibabaCategoryFilterContext(
 
   if (eligibility.hasQuotaSync) {
     merged.alibabaFreeTierQuotaLastSyncAt =
-      eligibility.quotaSyncAt || getAlibabaFreeTierQuotaLastSyncAt(targetPsd) || "provider-merged';
+      eligibility.quotaSyncAt || getAlibabaFreeTierQuotaLastSyncAt(targetPsd) || "provider-merged";
   }
 
   return merged;

@@ -8,7 +8,7 @@ import type { BrokerToolRequest } from './turn-broker';
 
 // The real capability has the same length. Keeping it out of usage accounting would make
 // estimates differ slightly between the prepared browser prompt and later Codex tool rounds.
-const ESTIMATE_TURN_TOKEN = "turn_00000000000000000000000000000000';
+const ESTIMATE_TURN_TOKEN = "turn_00000000000000000000000000000000";
 
 // ChatGPT's product system prompt and the fixed Codex Native MCP schemas are not present in the
 // visible composer text. Reserve them explicitly; over-counting fails safe by compacting earlier.

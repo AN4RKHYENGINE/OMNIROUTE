@@ -108,7 +108,7 @@ export function resolveExecutionCredentials(opts: {
     (provider === "azure-ai" || provider === "oci") &&
     providerSpecificData.apiType !== "responses"
   ) {
-    providerSpecificData.apiType = "responses';
+    providerSpecificData.apiType = "responses";
   }
 
   if (

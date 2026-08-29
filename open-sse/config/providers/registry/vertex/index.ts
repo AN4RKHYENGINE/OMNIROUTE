@@ -13,7 +13,7 @@ export const vertexProvider: RegistryEntry = {
     // Full URL: {base}/{project}/locations/{region}/publishers/google/models/{model}:{action}
     // For a generic fallback, we build a Gemini-compatible URL
     // The actual project/region are configured via providerSpecificData in the DB connection
-    const action = stream ? "streamGenerateContent?alt=sse" : "generateContent';
+    const action = stream ? "streamGenerateContent?alt=sse" : "generateContent";
     return `https://generativelanguage.googleapis.com/v1beta/models/${model}:${action}`;
   },
   authType: "apikey",

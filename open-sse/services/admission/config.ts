@@ -60,7 +60,7 @@ function requireDecreaseFactor(name: string, value: unknown, fallback: number): 
 }
 
 function resolveMode(mode: AdaptiveAdmissionConfig["mode"]): AdmissionMode {
-  if (mode === undefined) return "shadow';
+  if (mode === undefined) return "shadow";
   if (mode !== "off" && mode !== "shadow" && mode !== "enforce") {
     throw new RangeError("mode must be off|shadow|enforce");
   }

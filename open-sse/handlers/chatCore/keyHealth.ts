@@ -44,7 +44,7 @@ export function recordKeyHealthStatus(
   const psd = creds.providerSpecificData as Record<string, unknown> | undefined;
   const extraKeys = (psd?.extraApiKeys as string[] | undefined) ?? [];
   const health = psd?.apiKeyHealth as Record<string, KeyHealth> | undefined;
-  const currentKeyId = (psd?.selectedKeyId as string | undefined) ?? "primary';
+  const currentKeyId = (psd?.selectedKeyId as string | undefined) ?? "primary";
 
   trackConnectionExtraKeys(connId, extraKeys);
 

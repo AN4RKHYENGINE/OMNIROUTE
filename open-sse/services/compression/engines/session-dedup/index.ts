@@ -41,7 +41,7 @@ import type { CompressionResult } from '../../types.ts';
 
 // ─── constants ────────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "session-dedup';
+const ENGINE_ID = "session-dedup";
 /** Minimum block character count to be a dedup candidate. */
 const DEFAULT_MIN_BLOCK_CHARS = 80;
 /** Minimum number of lines a block must span to be a dedup candidate. */

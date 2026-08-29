@@ -48,7 +48,7 @@ interface FreepikImageResult {
 }
 
 function freepikAuthHeader(providerConfig: FreepikProviderConfig, token: string) {
-  const headerName = providerConfig.authHeader || "x-freepik-api-key';
+  const headerName = providerConfig.authHeader || "x-freepik-api-key";
   return { [headerName]: token };
 }
 
@@ -108,7 +108,7 @@ async function pollMysticTask(params: {
   });
   const json = await res.json();
   const task = json?.data || json;
-  const status = typeof task?.status === "string" ? task.status : "IN_PROGRESS';
+  const status = typeof task?.status === "string" ? task.status : "IN_PROGRESS";
   const generated = Array.isArray(task?.generated) ? task.generated : [];
   return { status, imageUrl: typeof generated[0] === "string" ? generated[0] : undefined };
 }
@@ -244,7 +244,7 @@ export async function handleFreepikImageGeneration({
   log,
 }: FreepikGenerationParams): Promise<FreepikImageResult> {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "';
+  const token = credentials?.apiKey || "";
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   const pollIntervalMs = normalizePositiveNumber(body.poll_interval_ms, DEFAULT_POLL_INTERVAL_MS);
   const pollTimeoutMs = normalizePositiveNumber(body.poll_timeout_ms, DEFAULT_POLL_TIMEOUT_MS);

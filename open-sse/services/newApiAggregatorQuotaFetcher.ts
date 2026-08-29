@@ -35,7 +35,7 @@ import type { QuotaInfo } from './quotaPreflight.ts';
 import { throttleQuotaFetch } from './quotaFetchThrottle.ts';
 import { toNumber } from '@/shared/utils/numeric';
 
-const SELF_PATH = "/api/user/self';
+const SELF_PATH = "/api/user/self";
 
 // New-API-wide default: units per $1. See #6850 — can be hardcoded rather
 // than fetched from /api/status on every call.

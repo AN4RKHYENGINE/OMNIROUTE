@@ -316,7 +316,7 @@ async function handleKieMusicGeneration({
   const modelEntry = fullRegistry?.models?.find((m) => m.id === model);
   const isMarket = modelEntry?.isMarket || model.includes("/");
 
-  let url = "';
+  let url = "";
   let payload: Record<string, unknown> = {};
 
   if (isMarket) {
@@ -357,7 +357,7 @@ async function handleKieMusicGeneration({
         createData?.msg ||
         createData?.message ||
         createData?.error ||
-        "KIE music generation did not return taskId';
+        "KIE music generation did not return taskId";
       if (log) {
         log.error("MUSIC", `KIE createTask failed: ${JSON.stringify(createData)}`);
       }
@@ -412,7 +412,7 @@ async function handleKieMusicGeneration({
 
     const record = isJsonObject(recordData) ? recordData : {};
     const data = isJsonObject(record.data) ? record.data : {};
-    const errorMessage = data.errorMessage || data.failMsg || record.msg || "KIE music task failed';
+    const errorMessage = data.errorMessage || data.failMsg || record.msg || "KIE music task failed";
     return { success: false, status: 502, error: String(errorMessage) };
   } catch (err: unknown) {
     return {
@@ -432,7 +432,7 @@ async function handleSunoMusicGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const cookie = credentials?.apiKey || credentials?.providerSpecificData?.cookie || "';
+  const cookie = credentials?.apiKey || credentials?.providerSpecificData?.cookie || "";
   if (!cookie) {
     return { success: false, status: 401, error: "Suno session cookie is required" };
   }
@@ -553,7 +553,7 @@ async function handleUdioMusicGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const cookie = credentials?.apiKey || credentials?.providerSpecificData?.cookie || "';
+  const cookie = credentials?.apiKey || credentials?.providerSpecificData?.cookie || "";
   if (!cookie) {
     return { success: false, status: 401, error: "Udio session cookie is required" };
   }

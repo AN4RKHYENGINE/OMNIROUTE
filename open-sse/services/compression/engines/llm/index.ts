@@ -68,7 +68,7 @@ function resolveBackend(): LlmCompressorBackend {
 // ─── prose / code splitting (code is never sent to the backend) ─────────────────
 
 interface TextSegment {
-  kind: "prose" | "preserved';
+  kind: "prose" | "preserved";
   text: string;
 }
 
@@ -237,7 +237,7 @@ function validateLlmCompressorConfig(config: Record<string, unknown>): EngineVal
 
 // ─── engine export ──────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "llm';
+const ENGINE_ID = "llm";
 
 export const llmCompressorEngine: CompressionEngine = {
   id: ENGINE_ID,

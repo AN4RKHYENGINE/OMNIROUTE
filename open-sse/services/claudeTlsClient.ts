@@ -21,7 +21,7 @@ import { buildNativeTlsClientOptions } from './tlsClientDownloadDir.ts';
 let clientPromise: Promise<unknown> | null = null;
 let exitHookInstalled = false;
 
-export const CLAUDE_TLS_BROWSER_MAJOR_VERSION = "146';
+export const CLAUDE_TLS_BROWSER_MAJOR_VERSION = "146";
 const CLAUDE_PROFILE = `chrome_${CLAUDE_TLS_BROWSER_MAJOR_VERSION}`;
 const DEFAULT_TIMEOUT_MS =
   Number.parseInt(process.env.OMNIROUTE_CLAUDE_TLS_TIMEOUT_MS || "", 10) || 60_000;
@@ -68,7 +68,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError';
+    this.name = "TlsClientHangError";
   }
 }
 
@@ -166,12 +166,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError';
+    this.name = "TlsClientUnavailableError";
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -329,7 +329,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError';
+  err.name = "AbortError";
   return err;
 }
 

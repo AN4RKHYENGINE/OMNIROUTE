@@ -28,9 +28,9 @@ export function parseJudgeVerdict(raw: string): JudgeVerdict {
   const text = raw.toLowerCase();
   const differs = /materially[_\s-]*differs|differs[_\s]+materially|\bdiffers\b/.test(text);
   const same = /verdict:\s*same|\bsame\b/.test(text);
-  if (differs) return "materially-differs';
-  if (same) return "same';
-  return "unparseable';
+  if (differs) return "materially-differs";
+  if (same) return "same";
+  return "unparseable";
 }
 
 /**

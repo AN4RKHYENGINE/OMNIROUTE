@@ -3,7 +3,7 @@
  *
  * Why this exists: Grok sits behind Cloudflare Enterprise which pins
  * `cf_clearance` to the client's TLS fingerprint (JA3/JA4) + HTTP/2 SETTINGS
- * frame ordering. Node's Undici fetch presents an obvious "not a browser"
+ * frame ordering. Node"s Undici fetch presents an obvious "not a browser"
  * handshake and gets challenged with a 403 "Request rejected by anti-bot
  * rules." — even with a valid `sso` + `sso-rw` session cookie. This module
  * wraps `tls-client-node` (native shared library built from
@@ -72,7 +72,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError';
+    this.name = "TlsClientHangError";
   }
 }
 
@@ -170,12 +170,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError';
+    this.name = "TlsClientUnavailableError";
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -318,7 +318,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError';
+  err.name = "AbortError";
   return err;
 }
 

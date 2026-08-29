@@ -21,11 +21,11 @@ import { jinaReaderFetch } from '../executors/jina-reader-fetch.ts';
 import { tavilyFetch } from '../executors/tavily-fetch.ts';
 import { tinyfishFetch } from '../executors/tinyfish-fetch.ts';
 
-export type WebFetchFormat = "markdown" | "html" | "links" | "screenshot';
+export type WebFetchFormat = "markdown" | "html" | "links" | "screenshot";
 
 export interface WebFetchRequest {
   url: string;
-  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish';
+  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish";
   format?: WebFetchFormat;
   depth?: 0 | 1 | 2;
   wait_for_selector?: string;
@@ -69,9 +69,9 @@ export async function handleWebFetch(
   credentials: WebFetchCredentials,
   resolvedProvider?: WebFetchProviderId
 ): Promise<WebFetchResult> {
-  const provider = resolvedProvider ?? req.provider ?? "firecrawl';
+  const provider = resolvedProvider ?? req.provider ?? "firecrawl";
 
-  const format: WebFetchFormat = req.format ?? "markdown';
+  const format: WebFetchFormat = req.format ?? "markdown";
   const includeMetadata = req.include_metadata ?? false;
 
   try {

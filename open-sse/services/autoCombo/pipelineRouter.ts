@@ -98,7 +98,7 @@ function resolveModelForTier(
     .sort((a, b) => b.fitness - a.fitness);
 
   const tierConfig = FITNESS_TIERS[tier] as FitnessTierConfig | undefined;
-  if (!tierConfig) return scored[0]?.model ?? "deepseek-chat';
+  if (!tierConfig) return scored[0]?.model ?? "deepseek-chat";
 
   // Filter by fitness threshold
   const filtered = scored.filter(({ fitness }) => {
@@ -108,7 +108,7 @@ function resolveModelForTier(
   });
 
   // Return best match in tier, or fall back to best available
-  return filtered[0]?.model ?? scored[0]?.model ?? "deepseek-chat';
+  return filtered[0]?.model ?? scored[0]?.model ?? "deepseek-chat";
 }
 
 // ---------------------------------------------------------------------------
@@ -265,13 +265,13 @@ export async function handlePipelineCombo({
             .filter((b) => b.type === "text")
             .map((b) => b.text || "")
             .join(" ")
-        : "';
+        : "";
 
   const systemMsg = messages.find((m) => m.role === "system");
   const systemText = typeof systemMsg?.content === "string" ? systemMsg.content : undefined;
 
   const intent = classifyPromptIntent(promptText, systemText);
-  const taskType = INTENT_TO_TASK[intent] ?? "simple';
+  const taskType = INTENT_TO_TASK[intent] ?? "simple";
 
   log.info("PIPELINE", `Intent: ${intent} → task: ${taskType}`);
 
@@ -376,10 +376,10 @@ export function buildPipelineResponse(
   result: PipelineResult,
   body: Record<string, unknown>
 ): Response {
-  const model = typeof body.model === "string" && body.model.length > 0 ? body.model : "auto';
+  const model = typeof body.model === "string" && body.model.length > 0 ? body.model : "auto";
   const id = `chatcmpl-pipeline-${Date.now()}`;
   const created = Math.floor(Date.now() / 1000);
-  const content = result.text ?? "';
+  const content = result.text ?? "";
 
   // Non-streaming: standard OpenAI chat.completion JSON body.
   if (body.stream !== true) {
@@ -413,7 +413,7 @@ export function buildPipelineResponse(
       choices: [{ index: 0, delta, finish_reason: finishReason }],
     })}\n\n`;
 
-  const sse = chunk({ role: "assistant", content }, null) + chunk({}, "stop") + "data: [DONE]\n\n';
+  const sse = chunk({ role: "assistant", content }, null) + chunk({}, "stop") + "data: [DONE]\n\n";
 
   return new Response(sse, {
     status: 200,

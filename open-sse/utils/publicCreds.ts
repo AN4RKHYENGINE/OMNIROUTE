@@ -24,13 +24,13 @@
  * overrides do not require migration.
  */
 
-const MASK = "omniroute-public-v1';
+const MASK = "omniroute-public-v1";
 
 const RAW_VALUE_PATTERN =
   /^(AIza[A-Za-z0-9_-]{20,}|GOCSPX-[A-Za-z0-9_-]+|\d+-[a-z0-9]{32}\.apps\.googleusercontent\.com|Iv1\.[a-f0-9]+)$/;
 
 function unmaskBytes(bytes: readonly number[]): string {
-  let out = "';
+  let out = "";
   for (let i = 0; i < bytes.length; i++) {
     out += String.fromCharCode(bytes[i] ^ MASK.charCodeAt(i % MASK.length));
   }
@@ -77,7 +77,7 @@ function looksLikePrintablePlain(s: string): boolean {
  * be silently mangled. See docs/security/PUBLIC_CREDS.md.
  */
 export function decodePublicCred(value: string | null | undefined): string {
-  if (!value || typeof value !== "string") return "';
+  if (!value || typeof value !== "string") return "";
 
   if (RAW_VALUE_PATTERN.test(value)) return value;
 
@@ -102,7 +102,7 @@ export function decodePublicCred(value: string | null | undefined): string {
  * embedded default. Not used at runtime.
  */
 export function encodePublicCred(plain: string): string {
-  if (!plain) return "';
+  if (!plain) return "";
   return Buffer.from(maskBytes(plain)).toString("base64");
 }
 
@@ -110,7 +110,7 @@ export function encodePublicCred(plain: string): string {
  * Decode a masked byte sequence (embedded form) to its plaintext value.
  */
 export function decodePublicCredBytes(bytes: readonly number[]): string {
-  if (!bytes || bytes.length === 0) return "';
+  if (!bytes || bytes.length === 0) return "";
   return unmaskBytes(bytes);
 }
 
@@ -120,7 +120,7 @@ export function decodePublicCredBytes(bytes: readonly number[]): string {
  *
  * To regenerate a value:
  *   node -e 'import("./open-sse/utils/publicCreds.ts").then(m =>
- *     console.log(JSON.stringify(m.encodePublicCred("<plaintext>"))))'
+ *     console.log(JSON.stringify(m.encodePublicCred("<plaintext>"))))"
  *
  * Or use the helper below `embeddedBytesFor()`.
  */

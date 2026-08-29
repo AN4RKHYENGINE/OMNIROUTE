@@ -19,7 +19,7 @@ export class Session {
   readonly fingerprint: Fingerprint;
   readonly createdAt: number;
 
-  status: SessionStatus = "active';
+  status: SessionStatus = "active";
   inflight = 0;
   totalRequests = 0;
   successfulRequests = 0;
@@ -45,7 +45,7 @@ export class Session {
     if (this.status === "cooldown") {
       if (Date.now() >= this.cooldownUntil) {
         // Auto-recover from cooldown
-        this.status = "active';
+        this.status = "active";
         this.consecutiveFails = 0;
         return true;
       }
@@ -69,12 +69,12 @@ export class Session {
     );
     const jitter = Math.random() * this.cooldownJitter;
     this.cooldownUntil = Date.now() + base + jitter;
-    this.status = "cooldown';
+    this.status = "cooldown";
   }
 
   /** Mark session as dead (non-recoverable error) */
   markDead(): void {
-    this.status = "dead';
+    this.status = "dead";
   }
 
   /** Increment inflight counter and mark as used */
@@ -111,8 +111,8 @@ export class Session {
     };
     if (this.fingerprint.secChUa) {
       headers["Sec-CH-UA"] = this.fingerprint.secChUa;
-      headers["Sec-CH-UA-Mobile"] = this.fingerprint.secChUaMobile ?? "?0';
-      headers["Sec-CH-UA-Platform"] = this.fingerprint.secChUaPlatform ?? '"Windows"';
+      headers["Sec-CH-UA-Mobile"] = this.fingerprint.secChUaMobile ?? "?0";
+      headers["Sec-CH-UA-Platform"] = this.fingerprint.secChUaPlatform ?? ""Windows"";
     }
     return headers;
   }

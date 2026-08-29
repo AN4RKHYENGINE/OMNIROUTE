@@ -212,8 +212,8 @@ export const obsidianTools = [
     }),
     handler: async (args: {
       path: string;
-      operation: "append" | "prepend" | "replace';
-      targetType: "heading" | "block" | "frontmatter';
+      operation: "append" | "prepend" | "replace";
+      targetType: "heading" | "block" | "frontmatter";
       target: string;
       content: string;
       createTargetIfMissing?: boolean;

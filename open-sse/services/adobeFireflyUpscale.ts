@@ -43,7 +43,7 @@ import {
 import { sanitizeErrorMessage } from '../utils/error.ts';
 
 export const ADOBE_FIREFLY_IMAGE_UPSAMPLE_URL =
-  "https://firefly-3p.ff.adobe.io/v2/3p-images/upsample';
+  "https://firefly-3p.ff.adobe.io/v2/3p-images/upsample";
 
 /** Firefly image upscale timeout — Topaz jobs are slower than a 1K generate. */
 export const ADOBE_FIREFLY_UPSCALE_TIMEOUT_MS = 300_000;
@@ -61,7 +61,7 @@ const SUBMIT_MAX_ATTEMPTS = 5;
  */
 export const ADOBE_FIREFLY_MAX_CREATIVITY_LEVEL = 1;
 
-export type AdobeFireflyUpscaleModelId = "topaz" | "topaz-standard" | "topaz-bloom';
+export type AdobeFireflyUpscaleModelId = "topaz" | "topaz-standard" | "topaz-bloom";
 
 export interface AdobeFireflyUpscaleModelSpec {
   upstreamModelId: string;
@@ -295,7 +295,7 @@ export async function adobeFireflyUpscaleImage(opts: {
   const accessToken = opts.accessToken;
   let submitData: unknown = {};
   let submitHeaders: Headers | Record<string, string | null | undefined> = new Headers();
-  let lastSubmitError = "';
+  let lastSubmitError = "";
   let sawSystemUnderLoad = false;
   let submitted = false;
 

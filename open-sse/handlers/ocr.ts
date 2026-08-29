@@ -26,7 +26,7 @@ export async function handleOcr({ body, credentials }) {
   }
 
   // Default to latest OCR model
-  const model = body.model || "mistral-ocr-latest';
+  const model = body.model || "mistral-ocr-latest";
   const { provider: providerId, model: modelId } = parseOcrModel(model);
   const providerConfig = providerId ? getOcrProvider(providerId) : null;
 

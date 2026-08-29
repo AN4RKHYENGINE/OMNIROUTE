@@ -33,7 +33,7 @@ export function parseAutoConfig(combo: ComboLike, eligibleTargets: ResolvedCombo
         ? autoConfigSource.routingStrategy
         : typeof autoConfigSource.strategyName === "string"
           ? autoConfigSource.strategyName
-          : "rules';
+          : "rules";
 
   const candidatePool = Array.isArray(autoConfigSource.candidatePool)
     ? autoConfigSource.candidatePool

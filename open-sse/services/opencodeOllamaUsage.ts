@@ -19,15 +19,15 @@ type UsageQuota = {
 // OMNIROUTE_OPENCODE_GO_QUOTA_URL explicitly. Never hardcode a third-party
 // host here (a previous default silently sent the user's API key to an
 // unrelated Z.AI endpoint).
-const OPENCODE_GO_QUOTA_URL = process.env.OMNIROUTE_OPENCODE_GO_QUOTA_URL?.trim() || "';
+const OPENCODE_GO_QUOTA_URL = process.env.OMNIROUTE_OPENCODE_GO_QUOTA_URL?.trim() || "";
 const OPENCODE_GO_DASHBOARD_BASE_URL =
-  process.env.OMNIROUTE_OPENCODE_GO_DASHBOARD_URL ?? "https://opencode.ai/workspace';
+  process.env.OMNIROUTE_OPENCODE_GO_DASHBOARD_URL ?? "https://opencode.ai/workspace";
 const OPENCODE_GO_QUOTA_TOTALS = { session: 12, weekly: 30, mcp_monthly: 60 } as const;
 const OPENCODE_GO_QUOTA_ORDER = ["session", "weekly", "mcp_monthly"] as const;
 const OPENCODE_GO_SCRAPED_NUMBER = String.raw`(-?\d+(?:\.\d+)?)`;
 const OLLAMA_CLOUD_USAGE_URL =
-  process.env.OMNIROUTE_OLLAMA_CLOUD_USAGE_URL ?? "https://ollama.com/settings';
-const OLLAMA_CLOUD_SESSION_COOKIE = "__Secure-session';
+  process.env.OMNIROUTE_OLLAMA_CLOUD_USAGE_URL ?? "https://ollama.com/settings";
+const OLLAMA_CLOUD_SESSION_COOKIE = "__Secure-session";
 
 type OpenCodeGoQuotaName = (typeof OPENCODE_GO_QUOTA_ORDER)[number];
 type DashboardWindow = { usagePercent: number; resetAt: string | null };
@@ -100,7 +100,7 @@ function getProviderSpecificString(data: JsonRecord | undefined, keys: string[])
     const value = obj[key];
     if (typeof value === "string" && value.trim()) return value.trim();
   }
-  return "';
+  return "";
 }
 
 function resolveOpenCodeGoDashboardConfig(
@@ -143,7 +143,7 @@ function buildBearerAuthorization(value: string): string {
     .trim()
     .replace(/^Bearer\s+/i, "")
     .trim();
-  return token ? `Bearer ${token}` : "';
+  return token ? `Bearer ${token}` : "";
 }
 
 function getOpenCodeGoTokenQuotaName(
@@ -152,10 +152,10 @@ function getOpenCodeGoTokenQuotaName(
 ): "session" | "weekly" {
   const unit = toNumber(limit.unit, 0);
   const number = toNumber(limit.number, 0);
-  if (unit === 3 && number === 5) return "session';
-  if (unit === 6 && number === 1) return "weekly';
-  if ((unit === 4 && number === 7) || (unit === 3 && number >= 24 * 7)) return "weekly';
-  return existingQuotas.session ? "weekly" : "session';
+  if (unit === 3 && number === 5) return "session";
+  if (unit === 6 && number === 1) return "weekly";
+  if ((unit === 4 && number === 7) || (unit === 3 && number >= 24 * 7)) return "weekly";
+  return existingQuotas.session ? "weekly" : "session";
 }
 
 function buildOpenCodeGoDollarQuota(
@@ -442,7 +442,7 @@ export async function getOpenCodeGoUsage(apiKey: string, providerSpecificData?: 
         ? data.planName
         : typeof data.level === "string"
           ? data.level
-          : "';
+          : "";
     const planLabel = toTitleCase(levelRaw.replace(/\s*plan$/i, ""));
     return {
       plan: planLabel
@@ -484,13 +484,13 @@ function normalizeOllamaCloudCookie(value: string): string {
 }
 
 function extractOllamaUsagePercent(trackHtml: string): number | null {
-  const tagHeader = trackHtml.match(/^[^>]*/)?.[0] ?? "';
+  const tagHeader = trackHtml.match(/^[^>]*/)?.[0] ?? "";
   const ariaMatch = tagHeader.match(/(\d+(?:\.\d+)?)%\s*used/);
   if (ariaMatch) {
     const pct = toNumber(ariaMatch[1], Number.NaN);
     if (Number.isFinite(pct) && pct >= 0 && pct <= 100) return pct;
   }
-  const style = tagHeader.match(/style="([^"]*)"/)?.[1] ?? "';
+  const style = tagHeader.match(/style="([^"]*)"/)?.[1] ?? "";
   const pct = toNumber(style.match(/(?:^|;)\s*width\s*:\s*([0-9.]+)%/)?.[1], Number.NaN);
   return Number.isFinite(pct) && pct >= 0 && pct <= 100 ? pct : null;
 }

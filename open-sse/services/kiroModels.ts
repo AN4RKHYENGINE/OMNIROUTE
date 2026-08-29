@@ -37,11 +37,11 @@ import { supportsKiroAdaptiveThinking } from '../translator/request/openai-to-ki
 
 type RawRecord = Record<string, unknown>;
 
-const KIRO_RUNTIME_SDK_VERSION = "1.0.0';
-const KIRO_AGENT_OS = "windows';
-const KIRO_AGENT_OS_VERSION = "10.0.26200';
-const KIRO_NODE_VERSION = "22.21.1';
-const KIRO_IDE_VERSION = "0.10.32';
+const KIRO_RUNTIME_SDK_VERSION = "1.0.0";
+const KIRO_AGENT_OS = "windows";
+const KIRO_AGENT_OS_VERSION = "10.0.26200";
+const KIRO_NODE_VERSION = "22.21.1";
+const KIRO_IDE_VERSION = "0.10.32";
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 const catalogCache = new Map<string, { expiresAt: number; models: KiroModel[] }>();
@@ -99,7 +99,7 @@ function parsePromptCaching(value: unknown): KiroPromptCaching | undefined {
 export type KiroModelsResult = {
   models: KiroModel[];
   /** "api" = live discovery; "fallback" = static catalog (offline/unauthed/error). */
-  source: "api" | "fallback';
+  source: "api" | "fallback";
 };
 
 /**
@@ -268,7 +268,7 @@ function buildKiroFingerprintHeaders(providerSpecificData: unknown, accessToken:
     toNonEmptyString(psd.clientId) ||
     toNonEmptyString(psd.profileArn) ||
     accessToken ||
-    "kiro-anonymous';
+    "kiro-anonymous";
   const machineId = createHash("sha256").update(String(seed)).digest("hex");
   const userAgent =
     `aws-sdk-js/${KIRO_RUNTIME_SDK_VERSION} ua/2.1 ` +
@@ -288,7 +288,7 @@ function buildKiroFingerprintHeaders(providerSpecificData: unknown, accessToken:
   };
 
   if (psd.authMethod === "api_key") {
-    headers.tokentype = "API_KEY';
+    headers.tokentype = "API_KEY";
   }
   if (isExternalIdpAuthMethod(psd.authMethod)) {
     headers[KIRO_EXTERNAL_IDP_TOKEN_TYPE_HEADER] = KIRO_EXTERNAL_IDP_TOKEN_TYPE_VALUE;
@@ -303,8 +303,8 @@ function cacheKey(accessToken: string, providerSpecificData: unknown): string {
     toNonEmptyString(psd.profileArn) ||
     toNonEmptyString(psd.clientId) ||
     accessToken ||
-    "anonymous';
-  const authMethod = toNonEmptyString(psd.authMethod) || "unknown';
+    "anonymous";
+  const authMethod = toNonEmptyString(psd.authMethod) || "unknown";
   return createHash("sha256").update(`kiro:${authMethod}:${seed}`).digest("hex");
 }
 

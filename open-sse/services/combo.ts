@@ -379,7 +379,7 @@ export async function buildAutoCandidates(
     connectionById,
     (t) => {
       const parsed = parseModel(t.modelStr);
-      return t.provider || parsed.provider || parsed.providerAlias || "unknown';
+      return t.provider || parsed.provider || parsed.providerAlias || "unknown";
     }
   );
 
@@ -387,7 +387,7 @@ export async function buildAutoCandidates(
     fingerprintExpandedTargets.map(async (target) => {
       const modelStr = target.modelStr;
       const parsed = parseModel(modelStr);
-      const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown';
+      const provider = target.provider || parsed.provider || parsed.providerAlias || "unknown";
       const model = parsed.model || modelStr;
       const historicalKey = `${provider}/${model}`;
       const historicalModelMetric = historicalLatencyStats[historicalKey] || null;
@@ -450,7 +450,7 @@ export async function buildAutoCandidates(
 
       const breakerStateRaw = getCircuitBreaker(provider)?.getStatus?.()?.state;
       const circuitBreakerState: ProviderCandidate["circuitBreakerState"] =
-        breakerStateRaw === "OPEN" || breakerStateRaw === "HALF_OPEN" ? breakerStateRaw : "CLOSED';
+        breakerStateRaw === "OPEN" || breakerStateRaw === "HALF_OPEN" ? breakerStateRaw : "CLOSED";
       const contextAffinity = calculateTargetContextAffinity(target, sessionId);
       let resetWindowAffinity = 0.5;
       let quotaRemaining = 100;
@@ -513,7 +513,7 @@ export async function buildAutoCandidates(
           );
           if (!cutoffDecision.proceed) {
             quotaCutoffBlocked = true;
-            quotaCutoffReason = cutoffDecision.reason || "quota_exhausted';
+            quotaCutoffReason = cutoffDecision.reason || "quota_exhausted";
           }
         }
       }
@@ -1133,7 +1133,7 @@ export async function handleComboChat({
             const reasoningExhausted = /reasoning consumed \d+\/\d+ tokens/.test(lastError || "");
             const failureReason = reasoningExhausted
               ? "reasoning_budget_exhausted"
-              : "max_attempts_exceeded';
+              : "max_attempts_exceeded";
             recordComboFailure(effectiveSessionId, combo.name);
             return {
               ok: false,
@@ -1303,7 +1303,7 @@ export async function handleComboChat({
               result.headers?.get("X-OmniRoute-Selected-Connection-Id") ||
               result.headers?.get("x-omniroute-selected-connection-id") ||
               undefined;
-            const effectiveConnectionId = selectedConnectionId || target.connectionId || "';
+            const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
 
             // Clone BEFORE quality check — validateResponseQuality reads the body
             // via getReader() which locks the stream. The clone's body is consumed
@@ -1585,7 +1585,7 @@ export async function handleComboChat({
           }
 
           // Extract error info from response
-          let errorText = result.statusText || "';
+          let errorText = result.statusText || "";
           let errorBody: ComboErrorBody = null;
           let retryAfter: ComboRetryAfter | null = null;
           try {
@@ -2245,7 +2245,7 @@ export async function handleComboChat({
               .join(", ") +
             (comboErrors.length > 5 ? `... (+${comboErrors.length - 5})` : "") +
             "]"
-          : "';
+          : "";
       const msg = (lastError || "All combo models unavailable") + comboErrorSummary;
 
       // Cooldown-aware retry: instead of crystallizing a transient failure, wait
@@ -2273,7 +2273,7 @@ export async function handleComboChat({
           // orderedTargets[0] behavior), but heterogeneous combos carry a
           // different model per target.
           lookupLock: (provider, connectionId, target) => {
-            const rawModel = parseModel(target?.modelStr ?? "").model || "';
+            const rawModel = parseModel(target?.modelStr ?? "").model || "";
             if (!rawModel) return null;
             return getModelLockoutInfo(provider, connectionId, rawModel);
           },
@@ -2882,7 +2882,7 @@ async function handleRoundRobinCombo({
             result.headers?.get("X-OmniRoute-Selected-Connection-Id") ||
             result.headers?.get("x-omniroute-selected-connection-id") ||
             undefined;
-          const effectiveConnectionId = selectedConnectionId || target.connectionId || "';
+          const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
 
           const rawModel = parseModel(modelStr).model || modelStr;
           if (provider && rawModel) {
@@ -2945,7 +2945,7 @@ async function handleRoundRobinCombo({
         }
 
         // Extract error info
-        let errorText = result.statusText || "';
+        let errorText = result.statusText || "";
         let retryAfter: ComboRetryAfter | null = null;
         let errorBody: ComboErrorBody = null;
         try {
@@ -3258,7 +3258,7 @@ async function handleRoundRobinCombo({
   }
 
   const status = lastStatus;
-  const msg = lastError || "All round-robin combo models unavailable';
+  const msg = lastError || "All round-robin combo models unavailable";
 
   if (earliestRetryAfter && isRetryAfterEligibleStatus(status)) {
     const retryHuman = formatRetryAfter(toRetryAfterDisplayValue(earliestRetryAfter));

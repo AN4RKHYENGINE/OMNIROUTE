@@ -18,12 +18,12 @@ const ADAPTIVE_EFFORT_LEVELS = new Set(["low", "medium", "high", "xhigh", "max"]
 
 // Prefix for Claude OAuth tool names to avoid conflicts
 // Can be disabled per-request via body._disableToolPrefix = true
-export const CLAUDE_OAUTH_TOOL_PREFIX = "proxy_';
-const CLAUDE_TOOL_CHOICE_REQUIRED = "an" + "y';
-const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary';
+export const CLAUDE_OAUTH_TOOL_PREFIX = "proxy_";
+const CLAUDE_TOOL_CHOICE_REQUIRED = "an" + "y";
+const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary";
 
 function wantsCopilotSummarizedThinking(body: Record<string, unknown> | null | undefined): boolean {
-  return body?.[COPILOT_REASONING_SUMMARY_MARKER] === "summarized';
+  return body?.[COPILOT_REASONING_SUMMARY_MARKER] === "summarized";
 }
 
 function applyCopilotSummarizedThinkingDisplay(
@@ -104,7 +104,7 @@ export function stripEmptyTextBlocks(content: unknown[] | undefined): unknown[] 
  * Ref: sub2api PR #1197
  */
 export function normalizeContentToString(content: string | unknown[] | null | undefined): string {
-  if (!content) return "';
+  if (!content) return "";
   if (typeof content === "string") return content;
   if (Array.isArray(content)) {
     return (content as Array<Record<string, unknown>>)
@@ -112,7 +112,7 @@ export function normalizeContentToString(content: string | unknown[] | null | un
       .map((b) => String(b.text ?? ""))
       .join("\n");
   }
-  return "';
+  return "";
 }
 
 // Convert OpenAI request to Claude format
@@ -120,7 +120,7 @@ export function openaiToClaudeRequest(model, body, stream, credentials = null) {
   // Check if tool prefix should be disabled (configured per-provider or global)
   const disableToolPrefix = body?._disableToolPrefix === true;
   const routedProvider = credentials?._provider;
-  const isKimiCoding = routedProvider === "kimi-coding" || routedProvider === "kimi-coding-apikey';
+  const isKimiCoding = routedProvider === "kimi-coding" || routedProvider === "kimi-coding-apikey";
 
   // Tool name mapping for Claude OAuth (capitalizedName → originalName)
   const toolNameMap = new Map();
@@ -263,7 +263,7 @@ export function openaiToClaudeRequest(model, body, stream, credentials = null) {
   // Whether the OUTBOUND request actually has extended thinking enabled. Anthropic's
   // schema only requires a precursor thinking/redacted_thinking block before a tool_use
   // block when thinking mode is active for THIS request — never unconditionally (#5945).
-  const thinkingEnabledForRequest = Boolean(result.thinking) && result.thinking.type !== "disabled';
+  const thinkingEnabledForRequest = Boolean(result.thinking) && result.thinking.type !== "disabled";
 
   // Messages
   const systemParts = [];
@@ -298,7 +298,7 @@ export function openaiToClaudeRequest(model, body, stream, credentials = null) {
     };
 
     for (const msg of nonSystemMessages) {
-      const newRole = msg.role === "user" || msg.role === "tool" ? "user" : "assistant';
+      const newRole = msg.role === "user" || msg.role === "tool" ? "user" : "assistant";
       const blocks = getContentBlocksFromMessage(
         msg,
         toolNameMap,
@@ -381,7 +381,7 @@ export function openaiToClaudeRequest(model, body, stream, credentials = null) {
         // through to `toolData = tool` (the wrapper itself, with no `.name`),
         // producing an empty `originalName` and silently dropping the tool.
         const toolData = tool.function ?? tool;
-        const originalName = typeof toolData.name === "string" ? toolData.name.trim() : "';
+        const originalName = typeof toolData.name === "string" ? toolData.name.trim() : "";
 
         if (!originalName) {
           return null;
@@ -741,7 +741,7 @@ function extractTextContent(content) {
       .map((c) => c.text)
       .join("\n");
   }
-  return "';
+  return "";
 }
 
 // Try parse JSON (passthrough fallback: return the raw input string on parse error).
@@ -792,8 +792,8 @@ function openaiToClaudeRequestForAntigravity(model, body, stream) {
       }
 
       const updatedContent = msg.content.map((block) => {
-        const blockType = typeof block.type === "string" ? block.type : "';
-        const blockName = typeof block.name === "string" ? block.name : "';
+        const blockType = typeof block.type === "string" ? block.type : "";
+        const blockName = typeof block.name === "string" ? block.name : "";
         if (
           blockType === "tool_use" &&
           blockName &&

@@ -23,7 +23,7 @@ function isRecord(value: unknown): value is JsonRecord {
 }
 
 function nonEmptyString(value: unknown): string {
-  return typeof value === "string" && value.length > 0 ? value : "';
+  return typeof value === "string" && value.length > 0 ? value : "";
 }
 
 function addReadableReasoning(message: JsonRecord, delta: JsonRecord): boolean {
@@ -71,19 +71,19 @@ export function synthesizeOpenAiSseFromJson(jsonText: string): string {
   try {
     parsed = JSON.parse(jsonText);
   } catch {
-    return "';
+    return "";
   }
-  if (!isRecord(parsed)) return "';
+  if (!isRecord(parsed)) return "";
 
   const choices = parsed.choices;
-  if (!Array.isArray(choices) || choices.length === 0) return "';
+  if (!Array.isArray(choices) || choices.length === 0) return "";
 
-  const id = typeof parsed.id === "string" && parsed.id ? parsed.id : "chatcmpl-omniroute-sse';
+  const id = typeof parsed.id === "string" && parsed.id ? parsed.id : "chatcmpl-omniroute-sse";
   const created = typeof parsed.created === "number" ? parsed.created : 0;
-  const model = typeof parsed.model === "string" ? parsed.model : "';
+  const model = typeof parsed.model === "string" ? parsed.model : "";
   const base = { id, object: "chat.completion.chunk", created, model };
 
-  let out = "';
+  let out = "";
   let emittedAny = false;
 
   choices.forEach((choice, fallbackIndex) => {
@@ -96,7 +96,7 @@ export function synthesizeOpenAiSseFromJson(jsonText: string): string {
     // then content). Combining them in one delta caused the openai→openai
     // translator to re-split and DUPLICATE reasoning_content across chunks
     // (#3089 follow-up); separate deltas pass through cleanly with no duplication.
-    const role = typeof message.role === "string" ? message.role : "assistant';
+    const role = typeof message.role === "string" ? message.role : "assistant";
     const emitDelta = (delta: JsonRecord) => {
       out += sseEvent({ ...base, choices: [{ index, delta, finish_reason: null }] });
     };
@@ -121,7 +121,7 @@ export function synthesizeOpenAiSseFromJson(jsonText: string): string {
     emittedAny = true;
   });
 
-  if (!emittedAny) return "';
-  out += "data: [DONE]\n\n';
+  if (!emittedAny) return "";
+  out += "data: [DONE]\n\n";
   return out;
 }

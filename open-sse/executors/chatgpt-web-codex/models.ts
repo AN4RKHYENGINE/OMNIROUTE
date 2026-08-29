@@ -1,4 +1,4 @@
-export type ChatGptWebCodexEffort = "low" | "medium" | "high" | "xhigh" | "max';
+export type ChatGptWebCodexEffort = "low" | "medium" | "high" | "xhigh" | "max";
 
 export interface ChatGptWebCodexModelRoute {
   id: string;

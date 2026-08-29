@@ -87,7 +87,7 @@ export {
 // keep cursor's model from retrying the same built-in tool indefinitely.
 // The model adapts and either answers from context or uses declared MCP tools.
 const BUILTIN_TOOL_REJECT_REASON =
-  "Tool not available in this environment. Use the MCP tools provided instead.';
+  "Tool not available in this environment. Use the MCP tools provided instead.";
 const gunzipAsync = promisify(zlib.gunzip);
 
 // Tool-commit directive — adapted from composer-api's TOOL_SYSTEM_DIRECTIVE.
@@ -186,8 +186,8 @@ function buildExecRejection(event: ExecServerEvent): Buffer | null {
   }
 }
 
-const CURSOR_AGENT_HOST = "agentn.global.api5.cursor.sh';
-const CURSOR_AGENT_PATH = "/agent.v1.AgentService/Run';
+const CURSOR_AGENT_HOST = "agentn.global.api5.cursor.sh";
+const CURSOR_AGENT_PATH = "/agent.v1.AgentService/Run";
 const CURSOR_AGENT_URL = `https://${CURSOR_AGENT_HOST}${CURSOR_AGENT_PATH}`;
 
 // Detect cloud environment (Edge runtime, Cloudflare Workers, etc.)
@@ -210,7 +210,7 @@ if (!isCloudEnv()) {
 // Phase 10: CURSOR_DEBUG=1 enables verbose streaming debug logs (decoded
 // frame summaries, exec router dispatches, session lifecycle events).
 // CURSOR_STREAM_DEBUG is kept as a backward-compatible alias.
-const CURSOR_DEBUG = process.env.CURSOR_DEBUG === "1" || process.env.CURSOR_STREAM_DEBUG === "1';
+const CURSOR_DEBUG = process.env.CURSOR_DEBUG === "1" || process.env.CURSOR_STREAM_DEBUG === "1";
 const debugLog = (...args: unknown[]) => {
   if (CURSOR_DEBUG) console.log(...args);
 };
@@ -475,10 +475,10 @@ export function processFrame(
   if (jsonError) {
     if (ctx.totalText.length === 0) {
       ctx.midStreamError = jsonError;
-      ctx.endReason = "server_end';
+      ctx.endReason = "server_end";
     } else {
       // Already streamed content — terminate cleanly.
-      ctx.endReason = "server_end';
+      ctx.endReason = "server_end";
     }
     return;
   }
@@ -514,7 +514,7 @@ export function processFrame(
   // arrive with empty execId in the current cursor schema, so a single
   // execId-only set would collapse them.
   const event = decodeExecServerEvent(payload);
-  const dedupKey = event ? `${event.kind}:${event.execId}:${event.execMsgId}` : "';
+  const dedupKey = event ? `${event.kind}:${event.execId}:${event.execMsgId}` : "";
   if (event && !ackedExecIds.has(dedupKey)) {
     ackedExecIds.add(dedupKey);
     if (event.kind === "exec_request_context") {
@@ -545,7 +545,7 @@ export function processFrame(
       // a tool result via ExecMcpResult or close the stream. We mark
       // endReason now so driveH2 returns; the session manager keeps the h2
       // alive for the next OpenAI call (which arrives with role:"tool").
-      ctx.endReason = "tool_calls';
+      ctx.endReason = "tool_calls";
     } else {
       // Cursor/Fable frequently chooses its native Shell tool even when the
       // OpenAI client declared external tools. If a schema-compatible shell
@@ -564,7 +564,7 @@ export function processFrame(
       if (bridge) {
         emitStructuredToolCall(ctx, bridge.toolName, bridge.arguments);
         ctx.requiresColdResume = true;
-        ctx.endReason = "tool_calls';
+        ctx.endReason = "tool_calls";
       }
     }
   }
@@ -586,7 +586,7 @@ export function processFrame(
         if (bridge) {
           emitStructuredToolCall(ctx, bridge.toolName, bridge.arguments);
           ctx.requiresColdResume = true;
-          ctx.endReason = "tool_calls';
+          ctx.endReason = "tool_calls";
         }
       }
     } else if (d.kind === "text" && d.text) {
@@ -666,12 +666,12 @@ export function processFrame(
     } else if (d.kind === "token_delta") {
       ctx.tokenDelta += d.tokens;
     } else if (d.kind === "turn_ended") {
-      if (ctx.endReason !== "tool_calls") ctx.endReason = "turn_ended';
+      if (ctx.endReason !== "tool_calls") ctx.endReason = "turn_ended";
     } else if (d.kind === "tool_call_completed" && ctx.toolCalls.length > 0) {
       // Phase 6: model paused awaiting tool result. driveH2 returns but the
       // h2 stream stays open — the session manager keeps it alive for the
       // next OpenAI call (which will arrive with role:"tool" results).
-      ctx.endReason = "tool_calls';
+      ctx.endReason = "tool_calls";
     } else if (
       d.kind === "kv_server_message" &&
       ctx.receivedText &&
@@ -687,7 +687,7 @@ export function processFrame(
       // endReason is already "tool_calls" by the time we get here. Ending on
       // kv_after_text therefore never truncates a pending tool call.
       ctx.kvAfterTextSeen = true;
-      ctx.endReason = "kv_after_text';
+      ctx.endReason = "kv_after_text";
     }
   }
 }
@@ -1053,7 +1053,7 @@ export class CursorExecutor extends BaseExecutor {
       const onEnd = () => {
         if (settled) return;
         settled = true;
-        if (!ctx.endReason) ctx.endReason = "server_end';
+        if (!ctx.endReason) ctx.endReason = "server_end";
         detachListeners();
         resolve();
       };
@@ -1175,7 +1175,7 @@ export class CursorExecutor extends BaseExecutor {
         ? body.conversation_id
         : crypto.randomUUID();
     const lastMessage = messages[messages.length - 1];
-    const isToolFollowUp = lastMessage?.role === "tool';
+    const isToolFollowUp = lastMessage?.role === "tool";
 
     // Tools embedded in the RequestContext ack throughout the turn —
     // synced with mcp_tools in the encoded request body.
@@ -1256,9 +1256,9 @@ export class CursorExecutor extends BaseExecutor {
       let hadFailure = false;
       for (const msg of messages) {
         if (msg.role !== "tool") continue;
-        const id = msg.tool_call_id ?? "';
+        const id = msg.tool_call_id ?? "";
         if (!session.pendingToolCalls.has(id)) continue;
-        const content = typeof msg.content === "string" ? msg.content : "';
+        const content = typeof msg.content === "string" ? msg.content : "";
         if (cursorSessionManager.sendToolResult(session, id, content, false)) {
           matched++;
         } else {
@@ -1320,7 +1320,7 @@ export class CursorExecutor extends BaseExecutor {
       }
       if (opened.status !== 200) {
         const errBuf = await opened.consumeError();
-        const errText = errBuf.toString("utf8") || "Unknown error';
+        const errText = errBuf.toString("utf8") || "Unknown error";
         return {
           response: buildErrorResponse(opened.status, `[${opened.status}]: ${errText}`),
           url,
@@ -1470,7 +1470,7 @@ export class CursorExecutor extends BaseExecutor {
     // OpenAI finish_reason: "tool_calls" if the model invoked any declared
     // tool, else "stop". A turn with mixed text + tool_calls finishes with
     // "tool_calls" (the tool calls are the actionable signal for the client).
-    const finishReason = ctx.toolCalls.length > 0 ? "tool_calls" : "stop';
+    const finishReason = ctx.toolCalls.length > 0 ? "tool_calls" : "stop";
     emitChunk(ctx, {}, finishReason);
     emitUsage(ctx, body);
     emitDone(ctx);
@@ -1522,14 +1522,14 @@ export class CursorExecutor extends BaseExecutor {
     }
 
     const usage = buildCursorUsage(ctx, body);
-    const finishReason = ctx.toolCalls.length > 0 ? "tool_calls" : "stop';
+    const finishReason = ctx.toolCalls.length > 0 ? "tool_calls" : "stop";
     const message: {
-      role: "assistant';
+      role: "assistant";
       content: string | null;
       reasoning_content?: string;
       tool_calls?: Array<{
         id: string;
-        type: "function';
+        type: "function";
         function: { name: string; arguments: string };
       }>;
     } = {

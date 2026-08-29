@@ -3,11 +3,11 @@ import type { ProviderCredentials } from './base.ts';
 import { stripTrailingSlashes } from '../utils/urlSanitize.ts';
 import { applyAzureParamRules } from './azureParamRules.ts';
 
-const DEFAULT_API_VERSION = "2024-12-01-preview';
+const DEFAULT_API_VERSION = "2024-12-01-preview";
 
 function normalizeAzureBaseUrl(rawBaseUrl?: string | null): string {
   const normalized = stripTrailingSlashes((rawBaseUrl || "").trim());
-  if (!normalized) return "';
+  if (!normalized) return "";
 
   return normalized
     .replace(/\/openai$/i, "")
@@ -41,13 +41,13 @@ export class AzureOpenAIExecutor extends DefaultExecutor {
   }
 
   buildHeaders(credentials: ProviderCredentials | null, stream = true) {
-    const apiKey = credentials?.apiKey || credentials?.accessToken || "';
+    const apiKey = credentials?.apiKey || credentials?.accessToken || "";
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       "api-key": apiKey,
     };
 
-    headers.Accept = stream ? "text/event-stream" : "application/json';
+    headers.Accept = stream ? "text/event-stream" : "application/json";
     return headers;
   }
 

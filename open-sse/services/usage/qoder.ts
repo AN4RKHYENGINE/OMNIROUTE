@@ -19,7 +19,7 @@ import { type UsageQuota, parseResetTime } from './quota.ts';
 
 type JsonRecord = Record<string, unknown>;
 
-const QODER_USER_STATUS_URL = "https://openapi.qoder.sh/api/v3/user/status';
+const QODER_USER_STATUS_URL = "https://openapi.qoder.sh/api/v3/user/status";
 
 /** Human-readable plan label from Qoder's `PLAN_TIER_*` enum / `userTag`. */
 function prettifyQoderPlan(planRaw: string, userTag: string): string {
@@ -28,7 +28,7 @@ function prettifyQoderPlan(planRaw: string, userTag: string): string {
   const stripped = String(planRaw || "")
     .trim()
     .replace(/^PLAN_TIER_/i, "");
-  return stripped ? toTitleCase(stripped) : "Qoder';
+  return stripped ? toTitleCase(stripped) : "Qoder";
 }
 
 /**
@@ -48,7 +48,7 @@ export function parseQoderUserStatusUsage(status: JsonRecord): {
   const resetAt = parseResetTime(status.nextResetAt);
   // Team/enterprise seats draw from a pooled org quota rather than a per-user
   // counter, so `quota: 0` there means "pooled", not "exhausted".
-  const isPooled = userType === "teams" || userType === "enterprise';
+  const isPooled = userType === "teams" || userType === "enterprise";
 
   const quotas: Record<string, UsageQuota> = {};
   if (isExceeded) {

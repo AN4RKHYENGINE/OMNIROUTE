@@ -12,7 +12,7 @@ import { rankBySpeed, DEFAULT_SPEED_WEIGHTS } from '../../services/autoCombo/spe
 import type { SpeedCandidate } from '../../services/autoCombo/speedRanking.ts';
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
-const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "';
+const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";
 
 async function apiFetch(path: string, options: RequestInit = {}): Promise<unknown> {
   const url = `${OMNIROUTE_BASE_URL}${path}`;

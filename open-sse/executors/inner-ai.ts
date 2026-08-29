@@ -3,12 +3,12 @@ import { BaseExecutor, type ExecuteInput } from './base.ts';
 import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
 import { sanitizeErrorMessage } from '../utils/error.ts';
 
-const INNER_AI_CHAT_URL = "https://chatapi.innerai.com/chat';
-const INNER_AI_PROFILE_URL = "https://platformapi.innerai.com/api/v1/users/profile';
-const INNER_AI_MODELS_URL = "https://platformapi.innerai.com/api/v1/ai_models';
+const INNER_AI_CHAT_URL = "https://chatapi.innerai.com/chat";
+const INNER_AI_PROFILE_URL = "https://platformapi.innerai.com/api/v1/users/profile";
+const INNER_AI_MODELS_URL = "https://platformapi.innerai.com/api/v1/ai_models";
 
 const INNER_AI_USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 const MODELS_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 
@@ -176,7 +176,7 @@ async function resolveCredentials(
   if (deviceId) profileHeaders["DEVICE-ID"] = deviceId;
 
   // Attempt to fetch email from profile API — non-fatal if it fails
-  let email = "';
+  let email = "";
   try {
     const profileResp = await fetch(INNER_AI_PROFILE_URL, {
       headers: profileHeaders,
@@ -219,7 +219,7 @@ class InnerAiModelsError extends Error {
     public readonly responsePreview: string
   ) {
     super(`Inner.ai /ai-models returned HTTP ${status}`);
-    this.name = "InnerAiModelsError';
+    this.name = "InnerAiModelsError";
   }
 }
 
@@ -340,7 +340,7 @@ function buildMessageContent(messages: Array<Record<string, unknown>>): string {
               .filter((c) => c?.type === "text")
               .map((c) => String(c.text ?? ""))
               .join("")
-          : "';
+          : "";
     if (!content.trim()) continue;
 
     if (msg.role === "system") {
@@ -371,7 +371,7 @@ function transformInnerAiSSE(upstream: ReadableStream, model: string): ReadableS
   const decoder = new TextDecoder();
   const id = `chatcmpl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const created = Math.floor(Date.now() / 1000);
-  let buffer = "';
+  let buffer = "";
   let emittedRole = false;
 
   const chunkEvent = (delta: Record<string, unknown>, finishReason?: string | null) =>
@@ -393,7 +393,7 @@ function transformInnerAiSSE(upstream: ReadableStream, model: string): ReadableS
 
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
-          buffer = lines.pop() ?? "';
+          buffer = lines.pop() ?? "";
 
           for (const line of lines) {
             if (!line.startsWith("data:")) continue;
@@ -437,7 +437,7 @@ function transformInnerAiSSE(upstream: ReadableStream, model: string): ReadableS
                   ? "Inner.ai: not enough credits"
                   : type === "reached_limit"
                     ? "Inner.ai: usage limit reached"
-                    : "Inner.ai: rate limit reached — try again later';
+                    : "Inner.ai: rate limit reached — try again later";
               controller.enqueue(
                 encoder.encode(
                   `data: ${JSON.stringify({
@@ -481,7 +481,7 @@ class InnerAiStreamError extends Error {
     message: string
   ) {
     super(message);
-    this.name = "InnerAiStreamError';
+    this.name = "InnerAiStreamError";
   }
 }
 
@@ -494,8 +494,8 @@ class InnerAiStreamError extends Error {
 async function collectContent(upstream: ReadableStream): Promise<string> {
   const decoder = new TextDecoder();
   const reader = upstream.getReader();
-  let buffer = "';
-  let content = "';
+  let buffer = "";
+  let content = "";
 
   while (true) {
     const { done, value } = await reader.read();
@@ -503,7 +503,7 @@ async function collectContent(upstream: ReadableStream): Promise<string> {
 
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split("\n");
-    buffer = lines.pop() ?? "';
+    buffer = lines.pop() ?? "";
 
     for (const line of lines) {
       if (!line.startsWith("data:")) continue;
@@ -533,7 +533,7 @@ async function collectContent(upstream: ReadableStream): Promise<string> {
             ? "Inner.ai: not enough credits"
             : type === "reached_limit"
               ? "Inner.ai: usage limit reached"
-              : "Inner.ai: rate limit reached — try again later';
+              : "Inner.ai: rate limit reached — try again later";
         throw new InnerAiStreamError(429, String(type), errorMsg);
       }
     }
@@ -567,14 +567,14 @@ export class InnerAiExecutor extends BaseExecutor {
     try {
       creds = await resolveCredentials(token, credEmail, signal);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to authenticate with Inner.ai';
+      const message = err instanceof Error ? err.message : "Failed to authenticate with Inner.ai";
       credentialCache.delete(tokenCacheKey(token));
       return makeErrorResult(401, message, body);
     }
     const { email, deviceId } = creds;
 
     // Resolve model from Inner.ai models API (dynamic, cached 1h)
-    const requestedModel = String(bodyObj.model ?? "").trim() || "gpt-4o';
+    const requestedModel = String(bodyObj.model ?? "").trim() || "gpt-4o";
     let models: InnerAiModel[] = [];
     try {
       models = await resolveModels(token, deviceId, email, signal);
@@ -643,7 +643,7 @@ export class InnerAiExecutor extends BaseExecutor {
         signal: signal ?? undefined,
       });
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Request failed';
+      const message = err instanceof Error ? err.message : "Request failed";
       return makeErrorResult(
         502,
         `Inner.ai request failed: ${sanitizeErrorMessage(message)}`,

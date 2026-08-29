@@ -83,7 +83,7 @@ async function unwrapQoderEnvelope(response: Response): Promise<Response> {
   const text = decoder.decode(value, { stream: true });
 
   let errorStatus: number | null = null;
-  let errorMsg = "';
+  let errorMsg = "";
   for (const line of text.split("\n")) {
     const trimmed = line.trim();
     if (!trimmed.startsWith("data:")) continue;
@@ -107,7 +107,7 @@ async function unwrapQoderEnvelope(response: Response): Promise<Response> {
   if (errorStatus) {
     reader.cancel();
     const errType =
-      errorStatus === 401 || errorStatus === 403 ? "authentication_error" : "provider_error';
+      errorStatus === 401 || errorStatus === 403 ? "authentication_error" : "provider_error";
     return new Response(
       JSON.stringify({
         error: {
@@ -159,7 +159,7 @@ function getAuthToken(credentials: ProviderCredentials): string {
   // Fallback: QODER_PERSONAL_ACCESS_TOKEN env var (#966)
   const envToken = String(process.env.QODER_PERSONAL_ACCESS_TOKEN || "").trim();
   if (envToken) return envToken;
-  return "';
+  return "";
 }
 
 export class QoderExecutor extends BaseExecutor {
@@ -208,7 +208,7 @@ export class QoderExecutor extends BaseExecutor {
       };
     }
 
-    const resolvedModel = model || "qwen3.8-max-preview';
+    const resolvedModel = model || "qwen3.8-max-preview";
 
     // Detect token type: PAT (Personal Access Token) starts with "pt-".
     // PATs are driven through the local qodercli binary (see executeViaQoderCli);
@@ -222,11 +222,11 @@ export class QoderExecutor extends BaseExecutor {
     // Non-PAT tokens (OAuth apiKey / DashScope key) → DashScope OpenAI-compatible API.
     let mappedModel = resolvedModel;
     if (resolvedModel === "qwen3.5-plus" || resolvedModel === "qwen3.6-plus") {
-      mappedModel = "coder-model';
+      mappedModel = "coder-model";
     } else if (resolvedModel === "vision-model") {
-      mappedModel = "qwen3-vl-plus';
+      mappedModel = "qwen3-vl-plus";
     }
-    let endpointUrl = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+    let endpointUrl = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
 
     // Check for custom API base via credentials (overrides the default)
     let credentialsApiBase: unknown;
@@ -334,7 +334,7 @@ export class QoderExecutor extends BaseExecutor {
     headers: Record<string, string>;
     transformedBody: unknown;
   }> {
-    const url = "qodercli://stdio';
+    const url = "qodercli://stdio";
     const prompt = buildQoderPrompt(body);
 
     const run = await runQoderCli({ token, prompt, stream: false, model, signal });
@@ -342,7 +342,7 @@ export class QoderExecutor extends BaseExecutor {
     // Honor client cancellation the same way the HTTP path does.
     if (signal?.aborted) {
       const abortError = new Error("Aborted");
-      abortError.name = "AbortError';
+      abortError.name = "AbortError";
       throw abortError;
     }
 

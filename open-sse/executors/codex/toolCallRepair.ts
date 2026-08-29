@@ -7,7 +7,7 @@ type ResponsesInputItem = Record<string, unknown>;
 const TOOL_CALL_OUTPUT_TYPES = new Set(["function_call_output", "custom_tool_call_output"]);
 
 function outputTypeForCall(callType: "function_call" | "custom_tool_call"): string {
-  return callType === "custom_tool_call" ? "custom_tool_call_output" : "function_call_output';
+  return callType === "custom_tool_call" ? "custom_tool_call_output" : "function_call_output";
 }
 
 /**
@@ -34,7 +34,7 @@ export function repairMissingCodexToolCallOutputs(body: Record<string, unknown>)
     if (!item || typeof item !== "object" || Array.isArray(item)) continue;
     const record = item as ResponsesInputItem;
     if (record.type !== "function_call" && record.type !== "custom_tool_call") continue;
-    const callId = typeof record.call_id === "string" ? record.call_id.trim() : "';
+    const callId = typeof record.call_id === "string" ? record.call_id.trim() : "";
     const outputType = outputTypeForCall(record.type);
     const outputKey = `${outputType}:${callId}`;
     if (!callId || existingOutputKeys.has(outputKey)) continue;

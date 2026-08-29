@@ -27,9 +27,9 @@
 
 import crypto from 'node:crypto';
 
-export const ZED_WEB_BASE_URL = "https://zed.dev';
-export const ZED_CLOUD_BASE_URL = "https://cloud.zed.dev';
-export const ZED_LLM_BASE_URL = "https://cloud.zed.dev';
+export const ZED_WEB_BASE_URL = "https://zed.dev";
+export const ZED_CLOUD_BASE_URL = "https://cloud.zed.dev";
+export const ZED_LLM_BASE_URL = "https://cloud.zed.dev";
 
 export const ZED_HEADERS = {
   expiredToken: "x-zed-expired-token",
@@ -41,7 +41,7 @@ export const ZED_HEADERS = {
   systemId: "x-zed-system-id",
 } as const;
 
-const PRIVATE_KEY_PREFIX = "zed-rsa-pkcs1:';
+const PRIVATE_KEY_PREFIX = "zed-rsa-pkcs1:";
 const LLM_TOKEN_TTL_MS = 50 * 60 * 1000;
 const MODEL_CACHE_TTL_MS = 60 * 60 * 1000;
 
@@ -303,7 +303,7 @@ export async function fetchZedAuthenticatedUser(
 }
 
 function normalizeOrganizationId(value: unknown): string {
-  if (!value) return "';
+  if (!value) return "";
   if (typeof value === "string") return value;
   if (typeof value === "object" && value !== null) {
     const rec = value as Record<string, unknown>;
@@ -332,15 +332,15 @@ export function resolveZedOrganizationId(
 
 function zedUserCacheKey(credentials: ZedCredentials, organizationId: string): string {
   const psd = credentials?.providerSpecificData || {};
-  const userId = psd.userId || (credentials as Record<string, unknown>).userId || "unknown';
-  const token = credentials?.accessToken || credentials?.apiKey || "';
+  const userId = psd.userId || (credentials as Record<string, unknown>).userId || "unknown";
+  const token = credentials?.accessToken || credentials?.apiKey || "";
   return `${userId}:${organizationId || "default"}:${token.slice(-16)}`;
 }
 
 function zedModelCacheKey(credentials: ZedCredentials): string {
   const psd = credentials?.providerSpecificData || {};
-  const org = psd.organizationId || psd.defaultOrganizationId || "default';
-  const token = credentials?.accessToken || credentials?.apiKey || "';
+  const org = psd.organizationId || psd.defaultOrganizationId || "default";
+  const token = credentials?.accessToken || credentials?.apiKey || "";
   return `${psd.userId || "unknown"}:${org}:${token.slice(-16)}`;
 }
 
@@ -427,7 +427,7 @@ export async function zedLlmFetch(
 }
 
 function normalizeZedModelId(id: unknown): string {
-  if (!id) return "';
+  if (!id) return "";
   if (typeof id === "string") return id;
   if (typeof id === "object" && id !== null) {
     const rec = id as Record<string, unknown>;

@@ -45,7 +45,7 @@ const COMPRESSION_INPUT_INDEX = Symbol("compressionInputIndex");
 const KIRO_TOOL_RESULT_PATH = Symbol("kiroToolResultPath");
 
 type KiroToolResultPath = {
-  scope: "currentMessage" | "history';
+  scope: "currentMessage" | "history";
   historyIndex: number; // ignored when scope === "currentMessage"
   toolResultIndex: number;
   contentIndex: number;
@@ -110,11 +110,11 @@ function restoreCustomToolOutput(nextContent: unknown, originalOutput: unknown):
 }
 
 function responsesToolOutputField(item: ResponsesItem): "output" | "content" {
-  return item.output !== null && item.output !== undefined ? "output" : "content';
+  return item.output !== null && item.output !== undefined ? "output" : "content";
 }
 
 function responsesItemToMessage(item: ResponsesItem): CodexMessageLike | null {
-  const type = typeof item.type === "string" ? item.type : "message';
+  const type = typeof item.type === "string" ? item.type : "message";
   if (!RESPONSES_MESSAGE_TYPES.has(type)) return null;
 
   if (
@@ -176,7 +176,7 @@ function markCodexResponseEligibility(
   for (const raw of inputItems) {
     if (!isRecord(raw) || raw.type !== "function_call") continue;
     if (typeof raw.call_id !== "string" || raw.call_id.length === 0) continue;
-    const name = typeof raw.name === "string" ? raw.name : "';
+    const name = typeof raw.name === "string" ? raw.name : "";
     functionCalls.set(raw.call_id, name);
     if (
       protectedNames.has(name.trim().toLowerCase()) ||
@@ -197,13 +197,13 @@ function markCodexResponseEligibility(
     if (meta.type !== "function_call_output") continue;
     const rawIndex = message[COMPRESSION_INPUT_INDEX];
     const rawItem = typeof rawIndex === "number" ? inputItems[rawIndex] : null;
-    const callId = isRecord(rawItem) && typeof rawItem.call_id === "string" ? rawItem.call_id : "';
+    const callId = isRecord(rawItem) && typeof rawItem.call_id === "string" ? rawItem.call_id : "";
     meta.eligible = callId.length > 0 && functionCalls.has(callId) && !skippedCallIds.has(callId);
   }
 }
 
 function messageToResponsesItem(message: MessageLike, originalItem: ResponsesItem): ResponsesItem {
-  const type = typeof originalItem.type === "string" ? originalItem.type : "message';
+  const type = typeof originalItem.type === "string" ? originalItem.type : "message";
   if (
     type === "function_call_output" ||
     type === "custom_tool_call_output" ||
@@ -253,10 +253,10 @@ function hasInlineImageContent(message: MessageLike): boolean {
     if (part.type === "image") {
       if (isInlineBase64ImageUrl(part.image)) return true;
       const source = part.source;
-      return isRecord(source) && source.type === "base64" && typeof source.data === "string';
+      return isRecord(source) && source.type === "base64" && typeof source.data === "string";
     }
     const inlineData = part.inlineData ?? part.inline_data;
-    return isRecord(inlineData) && typeof inlineData.data === "string';
+    return isRecord(inlineData) && typeof inlineData.data === "string";
   });
 }
 
@@ -423,7 +423,7 @@ export function adaptBodyForCompression(
         });
         if (!hadMappedOutput) return true;
         const outputType =
-          item.type === "custom_tool_call" ? "custom_tool_call_output" : "function_call_output';
+          item.type === "custom_tool_call" ? "custom_tool_call_output" : "function_call_output";
         return survivingOutputKeys.has(`${outputType}:${item.call_id}`);
       });
 

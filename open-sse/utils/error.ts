@@ -68,7 +68,7 @@ export function sanitizeErrorMessage(message: unknown): string {
   // Preserve original whitespace by splitting on captured separator.
   const parts = firstLine.split(/(\s+)/);
   for (let i = 0; i < parts.length; i++) {
-    if (looksLikeAbsolutePath(parts[i])) parts[i] = "<path>';
+    if (looksLikeAbsolutePath(parts[i])) parts[i] = "<path>";
   }
   return redactSensitiveErrorText(parts.join(""));
 }
@@ -86,7 +86,7 @@ const MAX_DEPTH = 4;
  * - Returns null for null/undefined/non-JSON-serializable values.
  */
 export function sanitizeUpstreamDetails(value: unknown, depth = 0): unknown {
-  if (depth > MAX_DEPTH) return "[truncated]';
+  if (depth > MAX_DEPTH) return "[truncated]";
   if (value === null || value === undefined) return null;
   if (typeof value === "string") return sanitizeErrorMessage(value);
   if (typeof value === "number" || typeof value === "boolean") return value;
@@ -173,7 +173,7 @@ export type ComboRecoveryAction =
   /** Transient failure (network, 5xx) — retry the same combo immediately. */
   | "retry"
   /** Cascade used every account of every provider — switch to a different combo entirely. */
-  | "switch-combo';
+  | "switch-combo";
 
 export interface ComboRecoveryHint {
   /** Machine-readable action verb — consumed by clients to render a UI hint. */
@@ -200,7 +200,7 @@ export interface ComboDiagnostics {
 }
 
 function clampDiagStr(v: unknown, max = 128): string {
-  return typeof v === "string" ? v.slice(0, max).replace(/[\r\n]+/g, " ") : "';
+  return typeof v === "string" ? v.slice(0, max).replace(/[\r\n]+/g, " ") : "";
 }
 
 /**
@@ -211,7 +211,7 @@ function clampDiagStr(v: unknown, max = 128): string {
  * readable text via `sanitizeComboDiagnostics`.
  */
 function toHeaderSafeAscii(v: string): string {
-  let out = "';
+  let out = "";
   for (let i = 0; i < v.length; i++) {
     const code = v.charCodeAt(i);
     out += code > 255 ? "?" : v[i];
@@ -430,7 +430,7 @@ export function parseAntigravityRetryTime(message: unknown): number | null {
  * @returns {Promise<{statusCode: number, message: string, retryAfterMs: number|null, responseBody: unknown}>}
  */
 export async function parseUpstreamError(response: Response, provider: string | null = null) {
-  let message: unknown = "';
+  let message: unknown = "";
   let retryAfterMs: number | null = null;
   let responseBody: unknown = null;
   let errorCode: unknown = undefined;
@@ -753,7 +753,7 @@ export function makeExecutorErrorResult(
  * Normalize a cookie string: strip a leading "Cookie:" prefix if present.
  */
 export function normalizeCookie(raw: string): string {
-  return raw?.startsWith("Cookie:") ? raw.slice(7).trim() : raw || "';
+  return raw?.startsWith("Cookie:") ? raw.slice(7).trim() : raw || "";
 }
 
 /**
@@ -771,8 +771,8 @@ export function formatProviderError(
   statusCode?: string | number | null
 ): string {
   const providerCode = "code" in error ? error.code : undefined;
-  const code = statusCode || providerCode || "FETCH_FAILED';
-  const message = error.message || "Unknown error';
+  const code = statusCode || providerCode || "FETCH_FAILED";
+  const message = error.message || "Unknown error";
   // Expose low-level cause (e.g. UND_ERR_SOCKET, ECONNRESET, ETIMEDOUT) for diagnosing fetch failures
   const cause = (error as { cause?: unknown }).cause;
   const causeObj =
@@ -780,6 +780,6 @@ export function formatProviderError(
   const causeCode = typeof causeObj?.code === "string" ? causeObj.code : undefined;
   const causeMsg = typeof causeObj?.message === "string" ? causeObj.message : undefined;
   const causeStr =
-    causeCode || causeMsg ? ` (cause: ${[causeCode, causeMsg].filter(Boolean).join(": ")})` : "';
+    causeCode || causeMsg ? ` (cause: ${[causeCode, causeMsg].filter(Boolean).join(": ")})` : "";
   return `[${code}]: ${message}${causeStr}`;
 }

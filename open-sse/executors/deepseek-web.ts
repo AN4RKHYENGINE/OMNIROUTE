@@ -19,7 +19,7 @@ import {
   createFinishedDrainScheduler,
 } from './deepseek-web-done-terminator.ts';
 
-export const DEEPSEEK_WEB_BASE = "https://chat.deepseek.com';
+export const DEEPSEEK_WEB_BASE = "https://chat.deepseek.com";
 const DEEPSEEK_API_BASE = `${DEEPSEEK_WEB_BASE}/api`;
 const COMPLETION_URL = `${DEEPSEEK_API_BASE}/v0/chat/completion`;
 
@@ -111,7 +111,7 @@ function resolveModelOptions(
   searchEnabled: boolean;
 } {
   const m = (model || "").toLowerCase();
-  const modelType = m.includes("pro") || m.includes("expert") ? "expert" : "default';
+  const modelType = m.includes("pro") || m.includes("expert") ? "expert" : "default";
   const thinkingEnabled =
     m.includes("r1") ||
     m.includes("think") ||
@@ -167,11 +167,11 @@ async function solvePow(challenge: PowChallenge): Promise<string> {
 function transformSSE(deepseekStream: ReadableStream, model: string): ReadableStream {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
-  const streamModel = model || "deepseek-web';
+  const streamModel = model || "deepseek-web";
   const id = `chatcmpl-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   const created = Math.floor(Date.now() / 1000);
   let emittedRole = false;
-  let currentPath: "thinking" | "content" | "" = "';
+  let currentPath: "thinking" | "content" | "" = "";
   const thinkingModel = isThinkingModel(streamModel);
   const searchResults: DeepSeekSearchResult[] = [];
 
@@ -179,7 +179,7 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
     {
       async start(controller) {
         const reader = deepseekStream.getReader();
-        let buffer = "';
+        let buffer = "";
 
         const emit = (obj: object) => {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
@@ -226,8 +226,8 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
           if (!text) return;
           ensureRole();
           let path = currentPath;
-          if (!path && thinkingModel) path = "thinking';
-          else if (!path && isSearchModel(streamModel)) path = "content';
+          if (!path && thinkingModel) path = "thinking";
+          else if (!path && isSearchModel(streamModel)) path = "content";
           if (path === "thinking") {
             chunk({ reasoning_content: text });
           } else {
@@ -237,8 +237,8 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
 
         const applyFragmentType = (frag: any) => {
           const type = String(frag?.type || "").toUpperCase();
-          if (type === "THINK") currentPath = "thinking';
-          else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content';
+          if (type === "THINK") currentPath = "thinking";
+          else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content";
         };
 
         const handleFragment = (frag: any, setPathFromType = false) => {
@@ -246,8 +246,8 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
           if (typeof frag?.content !== "string" || frag.content.length === 0) return;
           if (!setPathFromType) {
             const type = String(frag?.type || "").toUpperCase();
-            if (type === "THINK") currentPath = "thinking';
-            else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content';
+            if (type === "THINK") currentPath = "thinking";
+            else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content";
           }
           sendByPath(frag.content);
         };
@@ -259,7 +259,7 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "';
+            buffer = lines.pop() || "";
 
             for (const line of lines) {
               if (!line.startsWith("data: ") && !line.startsWith("data:")) continue;
@@ -282,8 +282,8 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
               const v = (data as any)?.v;
 
               if (v && typeof v === "object" && v.response) {
-                if (v.response.thinking_enabled === true) currentPath = "thinking';
-                else if (v.response.thinking_enabled === false) currentPath = "content';
+                if (v.response.thinking_enabled === true) currentPath = "thinking";
+                else if (v.response.thinking_enabled === false) currentPath = "content";
                 const fragments = v.response.fragments;
                 if (Array.isArray(fragments)) {
                   for (const frag of fragments) handleFragment(frag, false);
@@ -301,7 +301,7 @@ function transformSSE(deepseekStream: ReadableStream, model: string): ReadableSt
               if (p === "response" && Array.isArray(v)) {
                 for (const entry of v) {
                   if (entry?.p === "response" && entry?.v?.thinking_enabled === true) {
-                    currentPath = "thinking';
+                    currentPath = "thinking";
                   }
                 }
               }
@@ -372,11 +372,11 @@ async function collectSSEContent(
 ): Promise<{ content: string; reasoningContent: string }> {
   const decoder = new TextDecoder();
   const reader = deepseekStream.getReader();
-  let buffer = "';
-  let content = "';
-  let reasoningContent = "';
-  let currentPath: "thinking" | "content" | "" = "';
-  const streamModel = model || "deepseek-web';
+  let buffer = "";
+  let content = "";
+  let reasoningContent = "";
+  let currentPath: "thinking" | "content" | "" = "";
+  const streamModel = model || "deepseek-web";
   const thinkingModel = isThinkingModel(streamModel);
   const searchResults: DeepSeekSearchResult[] = [];
 
@@ -384,16 +384,16 @@ async function collectSSEContent(
     const text = formatStreamContent(raw, streamModel);
     if (!text) return;
     let path = currentPath;
-    if (!path && thinkingModel) path = "thinking';
-    else if (!path && isSearchModel(streamModel)) path = "content';
+    if (!path && thinkingModel) path = "thinking";
+    else if (!path && isSearchModel(streamModel)) path = "content";
     if (path === "thinking") reasoningContent += text;
     else content += text;
   };
 
   const applyFragmentType = (frag: any) => {
     const type = String(frag?.type || "").toUpperCase();
-    if (type === "THINK") currentPath = "thinking';
-    else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content';
+    if (type === "THINK") currentPath = "thinking";
+    else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content";
   };
 
   const handleFragment = (frag: any, setPathFromType = false) => {
@@ -401,8 +401,8 @@ async function collectSSEContent(
     if (typeof frag?.content !== "string" || frag.content.length === 0) return;
     if (!setPathFromType) {
       const type = String(frag?.type || "").toUpperCase();
-      if (type === "THINK") currentPath = "thinking';
-      else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content';
+      if (type === "THINK") currentPath = "thinking";
+      else if (type === "ANSWER" || type === "RESPONSE") currentPath = "content";
     }
     appendByPath(frag.content);
   };
@@ -412,7 +412,7 @@ async function collectSSEContent(
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split("\n");
-    buffer = lines.pop() || "';
+    buffer = lines.pop() || "";
 
     for (const line of lines) {
       if (!line.startsWith("data: ") && !line.startsWith("data:")) continue;
@@ -423,8 +423,8 @@ async function collectSSEContent(
         const v = data?.v;
 
         if (v && typeof v === "object" && v.response) {
-          if (v.response.thinking_enabled === true) currentPath = "thinking';
-          else if (v.response.thinking_enabled === false) currentPath = "content';
+          if (v.response.thinking_enabled === true) currentPath = "thinking";
+          else if (v.response.thinking_enabled === false) currentPath = "content";
           if (Array.isArray(v.response.fragments)) {
             for (const frag of v.response.fragments) handleFragment(frag, false);
           }
@@ -441,7 +441,7 @@ async function collectSSEContent(
         if (p === "response" && Array.isArray(v)) {
           for (const entry of v) {
             if (entry?.p === "response" && entry?.v?.thinking_enabled === true) {
-              currentPath = "thinking';
+              currentPath = "thinking";
             }
           }
         }
@@ -514,11 +514,11 @@ export function messagesToPrompt(
   messages: Array<{ role: string; content: string; tool_call_id?: string; name?: string }>,
   historyWindow = 0
 ): string {
-  if (messages.length === 0) return "';
+  if (messages.length === 0) return "";
   const systemParts: string[] = [];
   const conversation: Array<{ role: string; text: string }> = [];
   const callNameById = new Map<string, string>();
-  let lastUserContent = "';
+  let lastUserContent = "";
   for (const m of messages) {
     const text = extractMessageText(m.content).trim();
     if (m.role === "system") {
@@ -540,7 +540,7 @@ export function messagesToPrompt(
       // information". Fold them into the transcript as plain text, mirroring the agentic
       // buildToolConversationPrompt() path.
       if (text) {
-        const name = (m.tool_call_id && callNameById.get(m.tool_call_id)) || m.name || "tool';
+        const name = (m.tool_call_id && callNameById.get(m.tool_call_id)) || m.name || "tool";
         conversation.push({ role: "tool", text: `(${name}) ${text}` });
       }
     }
@@ -607,7 +607,7 @@ async function acquireAccessToken(
   }
   const bizData = json?.data?.biz_data || json?.biz_data;
   if (!bizData?.token) {
-    const errMsg = json?.msg || json?.data?.biz_msg || "Unknown error';
+    const errMsg = json?.msg || json?.data?.biz_msg || "Unknown error";
     throw new Error(`Failed to acquire token: ${errMsg}`);
   }
 
@@ -630,7 +630,7 @@ function parseDeepSeekErrorPayload(payload: unknown): { code?: number; message: 
   const msg = record.msg;
   const data = record.data as Record<string, unknown> | undefined;
   const bizMsg = data?.biz_msg;
-  const messageRaw = typeof msg === "string" ? msg : typeof bizMsg === "string" ? bizMsg : "';
+  const messageRaw = typeof msg === "string" ? msg : typeof bizMsg === "string" ? bizMsg : "";
   if (code !== undefined && code !== 0) {
     return { code, message: messageRaw || `DeepSeek error ${code}` };
   }
@@ -736,7 +736,7 @@ function buildToolAwareResult(opts: {
   const { stream, clientModel, content, reasoningContent, toolCalls, reqHeaders, requestPayload } =
     opts;
   const hasCalls = !!toolCalls && toolCalls.length > 0;
-  const finishReason = hasCalls ? "tool_calls" : "stop';
+  const finishReason = hasCalls ? "tool_calls" : "stop";
   const id = `chatcmpl-${Date.now()}`;
   const created = Math.floor(Date.now() / 1000);
 
@@ -852,7 +852,7 @@ export class DeepSeekWebExecutor extends BaseExecutor {
     // back into OpenAI tool_calls on the way out.
     const requestedTools = bodyObj.tools;
     const hasTools = Array.isArray(requestedTools) && requestedTools.length > 0;
-    const toolSystemPrompt = hasTools ? serializeDeepSeekToolPrompt(requestedTools) : "';
+    const toolSystemPrompt = hasTools ? serializeDeepSeekToolPrompt(requestedTools) : "";
 
     const messages = (Array.isArray(bodyObj.messages) ? bodyObj.messages : []) as Array<{
       role: string;
@@ -985,9 +985,9 @@ export class DeepSeekWebExecutor extends BaseExecutor {
         let errMsg = `DeepSeek API error (${status})`;
         if (status === 401 || status === 403) {
           tokenCache.delete(userToken);
-          errMsg = "DeepSeek token expired — get a fresh userToken from localStorage.';
+          errMsg = "DeepSeek token expired — get a fresh userToken from localStorage.";
         } else if (status === 429) {
-          errMsg = "DeepSeek rate limited. Wait and retry.';
+          errMsg = "DeepSeek rate limited. Wait and retry.";
         }
         log?.warn?.("DEEPSEEK-WEB", errMsg);
 
@@ -1011,7 +1011,7 @@ export class DeepSeekWebExecutor extends BaseExecutor {
       }
 
       // Check for HTTP 200 with DeepSeek error JSON
-      const ct = resp.headers.get("content-type") || "';
+      const ct = resp.headers.get("content-type") || "";
       if (ct.includes("application/json")) {
         try {
           const json = await resp.json();
@@ -1053,7 +1053,7 @@ export class DeepSeekWebExecutor extends BaseExecutor {
         ? async () => {}
         : () => deleteSessionOnDeepSeek(accessToken, sessionId);
 
-      const clientModel = typeof model === "string" && model.trim() ? model.trim() : "deepseek-web';
+      const clientModel = typeof model === "string" && model.trim() ? model.trim() : "deepseek-web";
 
       // Tool-call translation: buffer the full reply and parse <tool> blocks into
       // OpenAI tool_calls. Buffering (even for stream clients) is acceptable because

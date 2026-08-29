@@ -137,8 +137,8 @@ type AntigravityChunkContent = Record<string, unknown> & {
 type AntigravityRequestEnvelope = Record<string, unknown> & {
   project: string;
   model?: string;
-  userAgent: "antigravity';
-  requestType: "agent" | "image_gen';
+  userAgent: "antigravity";
+  requestType: "agent" | "image_gen";
   requestId: string;
   request: Record<string, unknown>;
   enabledCreditTypes?: string[];
@@ -269,7 +269,7 @@ async function cleanModelName(model: string, modelIdOverride?: string): Promise<
       // to the static alias resolution below (never return undefined here).
       if (typeof raw === "string" && raw) {
         // Strip the "antigravity/" prefix if present; use the raw model ID otherwise.
-        const PREFIX = "antigravity/';
+        const PREFIX = "antigravity/";
         clean = raw.startsWith(PREFIX) ? raw.slice(PREFIX.length) : raw;
       }
     }
@@ -520,7 +520,7 @@ export class AntigravityExecutor extends BaseExecutor {
     const providerSpecificProjectId = normalizeProjectId(
       (credentials?.providerSpecificData as Record<string, unknown> | undefined)?.projectId
     );
-    const allowBodyProjectOverride = process.env.OMNIROUTE_ALLOW_BODY_PROJECT_OVERRIDE === "1';
+    const allowBodyProjectOverride = process.env.OMNIROUTE_ALLOW_BODY_PROJECT_OVERRIDE === "1";
 
     // Default: prefer OAuth-stored projectId over incoming body.project to avoid
     // stale/wrong client-side values causing 404/403 from Cloud Code endpoints.
@@ -561,7 +561,7 @@ export class AntigravityExecutor extends BaseExecutor {
       const errorMsg =
         "Missing Google projectId for Antigravity account. Auto-discovery via loadCodeAssist " +
         "found no Cloud Code project. Please reconnect OAuth in Providers → Antigravity (and " +
-        "ensure the Google account has completed Gemini Code Assist onboarding).';
+        "ensure the Google account has completed Gemini Code Assist onboarding).";
       const errorBody = {
         error: {
           message: errorMsg,
@@ -611,9 +611,9 @@ export class AntigravityExecutor extends BaseExecutor {
     const normalizedContents: AntigravityContent[] =
       rawContents.map((content): AntigravityContent => {
         const c = content as AntigravityChunkContent;
-        let role = typeof c.role === "string" ? c.role : "user';
+        let role = typeof c.role === "string" ? c.role : "user";
         if (c.parts?.some((p) => p.functionResponse)) {
-          role = "user';
+          role = "user";
         }
 
         const hasFunctionCall = c.parts?.some((p) => p.functionCall) || false;
@@ -694,7 +694,7 @@ export class AntigravityExecutor extends BaseExecutor {
       ...passthroughFields
     } = normalizedBody;
 
-    const requestType = _requestType === "image_gen" ? "image_gen" : "agent';
+    const requestType = _requestType === "image_gen" ? "image_gen" : "agent";
     const envelope: AntigravityRequestEnvelope = {
       project: projectId,
       requestId: generateAntigravityRequestId(),
@@ -759,7 +759,7 @@ export class AntigravityExecutor extends BaseExecutor {
       // Gemini Code Assist). The runtime transformRequest path already does this, but
       // a proactive discovery here prevents 422 errors on the next request when the
       // per-token memoization cache is invalidated by the new access token.
-      let projectId = credentials.projectId?.trim() || "';
+      let projectId = credentials.projectId?.trim() || "";
       if (!projectId && newAccessToken) {
         try {
           const discovered = await ensureAntigravityProjectAssigned(
@@ -1122,7 +1122,7 @@ export class AntigravityExecutor extends BaseExecutor {
     // Use connectionId as the stable cache key — it's available in both the executor
     // (via credentials.connectionId) and the usage fetcher (via connection.id).
     // The email-based key was unreliable because email isn't always on the credentials object.
-    const accountId: string = credentials?.connectionId || "unknown';
+    const accountId: string = credentials?.connectionId || "unknown";
 
     // Resolve credits mode once per execute() call. "always" injects
     // enabledCreditTypes: ["GOOGLE_ONE_AI"] on the first request so the

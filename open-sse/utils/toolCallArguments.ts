@@ -27,19 +27,19 @@
  */
 function normalizeIncomingFragment(incoming: unknown): string {
   if (typeof incoming === "string") return incoming;
-  if (incoming == null) return "';
+  if (incoming == null) return "";
   if (typeof incoming === "object") {
     try {
       return JSON.stringify(incoming);
     } catch {
-      return "';
+      return "";
     }
   }
-  return "';
+  return "";
 }
 
 export function appendToolCallArgumentDelta(current: unknown, incoming: unknown): string {
-  const existing = typeof current === "string" ? current : "';
+  const existing = typeof current === "string" ? current : "";
   const next = normalizeIncomingFragment(incoming);
 
   if (!existing) return next;

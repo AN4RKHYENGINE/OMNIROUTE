@@ -12,7 +12,7 @@ export interface FidelityGateConfig {
   checkDiffHunks?: boolean;
 }
 
-export type FidelityInvariant = "protected-tokens" | "numeric" | "json-keys" | "diff-hunks';
+export type FidelityInvariant = "protected-tokens" | "numeric" | "json-keys" | "diff-hunks";
 
 export interface FidelityResult {
   passed: boolean;

@@ -293,7 +293,7 @@ export function findLargerContextModel(
 ): string | null {
   const currentParsed = parseModel(currentModel);
   const currentProvider =
-    currentParsed.provider || currentParsed.providerAlias || providerHint || "unknown';
+    currentParsed.provider || currentParsed.providerAlias || providerHint || "unknown";
   const currentModelId = currentParsed.model || currentModel;
   const currentLimit = getModelContextLimit(currentProvider, currentModelId) ?? 0;
 
@@ -303,7 +303,7 @@ export function findLargerContextModel(
   for (const candidate of availableModels) {
     if (candidate === currentModel) continue;
     const parsed = parseModel(candidate);
-    const provider = parsed.provider || parsed.providerAlias || providerHint || "unknown';
+    const provider = parsed.provider || parsed.providerAlias || providerHint || "unknown";
     const modelId = parsed.model || candidate;
     const limit = getModelContextLimit(provider, modelId) ?? 0;
 

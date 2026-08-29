@@ -14,7 +14,7 @@ export async function handleIdeogramImageGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "';
+  const token = credentials?.apiKey || "";
   const prompt = typeof body.prompt === "string" ? body.prompt : String(body.prompt ?? "");
   if (log) {
     log.info("IMAGE", `${provider}/${model} (ideogram) | prompt: "${prompt.slice(0, 60)}..."`);

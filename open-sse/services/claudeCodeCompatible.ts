@@ -38,9 +38,9 @@ import {
  * wire-image details, so we only synthesize the minimum required defaults when
  * the caller did not already provide Claude-shaped fields.
  */
-export const CLAUDE_CODE_COMPATIBLE_PREFIX = "anthropic-compatible-cc-';
-export const CLAUDE_CODE_COMPATIBLE_DEFAULT_CHAT_PATH = "/v1/messages?beta=true';
-export const CLAUDE_CODE_COMPATIBLE_DEFAULT_MODELS_PATH = "/models';
+export const CLAUDE_CODE_COMPATIBLE_PREFIX = "anthropic-compatible-cc-";
+export const CLAUDE_CODE_COMPATIBLE_DEFAULT_CHAT_PATH = "/v1/messages?beta=true";
+export const CLAUDE_CODE_COMPATIBLE_DEFAULT_MODELS_PATH = "/models";
 export const CLAUDE_CODE_COMPATIBLE_DEFAULT_MAX_TOKENS = 64000;
 export const CLAUDE_CODE_COMPATIBLE_ANTHROPIC_VERSION = ANTHROPIC_VERSION_HEADER;
 export {
@@ -49,7 +49,7 @@ export {
   resolveClaudeCodeCompatibleAnthropicBeta,
 } from './claudeCodeCompatibleBeta.ts';
 export * from '../config/claudeCodeCompatibleIdentity.ts';
-export const CONTEXT_1M_BETA_HEADER = "context-1m-2025-08-07';
+export const CONTEXT_1M_BETA_HEADER = "context-1m-2025-08-07";
 const CLAUDE_CODE_COMPATIBLE_DEFAULT_SYSTEM_BLOCKS = [
   {
     type: "text",
@@ -111,7 +111,7 @@ export function stripAnthropicMessagesSuffix(baseUrl: string | null | undefined)
   const normalized = String(baseUrl || "")
     .trim()
     .replace(/\/$/, "");
-  if (!normalized) return "';
+  if (!normalized) return "";
   return normalized.split("?")[0].replace(/\/messages$/i, "");
 }
 
@@ -121,7 +121,7 @@ export function stripClaudeCodeCompatibleEndpointSuffix(
   const normalized = String(baseUrl || "")
     .trim()
     .replace(/\/$/, "");
-  if (!normalized) return "';
+  if (!normalized) return "";
   return normalized.split("?")[0].replace(/\/(?:v\d+\/)?messages$/i, "");
 }
 
@@ -468,24 +468,24 @@ export function resolveClaudeCodeCompatibleEffort(
     readNestedString(normalizedBody, ["output_config", "effort"]) ||
     readNestedString(normalizedBody, ["reasoning", "effort"]) ||
     toNonEmptyString(normalizedBody?.["reasoning_effort"]) ||
-    "';
+    "";
 
   const normalizedEffort = raw.toLowerCase();
 
   if (!normalizedEffort) {
-    return supportsClaudeXHighEffort(model) ? "xhigh" : "high';
+    return supportsClaudeXHighEffort(model) ? "xhigh" : "high";
   }
-  if (normalizedEffort === "low") return "low';
-  if (normalizedEffort === "medium") return "medium';
-  if (normalizedEffort === "high") return "high';
-  if (normalizedEffort === "none" || normalizedEffort === "disabled") return "low';
+  if (normalizedEffort === "low") return "low";
+  if (normalizedEffort === "medium") return "medium";
+  if (normalizedEffort === "high") return "high";
+  if (normalizedEffort === "none" || normalizedEffort === "disabled") return "low";
   if (normalizedEffort === "xhigh") {
-    return supportsClaudeXHighEffort(model) ? "xhigh" : "high';
+    return supportsClaudeXHighEffort(model) ? "xhigh" : "high";
   }
   if (normalizedEffort === "max") {
-    return supportsClaudeMaxEffort(model) ? "max" : "high';
+    return supportsClaudeMaxEffort(model) ? "max" : "high";
   }
-  return supportsClaudeXHighEffort(model) ? "xhigh" : "high';
+  return supportsClaudeXHighEffort(model) ? "xhigh" : "high";
 }
 
 export function resolveClaudeCodeCompatibleMaxTokens(
@@ -518,13 +518,13 @@ function buildClaudeCodeCompatibleMessages(messages: MessageLike[]) {
       (
         message
       ): message is {
-        role: "user" | "assistant';
+        role: "user" | "assistant";
         content: Array<Record<string, unknown>>;
       } => !!message && message.content.length > 0
     );
 
   const merged: Array<{
-    role: "user" | "assistant';
+    role: "user" | "assistant";
     content: Array<Record<string, unknown>>;
   }> = [];
 
@@ -647,7 +647,7 @@ function cloneClaudeCodeCompatibleMessagesFromClaude(
         .map((message) => cloneValue(message) as MessageLike)
         .filter((message) => {
           const role = String(message?.role || "").toLowerCase();
-          return role !== "system" && role !== "developer';
+          return role !== "system" && role !== "developer";
         })
     : [];
 
@@ -851,7 +851,7 @@ function prepareClaudeCodeCompatibleSemanticBody(claudeBody: Record<string, unkn
 
   const normalizedMessages = rawMessages.filter((message) => {
     const role = String(message?.role || "").toLowerCase();
-    return role !== "system" && role !== "developer';
+    return role !== "system" && role !== "developer";
   });
 
   const prepared: Record<string, unknown> = {
@@ -882,7 +882,7 @@ function extractClaudeBodyFromSource(
     : [];
   const hasSystemRoleMessages = rawMessages.some((message) => {
     const role = String(message?.role || "").toLowerCase();
-    return role === "system" || role === "developer';
+    return role === "system" || role === "developer";
   });
   const hasClaudeSystem =
     typeof sourceBody.system === "string" ||
@@ -894,7 +894,7 @@ function extractClaudeBodyFromSource(
 
   const normalizedMessages = rawMessages.filter((message) => {
     const role = String(message?.role || "").toLowerCase();
-    return role !== "system" && role !== "developer';
+    return role !== "system" && role !== "developer";
   });
 
   return prepareClaudeCodeCompatibleBody(
@@ -1010,7 +1010,7 @@ function extractCustomSystemBlocks(messages: MessageLike[] | undefined) {
   return messages
     .filter((message) => {
       const role = String(message?.role || "").toLowerCase();
-      return role === "system" || role === "developer';
+      return role === "system" || role === "developer";
     })
     .map((message) => contentToText(message?.content))
     .filter(Boolean)
@@ -1103,7 +1103,7 @@ function resolveClaudeCodeCompatibleOutputConfig({
   sourceBody?: Record<string, unknown> | null;
   normalizedBody?: Record<string, unknown> | null;
   model?: string | null;
-  effort: "low" | "medium" | "high" | "xhigh" | "max';
+  effort: "low" | "medium" | "high" | "xhigh" | "max";
 }) {
   const outputConfig =
     readRecord(cloneValue(claudeBody?.output_config)) ||
@@ -1132,7 +1132,7 @@ function contentToText(content: unknown): string {
   if (Array.isArray(content)) {
     return content
       .map((part) => {
-        if (!part || typeof part !== "object") return "';
+        if (!part || typeof part !== "object") return "";
         const record = part as Record<string, unknown>;
         if (record.type === "text" && typeof record.text === "string") {
           return record.text.trim();
@@ -1140,7 +1140,7 @@ function contentToText(content: unknown): string {
         if (typeof record.text === "string") {
           return record.text.trim();
         }
-        return "';
+        return "";
       })
       .filter(Boolean)
       .join("\n")
@@ -1152,7 +1152,7 @@ function contentToText(content: unknown): string {
     if (typeof record.text === "string") return record.text.trim();
   }
 
-  return "';
+  return "";
 }
 
 function getHeader(headers: HeaderLike, name: string): string | null {

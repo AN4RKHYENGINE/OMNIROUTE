@@ -20,7 +20,7 @@ function isRecord(v: unknown): v is Record<string, unknown> {
 
 /** v1 stabilizes string-content system messages only. Array/multimodal ⇒ no-op (follow-up). */
 function systemTextOf(msg: Record<string, unknown>): string {
-  return typeof msg.content === "string" ? msg.content : "';
+  return typeof msg.content === "string" ? msg.content : "";
 }
 
 /**
@@ -49,7 +49,7 @@ export function applyQuantumLock(
   const spans = detectVolatileSpans(text, cfg);
   if (spans.length === 0) return { body, stats: emptyStats() };
 
-  let out = "';
+  let out = "";
   let cursor = 0;
   const values: string[] = [];
   const categories: Partial<Record<QuantumCategory, number>> = {};

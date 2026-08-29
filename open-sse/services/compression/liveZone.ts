@@ -22,7 +22,7 @@ interface LiveZoneEntry {
 }
 
 interface LiveZoneContext {
-  field: "messages" | "input';
+  field: "messages" | "input";
   key: string;
   rawItems: unknown[];
   rawItemDigests: string[];
@@ -98,8 +98,8 @@ function pickStableFields(body: Record<string, unknown>): Record<string, unknown
 }
 
 function sequenceField(body: Record<string, unknown>): "messages" | "input" | null {
-  if (Array.isArray(body.messages)) return "messages';
-  if (Array.isArray(body.input)) return "input';
+  if (Array.isArray(body.messages)) return "messages";
+  if (Array.isArray(body.input)) return "input";
   return null;
 }
 

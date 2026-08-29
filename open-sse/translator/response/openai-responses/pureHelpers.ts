@@ -2,7 +2,7 @@
 // Extracted verbatim from response/openai-responses.ts (no host imports, no stream state).
 
 export function normalizeToolName(value) {
-  return typeof value === "string" ? value.trim() : "';
+  return typeof value === "string" ? value.trim() : "";
 }
 
 // Tools whose empty-string/empty-array optional args are safe to strip. Arbitrary
@@ -138,28 +138,28 @@ export function normalizeUpstreamFailure(data, fallbackType = "server_error") {
         ? data.error
         : null;
 
-  const code = typeof error?.code === "string" ? error.code : "';
+  const code = typeof error?.code === "string" ? error.code : "";
   const message =
     typeof error?.message === "string"
       ? error.message
       : typeof data?.message === "string"
         ? data.message
-        : "Upstream failure';
+        : "Upstream failure";
 
   // Preserve upstream error semantics:
   // - context_length_exceeded → 400 (client can retry with smaller context)
   // - rate_limit_exceeded → 429 (client should back off)
   // - Everything else → 502 (upstream failure)
-  const isContextOverflow = code === "context_length_exceeded';
-  const isRateLimit = code === "rate_limit_exceeded" || code === "rate_limited';
+  const isContextOverflow = code === "context_length_exceeded";
+  const isRateLimit = code === "rate_limit_exceeded" || code === "rate_limited";
   let status: number;
   let type: string;
   if (isRateLimit) {
     status = 429;
-    type = "rate_limit_error';
+    type = "rate_limit_error";
   } else if (isContextOverflow) {
     status = 400;
-    type = "invalid_request_error';
+    type = "invalid_request_error";
   } else {
     status = 502;
     type = fallbackType;
@@ -174,7 +174,7 @@ export function normalizeUpstreamFailure(data, fallbackType = "server_error") {
 }
 
 export function extractResponsesReasoningSummaryText(item) {
-  if (!item || !Array.isArray(item.summary)) return "';
+  if (!item || !Array.isArray(item.summary)) return "";
   // #9500 — reasoning summary parts are discrete segments; join with "\n\n"
   // (matches extractThinkingFromContent convention). Filter empties so an
   // empty summary_text element does not produce a dangling separator.

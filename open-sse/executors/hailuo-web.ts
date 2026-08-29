@@ -33,12 +33,12 @@ import { createHash } from 'node:crypto';
 import { BaseExecutor, type ExecuteInput } from './base.ts';
 import { makeExecutorErrorResult as makeErrorResult, sanitizeErrorMessage } from '../utils/error.ts';
 
-const BASE_URL = "https://www.hailuo.ai';
-const API_PATH = "/v4/api/chat/msg';
+const BASE_URL = "https://www.hailuo.ai";
+const API_PATH = "/v4/api/chat/msg";
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
-const DEFAULT_CHARACTER_ID = "1';
-const DEFAULT_CHAT_ID = "0';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
+const DEFAULT_CHARACTER_ID = "1";
+const DEFAULT_CHAT_ID = "0";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -47,7 +47,7 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function toStringOrEmpty(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "';
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function md5(input: string): string {
@@ -63,7 +63,7 @@ function md5(input: string): string {
  */
 export function pyQuote(input: string): string {
   const bytes = new TextEncoder().encode(input);
-  let out = "';
+  let out = "";
   for (const byte of bytes) {
     const ch = String.fromCharCode(byte);
     if (/[A-Za-z0-9_.\-~]/.test(ch)) {
@@ -194,7 +194,7 @@ export interface HailuoStreamState {
 
 /** `message_result.content` is a cumulative snapshot, not a delta — diff it. */
 export function extractHailuoMessageDelta(content: string, state: HailuoStreamState): string {
-  if (typeof content !== "string" || content.length <= state.emittedLen) return "';
+  if (typeof content !== "string" || content.length <= state.emittedLen) return "";
   const delta = content.slice(state.emittedLen);
   state.emittedLen = content.length;
   return delta;
@@ -273,16 +273,16 @@ export class HailuoWebExecutor extends BaseExecutor {
 
     const decoder = new TextDecoder();
     const state: HailuoStreamState = { emittedLen: 0 };
-    let currentEvent = "';
-    let buffer = "';
+    let currentEvent = "";
+    let buffer = "";
 
     const processLine = (line: string): "continue" | "close" => {
       const parsed = parseHailuoLine(line);
-      if (!parsed) return "continue';
+      if (!parsed) return "continue";
       if (parsed.type === "event") {
         currentEvent = parsed.value;
-        if (currentEvent === "close_chunk") return "close';
-        return "continue';
+        if (currentEvent === "close_chunk") return "close";
+        return "continue";
       }
       if (currentEvent === "message_result") {
         const content = extractHailuoMessageResultContent(parsed.value);
@@ -291,7 +291,7 @@ export class HailuoWebExecutor extends BaseExecutor {
           if (delta) onDelta(delta);
         }
       }
-      return "continue';
+      return "continue";
     };
 
     try {
@@ -300,7 +300,7 @@ export class HailuoWebExecutor extends BaseExecutor {
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split(/\r?\n/);
-        buffer = lines.pop() || "';
+        buffer = lines.pop() || "";
         for (const line of lines) {
           if (processLine(line) === "close") return { ok: true };
         }
@@ -415,7 +415,7 @@ export class HailuoWebExecutor extends BaseExecutor {
     body: unknown,
     bodyObj: JsonRecord
   ) {
-    let answer = "';
+    let answer = "";
     const result = await this.streamToText(upstream, (delta) => {
       answer += delta;
     });
@@ -523,7 +523,7 @@ export class HailuoWebExecutor extends BaseExecutor {
 
     const id = `chatcmpl-hailuo-${Date.now()}`;
     const created = Math.floor(Date.now() / 1000);
-    const modelId = input.model || "hailuo';
+    const modelId = input.model || "hailuo";
 
     if (wantStream) {
       const outStream = this.buildStreamingResponse(upstream, id, created, modelId, signal);

@@ -21,7 +21,7 @@ export async function handleLeonardoVideoGeneration({
   log,
 }) {
   const startTime = Date.now();
-  const token = credentials?.apiKey || "';
+  const token = credentials?.apiKey || "";
   const res = await fetch(providerConfig.baseUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },

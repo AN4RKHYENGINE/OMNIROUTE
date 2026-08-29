@@ -7,7 +7,7 @@
  */
 
 // Unicode zero-width joiner inserted between characters
-const ZWJ = "\u200d';
+const ZWJ = "\u200d";
 
 const DEFAULT_SENSITIVE_WORDS = [
   "opencode",

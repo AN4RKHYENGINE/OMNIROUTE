@@ -4,24 +4,24 @@ import type { ProviderCredentials } from '../base.ts';
 import { extractImageUrls } from '../../utils/cursorImages.ts';
 import { normalizeCookie, sanitizeErrorMessage } from '../../utils/error.ts';
 
-export const ZAI_BASE_URL = "https://chat.z.ai';
+export const ZAI_BASE_URL = "https://chat.z.ai";
 export const ZAI_NEW_CHAT_URL = `${ZAI_BASE_URL}/api/v1/chats/new`;
 export const ZAI_CHAT_URL = `${ZAI_BASE_URL}/api/v2/chat/completions`;
-export const ZAI_DEFAULT_MODEL = "GLM-5.1';
-export const ZAI_DEFAULT_FE_VERSION = "prod-fe-1.1.79';
+export const ZAI_DEFAULT_MODEL = "GLM-5.1";
+export const ZAI_DEFAULT_FE_VERSION = "prod-fe-1.1.79";
 export const ZAI_USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
 export const ZAI_FE_VERSION_CACHE_TTL_MS = 15 * 60 * 1000;
 
-const CLIENT_PROTOCOL_VERSION = "0.0.1';
-const SIGNATURE_KEY = "key-@@@@)))()((9))-xxxx&&&%%%%%';
+const CLIENT_PROTOCOL_VERSION = "0.0.1";
+const SIGNATURE_KEY = "key-@@@@)))()((9))-xxxx&&&%%%%%";
 
 export interface NewChatRequest {
   payload: Record<string, unknown>;
   userMessageId: string;
 }
 
-export type ZaiReasoningEffort = "high" | "max';
+export type ZaiReasoningEffort = "high" | "max";
 
 export interface ZaiThinkingConfig {
   enabled: boolean;
@@ -120,7 +120,7 @@ export function asRecord(value: unknown): Record<string, unknown> | null {
 
 function browserFailureDetail(body: Buffer): string {
   const raw = body.toString("utf8").trim();
-  if (!raw) return "';
+  if (!raw) return "";
   try {
     const parsed = asRecord(JSON.parse(raw));
     const error = asRecord(parsed?.error);
@@ -138,12 +138,12 @@ export function describeZaiBrowserFailure(result: {
   observedPostUrls?: string[];
   timing: { captureResponseMs: number; totalMs: number };
 }): string {
-  const status = result.status > 0 ? String(result.status) : "no matching response';
+  const status = result.status > 0 ? String(result.status) : "no matching response";
   const timing = `capture ${result.timing.captureResponseMs}ms, total ${result.timing.totalMs}ms`;
   const observed =
     result.observedPostUrls && result.observedPostUrls.length > 0
       ? ` Observed POST targets: ${result.observedPostUrls.join(", ")}.`
-      : "';
+      : "";
   const detail =
     browserFailureDetail(result.body) ||
     (result.status === 0
@@ -167,14 +167,14 @@ export function extractZaiToken(rawCredential: string): string {
   const json = parseCredentialJson(trimmed);
   if (json) {
     const token = json.token ?? json.accessToken ?? json.access_token;
-    return typeof token === "string" ? token.trim() : "';
+    return typeof token === "string" ? token.trim() : "";
   }
 
   const bearer = trimmed.match(/^(?:Authorization:\s*)?Bearer\s+(.+)$/i);
   if (bearer) return bearer[1].trim();
 
   const normalized = normalizeCookie(trimmed);
-  if (!normalized) return "';
+  if (!normalized) return "";
   const match = normalized.match(/(?:^|;\s*)token=([^;]+)/);
   if (match) return match[1].trim();
   return normalized.includes(";") || normalized.includes("=") ? "" : normalized;
@@ -189,14 +189,14 @@ export function extractZaiCaptchaVerifyParam(value: unknown): string {
     if (typeof direct === "string" && direct.trim()) return direct.trim();
     const nested = asRecord(record.providerSpecificData);
     if (nested) return extractZaiCaptchaVerifyParam(nested);
-    return "';
+    return "";
   }
 
-  if (typeof value !== "string") return "';
+  if (typeof value !== "string") return "";
   const json = parseCredentialJson(value);
   if (json) return extractZaiCaptchaVerifyParam(json);
   const match = value.match(/(?:^|;\s*)captcha_verify_param=([^;]+)/);
-  return match?.[1]?.trim() ?? "';
+  return match?.[1]?.trim() ?? "";
 }
 
 export function resolveZaiCaptchaVerifyParam(
@@ -213,12 +213,12 @@ export function resolveZaiCaptchaVerifyParam(
 
 export function extractZaiUserId(token: string): string {
   const payload = token.split(".")[1];
-  if (!payload) return "';
+  if (!payload) return "";
   try {
     const decoded = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
-    return typeof decoded?.id === "string" ? decoded.id : "';
+    return typeof decoded?.id === "string" ? decoded.id : "";
   } catch {
-    return "';
+    return "";
   }
 }
 
@@ -250,7 +250,7 @@ export function parseZaiFrontendVersion(html: string): string | null {
 
 function textContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
   return content
     .flatMap((part) => {
       const record = asRecord(part);
@@ -266,7 +266,7 @@ export function latestUserPrompt(messages: Array<{ role: string; content: unknow
     if (messages[index]?.role !== "user") continue;
     return textContent(messages[index].content);
   }
-  return "';
+  return "";
 }
 
 export function foldMessages(
@@ -299,7 +299,7 @@ export function zaiImageFileName(mimeType: string, index: number): string {
         ? "svg"
         : normalized.startsWith("image/")
           ? normalized.slice("image/".length).replace(/[^a-z0-9]/g, "") || "png"
-          : "png';
+          : "png";
   return `omniroute-image-${index + 1}.${extension}`;
 }
 
@@ -309,8 +309,8 @@ export function unprefixedModelId(modelId: string): string {
 
 export function browserModelName(modelId: string): string {
   const unprefixed = unprefixedModelId(modelId);
-  if (unprefixed.toLowerCase() === "glm-5.2") return "GLM-5.2';
-  if (unprefixed.toLowerCase() === "glm-5v-turbo") return "GLM-5V-Turbo';
+  if (unprefixed.toLowerCase() === "glm-5.2") return "GLM-5.2";
+  if (unprefixed.toLowerCase() === "glm-5v-turbo") return "GLM-5V-Turbo";
   return unprefixed;
 }
 
@@ -338,10 +338,10 @@ export function resolveZaiThinkingConfig(
       ? body.reasoning_effort.trim().toLowerCase()
       : typeof reasoning?.effort === "string"
         ? reasoning.effort.trim().toLowerCase()
-        : "';
-  const disabled = body.enable_thinking === false || rawEffort === "none" || rawEffort === "off';
+        : "";
+  const disabled = body.enable_thinking === false || rawEffort === "none" || rawEffort === "off";
   const effort: ZaiReasoningEffort =
-    rawEffort === "low" || rawEffort === "medium" || rawEffort === "high" ? "high" : "max';
+    rawEffort === "low" || rawEffort === "medium" || rawEffort === "high" ? "high" : "max";
 
   return {
     supported,
@@ -371,7 +371,7 @@ export function resolveZaiVlmConfig(modelId: string, body: Record<string, unknow
 export function buildZaiHeaders(
   token: string,
   options: {
-    accept: "application/json" | "text/event-stream';
+    accept: "application/json" | "text/event-stream";
     frontendVersion?: string;
     signature?: string;
   }

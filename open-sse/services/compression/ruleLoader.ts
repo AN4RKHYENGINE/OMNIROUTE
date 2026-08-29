@@ -41,7 +41,7 @@ function normalizeReplacementKey(value: string): string {
 }
 
 function compileReplacement(rule: FileRule): CavemanRule["replacement"] {
-  if (!rule.replacementMap) return rule.replacement ?? "';
+  if (!rule.replacementMap) return rule.replacement ?? "";
 
   const normalizedMap = new Map(
     Object.entries(rule.replacementMap).map(([key, value]) => [normalizeReplacementKey(key), value])
@@ -49,13 +49,13 @@ function compileReplacement(rule: FileRule): CavemanRule["replacement"] {
   const fallback = rule.replacement;
   return (match: string) => {
     const normalized = normalizeReplacementKey(match);
-    if (normalizedMap.has(normalized)) return normalizedMap.get(normalized) ?? "';
+    if (normalizedMap.has(normalized)) return normalizedMap.get(normalized) ?? "";
     return fallback ?? match;
   };
 }
 
 function getRuleFlags(rule: FileRule): string {
-  return rule.flags ?? "gi';
+  return rule.flags ?? "gi";
 }
 
 function getModuleDir(): string {
@@ -129,7 +129,7 @@ export function validateRulePack(pack: unknown): { valid: boolean; errors: strin
         return;
       }
       const entry = rule as Partial<FileRule>;
-      const flags = typeof entry.flags === "string" ? entry.flags : "gi';
+      const flags = typeof entry.flags === "string" ? entry.flags : "gi";
       if (typeof entry.name !== "string" || !entry.name.trim()) {
         errors.push(`rules[${index}].name must be a non-empty string`);
       }

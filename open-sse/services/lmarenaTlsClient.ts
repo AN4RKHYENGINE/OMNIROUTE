@@ -3,7 +3,7 @@
  *
  * Why this exists: LMArena sits behind Cloudflare Enterprise which pins
  * `cf_clearance` to the client's TLS fingerprint (JA3/JA4) + HTTP/2 SETTINGS
- * frame ordering. Node's Undici fetch presents an obvious "not a browser"
+ * frame ordering. Node"s Undici fetch presents an obvious "not a browser"
  * handshake and gets challenged with a 403 even with a valid arena session
  * cookie (and often a browser-minted `cf_clearance`). This module wraps
  * `tls-client-node` (bogdanfinn/tls-client) to send a Chrome handshake instead.
@@ -26,7 +26,7 @@ let exitHookInstalled = false;
 
 // Newest Chrome JA3 profile shipped by tls-client-node (no chrome_147+ yet).
 // HTTP User-Agent / Sec-Ch-Ua track Chrome 150 separately in models.ts.
-const LMARENA_PROFILE = "chrome_146';
+const LMARENA_PROFILE = "chrome_146";
 // Fixed timeouts (same defaults as other TLS sidecars). No extra env knobs —
 // env-doc-sync must not grow for provider-local constants.
 const DEFAULT_TIMEOUT_MS = 60_000;
@@ -71,7 +71,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError';
+    this.name = "TlsClientHangError";
   }
 }
 
@@ -169,12 +169,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError';
+    this.name = "TlsClientUnavailableError";
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -317,7 +317,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError';
+  err.name = "AbortError";
   return err;
 }
 
@@ -522,10 +522,10 @@ async function drainRemaining(
 ): Promise<"closed" | "drained"> {
   while (true) {
     const { bytesRead } = await fd.read(buf, 0, buf.length, offsetRef.offset);
-    if (bytesRead === 0) return "drained';
+    if (bytesRead === 0) return "drained";
     const chunk = buf.subarray(0, bytesRead);
     offsetRef.offset += bytesRead;
-    if (enqueueChunkMaybeEof(controller, chunk, eofSymbol)) return "closed';
+    if (enqueueChunkMaybeEof(controller, chunk, eofSymbol)) return "closed";
   }
 }
 

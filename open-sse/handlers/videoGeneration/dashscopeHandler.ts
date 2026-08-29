@@ -62,7 +62,7 @@ export async function handleDashscopeVideoGeneration({
     provider === "alibaba" ||
     provider === "bailian-coding-plan" ||
     provider === "qwen-cloud" ||
-    provider === "qwen-cloud-token-plan';
+    provider === "qwen-cloud-token-plan";
   const isRegisteredAlibabaMediaModel =
     !isAlibabaManagedMediaProvider ||
     providerConfig.models?.some((entry) => entry.id === model) === true;
@@ -128,7 +128,7 @@ export async function handleDashscopeVideoGeneration({
       const errorMessage =
         createData?.message ||
         createData?.errors?.[0]?.message ||
-        "DashScope video generation did not return task_id';
+        "DashScope video generation did not return task_id";
       if (log) {
         log.error("VIDEO", `DashScope createTask failed: ${JSON.stringify(createData)}`);
       }
@@ -137,14 +137,14 @@ export async function handleDashscopeVideoGeneration({
 
     // Step 2: poll statusUrl/{task_id} until terminal
     const deadline = startTime + timeoutMs;
-    let lastStatus = "PENDING';
+    let lastStatus = "PENDING";
     while (Date.now() < deadline) {
       await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
       const pollRes = await fetch(`${statusUrl}/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const pollData = await pollRes.json().catch(() => ({}));
-      lastStatus = pollData?.output?.task_status || "PENDING';
+      lastStatus = pollData?.output?.task_status || "PENDING";
 
       if (lastStatus === "SUCCEEDED") {
         const videoUrl = pollData?.output?.video_url;
@@ -177,7 +177,7 @@ export async function handleDashscopeVideoGeneration({
         const errorMessage =
           pollData?.output?.message ||
           pollData?.output?.errors?.[0]?.message ||
-          "DashScope video task FAILED';
+          "DashScope video task FAILED";
         return { success: false, status: 502, error: String(errorMessage) };
       }
       // PENDING / RUNNING → keep polling
@@ -383,7 +383,7 @@ type DashscopeMediaType =
   | "reference_image"
   | "reference_video"
   | "video"
-  | "driving_audio';
+  | "driving_audio";
 
 type DashscopeMediaItem = {
   type: DashscopeMediaType;
@@ -518,7 +518,7 @@ function normalizeHappyHorseResolution(resolution: unknown, size: unknown): stri
   if (typeof size !== "string") return undefined;
   const match = size.trim().match(/^(\d+)[x*](\d+)$/i);
   if (!match) return undefined;
-  return Math.max(Number(match[1]), Number(match[2])) >= 1920 ? "1080P" : "720P';
+  return Math.max(Number(match[1]), Number(match[2])) >= 1920 ? "1080P" : "720P";
 }
 
 function normalizeHappyHorseRatio(
@@ -536,11 +536,11 @@ function normalizeHappyHorseRatio(
   if (!match) return undefined;
   const width = Number(match[1]);
   const height = Number(match[2]);
-  if (width === height) return "1:1';
-  if (width * 9 === height * 16) return "16:9';
-  if (width * 16 === height * 9) return "9:16';
-  if (width * 3 === height * 4) return "4:3';
-  if (width * 4 === height * 3) return "3:4';
+  if (width === height) return "1:1";
+  if (width * 9 === height * 16) return "16:9";
+  if (width * 16 === height * 9) return "9:16";
+  if (width * 3 === height * 4) return "4:3";
+  if (width * 4 === height * 3) return "3:4";
   return undefined;
 }
 

@@ -26,7 +26,7 @@ const MAX_VISIBLE_NAMES = 80;
  * back to `"unknown"`.
  */
 export function getToolName(tool: ToolLike | null | undefined): string {
-  return tool?.name || tool?.function?.name || tool?.type || "unknown';
+  return tool?.name || tool?.function?.name || tool?.type || "unknown";
 }
 
 /**
@@ -39,11 +39,11 @@ export function getToolName(tool: ToolLike | null | undefined): string {
 export function getToolSource(name: string): string {
   if (name.startsWith("mcp__")) {
     const parts = name.split("__");
-    return parts[1] ? `mcp:${parts[1]}` : "mcp';
+    return parts[1] ? `mcp:${parts[1]}` : "mcp";
   }
-  if (name.startsWith("web_search") || name.startsWith("web_fetch")) return "hosted:web';
-  if (name.startsWith("computer_") || name.startsWith("str_replace_")) return "hosted:computer';
-  return "client';
+  if (name.startsWith("web_search") || name.startsWith("web_fetch")) return "hosted:web";
+  if (name.startsWith("computer_") || name.startsWith("str_replace_")) return "hosted:computer";
+  return "client";
 }
 
 /**
@@ -64,6 +64,6 @@ export function summarizeToolSources(tools: unknown): string | null {
     .join(", ");
   const visibleNames = names.slice(0, MAX_VISIBLE_NAMES).join(", ");
   const suffix =
-    names.length > MAX_VISIBLE_NAMES ? `, ... +${names.length - MAX_VISIBLE_NAMES} more` : "';
+    names.length > MAX_VISIBLE_NAMES ? `, ... +${names.length - MAX_VISIBLE_NAMES} more` : "";
   return `${tools.length} tools | sources: ${sources} | names: ${visibleNames}${suffix}`;
 }

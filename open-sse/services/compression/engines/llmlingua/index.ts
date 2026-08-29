@@ -90,7 +90,7 @@ function resolveBackend(): LlmlinguaBackend {
 // ─── prose/code splitting ─────────────────────────────────────────────────────
 
 interface TextSegment {
-  kind: "prose" | "preserved';
+  kind: "prose" | "preserved";
   text: string;
 }
 
@@ -326,7 +326,7 @@ function validateLlmlinguaConfig(config: Record<string, unknown>): EngineValidat
 
 // ─── engine export ─────────────────────────────────────────────────────────────
 
-const ENGINE_ID = "llmlingua';
+const ENGINE_ID = "llmlingua";
 
 export const llmlinguaEngine: CompressionEngine = {
   id: ENGINE_ID,

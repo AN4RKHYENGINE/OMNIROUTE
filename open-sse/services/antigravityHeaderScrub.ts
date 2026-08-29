@@ -67,7 +67,7 @@ export function scrubProxyAndFingerprintHeaders(
     cleaned[key] = value;
   }
   // Set the standard Node.js accept-encoding
-  cleaned["Accept-Encoding"] = "gzip, deflate, br';
+  cleaned["Accept-Encoding"] = "gzip, deflate, br";
   if (authorizationValue !== undefined) {
     cleaned["Authorization"] = authorizationValue;
   }

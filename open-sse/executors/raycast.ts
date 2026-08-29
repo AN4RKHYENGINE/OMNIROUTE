@@ -36,7 +36,7 @@ export class RaycastExecutor extends BaseExecutor {
     credentials: ProviderCredentials,
     payload?: string
   ): Record<string, string> {
-    const body = payload || "{}';
+    const body = payload || "{}";
     return buildRaycastHeaders(body, credentials as JsonRecord);
   }
 
@@ -135,7 +135,7 @@ export class RaycastExecutor extends BaseExecutor {
           const encoder = new TextEncoder();
           const reader = raycastBody.getReader();
           const decoder = new TextDecoder();
-          let buffer = "';
+          let buffer = "";
 
           try {
             while (true) {

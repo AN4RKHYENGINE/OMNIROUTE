@@ -99,7 +99,7 @@ type ThinkingSignatureError = {
 function isThinkingBlock(block: unknown): boolean {
   if (!block || typeof block !== "object") return false;
   const type = (block as { type?: unknown }).type;
-  return type === "thinking" || type === "redacted_thinking';
+  return type === "thinking" || type === "redacted_thinking";
 }
 
 function hasBlock(message: MessageLike | null | undefined, type: string): boolean {

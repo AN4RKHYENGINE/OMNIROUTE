@@ -129,7 +129,7 @@ async function isInitializeRequest(request: Request): Promise<boolean> {
 
   try {
     const body = (await request.clone().json()) as { method?: unknown };
-    return body?.method === "initialize';
+    return body?.method === "initialize";
   } catch {
     return false;
   }

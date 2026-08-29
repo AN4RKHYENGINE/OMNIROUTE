@@ -167,7 +167,7 @@ function createSemaphoreTimeoutError(
   const error = new Error(`Semaphore timeout after ${timeoutMs}ms for ${semaphoreKey}`) as Error & {
     code: string;
   };
-  error.code = "SEMAPHORE_TIMEOUT';
+  error.code = "SEMAPHORE_TIMEOUT";
   return error;
 }
 
@@ -175,7 +175,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError';
+  err.name = "AbortError";
   return err;
 }
 
@@ -214,7 +214,7 @@ export function acquire(
     const err = new Error(`Semaphore queue full (${maxQueueSize}) for ${semaphoreKey}`) as Error & {
       code: string;
     };
-    err.code = "SEMAPHORE_QUEUE_FULL';
+    err.code = "SEMAPHORE_QUEUE_FULL";
     return Promise.reject(err);
   }
 

@@ -11,7 +11,7 @@ import type { ClaudeWebRequestPayload } from './payload.ts';
 const CLAUDE_WEB_TEMPLATE_TTL_MS = 30 * 60 * 1000;
 const CLAUDE_WEB_TEMPLATE_MAX = 5000;
 const MAX_CLAUDE_WEB_BROWSER_RESPONSE_BYTES = 16 * 1024 * 1024;
-const CLAUDE_WEB_INPUT_SELECTOR = "div[contenteditable='true']';
+const CLAUDE_WEB_INPUT_SELECTOR = "div[contenteditable='true"]";
 
 type Page = import("playwright").Page;
 
@@ -34,7 +34,7 @@ export interface ClaudeWebTransportRequest {
   scopeKey: string;
   organizationId: string;
   conversationId: string;
-  endpointSuffix: "completion" | "retry_completion';
+  endpointSuffix: "completion" | "retry_completion";
   pageUrl: string;
   url: string;
   cookieString: string;
@@ -278,7 +278,7 @@ export async function fetchClaudeWebPageResponse(
     const bodyChunks: string[] = [];
     let totalBytes = 0;
     const encodeBase64 = (bytes: Uint8Array): string => {
-      let binary = "';
+      let binary = "";
       const sliceSize = 32 * 1024;
       for (let offset = 0; offset < bytes.byteLength; offset += sliceSize) {
         binary += String.fromCharCode(...bytes.subarray(offset, offset + sliceSize));

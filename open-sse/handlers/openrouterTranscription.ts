@@ -19,8 +19,8 @@ import { upstreamErrorResponse } from './audioTranscription.ts';
  * Falls back to "wav" when neither is recognisable.
  */
 export function resolveOpenRouterAudioFormat(file: Blob & { name?: unknown }): string {
-  const fileName = typeof file.name === "string" ? file.name.toLowerCase() : "';
-  const extension = fileName.includes(".") ? fileName.split(".").pop() || "" : "';
+  const fileName = typeof file.name === "string" ? file.name.toLowerCase() : "";
+  const extension = fileName.includes(".") ? fileName.split(".").pop() || "" : "";
   if (["wav", "mp3", "flac", "m4a", "ogg", "webm", "aac"].includes(extension)) {
     return extension;
   }
@@ -39,7 +39,7 @@ export function resolveOpenRouterAudioFormat(file: Blob & { name?: unknown }): s
   // Browser-recorded blobs carry codec params (e.g. "audio/webm;codecs=opus");
   // match on the base MIME type only.
   const mimeType = (file.type || "").split(";")[0].trim().toLowerCase();
-  return mimeFormats[mimeType] || "wav';
+  return mimeFormats[mimeType] || "wav";
 }
 
 /**

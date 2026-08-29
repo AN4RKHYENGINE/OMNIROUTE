@@ -8,7 +8,7 @@ export type AntigravityCollectedStream = {
   toolCalls: Array<{
     id: string;
     index: number;
-    type: "function';
+    type: "function";
     function: { name: string; arguments: string };
   }>;
   usage: Record<string, unknown> | null;
@@ -65,7 +65,7 @@ export function addAntigravityTextualToolCall(
       arguments: JSON.stringify(parsed.args || {}),
     },
   });
-  collected.finishReason = "tool_calls';
+  collected.finishReason = "tool_calls";
 }
 
 export function processAntigravitySSEPayload(
@@ -107,7 +107,7 @@ export function processAntigravitySSEPayload(
               arguments: JSON.stringify(stripZeroWidth(fc.args ?? {})),
             },
           });
-          collected.finishReason = "tool_calls';
+          collected.finishReason = "tool_calls";
           continue;
         }
         if (typeof part.text === "string" && !part.thought && !part.thoughtSignature) {
@@ -163,7 +163,7 @@ export function processAntigravitySSEText(
 ) {
   partialLine.value += text;
   const lines = partialLine.value.split("\n");
-  partialLine.value = lines.pop() || "';
+  partialLine.value = lines.pop() || "";
 
   for (const line of lines) {
     const trimmed = line.trim();
@@ -178,7 +178,7 @@ export function flushAntigravitySSEText(
   log?: { debug?: (scope: string, message: string) => void }
 ) {
   const trimmed = partialLine.value.trim();
-  partialLine.value = "';
+  partialLine.value = "";
   if (!trimmed.startsWith("data:")) return;
   processAntigravitySSEPayload(trimmed.slice(5).trim(), collected, log);
 }

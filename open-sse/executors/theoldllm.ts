@@ -1,11 +1,11 @@
 import { BaseExecutor, type ExecuteInput } from './base.ts';
 import type { ProviderCredentials } from './base.ts';
 
-const API_BASE = "https://theoldllm.vercel.app';
-const API_PATH = "/api/chatgpt';
+const API_BASE = "https://theoldllm.vercel.app";
+const API_PATH = "/api/chatgpt";
 const API_URL = `${API_BASE}${API_PATH}`;
 const CHROME_UA =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 // ── Model name mapping ────────────────────────────────────────────────────
 
@@ -84,18 +84,18 @@ export function mapModel(model: string): string {
   if (GPT_MODELS[gptKey2]) return GPT_MODELS[gptKey2];
   if (CLAUDE_NAMES[n]) return CLAUDE_NAMES[n];
   if (n.includes("claude")) {
-    if (n.includes("opus")) return "CLAUDE_4_6_OPUS';
-    if (n.includes("sonnet")) return "CLAUDE_4_6_SONNET';
-    if (n.includes("haiku")) return "CLAUDE_4_5_HAIKU';
+    if (n.includes("opus")) return "CLAUDE_4_6_OPUS";
+    if (n.includes("sonnet")) return "CLAUDE_4_6_SONNET";
+    if (n.includes("haiku")) return "CLAUDE_4_5_HAIKU";
   }
-  if (n.includes("gpt") && n.includes("5")) return "GPT_5_4';
-  return "GPT_5_4';
+  if (n.includes("gpt") && n.includes("5")) return "GPT_5_4";
+  return "GPT_5_4";
 }
 
 // ── Token generation (mirrors client-side rie() from theoldllm.vercel.app) ──
 //
 // The SPA generates X-Request-Token via:
-//   const nie = "oldllm-client-2026';
+//   const nie = "oldllm-client-2026";
 //   const n = Date.now();
 //   const e = `${n}-${nie}-${navigator.userAgent.slice(0, 20)}`;
 //   let t = djb2_hash(e);
@@ -105,7 +105,7 @@ export function mapModel(model: string): string {
 // Since nie is a static constant and the UA prefix is known, we can generate
 // valid tokens server-side without launching a browser.
 
-const TOKEN_SEED = "oldllm-client-2026';
+const TOKEN_SEED = "oldllm-client-2026";
 const UA_PREFIX = CHROME_UA.slice(0, 20); // "Mozilla/5.0 (Windows"
 
 type TheOldLlmProxy = Awaited<
@@ -185,7 +185,7 @@ async function directFetch(
   const controller = new AbortController();
   const timer = setTimeout(() => {
     const err = new Error("theoldllm timeout after 120000ms");
-    err.name = "TimeoutError';
+    err.name = "TimeoutError";
     controller.abort(err);
   }, 120_000);
   const onSignal = signal ? () => controller.abort(signal.reason) : undefined;
@@ -228,12 +228,12 @@ function isTokenRejected(status: number, body: string): boolean {
 // ── SSE helpers ───────────────────────────────────────────────────────────
 
 function parseSseContent(sseText: string): string {
-  let content = "';
+  let content = "";
   for (const line of sseText.split("\n")) {
     if (line.startsWith("data: ") && line !== "data: [DONE]") {
       try {
         const d = JSON.parse(line.slice(6));
-        content += d.choices?.[0]?.delta?.content || d.choices?.[0]?.delta?.text || "';
+        content += d.choices?.[0]?.delta?.content || d.choices?.[0]?.delta?.text || "";
       } catch {}
     }
   }

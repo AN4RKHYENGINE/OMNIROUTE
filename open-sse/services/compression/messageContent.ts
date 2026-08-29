@@ -24,7 +24,7 @@ export function isTextBlock(value: unknown): value is TextBlock {
 
 export function extractTextContent(content: ChatMessageLike["content"]): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
 
   const textParts: string[] = [];
   for (const part of content) {
@@ -76,7 +76,7 @@ export function replaceTextContent(msg: ChatMessageLike, newText: string): ChatM
       replaced = true;
       return [{ ...part, text: newText }];
     }
-    const partText = part.text ?? "';
+    const partText = part.text ?? "";
     if (partText && !newText.includes(partText)) return [part];
     return [];
   });

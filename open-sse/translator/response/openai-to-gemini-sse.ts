@@ -184,7 +184,7 @@ export function openAIChunkToGeminiChunk(
   };
 
   if (choice.finish_reason) {
-    candidate.finishReason = OPENAI_TO_GEMINI_FINISH_REASON[choice.finish_reason] ?? "STOP';
+    candidate.finishReason = OPENAI_TO_GEMINI_FINISH_REASON[choice.finish_reason] ?? "STOP";
   }
 
   const out: GeminiStreamChunk = { candidates: [candidate] };
@@ -226,7 +226,7 @@ export function transformOpenAISSEToGeminiSSE(upstreamResponse: Response, model:
   // OpenAI SSE events are delimited by a blank line. A single `chunk` may
   // contain partial lines; carry the trailing fragment over to the next
   // chunk so we never JSON.parse a half-event.
-  let buffer = "';
+  let buffer = "";
 
   // Per-stream tool-call accumulator (shared across transform + flush).
   const toolCallState: GeminiToolCallState = {};
@@ -236,7 +236,7 @@ export function transformOpenAISSEToGeminiSSE(upstreamResponse: Response, model:
       buffer += decoder.decode(chunk, { stream: true });
       const lines = buffer.split("\n");
       // Last entry may be a partial line — keep it for the next chunk.
-      buffer = lines.pop() ?? "';
+      buffer = lines.pop() ?? "";
 
       for (const rawLine of lines) {
         // Strip a trailing CR from CRLF-terminated upstreams.
@@ -265,7 +265,7 @@ export function transformOpenAISSEToGeminiSSE(upstreamResponse: Response, model:
       // Drain any final buffered line. Gemini SSE ends on stream close —
       // no `[DONE]` sentinel is emitted.
       const line = buffer.endsWith("\r") ? buffer.slice(0, -1) : buffer;
-      buffer = "';
+      buffer = "";
       if (!line.startsWith("data:")) return;
       const data = line.slice(5).trim();
       if (!data || data === "[DONE]") return;
@@ -398,7 +398,7 @@ export async function convertOpenAIResponseToGemini(
     parts.push({ functionCall: { name: tc.function?.name || "", args } });
   }
 
-  const finishReason = OPENAI_TO_GEMINI_FINISH_REASON[finish_reason ?? "stop"] ?? "STOP';
+  const finishReason = OPENAI_TO_GEMINI_FINISH_REASON[finish_reason ?? "stop"] ?? "STOP";
 
   const geminiResponse: GeminiNonStreamResponse = {
     candidates: [

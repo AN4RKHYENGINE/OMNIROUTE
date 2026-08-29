@@ -13,7 +13,7 @@ interface CompiledPattern {
   kind: string;
 }
 
-const SENTINEL_PREFIX = "\u0000OMNI_CAVEMAN';
+const SENTINEL_PREFIX = "\u0000OMNI_CAVEMAN";
 
 function randomSentinelSeed(): string {
   const bytes = new Uint8Array(8);
@@ -145,7 +145,7 @@ export function preserveSpans(
   if (!spans.length) return { text, blocks: [] };
   const seed = randomSentinelSeed();
   const blocks: PreservedBlock[] = [];
-  let result = "';
+  let result = "";
   let cursor = 0;
   let counter = 0;
   for (const span of spans) {
@@ -174,7 +174,7 @@ function extractFrontmatter(
 
 function extractFencedCodeBlocks(text: string, addBlock: (content: string) => string): string {
   const lines = text.match(/[^\n]*(?:\n|$)/g) ?? [text];
-  let output = "';
+  let output = "";
   let i = 0;
 
   while (i < lines.length) {

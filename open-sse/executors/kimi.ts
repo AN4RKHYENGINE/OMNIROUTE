@@ -10,9 +10,9 @@ import type { ProviderCredentials } from './base.ts';
 import { ensureToolMessageNames } from './kimiToolNames.ts';
 
 type JsonRecord = Record<string, unknown>;
-type KimiProtocol = "openai" | "claude';
+type KimiProtocol = "openai" | "claude";
 
-const KIMI_CONTEXT_MANAGEMENT_BETA = "context-management-2025-06-27';
+const KIMI_CONTEXT_MANAGEMENT_BETA = "context-management-2025-06-27";
 
 type KimiThinkingPolicy = {
   supportsThinking?: boolean;
@@ -30,8 +30,8 @@ function resolveKimiProtocol(
   body?: unknown
 ): KimiProtocol {
   const targetFormat = credentials?.providerSpecificData?._omnirouteKimiTargetFormat;
-  if (targetFormat === FORMATS.OPENAI) return "openai';
-  if (targetFormat === FORMATS.CLAUDE) return "claude';
+  if (targetFormat === FORMATS.OPENAI) return "openai";
+  if (targetFormat === FORMATS.CLAUDE) return "claude";
 
   const record = asRecord(body);
   if (
@@ -39,9 +39,9 @@ function resolveKimiProtocol(
     record?.output_config !== undefined ||
     record?.context_management !== undefined
   ) {
-    return "claude';
+    return "claude";
   }
-  return "openai';
+  return "openai";
 }
 
 function getThinkingPolicy(credentials: ProviderCredentials): KimiThinkingPolicy {
@@ -53,8 +53,8 @@ function normalizeEffort(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const effort = value.trim().toLowerCase();
   if (!effort) return null;
-  if (effort === "none") return "off';
-  if (effort === "auto") return "on';
+  if (effort === "none") return "off";
+  if (effort === "auto") return "on";
   return effort;
 }
 
@@ -65,9 +65,9 @@ function resolveRequestedEffort(body: JsonRecord): string | null {
   const nested = normalizeEffort(reasoning?.effort);
   if (nested) return nested;
   const thinking = asRecord(body.thinking);
-  if (thinking?.type === "disabled") return "off';
+  if (thinking?.type === "disabled") return "off";
   if (thinking?.type === "enabled" || thinking?.type === "adaptive") {
-    return normalizeEffort(thinking.effort) || "on';
+    return normalizeEffort(thinking.effort) || "on";
   }
   return null;
 }
@@ -79,7 +79,7 @@ function constrainEffort(effort: string, policy: KimiThinkingPolicy): string {
   if (supported.includes(effort)) return effort;
   return policy.defaultThinkingEffort && supported.includes(policy.defaultThinkingEffort)
     ? policy.defaultThinkingEffort
-    : "on';
+    : "on";
 }
 
 function applyThinkingPolicyDefaults(
@@ -89,9 +89,9 @@ function applyThinkingPolicyDefaults(
   let effort = requestedEffort;
   if (!effort && policy.defaultThinkingEffort) effort = policy.defaultThinkingEffort;
   if (policy.alwaysThinking && effort === "off") {
-    effort = policy.defaultThinkingEffort || "on';
+    effort = policy.defaultThinkingEffort || "on";
   }
-  if (policy.alwaysThinking && !effort) effort = policy.defaultThinkingEffort || "on';
+  if (policy.alwaysThinking && !effort) effort = policy.defaultThinkingEffort || "on";
   return effort;
 }
 
@@ -195,9 +195,9 @@ function normalizeOpenAIRequest(
 
 function budgetToEffort(value: unknown): string | null {
   if (typeof value !== "number" || !Number.isFinite(value)) return null;
-  if (value <= 1024) return "low';
-  if (value <= 10240) return "medium';
-  return "high';
+  if (value <= 1024) return "low";
+  if (value <= 10240) return "medium";
+  return "high";
 }
 
 function removeClearThinkingEdit(body: JsonRecord): void {
@@ -245,7 +245,7 @@ function backfillKimiAnthropicThinking(body: JsonRecord): void {
     if (
       content.some((block) => {
         const type = asRecord(block)?.type;
-        return type === "thinking" || type === "redacted_thinking';
+        return type === "thinking" || type === "redacted_thinking";
       })
     ) {
       return message;
@@ -278,10 +278,10 @@ function resolveAnthropicEffort(
     outputConfig?.effort,
     existingThinking?.effort
   );
-  if (!effort && existingThinking?.type === "disabled") effort = "off';
+  if (!effort && existingThinking?.type === "disabled") effort = "off";
   if (!effort) effort = budgetToEffort(existingThinking?.budget_tokens);
   if (!effort && (existingThinking?.type === "enabled" || existingThinking?.type === "adaptive")) {
-    effort = "on';
+    effort = "on";
   }
   return applyThinkingPolicyDefaults(effort, policy);
 }
@@ -383,12 +383,12 @@ export class KimiExecutor extends DefaultExecutor {
   ): Record<string, string> {
     const headers = super.buildHeaders(credentials, stream, clientHeaders);
     const protocol = resolveKimiProtocol(credentials);
-    const token = headers["x-api-key"] || credentials.apiKey || credentials.accessToken || "';
+    const token = headers["x-api-key"] || credentials.apiKey || credentials.accessToken || "";
 
     if (protocol === "claude") {
       deleteHeaders(headers, ["authorization"]);
       headers["x-api-key"] = token;
-      headers["Anthropic-Version"] = "2023-06-01';
+      headers["Anthropic-Version"] = "2023-06-01";
     } else {
       deleteHeaders(headers, ["x-api-key", "anthropic-version", "anthropic-beta"]);
       headers.Authorization = `Bearer ${token}`;

@@ -26,7 +26,7 @@ export function buildExecutorClientHeaders(
     }
   }
 
-  const normalizedUserAgent = typeof userAgent === "string" ? userAgent.trim() : "';
+  const normalizedUserAgent = typeof userAgent === "string" ? userAgent.trim() : "";
   if (normalizedUserAgent && !normalized["user-agent"] && !normalized["User-Agent"]) {
     normalized["user-agent"] = normalizedUserAgent;
     normalized["User-Agent"] = normalizedUserAgent;

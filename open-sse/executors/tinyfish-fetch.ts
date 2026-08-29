@@ -16,11 +16,11 @@
 import { sanitizeErrorMessage, buildErrorBody } from '../utils/error.ts';
 import type { WebFetchResult, WebFetchFormat, WebFetchCredentials } from '../handlers/webFetch.ts';
 
-const TINYFISH_FETCH_URL = "https://api.fetch.tinyfish.ai';
+const TINYFISH_FETCH_URL = "https://api.fetch.tinyfish.ai";
 const TINYFISH_TIMEOUT_MS = 30_000;
 
 function mapFormat(format: WebFetchFormat): "markdown" | "html" {
-  return format === "html" ? "html" : "markdown';
+  return format === "html" ? "html" : "markdown";
 }
 
 interface TinyFishFetchOptions {
@@ -64,7 +64,7 @@ export async function tinyfishFetch(opts: TinyFishFetchOptions): Promise<WebFetc
   const controller = new AbortController();
   const timeoutId = setTimeout(() => {
     const err = new Error(`tinyfish-fetch timeout after ${TINYFISH_TIMEOUT_MS}ms`);
-    err.name = "TimeoutError';
+    err.name = "TimeoutError";
     controller.abort(err);
   }, TINYFISH_TIMEOUT_MS);
 

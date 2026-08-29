@@ -163,7 +163,7 @@ function buildProviderConfig(
 
   const hasTools = toolModeRequired(parsed);
   const requiredChoice =
-    parsed.options.toolChoice === "required" || typeof parsed.options.toolChoice === "object';
+    parsed.options.toolChoice === "required" || typeof parsed.options.toolChoice === "object";
   if (route.pro && requiredChoice) {
     throw new Error("ChatGPT Web Pro is read-only and cannot satisfy a required tool choice");
   }

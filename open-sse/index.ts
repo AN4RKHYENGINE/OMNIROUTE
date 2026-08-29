@@ -1,5 +1,5 @@
 // Patch global fetch with proxy support (must be first)
-import "./utils/proxyFetch.ts';
+import "./utils/proxyFetch.ts";
 
 // Config
 export {

@@ -63,7 +63,7 @@ function extractSummaryLine(text: string): string | null {
 
   // eslint / build-eslint: empty output = clean; if we reach here with no failures, synthesize
   if (text.trim() === "" || text.trim().startsWith("\n")) {
-    return "ESLint: 0 problems found';
+    return "ESLint: 0 problems found";
   }
 
   return null;

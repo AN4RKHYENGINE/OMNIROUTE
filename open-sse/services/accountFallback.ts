@@ -622,7 +622,7 @@ export function recordModelLockoutFailure(
   options: {
     exactCooldownMs?: number | null;
     maxCooldownMs?: number;
-    scope?: "exact" | "quota_family';
+    scope?: "exact" | "quota_family";
     /**
      * #6863 vs #7940: set true only when `exactCooldownMs` came from an actual
      * upstream signal (Retry-After header, X-RateLimit-Reset, or a reset parsed
@@ -787,9 +787,9 @@ export function shouldMarkAccountExhaustedFrom429(
 }
 
 export function classifyLockoutReason(status: number): string {
-  if (status === 429) return "rate_limit';
-  if (status === 403) return "quota_exhausted';
-  return "unknown';
+  if (status === 429) return "rate_limit";
+  if (status === 403) return "quota_exhausted";
+  return "unknown";
 }
 
 export type DecayResult = { cleared: boolean; newFailureCount: number };
@@ -1782,9 +1782,9 @@ export function checkFallbackError(
     // OpenAI:  error.code === "model_not_found"
     // Anthropic: error.type === "not_found_error" / "permission_error"
     const structuredCode =
-      typeof structuredError?.code === "string" ? structuredError.code.toLowerCase() : "';
+      typeof structuredError?.code === "string" ? structuredError.code.toLowerCase() : "";
     const structuredType =
-      typeof structuredError?.type === "string" ? structuredError.type.toLowerCase() : "';
+      typeof structuredError?.type === "string" ? structuredError.type.toLowerCase() : "";
     // A clear bad-credential error must never be reclassified as model-access
     // (which would silently exhaust every combo target). Structured detection
     // below still catches genuine model_not_found / not_found_error codes.
@@ -1899,9 +1899,9 @@ export function getEarliestRateLimitedUntil(
 export function formatRetryAfter(
   rateLimitedUntil: string | number | Date | null | undefined
 ): string {
-  if (!rateLimitedUntil) return "';
+  if (!rateLimitedUntil) return "";
   const diffMs = new Date(rateLimitedUntil).getTime() - Date.now();
-  if (diffMs <= 0) return "reset after 0s';
+  if (diffMs <= 0) return "reset after 0s";
   const totalSec = Math.ceil(diffMs / 1000);
   const h = Math.floor(totalSec / 3600);
   const m = Math.floor((totalSec % 3600) / 60);

@@ -13,7 +13,7 @@ const CLAUDE_WEB_SESSION_TTL_MS = 30 * 60 * 1000;
 const CLAUDE_WEB_SESSION_MAX = 5000;
 const RECOVERY_PROMPT_HEADER =
   "Conversation context supplied by the caller follows. These serialized role blocks are not " +
-  "native Claude Web message fields. Continue from the final user message.';
+  "native Claude Web message fields. Continue from the final user message.";
 
 type NormalizedMessage = {
   role: string;
@@ -80,7 +80,7 @@ export interface PreparedClaudeWebTurn {
   parentMessageUuid?: string;
   accountScope: string;
   pageUrl: string;
-  endpointSuffix: "completion" | "retry_completion';
+  endpointSuffix: "completion" | "retry_completion";
   payload: ClaudeWebRequestPayload;
   responseMetadata: Record<string, string>;
   /** @internal Canonical request state used only to commit a completed turn. */
@@ -105,17 +105,17 @@ function normalizeContent(content: unknown): string {
       if (typeof record.text === "string") return record.text;
       if ("content" in record) return normalizeContent(record.content);
     }
-    return "';
+    return "";
   }
 
   return content
     .map((part) => {
       if (typeof part === "string") return part;
-      if (!part || typeof part !== "object" || Array.isArray(part)) return "';
+      if (!part || typeof part !== "object" || Array.isArray(part)) return "";
       const record = part as Record<string, unknown>;
       if (typeof record.text === "string") return record.text;
       if ("content" in record) return normalizeContent(record.content);
-      return "';
+      return "";
     })
     .filter(Boolean)
     .join("\n");
@@ -220,16 +220,16 @@ function resolveTimezone(extension: ClaudeWebExtension, credentials: ProviderCre
   const providerTimezone = readProviderString(credentials, "timezone");
   if (providerTimezone && isValidTimezone(providerTimezone)) return providerTimezone;
   const runtimeTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return runtimeTimezone && isValidTimezone(runtimeTimezone) ? runtimeTimezone : "UTC';
+  return runtimeTimezone && isValidTimezone(runtimeTimezone) ? runtimeTimezone : "UTC";
 }
 
 function resolveLocale(extension: ClaudeWebExtension, credentials: ProviderCredentials): string {
-  if (extension.locale) return canonicalLocale(extension.locale) ?? "en-US';
+  if (extension.locale) return canonicalLocale(extension.locale) ?? "en-US";
   const providerLocale = readProviderString(credentials, "locale");
   const canonicalProviderLocale = providerLocale ? canonicalLocale(providerLocale) : null;
   if (canonicalProviderLocale) return canonicalProviderLocale;
   const runtimeLocale = Intl.DateTimeFormat().resolvedOptions().locale;
-  return (runtimeLocale && canonicalLocale(runtimeLocale)) || "en-US';
+  return (runtimeLocale && canonicalLocale(runtimeLocale)) || "en-US";
 }
 
 function readLegacyConversationId(credentials: ProviderCredentials): string | undefined {
@@ -289,7 +289,7 @@ function prepareRetryTurn(
     throw new Error("Claude Web retry requires both conversation and parent message state");
   }
 
-  const operation: ClaudeWebOperation = "retry_completion';
+  const operation: ClaudeWebOperation = "retry_completion";
   const turnFields: ClaudeWebTurnFields = {
     operation,
     prompt: "",
@@ -372,7 +372,7 @@ function prepareCompletionTurn(
       ? buildRecoveryPrompt(context.messages)
       : context.messages[userIndex].content;
   const humanMessageUuid = randomUUID();
-  const operation: ClaudeWebOperation = "completion';
+  const operation: ClaudeWebOperation = "completion";
   const turnFields: ClaudeWebTurnFields = {
     operation,
     prompt,

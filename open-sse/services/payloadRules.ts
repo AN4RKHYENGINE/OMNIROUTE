@@ -27,7 +27,7 @@ export type PayloadRulesConfig = {
 };
 
 export type AppliedPayloadRule = {
-  type: "default" | "override" | "filter" | "default-raw';
+  type: "default" | "override" | "filter" | "default-raw";
   path: string;
   value?: unknown;
 };
@@ -44,11 +44,11 @@ const DEFAULT_FILE_CHECK_INTERVAL_MS = 5_000;
 
 let runtimeOverride: PayloadRulesConfig | null = null;
 let cachedFileConfig = clonePayloadRulesConfig(DEFAULT_PAYLOAD_RULES_CONFIG);
-let cachedFilePath = "';
+let cachedFilePath = "";
 let cachedFileMtimeMs = -1;
 let lastFileCheckAt = 0;
 let fileLoadPromise: Promise<void> | null = null;
-let lastFileErrorSignature = "';
+let lastFileErrorSignature = "";
 
 function toRecord(value: unknown): JsonRecord {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as JsonRecord) : {};
@@ -86,8 +86,8 @@ function clonePayloadRulesConfig(config: PayloadRulesConfig): PayloadRulesConfig
 function normalizeModelSpecs(value: unknown): PayloadRuleModelSpec[] {
   return toArray<JsonRecord>(value)
     .map((item): PayloadRuleModelSpec | null => {
-      const name = typeof item?.name === "string" ? item.name.trim() : "';
-      const protocol = typeof item?.protocol === "string" ? item.protocol.trim() : "';
+      const name = typeof item?.name === "string" ? item.name.trim() : "";
+      const protocol = typeof item?.protocol === "string" ? item.protocol.trim() : "";
       if (!name) return null;
       return protocol ? { name, protocol } : { name };
     })
@@ -183,11 +183,11 @@ async function refreshPayloadRulesFileCache(force = false) {
       const parsed = JSON.parse(content);
       cachedFileConfig = normalizePayloadRulesConfig(parsed);
       cachedFileMtimeMs = stat.mtimeMs;
-      lastFileErrorSignature = "';
+      lastFileErrorSignature = "";
     } catch (error) {
       if ((error as NodeJS.ErrnoException)?.code === "ENOENT") {
         clearCachedFileConfig();
-        lastFileErrorSignature = "';
+        lastFileErrorSignature = "";
         return;
       }
 
@@ -465,10 +465,10 @@ export async function applyConfiguredPayloadRules(
 
 export function resetPayloadRulesConfigForTests() {
   runtimeOverride = null;
-  cachedFilePath = "';
+  cachedFilePath = "";
   cachedFileMtimeMs = -1;
   lastFileCheckAt = 0;
   fileLoadPromise = null;
-  lastFileErrorSignature = "';
+  lastFileErrorSignature = "";
   cachedFileConfig = clonePayloadRulesConfig(DEFAULT_PAYLOAD_RULES_CONFIG);
 }

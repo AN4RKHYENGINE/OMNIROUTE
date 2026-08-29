@@ -8,8 +8,8 @@
  */
 import { encode as toonEncode, decode as toonDecode } from '@toon-format/toon';
 
-export const TOON_FENCE_OPEN = "```toon';
-export const TOON_FENCE_CLOSE = "```';
+export const TOON_FENCE_OPEN = "```toon";
+export const TOON_FENCE_CLOSE = "```";
 
 export function encodeToonBlock(arr: Record<string, unknown>[]): string | null {
   try {

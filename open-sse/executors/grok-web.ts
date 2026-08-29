@@ -51,9 +51,9 @@ import {
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const GROK_CHAT_API = "https://grok.com/rest/app-chat/conversations/new';
+const GROK_CHAT_API = "https://grok.com/rest/app-chat/conversations/new";
 const GROK_USER_AGENT =
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 // ─── Model mappings ─────────────────────────────────────────────────────────
 // Grok Web exposes UI modes, not stable public model IDs. Keep OmniRoute model
@@ -86,8 +86,8 @@ const MODEL_MAP: Record<string, GrokModelInfo> = {
 function randomString(length: number, alphanumeric = false): string {
   const chars = alphanumeric
     ? "abcdefghijklmnopqrstuvwxyz0123456789"
-    : "abcdefghijklmnopqrstuvwxyz';
-  let result = "';
+    : "abcdefghijklmnopqrstuvwxyz";
+  let result = "";
   for (let i = 0; i < length; i++) {
     result += chars[Math.floor(Math.random() * chars.length)];
   }
@@ -118,7 +118,7 @@ async function* readGrokNdjsonEvents(
 ): AsyncGenerator<GrokStreamEvent> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "';
+  let buffer = "";
 
   try {
     while (true) {
@@ -177,11 +177,11 @@ async function* extractContent(
   signal?: AbortSignal | null,
   suppressThinkingAfterVisibleContent = false
 ): AsyncGenerator<ContentChunk> {
-  let fingerprint = "';
-  let responseId = "';
+  let fingerprint = "";
+  let responseId = "";
   const contentFilter = new GrokMarkupFilter();
   const thinkingFilter = new GrokMarkupFilter();
-  let emittedThinking = "';
+  let emittedThinking = "";
   let emittedVisibleContent = false;
 
   for await (const event of readGrokNdjsonEvents(eventStream, signal)) {
@@ -216,7 +216,7 @@ async function* extractContent(
     if (resp.modelResponse) {
       const mr = resp.modelResponse;
 
-      const finalThinking = isThinkingModel ? extractStructuredReasoning(mr) : "';
+      const finalThinking = isThinkingModel ? extractStructuredReasoning(mr) : "";
       if ((!suppressThinkingAfterVisibleContent || !emittedVisibleContent) && finalThinking) {
         const cleanedThinking = thinkingFilter.feed(finalThinking);
         const thinkingDelta = cleanedThinking.startsWith(emittedThinking)
@@ -243,7 +243,7 @@ async function* extractContent(
     }
 
     // Streaming token
-    const thinking = isThinkingModel ? extractStructuredReasoning(resp) : "';
+    const thinking = isThinkingModel ? extractStructuredReasoning(resp) : "";
     if ((!suppressThinkingAfterVisibleContent || !emittedVisibleContent) && thinking) {
       const cleanedThinking = thinkingFilter.feed(thinking);
       const thinkingDelta = cleanedThinking.startsWith(emittedThinking)
@@ -370,8 +370,8 @@ function buildStreamingResponse(
             )
           );
 
-          let fp = "';
-          let buffered = "';
+          let fp = "";
+          let buffered = "";
 
           for await (const chunk of extractContent(
             eventStream,
@@ -550,8 +550,8 @@ async function buildNonStreamingResponse(
   toolRegistry: GrokToolRegistry,
   signal?: AbortSignal | null
 ): Promise<Response> {
-  let fullContent = "';
-  let fingerprint = "';
+  let fullContent = "";
+  let fingerprint = "";
   const thinkingParts: string[] = [];
 
   for await (const chunk of extractContent(eventStream, isThinkingModel, toolRegistry, signal)) {
@@ -665,7 +665,7 @@ async function buildNonStreamingResponse(
 // tries one browser-backed cf_clearance refresh + retry before giving up.
 
 export interface GrokNullBodyError {
-  type: "cloudflare_challenge" | "authentication_error" | "rate_limit_error" | "upstream_error';
+  type: "cloudflare_challenge" | "authentication_error" | "rate_limit_error" | "upstream_error";
   code: string;
   message: string;
 }
@@ -908,9 +908,9 @@ export class GrokWebExecutor extends BaseExecutor {
       Origin: "https://grok.com",
       Pragma: "no-cache",
       Referer: "https://grok.com/",
-      "Sec-Ch-Ua": '"Google Chrome";v="149", "Chromium";v="149", "Not(A:Brand";v="24"',
+      "Sec-Ch-Ua": '"Google Chrome";v="149", "Chromium";v="149", "Not(A:Brand";v="24"",
       "Sec-Ch-Ua-Mobile": "?0",
-      "Sec-Ch-Ua-Platform": '"macOS"',
+      "Sec-Ch-Ua-Platform": '"macOS"",
       "Sec-Fetch-Dest": "empty",
       "Sec-Fetch-Mode": "cors",
       "Sec-Fetch-Site": "same-origin",

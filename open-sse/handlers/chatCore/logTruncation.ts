@@ -26,7 +26,7 @@ export function cloneBoundedChatLogPayload(value: unknown, depth = 0): unknown {
   if (value === null || value === undefined) return value;
   if (typeof value === "string") return truncateChatLogText(value);
   if (typeof value !== "object") return value;
-  if (depth >= getChatLogMaxDepth()) return "[MaxDepth]';
+  if (depth >= getChatLogMaxDepth()) return "[MaxDepth]";
 
   const maxTailItems = getChatLogArrayTailItems();
 

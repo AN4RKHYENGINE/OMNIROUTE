@@ -54,7 +54,7 @@ export async function acquireQuotaShareConcurrencySlot(
   opts: QuotaShareSlotOptions,
   log: SlotLogger
 ): Promise<(() => void) | null> {
-  const connectionId = target?.connectionId ?? "';
+  const connectionId = target?.connectionId ?? "";
   if (!connectionId || cap === null || cap <= 0) return null;
   try {
     return await semaphore.acquire(quotaShareConcurrencyKey(connectionId), {

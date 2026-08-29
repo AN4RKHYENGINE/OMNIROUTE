@@ -38,7 +38,7 @@ export class CheaperInferenceExecutor extends BaseExecutor {
    */
   private usesResponsesEndpoint(model: string): boolean {
     const alias = PROVIDER_ID_TO_ALIAS[this.provider] || this.provider;
-    return getModelTargetFormat(alias, model) === "openai-responses';
+    return getModelTargetFormat(alias, model) === "openai-responses";
   }
 
   buildUrl(model: string, _stream: boolean, _urlIndex = 0): string {

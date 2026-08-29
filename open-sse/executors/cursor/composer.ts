@@ -11,7 +11,7 @@
 // to OmniRoute's StreamCtx-based pipeline so streaming + non-streaming
 // share the accumulation path.
 
-const COMPOSER_THINK_END = "</think>';
+const COMPOSER_THINK_END = "</think>";
 
 export function isComposerModel(model: string | undefined | null): boolean {
   const id = String(model ?? "")
@@ -30,9 +30,9 @@ const COMPOSER_PARTIAL_OPEN = /^\s*<(?![｜|/])/;
 const COMPOSER_PARTIAL_OPEN_PIPE = /^\s*<[｜|][^>]*$/;
 
 export function visibleComposerContentFromThinking(thinking: string): string {
-  if (!thinking) return "';
+  if (!thinking) return "";
   const endIdx = thinking.lastIndexOf(COMPOSER_THINK_END);
-  if (endIdx < 0) return "';
+  if (endIdx < 0) return "";
   let visible = thinking.slice(endIdx + COMPOSER_THINK_END.length).trimStart();
   if (COMPOSER_OPEN_MARKER.test(visible)) {
     visible = visible.replace(COMPOSER_OPEN_MARKER, "");
@@ -40,13 +40,13 @@ export function visibleComposerContentFromThinking(thinking: string): string {
     // A streamed chunk delivered only a partial opening marker (e.g. `<` or
     // `<｜fin`). Hold back everything until more data arrives so the marker
     // fragment never leaks as content.
-    return "';
+    return "";
   }
   return visible.replace(COMPOSER_CLOSE_MARKER, "").trim();
 }
 
 export function composerReasoningRemainder(thinking: string): string {
-  if (!thinking) return "';
+  if (!thinking) return "";
   const endIdx = thinking.lastIndexOf(COMPOSER_THINK_END);
   if (endIdx < 0) return thinking;
   return thinking.slice(0, endIdx);

@@ -44,7 +44,7 @@ export function extractSSEErrorMessage(rawSSE: unknown): string | null {
     const err = record.error;
     if (err == null) continue;
 
-    let message = "';
+    let message = "";
     if (typeof err === "string") {
       message = err;
     } else if (typeof err === "object" && !Array.isArray(err)) {
@@ -72,19 +72,19 @@ export function extractSSEErrorMessage(rawSSE: unknown): string | null {
 function readSSEEvents(rawSSE) {
   const lines = String(rawSSE || "").split("\n");
   const events = [];
-  let currentEvent = "';
+  let currentEvent = "";
   let currentData = [];
 
   const flush = () => {
     if (currentData.length === 0) {
-      currentEvent = "';
+      currentEvent = "";
       return;
     }
 
     const payload = currentData.join("\n").trim();
     currentData = [];
     if (!payload || payload === "[DONE]") {
-      currentEvent = "';
+      currentEvent = "";
       return;
     }
 
@@ -107,7 +107,7 @@ function readSSEEvents(rawSSE) {
       // Ignore malformed SSE events and continue best-effort parsing.
     }
 
-    currentEvent = "';
+    currentEvent = "";
   };
 
   for (const rawLine of lines) {
@@ -129,7 +129,7 @@ function readSSEEvents(rawSSE) {
       const dataLine = line.slice(5).trimStart();
       if (dataLine.trim() === "[DONE]") {
         flush();
-        currentEvent = "';
+        currentEvent = "";
         continue;
       }
       currentData.push(dataLine);
@@ -192,7 +192,7 @@ export function parseSSEToOpenAIResponse(rawSSE, fallbackModel) {
 
   const accumulatedToolCalls = new Map<string, AccumulatedToolCall>();
   let unknownToolCallSeq = 0;
-  let finishReason = "stop';
+  let finishReason = "stop";
   let usage = null;
 
   const getToolCallKey = (toolCall: Record<string, unknown>) => {
@@ -226,7 +226,7 @@ export function parseSSEToOpenAIResponse(rawSSE, fallbackModel) {
       for (const tc of delta.tool_calls) {
         const key = getToolCallKey(tc);
         const existing = accumulatedToolCalls.get(key);
-        const deltaArgs = typeof tc?.function?.arguments === "string" ? tc.function.arguments : "';
+        const deltaArgs = typeof tc?.function?.arguments === "string" ? tc.function.arguments : "";
 
         if (!existing) {
           accumulatedToolCalls.set(key, {
@@ -263,7 +263,7 @@ export function parseSSEToOpenAIResponse(rawSSE, fallbackModel) {
     }
   }
 
-  const joinedContent = contentParts.length > 0 ? contentParts.join("").trim() : "';
+  const joinedContent = contentParts.length > 0 ? contentParts.join("").trim() : "";
   const joinedReasoning = reasoningParts.length > 0 ? reasoningParts.join("").trim() : null;
   const message: Record<string, unknown> = {
     role: "assistant",
@@ -317,10 +317,10 @@ export function parseSSEToClaudeResponse(rawSSE, fallbackModel) {
 
   const blocks = new Map();
   const usage = {};
-  let messageId = "';
-  let model = fallbackModel || "claude';
-  let role = "assistant';
-  let stopReason = "end_turn';
+  let messageId = "";
+  let model = fallbackModel || "claude";
+  let role = "assistant";
+  let stopReason = "end_turn";
   let stopSequence = null;
   let sawClaudeEvent = false;
 
@@ -413,9 +413,9 @@ export function parseSSEToClaudeResponse(rawSSE, fallbackModel) {
         continue;
       }
 
-      const isThinkingDelta = deltaType === "thinking_delta" || typeof delta.thinking === "string';
+      const isThinkingDelta = deltaType === "thinking_delta" || typeof delta.thinking === "string";
       const isSignatureDelta =
-        deltaType === "signature_delta" || typeof delta.signature === "string';
+        deltaType === "signature_delta" || typeof delta.signature === "string";
       if (isThinkingDelta || isSignatureDelta) {
         const thinking =
           existing && existing.type === "thinking"
@@ -591,8 +591,8 @@ function ensureResponsesFunctionCallItem(outputItems, outputIndex, itemId, callI
   const existing = outputItems.get(outputIndex);
   const normalizedItemId = toIdString(itemId);
   const normalizedCallId = toIdString(callId);
-  const existingId = existing?.id != null ? String(existing.id) : "';
-  const existingCallId = existing?.call_id != null ? String(existing.call_id) : "';
+  const existingId = existing?.id != null ? String(existing.id) : "";
+  const existingCallId = existing?.call_id != null ? String(existing.call_id) : "";
 
   if (existing?.type === "function_call") {
     if (existing.call_id != null) existing.call_id = String(existing.call_id);
@@ -660,7 +660,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
   if (events.length === 0) return null;
 
   let terminalResponse = null;
-  let terminalEventType = "';
+  let terminalEventType = "";
   let latestResponse = null;
   const outputItems = new Map();
 
@@ -683,7 +683,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
       const content = Array.isArray(messageItem.content) ? messageItem.content : [];
       const firstPart =
         content.length > 0 ? { ...toRecord(content[0]) } : { type: "output_text", annotations: [] };
-      firstPart.type = firstPart.type || "output_text';
+      firstPart.type = firstPart.type || "output_text";
       firstPart.annotations = Array.isArray(firstPart.annotations) ? firstPart.annotations : [];
       firstPart.text = `${toString(firstPart.text)}${toString(evt.delta)}`;
       content[0] = firstPart;
@@ -695,7 +695,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
       const content = Array.isArray(messageItem.content) ? messageItem.content : [];
       const firstPart =
         content.length > 0 ? { ...toRecord(content[0]) } : { type: "output_text", annotations: [] };
-      firstPart.type = firstPart.type || "output_text';
+      firstPart.type = firstPart.type || "output_text";
       firstPart.annotations = Array.isArray(firstPart.annotations) ? firstPart.annotations : [];
       firstPart.text = toString(evt.text, toString(firstPart.text));
       content[0] = firstPart;
@@ -718,7 +718,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
         summary[summaryIndex] && typeof summary[summaryIndex] === "object"
           ? { ...toRecord(summary[summaryIndex]) }
           : { type: "summary_text", text: "" };
-      part.type = part.type || "summary_text';
+      part.type = part.type || "summary_text";
       part.text = `${toString(part.text)}${toString(evt.delta)}`;
       summary[summaryIndex] = part;
       reasoningItem.summary = summary;
@@ -737,7 +737,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
         summary[summaryIndex] && typeof summary[summaryIndex] === "object"
           ? { ...toRecord(summary[summaryIndex]) }
           : { type: "summary_text", text: "" };
-      part.type = part.type || "summary_text';
+      part.type = part.type || "summary_text";
       part.text = toString(evt.text, toString(part.text));
       summary[summaryIndex] = part;
       reasoningItem.summary = summary;
@@ -812,7 +812,7 @@ export function parseSSEToResponsesOutput(rawSSE, fallbackModel) {
             ? "incomplete"
             : terminalResponse
               ? "completed"
-              : "in_progress';
+              : "in_progress";
 
   return {
     id: picked.id != null ? String(picked.id) : `resp_${Date.now()}`,

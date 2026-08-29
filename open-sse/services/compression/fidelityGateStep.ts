@@ -6,7 +6,7 @@ import { getCompressionEngine } from './engines/registry.ts';
 
 function bodyToText(body: Record<string, unknown>): string {
   const messages = body.messages;
-  if (!Array.isArray(messages)) return "';
+  if (!Array.isArray(messages)) return "";
   return messages
     .map((m) => extractTextContent((m as { content?: unknown }).content as never))
     .join("\n");

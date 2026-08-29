@@ -28,7 +28,7 @@ export async function forwardDashboardEventToLiveWs(
   // Skip while the bridge is in a cooldown window after repeated failures.
   if (liveWsDisabledUntil > now()) return;
 
-  const port = process.env.LIVE_WS_PORT || "20132';
+  const port = process.env.LIVE_WS_PORT || "20132";
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 1_500);
   try {

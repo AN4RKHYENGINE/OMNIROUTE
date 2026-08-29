@@ -84,7 +84,7 @@ export function buildClaudePromptCacheLogMeta(
     ? finalBody.system.flatMap((block, index) => {
         if (!block || typeof block !== "object") return [];
         const text =
-          typeof block.text === "string" && block.text.trim().length > 0 ? block.text.trim() : "';
+          typeof block.text === "string" && block.text.trim().length > 0 ? block.text.trim() : "";
         if (text.startsWith("x-anthropic-billing-header:")) {
           return [];
         }
@@ -110,7 +110,7 @@ export function buildClaudePromptCacheLogMeta(
     ? finalBody.messages.flatMap((message, messageIndex) => {
         if (!message || typeof message !== "object" || !Array.isArray(message.content)) return [];
         const role =
-          typeof message.role === "string" && message.role.trim() ? message.role.trim() : "unknown';
+          typeof message.role === "string" && message.role.trim() ? message.role.trim() : "unknown";
         return message.content.flatMap((block, contentIndex) => {
           if (!block || typeof block !== "object") return [];
           const cacheControl =

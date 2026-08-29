@@ -10,7 +10,7 @@ export type QuantumCategory =
   | "long_hex"
   | "jwt"
   | "api_key_shape"
-  | "request_id';
+  | "request_id";
 
 export interface VolatileSpan {
   start: number; // inclusive char offset into the system text
@@ -30,7 +30,7 @@ export interface QuantumLockStats {
 }
 
 /** Idempotency sentinel + tail header. Its presence in system text ⇒ already stabilized. */
-export const TAIL_DELIM = "⟦QUANTUMLOCK⟧';
+export const TAIL_DELIM = "⟦QUANTUMLOCK⟧";
 
 /** Positional, value-independent placeholder. Depends ONLY on match index. */
 export const placeholderFor = (i: number): string => `⟦Q${i}⟧`;

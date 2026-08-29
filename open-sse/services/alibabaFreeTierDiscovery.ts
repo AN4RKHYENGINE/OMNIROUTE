@@ -34,7 +34,7 @@ import {
 } from './alibabaFreeTierQuotaFetcher.ts';
 
 export type AlibabaFreeTierProbeVerdict =
-  "capable_available" | "capable_drained" | "not_capable" | "unknown';
+  "capable_available" | "capable_drained" | "not_capable" | "unknown";
 
 export type AlibabaFreeTierProbeResult = {
   modelId: string;

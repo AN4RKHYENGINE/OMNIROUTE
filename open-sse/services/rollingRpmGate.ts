@@ -6,7 +6,7 @@ import {
 } from './slidingWindowLimiter.ts';
 
 type GetLimiterKey = (provider: string, connectionId: string, model?: string | null) => string;
-type QueueTimeoutReason = "local-queue" | "upstream-cooldown';
+type QueueTimeoutReason = "local-queue" | "upstream-cooldown";
 type QueueTimeoutErrorFactory = (
   provider: string,
   model: string | null,
@@ -31,7 +31,7 @@ function createAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const error = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  error.name = "AbortError';
+  error.name = "AbortError";
   if (reason !== undefined) (error as Error & { cause?: unknown }).cause = reason;
   return error;
 }

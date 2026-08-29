@@ -40,9 +40,9 @@ export const GEMINI_FALLBACK_THINKING_CAP: number = GEMINI_STEPDOWN[0];
 const learnedCaps = new Map<string, number>();
 
 function buildKey(provider: string | null | undefined, model: string | null | undefined): string {
-  const p = typeof provider === "string" ? provider.trim().toLowerCase() : "';
-  const m = typeof model === "string" ? model.trim().toLowerCase() : "';
-  if (!p || !m) return "';
+  const p = typeof provider === "string" ? provider.trim().toLowerCase() : "";
+  const m = typeof model === "string" ? model.trim().toLowerCase() : "";
+  if (!p || !m) return "";
   return `${p}:${m}`;
 }
 

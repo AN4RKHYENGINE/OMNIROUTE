@@ -96,7 +96,7 @@ function consumeTextualReasoningTags(
   state: GeminiToOpenAIState,
   results: Array<Record<string, unknown>>
 ): string {
-  const pendingTagBuffer = state.textualReasoningTagBuffer || "';
+  const pendingTagBuffer = state.textualReasoningTagBuffer || "";
 
   if (state.activeTextualReasoningTag && pendingTagBuffer.startsWith("</")) {
     const combinedClose = `${pendingTagBuffer}${text}`;
@@ -114,7 +114,7 @@ function consumeTextualReasoningTags(
 
     if (lowerCloseTag.startsWith(lowerCombinedClose)) {
       state.textualReasoningTagBuffer = combinedClose;
-      return "';
+      return "";
     }
   }
 
@@ -134,10 +134,10 @@ function consumeTextualReasoningTags(
         if (partialCloseStart >= 0) {
           state.textualReasoningContentBuffer = bufferedReasoning.slice(0, partialCloseStart);
           state.textualReasoningTagBuffer = bufferedReasoning.slice(partialCloseStart);
-          return "';
+          return "";
         }
         state.textualReasoningContentBuffer = bufferedReasoning;
-        return "';
+        return "";
       }
 
       emitTextDelta(
@@ -179,14 +179,14 @@ function consumeTextualReasoningTags(
     if (!closeMatch || closeMatch.index < 0) {
       state.activeTextualReasoningTag = tagName;
       state.textualReasoningContentBuffer = afterOpen;
-      return "';
+      return "";
     }
 
     emitTextDelta(afterOpen.slice(0, closeMatch.index), state, results, "reasoning_content");
     remaining = afterOpen.slice(closeMatch.index + closeMatch[0].length);
   }
 
-  return "';
+  return "";
 }
 
 function flushOpenTextualReasoning(
@@ -303,7 +303,7 @@ export function geminiToOpenAIResponse(chunk, state) {
   if (!response) return null;
 
   const modelVersion =
-    typeof response.modelVersion === "string" ? response.modelVersion.toLowerCase() : "';
+    typeof response.modelVersion === "string" ? response.modelVersion.toLowerCase() : "";
   const parseTextualReasoningTags = !chunk.response && !modelVersion.startsWith("antigravity/");
   const results = [];
   const candidate = response.candidates?.[0];
@@ -328,7 +328,7 @@ export function geminiToOpenAIResponse(chunk, state) {
             ? 429
             : 502;
       const message =
-        typeof errorObj.message === "string" ? errorObj.message : "Gemini upstream failure';
+        typeof errorObj.message === "string" ? errorObj.message : "Gemini upstream failure";
       state.upstreamError = {
         status,
         type: status === 429 ? "rate_limit_error" : "server_error",
@@ -348,7 +348,7 @@ export function geminiToOpenAIResponse(chunk, state) {
 
     if (!state.messageId) {
       state.messageId = response.responseId || `msg_${Date.now()}`;
-      state.model = response.modelVersion || "gemini';
+      state.model = response.modelVersion || "gemini";
       results.push({
         id: `chatcmpl-${state.messageId}`,
         object: "chat.completion.chunk",
@@ -386,7 +386,7 @@ export function geminiToOpenAIResponse(chunk, state) {
   // Initialize state
   if (!state.messageId) {
     state.messageId = response.responseId || `msg_${Date.now()}`;
-    state.model = response.modelVersion || "gemini';
+    state.model = response.modelVersion || "gemini";
     state.functionIndex = 0;
     results.push({
       id: `chatcmpl-${state.messageId}`,
@@ -418,7 +418,7 @@ export function geminiToOpenAIResponse(chunk, state) {
 
       // Handle thought signature (thinking mode) or native gemini thought flag
       if (hasThoughtSig || isThought) {
-        const hasTextContent = partText !== undefined && partText !== "';
+        const hasTextContent = partText !== undefined && partText !== "";
         const hasFunctionCall = !!part.functionCall;
 
         // Gemini/Antigravity can emit thoughtSignature as a standalone part
@@ -533,7 +533,7 @@ export function geminiToOpenAIResponse(chunk, state) {
                 state,
                 results
               );
-              state.textualToolCallBuffer = "';
+              state.textualToolCallBuffer = "";
             } else {
               state.textualToolCallBuffer = accumulated;
             }
@@ -543,7 +543,7 @@ export function geminiToOpenAIResponse(chunk, state) {
 
         if (state.textualToolCallBuffer) {
           const flushedText = state.textualToolCallBuffer + afterReasoning;
-          state.textualToolCallBuffer = "';
+          state.textualToolCallBuffer = "";
           state.hasEmittedContent = true;
           results.push({
             id: `chatcmpl-${state.messageId}`,
@@ -585,7 +585,7 @@ export function geminiToOpenAIResponse(chunk, state) {
       // Inline data (images)
       const inlineData = part.inlineData || part.inline_data;
       if (inlineData?.data) {
-        const mimeType = inlineData.mimeType || inlineData.mime_type || "image/png';
+        const mimeType = inlineData.mimeType || inlineData.mime_type || "image/png";
         results.push({
           id: `chatcmpl-${state.messageId}`,
           object: "chat.completion.chunk",
@@ -699,7 +699,7 @@ export function geminiToOpenAIResponse(chunk, state) {
 
     if (state.textualToolCallBuffer) {
       const remainingText = state.textualToolCallBuffer;
-      state.textualToolCallBuffer = "';
+      state.textualToolCallBuffer = "";
       const textualToolCall = parseTextualToolCallCandidate(remainingText);
       if (textualToolCall && textualToolCall.kind === "complete") {
         emitFunctionCallPart(
@@ -787,7 +787,7 @@ export function geminiToOpenAIResponse(chunk, state) {
       // behavior, unchanged) and (2) any malformed-tool-call abort — always true here
       // since the synthesis above guarantees state.toolCalls.size > 0 whenever
       // isMalformedToolCall is true.
-      finishReason = "tool_calls';
+      finishReason = "tool_calls";
     }
 
     const finalChunk: Record<string, unknown> = {

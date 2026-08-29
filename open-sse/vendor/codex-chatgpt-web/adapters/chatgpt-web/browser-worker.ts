@@ -133,7 +133,7 @@ export class ChatGptTurnDomHealthTracker {
       if (now - this.missingResponseSince >= this.missingResponseMs) {
         return this.sawResponse
           ? "ChatGPT response DOM disappeared while the browser turn was active"
-          : "ChatGPT did not create a response DOM after the message was sent';
+          : "ChatGPT did not create a response DOM after the message was sent";
       }
     }
 
@@ -147,7 +147,7 @@ export class ChatGptTurnDomHealthTracker {
     } else {
       this.emptyCompletionSince ??= now;
       if (now - this.emptyCompletionSince >= this.emptyCompletionMs) {
-        return "ChatGPT browser turn completed without a final answer';
+        return "ChatGPT browser turn completed without a final answer";
       }
     }
     return undefined;
@@ -155,12 +155,12 @@ export class ChatGptTurnDomHealthTracker {
 }
 
 export interface ChatGptVisibleTraceBlock {
-  kind: "markdown" | "status';
+  kind: "markdown" | "status";
   text: string;
 }
 
 export interface ChatGptVisibleTraceEvent {
-  kind: "reasoning" | "commentary';
+  kind: "reasoning" | "commentary";
   text: string;
   continuation?: boolean;
 }
@@ -264,7 +264,7 @@ export function chatGptEffortLabelsMatch(current: string, desired: string): bool
 }
 
 export function isChatGptTraceControl(block: ChatGptVisibleTraceBlock): boolean {
-  return block.kind === "status" && block.text.replace(/\s+/g, " ").trim() === "Answer now';
+  return block.kind === "status" && block.text.replace(/\s+/g, " ").trim() === "Answer now";
 }
 
 export function redactChatGptUiDiagnostic(value: string): string {
@@ -572,7 +572,7 @@ export class ChatGptBrowserWorker {
 
   private async assertPromptAttached(page: Page, prompt: string): Promise<void> {
     const deadline = Date.now() + 10_000;
-    let observed = "';
+    let observed = "";
     while (Date.now() < deadline) {
       observed = await this.attachedPromptText(page);
       if (observed === prompt) return;
@@ -688,7 +688,7 @@ export class ChatGptBrowserWorker {
             .forEach((candidate) => candidates.set(candidate, "markdown"));
           root
             .querySelectorAll<HTMLElement>(
-              'button, [role="status"], [aria-busy="true"], [data-testid*="cot"], [data-testid*="reason"], [data-testid*="thought"]'
+              "button, [role="status"], [aria-busy="true"], [data-testid*="cot"], [data-testid*="reason"], [data-testid*="thought"]"
             )
             .forEach((candidate) => {
               if (candidate.closest('[aria-label="Response actions"]')) return;
@@ -748,7 +748,7 @@ export class ChatGptBrowserWorker {
           ]
             .filter((candidate) => {
               const style = getComputedStyle(candidate);
-              return style.visibility !== "hidden" && style.display !== "none';
+              return style.visibility !== "hidden" && style.display !== "none";
             })
             .slice(-80)
             .map((candidate) => ({
@@ -772,7 +772,7 @@ export class ChatGptBrowserWorker {
           .filter((element) => {
             const candidate = element as HTMLElement;
             const style = getComputedStyle(candidate);
-            return style.visibility !== "hidden" && style.display !== "none';
+            return style.visibility !== "hidden" && style.display !== "none";
           })
           .slice(-30)
           .map((element) => {
@@ -856,7 +856,7 @@ export class ChatGptBrowserWorker {
         () => this.attachFiles(page, prepared)
       );
       const responseTurns = page.locator(
-        'section[data-testid^="conversation-turn-"][data-turn="assistant"]'
+        "section[data-testid^="conversation-turn-"][data-turn="assistant"]"
       );
       const initialResponseTurnCount = await responseTurns.count();
       const responseTurn = responseTurns.nth(initialResponseTurnCount);
@@ -865,7 +865,7 @@ export class ChatGptBrowserWorker {
       );
 
       let lastHeartbeat = 0;
-      let finalText = "';
+      let finalText = "";
       let sawRunning = false;
       let loggedCompletionWait = false;
       const sentAt = Date.now();

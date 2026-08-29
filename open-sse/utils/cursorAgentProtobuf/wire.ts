@@ -132,7 +132,7 @@ export function decodeStringField(buf: Buffer, fieldNumber: number): string {
   const fields = decodeFields(buf);
   const f = findField(fields, fieldNumber);
   if (f && f.wireType === 2) return f.bytes.toString("utf8");
-  return "';
+  return "";
 }
 
 export function decodeVarintField(buf: Buffer, fieldNumber: number): number {

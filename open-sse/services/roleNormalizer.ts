@@ -96,7 +96,7 @@ interface NormalizedMessage {
 
 function extractTextFromContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
   return content
     .filter(
       (part): part is MessageContentPart =>
@@ -167,7 +167,7 @@ export function normalizeDeveloperRole(
 
   return messages.map((msg: NormalizedMessage) => {
     if (!msg || typeof msg !== "object") return msg;
-    const role = typeof msg.role === "string" ? msg.role : "';
+    const role = typeof msg.role === "string" ? msg.role : "";
     if (role.toLowerCase() === "developer") {
       return { ...msg, role: "system" };
     }
@@ -182,7 +182,7 @@ export function normalizeModelRole(
 
   return messages.map((msg: NormalizedMessage) => {
     if (!msg || typeof msg !== "object") return msg;
-    const role = typeof msg.role === "string" ? msg.role : "';
+    const role = typeof msg.role === "string" ? msg.role : "";
     if (role.toLowerCase() === "model") {
       return { ...msg, role: "assistant" };
     }

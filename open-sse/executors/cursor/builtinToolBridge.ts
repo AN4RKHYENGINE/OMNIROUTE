@@ -11,7 +11,7 @@ export type CursorBuiltinToolBridge = {
   arguments: Record<string, unknown>;
 };
 
-export type CursorClientPlatform = "windows" | "posix';
+export type CursorClientPlatform = "windows" | "posix";
 
 export type CursorTodoHistoryItem = {
   content: string;
@@ -32,7 +32,7 @@ type JsonSchema = {
 
 const DIRECT_SHELL_TOOL_NAMES = ["bash", "shell", "run_terminal_cmd"];
 const TODO_WRITE_TOOL_NAMES = ["todowrite", "todo_write"];
-const BRIDGE_DESCRIPTION = "Run Cursor-requested shell command';
+const BRIDGE_DESCRIPTION = "Run Cursor-requested shell command";
 const ROOT_SCHEMA_KEYS = new Set([
   "$schema",
   "$id",
@@ -140,7 +140,7 @@ function propertySupports(value: unknown, expected: "string" | "boolean" | "stri
   if (expected === "string[]") {
     if (!hasOnlyKeys(value, ARRAY_PROPERTY_KEYS)) return false;
     if (value.type !== "array" || !isRecord(value.items)) return false;
-    return hasOnlyKeys(value.items, SCALAR_PROPERTY_KEYS) && value.items.type === "string';
+    return hasOnlyKeys(value.items, SCALAR_PROPERTY_KEYS) && value.items.type === "string";
   }
   return hasOnlyKeys(value, SCALAR_PROPERTY_KEYS) && value.type === expected;
 }
@@ -222,7 +222,7 @@ function ptySpawnBridge(
       continue;
     }
 
-    const windows = platform === "windows';
+    const windows = platform === "windows";
     const args: Record<string, unknown> = {
       command: windows ? "powershell.exe" : "/bin/sh",
       args: windows

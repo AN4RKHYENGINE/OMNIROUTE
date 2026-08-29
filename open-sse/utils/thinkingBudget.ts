@@ -7,7 +7,7 @@
 
 export function hasActiveClaudeThinking(body: Record<string, unknown>): boolean {
   const thinking = body.thinking as Record<string, unknown> | undefined;
-  return thinking?.type === "enabled" || thinking?.type === "adaptive';
+  return thinking?.type === "enabled" || thinking?.type === "adaptive";
 }
 
 /**

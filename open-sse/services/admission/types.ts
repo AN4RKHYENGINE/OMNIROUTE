@@ -20,13 +20,13 @@ export const MAX_ADMISSION_COST_OR_LIMIT = Math.floor(
   Number.MAX_SAFE_INTEGER / MAX_ADMISSION_WINDOW_MS
 );
 
-export type AdmissionMode = "off" | "shadow" | "enforce';
+export type AdmissionMode = "off" | "shadow" | "enforce";
 
-export type AdmissionPressure = "normal" | "high" | "critical';
+export type AdmissionPressure = "normal" | "high" | "critical";
 
 /** Local outcome categories. Upstream business errors must not collapse capacity. */
 export type AdmissionReleaseOutcome =
-  "success" | "upstream_error" | "timeout" | "local_reject" | "cancelled';
+  "success" | "upstream_error" | "timeout" | "local_reject" | "cancelled";
 
 export type AdmissionRejectCode =
   | "ADMISSION_OVERSIZED"
@@ -35,9 +35,9 @@ export type AdmissionRejectCode =
   | "ADMISSION_ABORTED"
   | "ADMISSION_LANE_EVICTED"
   | "ADMISSION_SHUTDOWN"
-  | "ADMISSION_UNAVAILABLE';
+  | "ADMISSION_UNAVAILABLE";
 
-export type ShadowDecision = "would-admit" | "would-queue" | "would-reject';
+export type ShadowDecision = "would-admit" | "would-queue" | "would-reject";
 
 export interface AdmissionCostFeatures {
   bodyBytes?: number | null;
@@ -108,18 +108,18 @@ export interface AdmissionLease {
 }
 
 export interface AdmissionAdmitted {
-  status: "admitted';
+  status: "admitted";
   lease: AdmissionLease;
   shadowDecision?: ShadowDecision;
 }
 
 export interface AdmissionQueued {
-  status: "queued';
+  status: "queued";
   promise: Promise<AdmissionAdmitted>;
 }
 
 export interface AdmissionRejected {
-  status: "rejected';
+  status: "rejected";
   code: AdmissionRejectCode;
   message: string;
   shadowDecision?: ShadowDecision;
@@ -170,7 +170,7 @@ export interface AdmissionClock {
 
 export interface AdmissionRejectError extends Error {
   code: AdmissionRejectCode;
-  name: "AdmissionRejectError';
+  name: "AdmissionRejectError";
 }
 
 export function createAdmissionRejectError(
@@ -178,7 +178,7 @@ export function createAdmissionRejectError(
   message: string
 ): AdmissionRejectError {
   const err = new Error(message) as AdmissionRejectError;
-  err.name = "AdmissionRejectError';
+  err.name = "AdmissionRejectError";
   err.code = code;
   return err;
 }

@@ -19,8 +19,8 @@
  * without touching the DB or the provider registry directly.
  */
 
-const CC_DISCOVERY_PREFIX = "claude/';
-const CC_DISCOVERY_COMBO_PREFIX = "combo/';
+const CC_DISCOVERY_PREFIX = "claude/";
+const CC_DISCOVERY_COMBO_PREFIX = "combo/";
 
 export interface CcDiscoveryStripDeps {
   /** True when `rest` resolves to a real model of the legitimate "claude" OAuth provider. */

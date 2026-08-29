@@ -70,7 +70,7 @@ function resetClientCache(): void {
 export class TlsClientHangError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientHangError';
+    this.name = "TlsClientHangError";
   }
 }
 
@@ -168,12 +168,12 @@ interface TlsResponseLike {
 export class TlsClientUnavailableError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "TlsClientUnavailableError';
+    this.name = "TlsClientUnavailableError";
   }
 }
 
 export interface TlsFetchOptions {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE';
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   headers?: Record<string, string>;
   body?: string;
   timeoutMs?: number;
@@ -316,7 +316,7 @@ function makeAbortError(signal: AbortSignal): Error {
   const reason = signal.reason;
   if (reason instanceof Error) return reason;
   const err = new Error(typeof reason === "string" ? reason : "The operation was aborted");
-  err.name = "AbortError';
+  err.name = "AbortError";
   return err;
 }
 

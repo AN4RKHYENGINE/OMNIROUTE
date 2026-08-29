@@ -103,8 +103,8 @@ describe("Task Fitness", () => {
       // row directly via the DB module, look up the free variant, and
       // assert the alias path returns the base score with source
       // "arena_elo_free_alias".
-      const baseId = "alias-base-test-4517';
-      const freeId = "alias-base-test-4517-free';
+      const baseId = "alias-base-test-4517";
+      const freeId = "alias-base-test-4517-free";
       const { upsertModelIntelligence, deleteModelIntelligence } =
         await import("../../../../src/lib/db/modelIntelligence.ts");
       // Seed arena_elo on the base id only — no row exists for the free id.
@@ -636,8 +636,8 @@ describe("Task Fitness DB Resolution Chain", () => {
   });
 
   it("getTaskFitnessWithSource identifies fitness_table as source for known models", () => {
-    const model = "claude-sonnet';
-    const category = "coding';
+    const model = "claude-sonnet";
+    const category = "coding";
 
     const result = getTaskFitnessWithSource(model, category);
     expect(result.source).toBe("fitness_table");

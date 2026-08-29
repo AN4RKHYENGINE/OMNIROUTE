@@ -38,7 +38,7 @@ const KEEPALIVE_FRAME = ENCODER.encode(": keepalive\n\n");
 // reject legal SSE comments before their first provider chunk arrives.
 // id/model stay brand-neutral — these frames go to the client, not upstream.
 export const OPENAI_KEEPALIVE_FRAME = ENCODER.encode(
-  'data: {"id":"chatcmpl-keepalive","object":"chat.completion.chunk","created":0,"model":"keepalive","choices":[{"index":0,"delta":{},"finish_reason":null}]}\n\n'
+  "data: {"id":"chatcmpl-keepalive","object":"chat.completion.chunk","created":0,"model":"keepalive","choices":[{"index":0,"delta":{},"finish_reason":null}]}\n\n"
 );
 // The first slow-path frame must be a valid OpenAI chunk without creating
 // visible reasoning that clients persist into the conversation.
@@ -57,9 +57,9 @@ export const ANTHROPIC_PING_FRAME = ENCODER.encode('event: ping\ndata: {"type":"
 // real upstream response — once it arrives — starts its own independent
 // response.created lifecycle from scratch; this placeholder item never
 // carries a response_id and isn't meant to be continued.
-const RESPONSES_STARTUP_ITEM_ID = "rs_keepalive';
+const RESPONSES_STARTUP_ITEM_ID = "rs_keepalive";
 // Brand-neutral placeholder — clients persist this as visible reasoning.
-const STARTUP_THINKING_TEXT = "✨';
+const STARTUP_THINKING_TEXT = "✨";
 export const RESPONSES_STARTUP_THINKING_FRAME = ENCODER.encode(
   [
     {
@@ -328,7 +328,7 @@ export async function withEarlyStreamKeepalive(
             // committed to a 200 event-stream, so the HTTP status can no longer
             // change. Frame the (already-sanitized) body as an in-band error event
             // instead of forwarding raw JSON, which would be malformed SSE.
-            const text = response.body ? await response.text().catch(() => "") : "';
+            const text = response.body ? await response.text().catch(() => "") : "";
             const dataLine =
               text.trim() ||
               JSON.stringify({ error: { message: "stream_error", type: "stream_error" } });

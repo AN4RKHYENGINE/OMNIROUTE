@@ -57,7 +57,7 @@ const RESPONSES_EXTRA_TOP_LEVEL_FIELDS = [
 type JsonRecord = Record<string, unknown>;
 type ParseOptions = { parseTextualReasoningTags?: boolean };
 
-export const OMIT_STREAMING_CHUNK_MARKER = "__omniroute_omit_streaming_chunk';
+export const OMIT_STREAMING_CHUNK_MARKER = "__omniroute_omit_streaming_chunk";
 
 function toRecord(value: unknown): JsonRecord | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
@@ -271,9 +271,9 @@ export function sanitizeOpenAIResponse(
 
   // Ensure required fields exist
   sanitized.id = normalizeResponseId(bodyRecord.id);
-  sanitized.object = toString(bodyRecord.object) || "chat.completion';
+  sanitized.object = toString(bodyRecord.object) || "chat.completion";
   sanitized.created = toNumber(bodyRecord.created) ?? Math.floor(Date.now() / 1000);
-  sanitized.model = toString(bodyRecord.model) || "unknown';
+  sanitized.model = toString(bodyRecord.model) || "unknown";
 
   // Sanitize choices
   if (Array.isArray(bodyRecord.choices)) {
@@ -286,7 +286,7 @@ export function sanitizeOpenAIResponse(
         message.tool_calls.length > 0 &&
         sanitizedChoice.finish_reason !== "tool_calls"
       ) {
-        sanitizedChoice.finish_reason = "tool_calls';
+        sanitizedChoice.finish_reason = "tool_calls";
       }
       if (stripReasoning && message) {
         deleteOpenAICompatibleReasoningFields(message);
@@ -635,21 +635,21 @@ function normalizeResponsesId(id: unknown): string {
 export function isResponsesCommentaryMessageItem(item: unknown): boolean {
   const itemRecord = toRecord(item);
   if (!itemRecord) return false;
-  const type = toString(itemRecord.type) || "message';
+  const type = toString(itemRecord.type) || "message";
   if (type !== "message") return false;
-  const role = toString(itemRecord.role) || "assistant';
+  const role = toString(itemRecord.role) || "assistant";
   const phase = toString(itemRecord.phase);
-  return role === "assistant" && phase === "commentary';
+  return role === "assistant" && phase === "commentary";
 }
 
 function sanitizeResponsesStreamingOutputItem(item: unknown): JsonRecord | null {
   const itemRecord = toRecord(item);
   if (!itemRecord) return null;
 
-  const type = toString(itemRecord.type) || "message';
+  const type = toString(itemRecord.type) || "message";
 
   if (type === "message") {
-    const role = toString(itemRecord.role) || "assistant';
+    const role = toString(itemRecord.role) || "assistant";
     if (isResponsesCommentaryMessageItem(itemRecord)) {
       return null;
     }
@@ -657,7 +657,7 @@ function sanitizeResponsesStreamingOutputItem(item: unknown): JsonRecord | null 
     const content = sanitizeResponsesMessageContent(itemRecord.content).filter((part) => {
       const partRecord = toRecord(part);
       const partPhase = partRecord ? toString(partRecord.phase) : undefined;
-      return partPhase !== "commentary';
+      return partPhase !== "commentary";
     });
 
     if (role === "assistant" && content.length === 0) {
@@ -744,7 +744,7 @@ const RESPONSES_STREAMING_TEXT_DONE_EVENTS = new Set([
 
 function sanitizeResponsesStreamingEvent(parsedRecord: JsonRecord): JsonRecord {
   const sanitized: JsonRecord = { ...parsedRecord };
-  const eventType = toString(parsedRecord.type) || "';
+  const eventType = toString(parsedRecord.type) || "";
 
   // Root-level text events (output_text / reasoning_summary_text / reasoning_text)
   // carry the model text directly on the event, not under item/output. Strip ZWJ
@@ -801,7 +801,7 @@ function sanitizeResponsesStreamingEvent(parsedRecord: JsonRecord): JsonRecord {
       ...responseRecord,
       ...(responseOutput ? { output: responseOutput } : {}),
     };
-    const responseOutputText = responseOutput ? extractResponsesOutputText(responseOutput) : "';
+    const responseOutputText = responseOutput ? extractResponsesOutputText(responseOutput) : "";
     if (responseOutputText.length > 0) {
       sanitizedResponse.output_text = responseOutputText;
     } else {
@@ -825,7 +825,7 @@ function sanitizeResponsesOutputItem(item: unknown, index: number): JsonRecord |
   const itemRecord = toRecord(item);
   if (!itemRecord) return null;
 
-  const type = toString(itemRecord.type) || "message';
+  const type = toString(itemRecord.type) || "message";
 
   if (type === "message") {
     const content = sanitizeResponsesMessageContent(itemRecord.content);
@@ -961,7 +961,7 @@ function extractResponsesOutputText(output: JsonRecord[]): string {
 function convertOpenAIResponseToResponses(openaiResponse: JsonRecord): JsonRecord {
   const responseId = normalizeResponsesId(openaiResponse.id);
   const createdAt = toNumber(openaiResponse.created) ?? Math.floor(Date.now() / 1000);
-  const model = toString(openaiResponse.model) || "unknown';
+  const model = toString(openaiResponse.model) || "unknown";
   const choice = Array.isArray(openaiResponse.choices)
     ? (toRecord(openaiResponse.choices[0]) ?? {})
     : {};
@@ -1049,7 +1049,7 @@ export function sanitizeStreamingChunk(parsed: unknown): unknown {
   const parsedRecord = toRecord(parsed);
   if (!parsedRecord) return parsed;
 
-  const eventType = toString(parsedRecord.type) || "';
+  const eventType = toString(parsedRecord.type) || "";
   if (eventType.startsWith("response.") || parsedRecord.object === "response") {
     return sanitizeResponsesStreamingEvent(parsedRecord);
   }
@@ -1080,7 +1080,7 @@ export function sanitizeStreamingChunk(parsed: unknown): unknown {
       typeof parsedRecord.id === "string" ? parsedRecord.id : String(parsedRecord.id)
     );
   }
-  sanitized.object = toString(parsedRecord.object) || "chat.completion.chunk';
+  sanitized.object = toString(parsedRecord.object) || "chat.completion.chunk";
   if (parsedRecord.created !== undefined) sanitized.created = parsedRecord.created;
   if (parsedRecord.model !== undefined) sanitized.model = parsedRecord.model;
 

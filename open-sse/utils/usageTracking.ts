@@ -825,7 +825,7 @@ export function logUsage(
 ) {
   if (!usage || typeof usage !== "object") return;
 
-  const p = provider?.toUpperCase() || "UNKNOWN';
+  const p = provider?.toUpperCase() || "UNKNOWN";
 
   // Support both formats:
   // - OpenAI: prompt_tokens, completion_tokens
@@ -836,7 +836,7 @@ export function logUsage(
   const normalizedConnectionId = typeof connectionId === "string" ? connectionId : undefined;
   const accountPrefix = normalizedConnectionId
     ? normalizedConnectionId.slice(0, 8) + "..."
-    : "unknown';
+    : "unknown";
 
   let msg = `[${getTimeString()}] 📊 ${COLORS.green}[USAGE] ${p} | in=${inTokens} | out=${outTokens} | account=${accountPrefix}${COLORS.reset}`;
 

@@ -65,7 +65,7 @@ export async function handleCompressionStatus(
       estimatedTokensSaved: number;
       persistedEstimatedTokensSaved: number;
       persistedSnapshots: number;
-      source: "mcp_metadata_estimate';
+      source: "mcp_metadata_estimate";
       notProviderUsage: true;
     };
   };

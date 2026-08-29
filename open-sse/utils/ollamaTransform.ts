@@ -16,7 +16,7 @@ export function transformToOllama(response, model) {
   const contentType = String(response.headers?.get?.("content-type") || "").toLowerCase();
   if (!response.ok || !response.body || !contentType.includes("text/event-stream")) return response;
 
-  let buffer = "';
+  let buffer = "";
   let pendingToolCalls: Record<number, PendingToolCall> = {};
   const completedToolCalls: PendingToolCall[] = [];
 
@@ -26,7 +26,7 @@ export function transformToOllama(response, model) {
         const text = new TextDecoder().decode(chunk);
         buffer += text;
         const lines = buffer.split("\n");
-        buffer = lines.pop() || "';
+        buffer = lines.pop() || "";
 
         for (const line of lines) {
           if (!line.startsWith("data:")) continue;
@@ -35,7 +35,7 @@ export function transformToOllama(response, model) {
           if (data === "[DONE]") {
             const ollamaEnd =
               JSON.stringify({ model, message: { role: "assistant", content: "" }, done: true }) +
-              "\n';
+              "\n";
             controller.enqueue(new TextEncoder().encode(ollamaEnd));
             return;
           }
@@ -43,7 +43,7 @@ export function transformToOllama(response, model) {
           try {
             const parsed = JSON.parse(data);
             const delta = parsed.choices?.[0]?.delta || {};
-            const content = delta.content || "';
+            const content = delta.content || "";
             const thinking = getReadableReasoningValue(delta);
             const toolCalls = delta.tool_calls;
 
@@ -81,14 +81,14 @@ export function transformToOllama(response, model) {
                   model,
                   message: { role: "assistant", content: "", thinking },
                   done: false,
-                }) + "\n';
+                }) + "\n";
               controller.enqueue(new TextEncoder().encode(ollama));
             }
 
             if (content) {
               const ollama =
                 JSON.stringify({ model, message: { role: "assistant", content }, done: false }) +
-                "\n';
+                "\n";
               controller.enqueue(new TextEncoder().encode(ollama));
             }
 
@@ -107,7 +107,7 @@ export function transformToOllama(response, model) {
                     model,
                     message: { role: "assistant", content: "", tool_calls: formattedCalls },
                     done: true,
-                  }) + "\n';
+                  }) + "\n";
                 controller.enqueue(new TextEncoder().encode(ollama));
                 pendingToolCalls = {};
               } else if (finishReason === "stop") {
@@ -116,7 +116,7 @@ export function transformToOllama(response, model) {
                     model,
                     message: { role: "assistant", content: "" },
                     done: true,
-                  }) + "\n';
+                  }) + "\n";
                 controller.enqueue(new TextEncoder().encode(ollamaEnd));
               }
             }
@@ -127,7 +127,7 @@ export function transformToOllama(response, model) {
       },
       flush(controller) {
         const ollamaEnd =
-          JSON.stringify({ model, message: { role: "assistant", content: "" }, done: true }) + "\n';
+          JSON.stringify({ model, message: { role: "assistant", content: "" }, done: true }) + "\n";
         controller.enqueue(new TextEncoder().encode(ollamaEnd));
       },
     },

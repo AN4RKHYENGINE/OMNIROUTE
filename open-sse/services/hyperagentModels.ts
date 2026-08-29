@@ -16,7 +16,7 @@ export interface HyperAgentModel {
   /** Pretty picker / /v1/models name. */
   name: string;
   /** Short subagent override (defaultSubagentModel). */
-  subagent: "fable" | "opus" | "sonnet" | "haiku';
+  subagent: "fable" | "opus" | "sonnet" | "haiku";
   /** Agent runtime for Claude family models. */
   runtimeId?: string;
   /** Context window for OmniRoute getTokenLimit / compression (Claude-family → 1M). */
@@ -110,7 +110,7 @@ const ALIASES: Record<string, string> = {
 };
 
 export function resolveHyperAgentModel(model: unknown): HyperAgentModel | null {
-  const raw = typeof model === "string" ? stripHyperAgentModelPrefix(model) : "';
+  const raw = typeof model === "string" ? stripHyperAgentModelPrefix(model) : "";
   if (!raw) return null;
   const lower = raw.toLowerCase().trim();
   const compact = lower.replace(/[\s_]+/g, "-");
@@ -143,8 +143,8 @@ export function resolveHyperAgentModel(model: unknown): HyperAgentModel | null {
 export function clientFacingHyperAgentModelId(model: unknown): string {
   const resolved = resolveHyperAgentModel(model);
   if (resolved) return resolved.id;
-  const stripped = typeof model === "string" ? stripHyperAgentModelPrefix(model) : "';
-  return stripped || "opus-latest';
+  const stripped = typeof model === "string" ? stripHyperAgentModelPrefix(model) : "";
+  return stripped || "opus-latest";
 }
 
 /**
@@ -165,14 +165,14 @@ export function wireHyperAgentSubagentModelId(model: unknown): string {
   if (resolved?.subagent) return resolved.subagent;
 
   const wire = wireHyperAgentModelId(model).toLowerCase();
-  if (wire.includes("fable")) return "fable';
-  if (wire.includes("sonnet")) return "sonnet';
-  if (wire.includes("haiku")) return "haiku';
-  if (wire.includes("opus")) return "opus';
-  return "opus';
+  if (wire.includes("fable")) return "fable";
+  if (wire.includes("sonnet")) return "sonnet";
+  if (wire.includes("haiku")) return "haiku";
+  if (wire.includes("opus")) return "opus";
+  return "opus";
 }
 
 export function wireHyperAgentRuntimeId(model: unknown): string {
   const resolved = resolveHyperAgentModel(model);
-  return resolved?.runtimeId || "claude-agents-sdk';
+  return resolved?.runtimeId || "claude-agents-sdk";
 }

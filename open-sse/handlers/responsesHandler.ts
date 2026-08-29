@@ -78,7 +78,7 @@ export async function handleResponsesCore({
   }
 
   const response = result.response;
-  const contentType = response.headers.get("Content-Type") || "';
+  const contentType = response.headers.get("Content-Type") || "";
 
   // If not SSE or error, return as-is
   if (!contentType.includes("text/event-stream") || response.status !== 200) {

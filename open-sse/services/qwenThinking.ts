@@ -32,7 +32,7 @@ export function sanitizeQwenThinkingToolChoice(
     return body;
   }
 
-  const toolChoiceLabel = typeof toolChoice === "string" ? toolChoice : "object';
+  const toolChoiceLabel = typeof toolChoice === "string" ? toolChoice : "object";
   console.warn(
     `[${providerLabel}] Neutralizing incompatible tool_choice ${toolChoiceLabel} to "auto" (thinking mode active)`
   );

@@ -106,7 +106,7 @@ function normalizeEvalRoutingConfig(rawConfig: unknown): EvalRoutingConfig {
 
 function getTargetAliases(modelStr: string): string[] {
   const parsed = parseModel(modelStr);
-  const modelId = typeof parsed.model === "string" ? parsed.model.trim() : "';
+  const modelId = typeof parsed.model === "string" ? parsed.model.trim() : "";
   return [...new Set([modelStr.trim(), modelId].filter(Boolean))];
 }
 

@@ -8,7 +8,7 @@ export type ChatGptBrowserOutcome =
   { type: "final"; answer: string } | { type: "error"; error: Error };
 
 export interface ChatGptTraceEvent {
-  kind: "reasoning" | "commentary';
+  kind: "reasoning" | "commentary";
   text: string;
   continuation?: boolean;
 }
@@ -76,7 +76,7 @@ interface TextWaiter {
 export class ChatGptTextFeed {
   private readonly queued: string[] = [];
   private readonly waiters = new Set<TextWaiter>();
-  private text = "';
+  private text = "";
 
   push(delta: string): void {
     if (!delta) return;

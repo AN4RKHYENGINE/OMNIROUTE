@@ -137,7 +137,7 @@ function parseAllBalanceInfos(data: unknown): BalanceInfo[] {
 
   for (const item of balanceInfos) {
     const record = toRecord(item);
-    const currency = typeof record.currency === "string" ? record.currency.toUpperCase() : "';
+    const currency = typeof record.currency === "string" ? record.currency.toUpperCase() : "";
     const totalBalance = toNumber(record.total_balance ?? record.totalBalance, 0);
     const grantedBalance = toNumber(record.granted_balance ?? record.grantedBalance, 0);
     const toppedUpBalance = toNumber(record.topped_up_balance ?? record.toppedUpBalance, 0);

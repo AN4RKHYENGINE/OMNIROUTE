@@ -365,7 +365,7 @@ export class BaseExecutor {
     void stream;
     if (this.provider?.startsWith?.("openai-compatible-")) {
       const psd = credentials?.providerSpecificData;
-      const baseUrl = typeof psd?.baseUrl === "string" ? psd.baseUrl : "https://api.openai.com/v1';
+      const baseUrl = typeof psd?.baseUrl === "string" ? psd.baseUrl : "https://api.openai.com/v1";
       const normalized = baseUrl.replace(/\/$/, "");
       // Sanitize custom path: must start with '/', no path traversal, no null bytes
       const rawPath = typeof psd?.chatPath === "string" && psd.chatPath ? psd.chatPath : null;
@@ -374,11 +374,11 @@ export class BaseExecutor {
       const path =
         getOpenAICompatibleType(this.provider, psd) === "responses"
           ? "/responses"
-          : "/chat/completions';
+          : "/chat/completions";
       return `${normalized}${path}`;
     }
     const baseUrls = this.getBaseUrls();
-    return baseUrls[urlIndex] || baseUrls[0] || this.config.baseUrl || "';
+    return baseUrls[urlIndex] || baseUrls[0] || this.config.baseUrl || "";
   }
 
   /**
@@ -392,7 +392,7 @@ export class BaseExecutor {
     // An alternate protocol selected on the connection carries its own URL.
     const alternate = this.resolveAlternate(credentials);
     if (alternate?.baseUrl) return alternate.baseUrl;
-    return fallback || this.config.baseUrl || "';
+    return fallback || this.config.baseUrl || "";
   }
 
   /**
@@ -410,7 +410,7 @@ export class BaseExecutor {
   protected usesClaudeCodeProtocol(credentials: ProviderCredentials | null): boolean {
     if (!isClaudeCodeCompatible(this.provider)) return false;
     const format = this.resolveAlternate(credentials)?.format;
-    return format !== "openai" && format !== "openai-responses';
+    return format !== "openai" && format !== "openai-responses";
   }
 
   /**
@@ -491,7 +491,7 @@ export class BaseExecutor {
       headers["Authorization"] = `Bearer ${effectiveKey}`;
     }
 
-    headers["Accept"] = stream ? "text/event-stream" : "application/json';
+    headers["Accept"] = stream ? "text/event-stream" : "application/json";
 
     normalizeAnthropicHeaderVariants(headers);
 
@@ -527,7 +527,7 @@ export class BaseExecutor {
               const func = { ...(toolFunction as JsonRecord) };
               if (func.description === "") delete func.description;
               if (typeof func.name !== "string" || func.name.trim() === "") {
-                func.name = "unnamed_tool';
+                func.name = "unnamed_tool";
               }
               return { ...toolRecord, function: func };
             }
@@ -863,7 +863,7 @@ export class BaseExecutor {
               const timeoutError = new Error(
                 `Fetch timeout after ${fetchStartTimeoutMs}ms on ${requestUrl}`
               );
-              timeoutError.name = "TimeoutError';
+              timeoutError.name = "TimeoutError";
               timeoutController.abort(timeoutError);
             }, fetchStartTimeoutMs);
           }
@@ -959,7 +959,7 @@ export class BaseExecutor {
             if (tb.output_config && typeof tb.output_config === "object") {
               delete (tb.output_config as Record<string, unknown>).effort;
             }
-            appliedEffort = "off';
+            appliedEffort = "off";
           } else if (
             headerEffort &&
             ["low", "medium", "high", "xhigh", "max"].includes(headerEffort)
@@ -990,7 +990,7 @@ export class BaseExecutor {
           if (effThinking === "adaptive") {
             if (tb.thinking === undefined) {
               tb.thinking = { type: "adaptive" };
-              appliedThinking = "adaptive';
+              appliedThinking = "adaptive";
             }
             if (tb.context_management === undefined) {
               tb.context_management = {
@@ -1000,7 +1000,7 @@ export class BaseExecutor {
           } else if (effThinking === "off") {
             delete tb.thinking;
             delete tb.context_management;
-            appliedThinking = "off';
+            appliedThinking = "off";
           } else if (!effThinking && !headerEffort && isClaudeCodeClient) {
             // Default Claude Code logic when no override headers are present.
             // Generic OpenAI-compatible clients that route through native Claude OAuth
@@ -1052,13 +1052,13 @@ export class BaseExecutor {
             };
           }
 
-          const seed = activeCredentials?.accessToken || activeCredentials?.apiKey || "anon';
+          const seed = activeCredentials?.accessToken || activeCredentials?.apiKey || "anon";
           const psd = activeCredentials?.providerSpecificData as
             Record<string, unknown> | undefined;
 
           let identitySource:
             "upstream-metadata" | "upstream-header" | "synthesized" | "synthesized-cloaked" =
-            "synthesized';
+            "synthesized";
           let sessionId: string;
           let deviceId: string;
           let accountUUID: string;
@@ -1073,7 +1073,7 @@ export class BaseExecutor {
             sessionId = upstreamUserId.session_id;
             deviceId = upstreamUserId.device_id;
             accountUUID = upstreamUserId.account_uuid;
-            identitySource = "upstream-metadata';
+            identitySource = "upstream-metadata";
           } else {
             const headerSid = cloakIdentity
               ? null
@@ -1087,13 +1087,13 @@ export class BaseExecutor {
               ? "upstream-header"
               : cloakIdentity
                 ? "synthesized-cloaked"
-                : "synthesized';
+                : "synthesized";
           }
 
           // system[0] (billing) and system[1] (sentinel) must not carry
           // cache_control — that belongs on upstream prompt blocks at [2..].
           const billingLine = `x-anthropic-billing-header: cc_version=${CLAUDE_CLI_BILLING_VERSION}; cc_entrypoint=cli; cch=00000;`;
-          const SENTINEL = "You are Claude Code, Anthropic's official CLI for Claude.';
+          const SENTINEL = "You are Claude Code, Anthropic"s official CLI for Claude.";
 
           const sysBlocks: Array<Record<string, unknown>> = Array.isArray(tb.system)
             ? (tb.system as Array<Record<string, unknown>>)
@@ -1201,18 +1201,18 @@ export class BaseExecutor {
             if (usesCcWireImage(this.provider) && usesClaudeCodeProtocol) {
               delete headers["Authorization"];
               headers["x-api-key"] =
-                activeCredentials?.apiKey || activeCredentials?.accessToken || "';
+                activeCredentials?.apiKey || activeCredentials?.accessToken || "";
             }
             delete headers["X-Stainless-Helper-Method"];
 
             // OS/arch follow the host running the signed binary. Runtime version
             // is pinned to the captured CLI wire image, not OmniRoute's Node.
             headers["X-Stainless-Arch"] = stainlessArch();
-            headers["X-Stainless-Lang"] = "js';
+            headers["X-Stainless-Lang"] = "js";
             headers["X-Stainless-OS"] = stainlessOS();
-            headers["X-Stainless-Runtime"] = "node';
+            headers["X-Stainless-Runtime"] = "node";
             headers["X-Stainless-Runtime-Version"] = CLAUDE_CLI_STAINLESS_RUNTIME_VERSION;
-            headers["X-Stainless-Retry-Count"] = "0';
+            headers["X-Stainless-Retry-Count"] = "0";
             delete headers["X-Stainless-Os"];
           }
           // selectBetaFlags() above always includes redact-thinking for an
@@ -1238,7 +1238,7 @@ export class BaseExecutor {
           const overrideTag =
             appliedEffort || appliedThinking
               ? ` overrides=effort:${appliedEffort ?? "-"},thinking:${appliedThinking ?? "-"}`
-              : "';
+              : "";
           log?.debug?.(
             "CLAUDE",
             `identity=${identitySource} sid=${sessionId.slice(0, 8)} dev=${deviceId.slice(0, 8)} acct=${accountUUID.slice(0, 8)}${overrideTag}`

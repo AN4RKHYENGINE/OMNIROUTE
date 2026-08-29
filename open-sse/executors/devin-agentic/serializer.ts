@@ -11,7 +11,7 @@ export const MAX_TOOL_RESULT_CHARS = 65536;
 
 function stringifyContentValue(value: unknown): string {
   if (typeof value === "string") return value;
-  if (value == null) return "';
+  if (value == null) return "";
   return JSON.stringify(value);
 }
 
@@ -51,7 +51,7 @@ function serializeBlock(
 
   if (type === "text") return String(record.text || "");
   if (type === "thinking") return `[Thinking]\n${String(record.thinking || "")}`;
-  if (type === "redacted_thinking") return "[Redacted Thinking]';
+  if (type === "redacted_thinking") return "[Redacted Thinking]";
   if (type === "tool_use") {
     const id = String(record.id || "").trim();
     const name = String(record.name || "").trim();
@@ -120,7 +120,7 @@ function serializeMessage(
     );
   }
   // role was just narrowed to "user" | "assistant" by the guard above ("system" throws).
-  const label = role === "assistant" ? "Assistant" : "User';
+  const label = role === "assistant" ? "Assistant" : "User";
   const content = record.content;
 
   if (typeof content === "string") return `[${label}]\n${content}`;
@@ -139,7 +139,7 @@ function normalizeTools(tools: unknown): AnthropicTool[] {
 
   return tools.map((tool) => {
     const record = asRecord(tool);
-    const name = typeof record.name === "string" ? record.name.trim() : "';
+    const name = typeof record.name === "string" ? record.name.trim() : "";
     if (!name) {
       throw new DevinAgenticBridgeError("Anthropic tool is missing name", "invalid_tool_name");
     }
@@ -157,7 +157,7 @@ function serializeToolCatalog(tools: AnthropicTool[]): string[] {
     [
       "[Available Tools]",
       "When a tool is required, respond with exactly one XML-wrapped JSON object:",
-      '<tool>{"name":"ToolName","arguments":{}}</tool>',
+      '<tool>{"name":"ToolName","arguments":{}}</tool>",
       "Use only the tools listed below. Do not claim that a tool was executed.",
       "Do not execute tools inside Devin or emit ACP tool-call events; request them only with the XML envelope.",
       "Never describe a future tool action in plain text; emit the tool envelope instead.",

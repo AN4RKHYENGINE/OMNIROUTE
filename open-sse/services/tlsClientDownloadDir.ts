@@ -13,7 +13,7 @@ export function resolveTlsClientDownloadDir(): string {
 }
 
 export function buildNativeTlsClientOptions(): {
-  runtimeMode: "native';
+  runtimeMode: "native";
   downloadDir: string;
 } {
   return {

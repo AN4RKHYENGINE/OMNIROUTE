@@ -32,7 +32,7 @@ import {
 export { extractProjectIdFromToken };
 
 const CREDITS_GQL =
-  process.env.PROMPTQL_CREDITS_ENDPOINT || "https://data.pro.ql.app/v1/graphql';
+  process.env.PROMPTQL_CREDITS_ENDPOINT || "https://data.pro.ql.app/v1/graphql";
 
 const GET_CREDIT_SUMMARY = `
 query getCreditSummary($project_id: uuid!) {
@@ -73,7 +73,7 @@ export function buildPromptQlCreditsQuota(row: {
     total,
     remaining: rem,
     remainingPercentage,
-    // last_drawdown is activity, not a hard reset — omit so UI doesn't show a false "Resets in…"
+    // last_drawdown is activity, not a hard reset — omit so UI doesn"t show a false "Resets in…"
     resetAt: null,
     unlimited: false,
     currency: "USD",
@@ -82,13 +82,13 @@ export function buildPromptQlCreditsQuota(row: {
 }
 
 function readPs(data: unknown, keys: string[]): string {
-  if (!data || typeof data !== "object") return "';
+  if (!data || typeof data !== "object") return "";
   const rec = data as Record<string, unknown>;
   for (const k of keys) {
     const v = rec[k];
     if (typeof v === "string" && v.trim()) return v.trim();
   }
-  return "';
+  return "";
 }
 
 /**
@@ -122,7 +122,7 @@ function collectCreditsTokens(
 function isLikelyDdnToken(token: string): boolean {
   const json = decodeJwtPayload(token);
   if (!json) return false;
-  const iss = typeof json.iss === "string" ? json.iss : "';
+  const iss = typeof json.iss === "string" ? json.iss : "";
   if (issuerHostIsTrusted(iss)) return true;
   if (iss.toLowerCase().includes("enrich-token")) return false;
   const aud = json.aud;
@@ -162,7 +162,7 @@ export async function getPromptQlUsage(
     if (cookie) headersBase.cookie = cookie;
 
     // Try each token (DDN first). Enrich-only accounts get a clear dual-token message.
-    let lastError = "';
+    let lastError = "";
     const tryTokens = tokens.length ? tokens : [""];
     for (const token of tryTokens) {
       const headers = { ...headersBase };
@@ -203,7 +203,7 @@ export async function getPromptQlUsage(
       }
       const row = json.data?.promptql_project_credit_summary?.[0];
       if (!row) {
-        lastError = "No credit summary for this project (empty promptql_project_credit_summary).';
+        lastError = "No credit summary for this project (empty promptql_project_credit_summary).";
         continue;
       }
       const credits = buildPromptQlCreditsQuota(row);

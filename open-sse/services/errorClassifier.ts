@@ -32,14 +32,14 @@ export function isEmptyContentResponse(responseBody: unknown): boolean {
       (Array.isArray(message?.tool_calls) && (message.tool_calls as unknown[]).length > 0) ||
       (Array.isArray(delta?.tool_calls) && (delta.tool_calls as unknown[]).length > 0);
 
-    const hasContent = content !== null && content !== undefined && content !== "';
+    const hasContent = content !== null && content !== undefined && content !== "";
     const hasReasoning =
-      reasoningContent !== null && reasoningContent !== undefined && reasoningContent !== "';
+      reasoningContent !== null && reasoningContent !== undefined && reasoningContent !== "";
 
     // A response truncated at the token limit (finish_reason "length") is a valid,
     // successful completion even with empty text — do not flag it as a fake success.
     const finishReason =
-      typeof firstChoice.finish_reason === "string" ? firstChoice.finish_reason : "';
+      typeof firstChoice.finish_reason === "string" ? firstChoice.finish_reason : "";
     if (LEGIT_EMPTY_OPENAI_FINISH.has(finishReason)) return false;
 
     return !hasContent && !hasReasoning && !hasToolCalls;
@@ -50,17 +50,17 @@ export function isEmptyContentResponse(responseBody: unknown): boolean {
     // Empty content array: a response truncated at max_tokens (or one that stopped
     // to emit a tool_use block) is a legitimate terminal state, not a silent
     // failure. Only flag empty content when no such terminal stop_reason is present.
-    const stopReason = typeof body.stop_reason === "string" ? body.stop_reason : "';
+    const stopReason = typeof body.stop_reason === "string" ? body.stop_reason : "";
     return !LEGIT_EMPTY_CLAUDE_STOP.has(stopReason);
   }
 
   if (typeof body.text === "string") {
-    return body.text.trim() === "';
+    return body.text.trim() === "";
   }
 
   if ("content" in body) {
     const content = body.content;
-    return content === null || content === undefined || content === "';
+    return content === null || content === undefined || content === "";
   }
 
   return false;
@@ -145,10 +145,10 @@ function responseBodyToString(responseBody: unknown): string {
     try {
       return JSON.stringify(responseBody);
     } catch {
-      return "';
+      return "";
     }
   }
-  return "';
+  return "";
 }
 
 // A provider can return 404 for request-scoped resources (Files API ids,
@@ -177,7 +177,7 @@ export function isResourceNotFoundResponse(responseBody: unknown): boolean {
 
 function shouldPreserveQuotaSignalsFor429(provider?: string | null): boolean {
   if (!provider) return true;
-  return getProviderCategory(provider) === "oauth';
+  return getProviderCategory(provider) === "oauth";
 }
 
 export function classifyProviderError(

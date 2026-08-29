@@ -1,6 +1,6 @@
 import { FORMATS } from '../translator/formats.ts';
 
-export const OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME = "omniroute_web_search';
+export const OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME = "omniroute_web_search";
 // Prefix match — Anthropic sends date-suffixed variants (web_search_20250305, …).
 // The other two detectors (openai-responses/helpers.ts, webSearchRouting.ts) already
 // use /^web_search/ prefix matching; this aligns the fallback detector with them.
@@ -29,13 +29,13 @@ function toRecord(value: unknown): JsonRecord {
 
 function isBuiltInWebSearchTool(tool: unknown): tool is JsonRecord {
   const toolRecord = toRecord(tool);
-  const toolType = typeof toolRecord.type === "string" ? toolRecord.type : "';
+  const toolType = typeof toolRecord.type === "string" ? toolRecord.type : "";
   return WEB_SEARCH_TOOL_TYPES.test(toolType) && !toolRecord.function;
 }
 
 function isBuiltInWebSearchToolChoice(toolChoice: unknown): boolean {
   const choice = toRecord(toolChoice);
-  const toolType = typeof choice.type === "string" ? choice.type : "';
+  const toolType = typeof choice.type === "string" ? choice.type : "";
   return WEB_SEARCH_TOOL_TYPES.test(toolType);
 }
 
@@ -44,9 +44,9 @@ function buildFallbackDescription(tool: JsonRecord): string {
   const contextSize =
     typeof tool.search_context_size === "string"
       ? tool.search_context_size.trim().toLowerCase()
-      : "';
+      : "";
   const defaultMaxResults = SEARCH_CONTEXT_DEFAULTS[contextSize] || SEARCH_CONTEXT_DEFAULTS.medium;
-  const accessMode = externalWebAccess ? "public web" : "configured search index';
+  const accessMode = externalWebAccess ? "public web" : "configured search index";
 
   return [
     `Search the ${accessMode} for recent, factual information and return cited results.`,
@@ -59,7 +59,7 @@ function buildFallbackParameters(tool: JsonRecord): JsonRecord {
   const contextSize =
     typeof tool.search_context_size === "string"
       ? tool.search_context_size.trim().toLowerCase()
-      : "';
+      : "";
   const defaultMaxResults = SEARCH_CONTEXT_DEFAULTS[contextSize] || SEARCH_CONTEXT_DEFAULTS.medium;
 
   return {
@@ -222,7 +222,7 @@ export function prepareWebSearchFallbackBody<T extends WebSearchFallbackBody>(
         ? functionRecord.name
         : typeof toolRecord.name === "string"
           ? toolRecord.name
-          : "';
+          : "";
     if (name.trim().length > 0) {
       toolNames.add(name.trim());
     }

@@ -100,7 +100,7 @@ function getForwardingPriority(headerName: string): number {
  *
  * See issue #5849.
  */
-const NEXTJS_MIDDLEWARE_HEADER_PREFIX = "x-middleware-';
+const NEXTJS_MIDDLEWARE_HEADER_PREFIX = "x-middleware-";
 
 /**
  * True when `headerName` is a Next.js internal middleware control header that

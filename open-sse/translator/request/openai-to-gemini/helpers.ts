@@ -22,7 +22,7 @@ export type GeminiGenerationConfig = {
 // Vertex AI (and Vertex Partner models) reject the OpenAI-style `id` field inside
 // function_call / function_response parts. Detect these by the routed provider id.
 export function isVertexGeminiProvider(provider: unknown): boolean {
-  return provider === "vertex" || provider === "vertex-partner';
+  return provider === "vertex" || provider === "vertex-partner";
 }
 
 type OpenAIToolCallLike = {
@@ -121,7 +121,7 @@ export function stringifyHistoricalToolArguments(value: unknown): string {
 }
 
 export function buildInertHistoricalToolCallText(name: string | undefined, args: unknown): string {
-  const toolName = name || "unknown';
+  const toolName = name || "unknown";
   return `[tool_history_call: ${toolName}] ${stringifyHistoricalToolArguments(args || "{}")}`;
 }
 

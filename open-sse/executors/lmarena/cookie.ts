@@ -3,7 +3,7 @@
  * Supabase SSR splits `arena-auth-prod-v1` across `.0`, `.1`, … chunks.
  */
 
-export const LMARENA_AUTH_COOKIE = "arena-auth-prod-v1';
+export const LMARENA_AUTH_COOKIE = "arena-auth-prod-v1";
 
 interface ParsedCookie {
   name: string;
@@ -78,16 +78,16 @@ function buildLMArenaCookieFromStoredFields(data: Record<string, unknown>): stri
     pairs.push(`${name}=${value.trim()}`);
   }
 
-  if (pairs.length === 0) return "';
+  if (pairs.length === 0) return "";
   return reconstructLMArenaCookie(pairs.join("; "));
 }
 
 export function readLMArenaCookie(credentials: unknown): string {
-  if (!credentials || typeof credentials !== "object") return "';
+  if (!credentials || typeof credentials !== "object") return "";
   const c = credentials as Record<string, unknown>;
-  const direct = typeof c.cookie === "string" ? c.cookie : "';
+  const direct = typeof c.cookie === "string" ? c.cookie : "";
   if (direct.trim()) return reconstructLMArenaCookie(direct);
-  const apiKey = typeof c.apiKey === "string" ? c.apiKey : "';
+  const apiKey = typeof c.apiKey === "string" ? c.apiKey : "";
   if (apiKey.trim()) return reconstructLMArenaCookie(apiKey);
   const topLevelChunks = buildLMArenaCookieFromStoredFields(c);
   if (topLevelChunks) return topLevelChunks;
@@ -99,5 +99,5 @@ export function readLMArenaCookie(credentials: unknown): string {
     const nestedChunks = buildLMArenaCookieFromStoredFields(nestedData);
     if (nestedChunks) return nestedChunks;
   }
-  return "';
+  return "";
 }

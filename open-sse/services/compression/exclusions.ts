@@ -61,7 +61,7 @@ export function isCompressionExcluded(
   const provider = (target.provider ?? "").trim().toLowerCase();
   if (!model && !provider) return false;
 
-  const composite = provider && model ? `${provider}/${model}` : "';
+  const composite = provider && model ? `${provider}/${model}` : "";
 
   for (const pattern of exclusions) {
     if (!pattern) continue;

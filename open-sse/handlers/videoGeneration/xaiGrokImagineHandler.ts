@@ -65,7 +65,7 @@ async function createXaiVideoJob({
   const errorMessage =
     createData?.error?.message ||
     createData?.message ||
-    "xAI video generation did not return request_id';
+    "xAI video generation did not return request_id";
   if (log) {
     log.error("VIDEO", `xAI createJob failed: ${JSON.stringify(createData)}`);
   }
@@ -95,14 +95,14 @@ async function pollXaiVideoJob({
   deadline: number;
   pollIntervalMs: number;
 }): Promise<XaiPollOutcome> {
-  let lastStatus = "pending';
+  let lastStatus = "pending";
   while (Date.now() < deadline) {
     await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
     const pollRes = await fetch(`${statusUrl}/${requestId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const pollData = await pollRes.json().catch(() => ({}));
-    lastStatus = pollData?.status || "pending';
+    lastStatus = pollData?.status || "pending";
 
     if (lastStatus === "done") return { terminal: "done", videoUrl: pollData?.video?.url };
     if (lastStatus === "failed") return { terminal: "failed", error: pollData?.error };

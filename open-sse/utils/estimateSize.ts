@@ -60,7 +60,7 @@ function enqueueContainer(stack: Frame[], obj: object, seen: WeakSet<object>): v
 type ValueFrame = Extract<Frame, { t: "v" }>;
 
 function isValueFrame(frame: Frame): frame is ValueFrame {
-  return frame.t === "v';
+  return frame.t === "v";
 }
 
 /** Expand a container frame into the next child value. */

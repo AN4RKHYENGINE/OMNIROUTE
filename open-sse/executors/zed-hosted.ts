@@ -214,7 +214,7 @@ function wrapZedCompletionStream(
     // #5245 / kimi-coding stray marker on /v1/responses).
     state.suppressThinkClose = true;
   }
-  let buffer = "';
+  let buffer = "";
   let done = false;
 
   const finish = (controller: SseEnqueueTarget) => {
@@ -264,7 +264,7 @@ function wrapZedCompletionStream(
         buffer += decoder.decode();
         if (buffer) {
           processLine(buffer, controller);
-          buffer = "';
+          buffer = "";
         }
         finish(controller);
       },
@@ -385,7 +385,7 @@ export class ZedHostedExecutor extends BaseExecutor {
     }
 
     const errorObj = (parsed?.error as Record<string, unknown>) || undefined;
-    const code = (parsed?.code as string) || (errorObj?.code as string) || "';
+    const code = (parsed?.code as string) || (errorObj?.code as string) || "";
     const rawMessage =
       (parsed?.message as string) ||
       (errorObj?.message as string) ||

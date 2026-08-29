@@ -26,9 +26,9 @@ import {
   wireHyperAgentSubagentModelId,
 } from '../services/hyperagentModels.ts';
 
-const ORIGIN = "https://hyperagent.com';
+const ORIGIN = "https://hyperagent.com";
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
 const THREAD_CACHE_MAX = 200;
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -57,25 +57,25 @@ type ThreadBinding = {
 // ─── Credential helpers ─────────────────────────────────────────────────────
 
 function readStr(v: unknown): string {
-  if (typeof v !== "string") return "';
+  if (typeof v !== "string") return "";
   const t = v.trim();
-  return t.length ? t : "';
+  return t.length ? t : "";
 }
 
 function readPs(data: unknown, keys: readonly string[]): string {
-  if (!data || typeof data !== "object" || Array.isArray(data)) return "';
+  if (!data || typeof data !== "object" || Array.isArray(data)) return "";
   const rec = data as Record<string, unknown>;
   for (const k of keys) {
     const v = readStr(rec[k]);
     if (v) return v;
   }
-  return "';
+  return "";
 }
 
 /** Normalize pasted cookie: full Cookie header or bare value. */
 export function normalizeHyperAgentCookie(raw: string): string {
   const t = (raw || "").trim();
-  if (!t) return "';
+  if (!t) return "";
   // Strip accidental "Cookie: " prefix
   return t.replace(/^Cookie:\s*/i, "").trim();
 }
@@ -104,26 +104,26 @@ export function resolveHyperAgentCredentials(credentials: ExecuteInput["credenti
  */
 export function extractMessageText(content: unknown): string {
   if (typeof content === "string") return content;
-  if (content == null) return "';
+  if (content == null) return "";
   if (Array.isArray(content)) {
     return content
       .map((part) => {
         if (typeof part === "string") return part;
-        if (!part || typeof part !== "object") return "';
+        if (!part || typeof part !== "object") return "";
         const p = part as Record<string, unknown>;
-        const type = typeof p.type === "string" ? p.type.toLowerCase() : "';
+        const type = typeof p.type === "string" ? p.type.toLowerCase() : "";
 
         // Anthropic tool_result — content may be string or nested parts
         if (type === "tool_result" || type === "function_result") {
-          const name = typeof p.name === "string" ? p.name : "tool';
+          const name = typeof p.name === "string" ? p.name : "tool";
           const body = extractMessageText(p.content ?? p.output ?? p.result ?? "");
           return body ? `[tool result ${name}]\n${body}` : `[tool result ${name}]`;
         }
 
         // Anthropic tool_use — include so fingerprints / observations stay non-empty
         if (type === "tool_use" || type === "function_call" || type === "tool_call") {
-          const name = typeof p.name === "string" ? p.name : "tool';
-          let args = "';
+          const name = typeof p.name === "string" ? p.name : "tool";
+          let args = "";
           if (p.input != null) {
             try {
               args = typeof p.input === "string" ? p.input : JSON.stringify(p.input);
@@ -141,7 +141,7 @@ export function extractMessageText(content: unknown): string {
         if (p.content != null && typeof p.content !== "string") {
           return extractMessageText(p.content);
         }
-        return "';
+        return "";
       })
       .filter(Boolean)
       .join("\n");
@@ -151,7 +151,7 @@ export function extractMessageText(content: unknown): string {
     if (typeof o.text === "string") return o.text;
     if (typeof o.content === "string") return o.content;
   }
-  return "';
+  return "";
 }
 
 function lastUserText(messages: ChatMessage[]): string {
@@ -161,7 +161,7 @@ function lastUserText(messages: ChatMessage[]): string {
       return extractMessageText(messages[i]!.content).trim();
     }
   }
-  return "';
+  return "";
 }
 
 // ─── Sticky thread cache ────────────────────────────────────────────────────
@@ -323,7 +323,7 @@ export function historyPrefixBeforeLastUser(messages: ChatMessage[]): ChatMessag
 export function hasAssistantMessage(messages: ChatMessage[]): boolean {
   return messages.some((m) => {
     const r = (m?.role || "").toLowerCase();
-    return r === "assistant" || r === "ai" || r === "model';
+    return r === "assistant" || r === "ai" || r === "model";
   });
 }
 
@@ -363,12 +363,12 @@ export function readClientThreadIds(
     fromBodyThread ||
     readStr(lower["x-hyperagent-thread-id"]) ||
     readStr(lower["x-thread-id"]) ||
-    "';
+    "";
   const sessionId =
     fromBodySession ||
     readStr(lower["x-hyperagent-session-id"]) ||
     readStr(lower["x-session-id"]) ||
-    "';
+    "";
   return { threadId, sessionId };
 }
 
@@ -461,7 +461,7 @@ export function storeHyperAgentThreadAfterTurn(
     !hasAssistantMessage(full) ||
     !messages.some((m) => {
       const r = (m.role || "").toLowerCase();
-      return r === "user" || r === "human" || r === "tool" || r === "function';
+      return r === "user" || r === "human" || r === "tool" || r === "function";
     })
   ) {
     return null;
@@ -521,7 +521,7 @@ export async function createHyperAgentThread(
       signal: signal ?? undefined,
       redirect: "manual",
     });
-    const loc = res.headers.get("location") || res.headers.get("Location") || "';
+    const loc = res.headers.get("location") || res.headers.get("Location") || "";
     const fromLoc = extractThreadIdFromUrl(loc);
     if (fromLoc) return fromLoc;
     if (res.ok) {
@@ -559,7 +559,7 @@ export async function createHyperAgentThread(
     res2.headers.get("location") ||
     res2.headers.get("Location") ||
     res2.headers.get("x-middleware-rewrite") ||
-    "';
+    "";
   const fromLoc2 = extractThreadIdFromUrl(loc2);
   if (fromLoc2) return fromLoc2;
 
@@ -601,7 +601,7 @@ export async function configureHyperAgentThread(
     runtimeId: opts.runtimeId || "claude-agents-sdk",
   };
   // "auto" = execution-style agent loop (validated). null clears. Never "plan".
-  if (opts.executionMode === "auto") body.executionMode = "auto';
+  if (opts.executionMode === "auto") body.executionMode = "auto";
   else if (opts.executionMode === null) body.executionMode = null;
 
   const res = await fetch(`${ORIGIN}/api/threads/${encodeURIComponent(threadId)}`, {
@@ -623,9 +623,9 @@ export async function configureHyperAgentThread(
 }
 
 export function extractThreadIdFromUrl(url: string): string {
-  if (!url) return "';
+  if (!url) return "";
   const m = url.match(/\/thread\/([A-Za-z0-9_-]{10,})/i) || url.match(/(cm[a-z0-9]{20,})/i);
-  return m ? m[1]! : "';
+  return m ? m[1]! : "";
 }
 
 /**
@@ -691,10 +691,10 @@ export async function parseHyperAgentSseStream(
   }
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
-  let buffer = "';
-  let text = "';
-  let sessionId = "';
-  let modelId = "';
+  let buffer = "";
+  let text = "";
+  let sessionId = "";
+  let modelId = "";
   let events = 0;
 
   const handleData = (payload: string) => {
@@ -709,7 +709,7 @@ export async function parseHyperAgentSseStream(
     events += 1;
     const type = readStr(obj.type);
     if (type === "text") {
-      text += typeof obj.content === "string" ? obj.content : "';
+      text += typeof obj.content === "string" ? obj.content : "";
     } else if (type === "session_start") {
       const sid = readStr(obj.sessionId);
       if (sid) sessionId = sid;
@@ -721,7 +721,7 @@ export async function parseHyperAgentSseStream(
         readStr(obj.content) ||
         readStr(obj.message) ||
         readStr(obj.error) ||
-        "HyperAgent stream error';
+        "HyperAgent stream error";
       throw new Error(msg);
     }
   };
@@ -732,7 +732,7 @@ export async function parseHyperAgentSseStream(
     buffer += decoder.decode(value, { stream: true });
     // Split SSE frames
     const parts = buffer.split("\n");
-    buffer = parts.pop() || "';
+    buffer = parts.pop() || "";
     for (const line of parts) {
       const t = line.trimEnd();
       if (t.startsWith("data:")) {
@@ -810,12 +810,12 @@ function pseudoStreamResponse(
   const readable = new ReadableStream({
     start(controller) {
       const parts = content.match(/\S+\s*/g) || [content];
-      let buf = "';
+      let buf = "";
       for (const p of parts) {
         buf += p;
         if (buf.length >= 40) {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk(buf, null))}\n\n`));
-          buf = "';
+          buf = "";
         }
       }
       if (buf) controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk(buf, null))}\n\n`));

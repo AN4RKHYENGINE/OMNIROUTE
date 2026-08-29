@@ -22,8 +22,8 @@ import { getResolvedModelCapabilities } from '@/lib/modelCapabilities';
 import { isVisionModelId } from '@/shared/constants/visionModels';
 import { isVisionBridgeForcedModel } from '@/shared/constants/visionBridgeDefaults';
 
-export type AutoCategory = "coding" | "reasoning" | "vision" | "chat" | "multimodal';
-export type AutoTier = "fast" | "cheap" | "floor" | "free" | "reliable" | "pro';
+export type AutoCategory = "coding" | "reasoning" | "vision" | "chat" | "multimodal";
+export type AutoTier = "fast" | "cheap" | "floor" | "free" | "reliable" | "pro";
 
 export const AUTO_CATEGORIES: readonly AutoCategory[] = [
   "coding",
@@ -81,12 +81,12 @@ export function parseAutoSuffix(suffix: string | null | undefined): ParsedAutoSu
 export function tierToWeightVariant(tier?: AutoTier): AutoVariant | "reliability" | undefined {
   switch (tier) {
     case "fast":
-      return "fast';
+      return "fast";
     case "cheap":
     case "floor":
-      return "cheap';
+      return "cheap";
     case "reliable":
-      return "reliability';
+      return "reliability";
     default:
       return undefined;
   }
@@ -159,6 +159,6 @@ function safeClassifyTier(c: PoolCandidate): string {
   try {
     return classifyTier(c.provider, c.model).tier;
   } catch {
-    return "cheap';
+    return "cheap";
   }
 }

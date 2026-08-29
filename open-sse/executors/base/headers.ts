@@ -24,7 +24,7 @@ export function getCustomUserAgent(providerSpecificData?: JsonRecord | null): st
   const customUserAgent =
     typeof providerSpecificData?.customUserAgent === "string"
       ? providerSpecificData.customUserAgent.trim()
-      : "';
+      : "";
   return customUserAgent || null;
 }
 

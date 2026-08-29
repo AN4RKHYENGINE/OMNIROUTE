@@ -43,7 +43,7 @@ export interface SuggestedFilter {
   id: string;
   label: string;
   description: string;
-  category: "generic';
+  category: "generic";
   priority: number;
   match: {
     outputTypes: string[];
@@ -153,7 +153,7 @@ function matchesAny(line: string, patterns: string[]): boolean {
  * No I/O — DB reads are a follow-up concern handled by the caller.
  */
 export function suggestFilter(command: string, samples: CommandSample[]): SuggestedFilter {
-  const id = commandToId(command) || "unknown';
+  const id = commandToId(command) || "unknown";
   const commandPattern = commandToMatchPattern(command);
   const totalSamples = samples.length;
 

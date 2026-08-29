@@ -39,18 +39,18 @@ export async function getNanoGptUsage(apiKey: string) {
     const quotas: Record<string, UsageQuota> = {};
 
     // active -> PRO, otherwise FREE
-    const plan = data.active ? "PRO" : "FREE';
+    const plan = data.active ? "PRO" : "FREE";
 
     if (data.active) {
       // 1. Tokens limit
       // dailyInputTokens if exists, else weeklyInputTokens
       let tokenQuota = toRecord(data.dailyInputTokens);
-      let tokenLabel = "Daily Tokens';
+      let tokenLabel = "Daily Tokens";
       if (!tokenQuota.resetAt) {
         const weeklyQuota = toRecord(data.weeklyInputTokens);
         if (weeklyQuota.remaining !== undefined) {
           tokenQuota = weeklyQuota;
-          tokenLabel = "Weekly Tokens';
+          tokenLabel = "Weekly Tokens";
         }
       }
 

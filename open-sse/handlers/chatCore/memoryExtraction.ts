@@ -3,7 +3,7 @@ import { capMemoryExtractionText, MEMORY_EXTRACTION_TEXT_LIMIT } from './logTrun
 export function extractMemoryTextFromResponse(
   response: Record<string, unknown> | null | undefined
 ): string {
-  if (!response || typeof response !== "object") return "';
+  if (!response || typeof response !== "object") return "";
 
   const openAIText = response?.choices?.[0]?.message?.content;
   if (typeof openAIText === "string") {
@@ -25,13 +25,13 @@ export function extractMemoryTextFromResponse(
     return capMemoryExtractionText(response.output_text.trim());
   }
 
-  return "';
+  return "";
 }
 
 export function extractMemoryTextFromRequestBody(
   body: Record<string, unknown> | null | undefined
 ): string {
-  if (!body || typeof body !== "object") return "';
+  if (!body || typeof body !== "object") return "";
 
   const messages = Array.isArray(body.messages) ? body.messages : null;
   if (messages && messages.length > 0) {
@@ -49,7 +49,7 @@ export function extractMemoryTextFromRequestBody(
             if (typeof part?.text === "string") return part.text.trim();
             if (part?.type === "input_text" && typeof part?.text === "string")
               return part.text.trim();
-            return "';
+            return "";
           })
           .filter(Boolean)
           .join("\n")
@@ -63,8 +63,8 @@ export function extractMemoryTextFromRequestBody(
   if (input && input.length > 0) {
     for (let i = input.length - 1; i >= 0; i -= 1) {
       const item = input[i] as Record<string, unknown>;
-      const role = typeof item?.role === "string" ? item.role.trim().toLowerCase() : "';
-      const itemType = typeof item?.type === "string" ? item.type.trim().toLowerCase() : "';
+      const role = typeof item?.role === "string" ? item.role.trim().toLowerCase() : "";
+      const itemType = typeof item?.type === "string" ? item.type.trim().toLowerCase() : "";
       if (role && role !== "user") continue;
       if (itemType && itemType !== "message") continue;
 
@@ -77,7 +77,7 @@ export function extractMemoryTextFromRequestBody(
             if (typeof part?.text === "string") return part.text.trim();
             if (part?.type === "input_text" && typeof part?.text === "string")
               return part.text.trim();
-            return "';
+            return "";
           })
           .filter(Boolean)
           .join("\n")
@@ -91,10 +91,10 @@ export function extractMemoryTextFromRequestBody(
     for (let i = input.length - 1; i >= 0 && tailLength < MEMORY_EXTRACTION_TEXT_LIMIT; i -= 1) {
       const item = input[i] as Record<string, unknown>;
       const text = (() => {
-        const role = typeof item?.role === "string" ? item.role.trim().toLowerCase() : "';
-        const itemType = typeof item?.type === "string" ? item.type.trim().toLowerCase() : "';
-        if (role && role !== "user") return "';
-        if (itemType && itemType !== "message") return "';
+        const role = typeof item?.role === "string" ? item.role.trim().toLowerCase() : "";
+        const itemType = typeof item?.type === "string" ? item.type.trim().toLowerCase() : "";
+        if (role && role !== "user") return "";
+        if (itemType && itemType !== "message") return "";
 
         if (typeof item?.content === "string") return item.content.trim();
         if (Array.isArray(item?.content)) {
@@ -103,13 +103,13 @@ export function extractMemoryTextFromRequestBody(
               if (typeof part?.text === "string") return part.text.trim();
               if (part?.type === "input_text" && typeof part?.text === "string")
                 return part.text.trim();
-              return "';
+              return "";
             })
             .filter(Boolean)
             .join("\n")
             .trim();
         }
-        return "';
+        return "";
       })();
       if (!text) continue;
       tailChunks.unshift(text);
@@ -119,7 +119,7 @@ export function extractMemoryTextFromRequestBody(
     if (chunks) return capMemoryExtractionText(chunks);
   }
 
-  return "';
+  return "";
 }
 
 export function resolveMemoryOwnerId(apiKeyInfo: Record<string, unknown> | null): string | null {

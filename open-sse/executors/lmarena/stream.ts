@@ -3,7 +3,7 @@
  */
 
 export interface ArenaSSEEvent {
-  type: "text" | "thinking" | "error" | "done" | "heartbeat';
+  type: "text" | "thinking" | "error" | "done" | "heartbeat";
   content?: string;
 }
 
@@ -17,7 +17,7 @@ function parseJsonValue(raw: string): unknown {
 
 function pickString(value: unknown, keys: string[]): string {
   if (typeof value === "string") return value;
-  if (!value || typeof value !== "object") return "';
+  if (!value || typeof value !== "object") return "";
   const data = value as Record<string, unknown>;
   for (const key of keys) {
     const candidate = data[key];
@@ -90,11 +90,11 @@ function contentToText(content: unknown): string {
     return content
       .map((part) => {
         if (typeof part === "string") return part;
-        if (!part || typeof part !== "object") return "';
+        if (!part || typeof part !== "object") return "";
         const data = part as Record<string, unknown>;
         if (typeof data.text === "string") return data.text;
-        if (data.type === "image_url") return "[image]';
-        return "';
+        if (data.type === "image_url") return "[image]";
+        return "";
       })
       .filter(Boolean)
       .join("\n");
@@ -110,8 +110,8 @@ export function formatArenaPrompt(messages: OpenAIMessage[]): string {
   const rendered = messages
     .map((message) => {
       const text = contentToText(message.content).trim();
-      if (!text) return "';
-      const role = typeof message.role === "string" ? message.role : "user';
+      if (!text) return "";
+      const role = typeof message.role === "string" ? message.role : "user";
       const label =
         role === "system"
           ? "System"
@@ -119,7 +119,7 @@ export function formatArenaPrompt(messages: OpenAIMessage[]): string {
             ? "Assistant"
             : role === "developer"
               ? "Developer"
-              : "User';
+              : "User";
       return `${label}: ${text}`;
     })
     .filter(Boolean);

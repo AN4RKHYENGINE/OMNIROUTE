@@ -71,7 +71,7 @@ function buildHashedGeminiToolName(
   originalName: string,
   hashLength: number
 ): string {
-  const effectiveBase = baseName || "tool';
+  const effectiveBase = baseName || "tool";
   const hash = createHash("sha256").update(originalName).digest("hex").slice(0, hashLength);
   const prefixLength = Math.max(1, MAX_GEMINI_TOOL_NAME_LENGTH - 1 - hash.length);
   return `${effectiveBase.slice(0, prefixLength)}_${hash}`;
@@ -104,7 +104,7 @@ export function sanitizeGeminiToolName(
   name: string,
   options: GeminiToolSanitizationOptions = {}
 ): string {
-  const normalizedName = normalizeGeminiToolName(name, options) || "tool';
+  const normalizedName = normalizeGeminiToolName(name, options) || "tool";
   const toolNameMap = options.toolNameMap instanceof Map ? options.toolNameMap : null;
   const existingSanitizedName = findSanitizedNameForOriginal(toolNameMap, name);
   if (existingSanitizedName) {
@@ -153,7 +153,7 @@ function toGeminiGoogleSearchTool(tool: Record<string, unknown>): GeminiTool | n
     return { googleSearch: {} };
   }
 
-  const toolType = typeof tool.type === "string" ? tool.type : "';
+  const toolType = typeof tool.type === "string" ? tool.type : "";
   if (
     toolType === "googleSearch" ||
     toolType === "google_search" ||

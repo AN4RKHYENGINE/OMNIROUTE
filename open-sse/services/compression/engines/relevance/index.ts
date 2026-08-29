@@ -25,11 +25,11 @@ function extractText(content: unknown): string {
         if (block && typeof block === "object" && "text" in block) {
           return String((block as { text: unknown }).text);
         }
-        return "';
+        return "";
       })
       .join(" ");
   }
-  return "';
+  return "";
 }
 
 function splitSentences(text: string): string[] {
@@ -108,7 +108,7 @@ export const relevanceEngine: CompressionEngine = {
 
       const cfg = resolveRelevanceConfig((options?.stepConfig as Record<string, unknown>) ?? {});
 
-      let query = "';
+      let query = "";
       for (let i = messages.length - 1; i >= 0; i--) {
         const msg = messages[i] as Record<string, unknown>;
         if (msg.role === "user") {

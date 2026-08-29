@@ -303,40 +303,40 @@ async function fetchAntigravityUserQuotaCached(
 
 function extractCodeAssistTierId(subscription: JsonRecord): string {
   const tierId = extractCodeAssistOnboardTierId(subscription);
-  if (tierId === "legacy-tier") return "';
+  if (tierId === "legacy-tier") return "";
   const upper = tierId.toUpperCase();
-  return mapCodeAssistTierIdToLabel(upper) ? upper : "';
+  return mapCodeAssistTierIdToLabel(upper) ? upper : "";
 }
 
 export function mapCodeAssistTierIdToLabel(tierId: string): string | null {
   const upper = tierId.toUpperCase();
-  if (upper.includes("ULTRA")) return "Ultra';
+  if (upper.includes("ULTRA")) return "Ultra";
   if (
     upper.includes("PRO") ||
     upper.includes("PREMIUM") ||
     upper.includes("GOOGLE_ONE") ||
     upper.includes("ONE_AI")
   )
-    return "Pro';
-  if (upper.includes("ENTERPRISE")) return "Enterprise';
-  if (upper.includes("BUSINESS") || upper.includes("STANDARD")) return "Business';
-  if (upper.includes("PLUS")) return "Plus';
-  if (upper.includes("LITE") || upper.includes("LIGHT")) return "Lite';
+    return "Pro";
+  if (upper.includes("ENTERPRISE")) return "Enterprise";
+  if (upper.includes("BUSINESS") || upper.includes("STANDARD")) return "Business";
+  if (upper.includes("PLUS")) return "Plus";
+  if (upper.includes("LITE") || upper.includes("LIGHT")) return "Lite";
   if (upper.includes("FREE") || upper.includes("INDIVIDUAL") || upper.includes("LEGACY"))
-    return "Free';
+    return "Free";
   return null;
 }
 
 export function mapSubscriptionTierStringToPlanLabel(tierText: string): string | null {
   const upper = tierText.toUpperCase();
-  if (upper.includes("ULTRA")) return "Ultra';
+  if (upper.includes("ULTRA")) return "Ultra";
   if (upper.includes("PRO") || upper.includes("PREMIUM") || upper.includes("GOOGLE ONE"))
-    return "Pro';
-  if (upper.includes("ENTERPRISE")) return "Enterprise';
-  if (upper.includes("STANDARD") || upper.includes("BUSINESS")) return "Business';
-  if (upper.includes("PLUS")) return "Plus';
-  if (upper.includes("LITE")) return "Lite';
-  if (upper.includes("INDIVIDUAL") || upper.includes("FREE")) return "Free';
+    return "Pro";
+  if (upper.includes("ENTERPRISE")) return "Enterprise";
+  if (upper.includes("STANDARD") || upper.includes("BUSINESS")) return "Business";
+  if (upper.includes("PLUS")) return "Plus";
+  if (upper.includes("LITE")) return "Lite";
+  if (upper.includes("INDIVIDUAL") || upper.includes("FREE")) return "Free";
   // Strip a trailing "(RESTRICTED)" marker. Match the fixed literal anywhere then
   // trim, instead of /\s*\(RESTRICTED\)\s*$/ whose overlapping \s* runs backtrack
   // polynomially on whitespace-heavy upstream input (js/polynomial-redos).
@@ -350,7 +350,7 @@ export function mapSubscriptionTierStringToPlanLabel(tierText: string): string |
 
 export function mapCodeAssistSubscriptionToPlanLabel(subscriptionInfo: unknown): string {
   const subscription = toRecord(subscriptionInfo);
-  if (Object.keys(subscription).length === 0) return "Free';
+  if (Object.keys(subscription).length === 0) return "Free";
 
   const subscriptionTier = extractCodeAssistSubscriptionTier(subscriptionInfo);
   if (subscriptionTier) {
@@ -376,9 +376,9 @@ export function mapCodeAssistSubscriptionToPlanLabel(subscriptionInfo: unknown):
     const mapped = mapCodeAssistTierIdToLabel(tierId);
     if (mapped) return mapped;
   }
-  if (currentTier.upgradeSubscriptionType) return "Free';
+  if (currentTier.upgradeSubscriptionType) return "Free";
   if (tierName) return tierName.charAt(0).toUpperCase() + tierName.slice(1).toLowerCase();
-  return "Free';
+  return "Free";
 }
 
 const KNOWN_ANTIGRAVITY_PLAN_LABELS = new Set([
@@ -596,7 +596,7 @@ export async function getAntigravityUsage(
 
     // Derive accountId for credit balance cache.
     // Must match executor key: credentials.connectionId
-    const accountId: string = connectionId || "unknown';
+    const accountId: string = connectionId || "unknown";
 
     // Read cached credit balance (hydrated from DB on first access)
     let creditBalance = getAntigravityRemainingCredits(accountId);

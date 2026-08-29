@@ -4,11 +4,11 @@ import { validateCompression } from './validation.ts';
 import { scoreToken } from './ultraHeuristic.ts';
 
 export interface CompressionDiffSegment {
-  type: "same" | "removed" | "added';
+  type: "same" | "removed" | "added";
   text: string;
 }
 
-export type HeatmapMode = "ultra" | "universal';
+export type HeatmapMode = "ultra" | "universal";
 
 export interface HeatmapToken {
   text: string;
@@ -192,9 +192,9 @@ export function buildCompressionPreviewDiff(
   if (validation.fallbackApplied) {
     fallbackReason = validation.errors.length > 0
       ? `validation-failed: ${validation.errors[0]}`
-      : "validation-failed';
+      : "validation-failed";
   } else if (stats?.fallbackApplied) {
-    fallbackReason = "compression-fallback';
+    fallbackReason = "compression-fallback";
   }
 
   const result: CompressionPreviewDiff = {

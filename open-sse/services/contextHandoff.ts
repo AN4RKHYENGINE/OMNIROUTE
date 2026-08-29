@@ -54,7 +54,7 @@ export interface UniversalHandoffConfig {
   /** Enable universal context handoff for any model/provider switch */
   enabled: boolean;
   /** When to generate handoff: always = every turn, on-switch = only when model changes, on-error = only after error fallback */
-  trigger: "always" | "on-switch" | "on-error';
+  trigger: "always" | "on-switch" | "on-error";
   /** Providers allowed to generate handoffs. Empty array = all providers */
   providerAllowlist: string[];
   /** Max messages to include in summary generation */
@@ -77,7 +77,7 @@ export const DEFAULT_UNIVERSAL_HANDOFF_CONFIG: UniversalHandoffConfig = {
   preserveSystemPrompt: true,
 };
 
-export const SKIP_UNIVERSAL_HANDOFF_FLAG = "_omnirouteSkipUniversalHandoff';
+export const SKIP_UNIVERSAL_HANDOFF_FLAG = "_omnirouteSkipUniversalHandoff";
 
 export function resolveUniversalHandoffConfig(
   comboConfig: Record<string, unknown> | null | undefined,
@@ -134,7 +134,7 @@ export function resolveUniversalHandoffConfig(
 
   const triggerRaw = getString("trigger", DEFAULT_UNIVERSAL_HANDOFF_CONFIG.trigger);
   const trigger: UniversalHandoffConfig["trigger"] =
-    triggerRaw === "always" || triggerRaw === "on-error" ? triggerRaw : "on-switch';
+    triggerRaw === "always" || triggerRaw === "on-error" ? triggerRaw : "on-switch";
 
   return {
     enabled: getBool("enabled", DEFAULT_UNIVERSAL_HANDOFF_CONFIG.enabled),
@@ -201,18 +201,18 @@ function getInflightKey(sessionId: string, comboName: string): string {
 
 function toTextContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
 
   return content
     .map((part) => {
-      if (!part || typeof part !== "object") return "';
+      if (!part || typeof part !== "object") return "";
       if (typeof (part as Record<string, unknown>).text === "string") {
         return String((part as Record<string, unknown>).text);
       }
       if (typeof (part as Record<string, unknown>).content === "string") {
         return String((part as Record<string, unknown>).content);
       }
-      return "';
+      return "";
     })
     .filter(Boolean)
     .join("\n");
@@ -221,9 +221,9 @@ function toTextContent(content: unknown): string {
 function formatMessagesForPrompt(messages: MessageLike[]): string {
   return messages
     .map((message, index) => {
-      const role = typeof message.role === "string" ? message.role : "unknown';
+      const role = typeof message.role === "string" ? message.role : "unknown";
       const content = toTextContent(message.content).trim();
-      if (!content) return "';
+      if (!content) return "";
       return `[${index + 1}] ${role.toUpperCase()}:\n${content}`;
     })
     .filter(Boolean)
@@ -280,7 +280,7 @@ function sanitizeJsonCandidate(content: string): string {
 
 function extractJsonCandidate(content: string): string {
   const stripped = sanitizeJsonCandidate(String(stripMarkdownCodeFence(content) || ""));
-  if (!stripped) return "';
+  if (!stripped) return "";
 
   try {
     JSON.parse(stripped);
@@ -302,11 +302,11 @@ export function parseHandoffJSON(content: string): ParsedHandoffContent | null {
   try {
     const parsed = JSON.parse(candidate) as Record<string, unknown>;
     const summary =
-      typeof parsed.summary === "string" ? parsed.summary.trim().slice(0, MAX_SUMMARY_LENGTH) : "';
+      typeof parsed.summary === "string" ? parsed.summary.trim().slice(0, MAX_SUMMARY_LENGTH) : "";
     const taskProgress =
       typeof parsed.taskProgress === "string"
         ? parsed.taskProgress.trim().slice(0, MAX_TASK_PROGRESS_LENGTH)
-        : "';
+        : "";
     const keyDecisions = normalizeStringArray(parsed.keyDecisions, MAX_DECISIONS);
     const activeEntities = normalizeStringArray(parsed.activeEntities, MAX_ENTITIES);
 
@@ -363,7 +363,7 @@ function getResponseText(json: Record<string, unknown>): string {
     }
   }
 
-  return "';
+  return "";
 }
 
 async function generateHandoffAsync(options: {
@@ -402,7 +402,7 @@ async function generateHandoffAsync(options: {
   const response = await options.handleSingleModel(summaryBody, summaryModel);
   if (!response.ok) return;
 
-  let content = "';
+  let content = "";
   try {
     const json = (await response.clone().json()) as Record<string, unknown>;
     content = getResponseText(json);
@@ -410,7 +410,7 @@ async function generateHandoffAsync(options: {
     try {
       content = await response.clone().text();
     } catch {
-      content = "';
+      content = "";
     }
   }
 
@@ -507,7 +507,7 @@ export function injectHandoffIntoBody(
     const existingInstructions =
       typeof body.instructions === "string" && body.instructions.trim().length > 0
         ? body.instructions
-        : "';
+        : "";
     const nextBody: Record<string, unknown> = {
       ...body,
       instructions: existingInstructions
@@ -589,17 +589,17 @@ export function shouldGenerateUniversalHandoff(options: {
   currentModel: string;
   universalConfig: UniversalHandoffConfig;
 }): "generate" | "inject" | "skip" {
-  if (!options.universalConfig.enabled) return "skip';
-  if (!options.previousModel) return "skip';
-  if (options.previousModel === options.currentModel) return "skip';
+  if (!options.universalConfig.enabled) return "skip";
+  if (!options.previousModel) return "skip";
+  if (options.previousModel === options.currentModel) return "skip";
 
   // Check if handoff already exists for this session/combo
   if (options.sessionId) {
     const existing = getHandoff(options.sessionId, options.comboName);
-    if (existing && existing.summary) return "inject';
+    if (existing && existing.summary) return "inject";
   }
 
-  return "generate';
+  return "generate";
 }
 
 /**
@@ -639,7 +639,7 @@ async function generateUniversalHandoffAsync(options: {
   const response = await options.handleSingleModel(summaryBody, summaryModel);
   if (!response.ok) return;
 
-  let content = "';
+  let content = "";
   try {
     const json = (await response.clone().json()) as Record<string, unknown>;
     content = getResponseText(json);
@@ -647,7 +647,7 @@ async function generateUniversalHandoffAsync(options: {
     try {
       content = await response.clone().text();
     } catch {
-      content = "';
+      content = "";
     }
   }
 
@@ -743,7 +743,7 @@ export function injectUniversalHandoffBody(
     const existingInstructions =
       typeof body.instructions === "string" && body.instructions.trim().length > 0
         ? body.instructions
-        : "';
+        : "";
     const nextBody: Record<string, unknown> = {
       ...body,
       instructions: existingInstructions

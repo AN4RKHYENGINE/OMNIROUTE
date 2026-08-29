@@ -48,7 +48,7 @@ export async function handleChatGptWebImageGeneration({
   executorFactory = () => new ChatGptWebExecutor(),
 }) {
   const startTime = Date.now();
-  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "';
+  const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
   if (!prompt) {
     return saveImageErrorResult({
       provider,
@@ -91,7 +91,7 @@ export async function handleChatGptWebImageGeneration({
     );
   }
 
-  const wantsBase64 = body.response_format === "b64_json';
+  const wantsBase64 = body.response_format === "b64_json";
   const images: Array<{ url?: string; b64_json?: string }> = [];
   const requestBody = {
     model,
@@ -126,7 +126,7 @@ export async function handleChatGptWebImageGeneration({
       });
     }
 
-    let content = "';
+    let content = "";
     let imageResolutionFailed = false;
     try {
       const json = JSON.parse(responseText);

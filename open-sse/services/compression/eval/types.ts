@@ -1,4 +1,4 @@
-export type ContentKind = "tool-output-json" | "logs" | "code" | "prose" | "multi-turn';
+export type ContentKind = "tool-output-json" | "logs" | "code" | "prose" | "multi-turn";
 
 export interface EvalCase {
   id: string;
@@ -23,7 +23,7 @@ export interface ModelClient {
   complete(model: string, messages: ChatTurn[]): Promise<ModelCallResult>;
 }
 
-export type JudgeVerdict = "same" | "materially-differs" | "unparseable';
+export type JudgeVerdict = "same" | "materially-differs" | "unparseable";
 export interface GradeVerdict { correct: boolean; raw: string; }
 
 export interface RunStamps { answerModel: string; judgeModel: string; corpusHash: string; sampleSize: number | "all"; }

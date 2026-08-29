@@ -21,12 +21,12 @@ import { sanitizeErrorMessage } from '../utils/error.ts';
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const COPILOT_BASE = "https://copilot.microsoft.com';
+const COPILOT_BASE = "https://copilot.microsoft.com";
 const COPILOT_START_URL = `${COPILOT_BASE}/c/api/start`;
-const COPILOT_WS_URL = "wss://copilot.microsoft.com/c/api/chat?api-version=2';
+const COPILOT_WS_URL = "wss://copilot.microsoft.com/c/api/chat?api-version=2";
 
 const COPILOT_USER_AGENT =
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 // Model mapping: OmniRoute model ID → Copilot mode
 const MODEL_MODE_MAP: Record<string, string> = {
@@ -44,7 +44,7 @@ const MODEL_MODE_MAP: Record<string, string> = {
   "copilot-study": "chat",
 };
 
-const DEFAULT_MODE = "chat';
+const DEFAULT_MODE = "chat";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -162,7 +162,7 @@ export function buildCopilotWebSocketUrl(
  * pattern.
  */
 export function sessionPoolKey(token?: string): string {
-  return token && token.length > 0 ? token : "anonymous';
+  return token && token.length > 0 ? token : "anonymous";
 }
 
 // ─── Session Management ─────────────────────────────────────────────────────
@@ -591,20 +591,20 @@ export class CopilotWebExecutor extends BaseExecutor {
   }> {
     const { credentials, signal, model: inputModel, stream: inputStream } = input;
     const body = input.body as Record<string, unknown> | undefined;
-    const model = inputModel || (body?.model as string) || "copilot';
+    const model = inputModel || (body?.model as string) || "copilot";
     const mode = getCopilotMode(model);
     const stream = inputStream !== false; // Default to streaming
 
     // Extract access token from credentials
     const rawCred =
-      credentials?.apiKey || (credentials?.providerSpecificData?.cookie as string) || "';
+      credentials?.apiKey || (credentials?.providerSpecificData?.cookie as string) || "";
     const accessToken = extractAccessToken(rawCred);
 
     // Extract prompt from messages
     const messages = (body?.messages as Array<Record<string, unknown>>) || [];
     const userMsg = messages.filter((m) => m.role === "user").pop();
     const systemMsgs = messages.filter((m) => m.role === "system");
-    const prompt = (userMsg?.content as string) || "';
+    const prompt = (userMsg?.content as string) || "";
 
     if (!prompt || (typeof prompt === "string" && !prompt.trim())) {
       return {
@@ -619,7 +619,7 @@ export class CopilotWebExecutor extends BaseExecutor {
     }
 
     // Build full prompt with system instructions
-    let fullPrompt = "';
+    let fullPrompt = "";
     if (systemMsgs.length > 0) {
       const sysText = systemMsgs
         .map((m) => (typeof m.content === "string" ? m.content : ""))
@@ -631,7 +631,7 @@ export class CopilotWebExecutor extends BaseExecutor {
 
     // Get or create session (auto-rotates when turns exhausted)
     let conversationId: string;
-    let sessionCookies = "';
+    let sessionCookies = "";
     try {
       const session = await this.getSession(accessToken || undefined, signal);
       conversationId = session.conversationId;
@@ -663,8 +663,8 @@ export class CopilotWebExecutor extends BaseExecutor {
         );
         const reader = wsStream.getReader();
         const decoder = new TextDecoder();
-        let fullText = "';
-        let reasoningText = "';
+        let fullText = "";
+        let reasoningText = "";
 
         while (true) {
           const { done, value } = await reader.read();
@@ -709,7 +709,7 @@ export class CopilotWebExecutor extends BaseExecutor {
           transformedBody: { conversationId, mode, prompt: fullPrompt.slice(0, 100) },
         };
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "Copilot non-streaming error';
+        const msg = err instanceof Error ? err.message : "Copilot non-streaming error";
         return {
           response: new Response(JSON.stringify({ error: { message: msg } }), {
             status: 502,
@@ -745,7 +745,7 @@ export class CopilotWebExecutor extends BaseExecutor {
         transformedBody: { conversationId, mode, prompt: fullPrompt.slice(0, 100) },
       };
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Copilot streaming error';
+      const msg = err instanceof Error ? err.message : "Copilot streaming error";
       return {
         response: new Response(JSON.stringify({ error: { message: msg } }), {
           status: 502,

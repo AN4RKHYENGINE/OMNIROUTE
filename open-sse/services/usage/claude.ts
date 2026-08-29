@@ -179,7 +179,7 @@ async function getClaudeUsageLegacy(accessToken?: string) {
       const settings = toRecord(await settingsResponse.json());
 
       const organizationId =
-        typeof settings.organization_id === "string" ? settings.organization_id : "';
+        typeof settings.organization_id === "string" ? settings.organization_id : "";
       if (organizationId) {
         const usageResponse = await fetch(
           CLAUDE_CONFIG.usageUrl.replace("{org_id}", organizationId),

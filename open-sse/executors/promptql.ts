@@ -94,13 +94,13 @@ export {
 
 const PLAYGROUND_GQL =
   process.env.PROMPTQL_GRAPHQL_ENDPOINT ||
-  "https://data.prompt.ql.app/promptql/playground-v2-hge/v1/graphql';
+  "https://data.prompt.ql.app/promptql/playground-v2-hge/v1/graphql";
 const CREDITS_GQL =
-  process.env.PROMPTQL_CREDITS_ENDPOINT || "https://data.pro.ql.app/v1/graphql';
+  process.env.PROMPTQL_CREDITS_ENDPOINT || "https://data.pro.ql.app/v1/graphql";
 const TOKEN_REFRESH_URL =
-  process.env.PROMPTQL_TOKEN_REFRESH_URL || "https://auth.pro.ql.app/ddn/project/token';
+  process.env.PROMPTQL_TOKEN_REFRESH_URL || "https://auth.pro.ql.app/ddn/project/token";
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
 const POLL_INTERVAL_MS = 1200;
 const POLL_TIMEOUT_MS = Number(process.env.PROMPTQL_POLL_TIMEOUT_MS || 180_000);
 
@@ -206,11 +206,11 @@ function lastUserText(messages: ChatMessage[]): string {
       return extractMessageTextFromMessage(messages[i]).trim();
     }
   }
-  return "';
+  return "";
 }
 
 function withAgentMention(text: string): string {
-  if (!text) return "<agent_mention /> ';
+  if (!text) return "<agent_mention /> ";
   if (text.includes("<agent_mention")) return text;
   return `<agent_mention /> ${text}`;
 }
@@ -218,9 +218,9 @@ function withAgentMention(text: string): string {
 // ─── GraphQL client ─────────────────────────────────────────────────────────
 
 function readStr(v: unknown): string {
-  if (typeof v !== "string") return "';
+  if (typeof v !== "string") return "";
   const t = v.trim();
-  return t.length ? t : "';
+  return t.length ? t : "";
 }
 
 async function gql<T = unknown>(
@@ -362,12 +362,12 @@ function pseudoStreamResponse(content: string, model: string, threadId?: string)
     start(controller) {
       // Emit in ~word-ish slices for slightly better TTFT UX without true token stream
       const parts = content.match(/\S+\s*/g) || [content];
-      let buf = "';
+      let buf = "";
       for (const p of parts) {
         buf += p;
         if (buf.length >= 40) {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk(buf, null))}\n\n`));
-          buf = "';
+          buf = "";
         }
       }
       if (buf) controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk(buf, null))}\n\n`));
@@ -401,7 +401,7 @@ export async function pollAssistantText(opts: {
   const intervalMs = opts.intervalMs ?? POLL_INTERVAL_MS;
   const start = Date.now();
   let cursor = String(opts.afterEventId || "0");
-  let best = "';
+  let best = "";
   let sawFinal = false;
   const collected: ThreadEvent[] = [];
 
@@ -520,7 +520,7 @@ export class PromptQlExecutor extends BaseExecutor {
     const binding = resolvePromptQlThreadBinding(projectId, messages, clientThreadId);
 
     let threadId = binding.threadId;
-    let afterEventId = "0';
+    let afterEventId = "0";
     const agentMessage = withAgentMention(userText);
 
     try {
@@ -647,7 +647,7 @@ export class PromptQlExecutor extends BaseExecutor {
           const seed = data.start_thread.thread_events || [];
           afterEventId = seed.length
             ? String(seed[seed.length - 1]!.thread_event_id)
-            : "0';
+            : "0";
         }
       }
 

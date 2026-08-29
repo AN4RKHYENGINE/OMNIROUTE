@@ -42,7 +42,7 @@ export function normalizePreserveSystemPromptMode(
   if (isPreserveSystemPromptMode(config.preserveSystemPromptMode)) {
     return config.preserveSystemPromptMode;
   }
-  return config.preserveSystemPrompt === false ? "whenNoCache" : "always';
+  return config.preserveSystemPrompt === false ? "whenNoCache" : "always";
 }
 
 /**

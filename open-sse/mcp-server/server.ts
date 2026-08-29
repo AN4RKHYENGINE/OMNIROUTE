@@ -96,7 +96,7 @@ import { getMcpModelsCatalog } from './catalog.ts';
 export { getMcpModelsCatalog } from './catalog.ts';
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
-const MCP_ENFORCE_SCOPES = process.env.OMNIROUTE_MCP_ENFORCE_SCOPES === "true';
+const MCP_ENFORCE_SCOPES = process.env.OMNIROUTE_MCP_ENFORCE_SCOPES === "true";
 const MCP_ALLOWED_SCOPES = new Set(
   (process.env.OMNIROUTE_MCP_SCOPES || "")
     .split(",")
@@ -192,7 +192,7 @@ function normalizeComboModels(
 }
 
 function getOmniRouteApiKey(): string {
-  return process.env.OMNIROUTE_API_KEY || "';
+  return process.env.OMNIROUTE_API_KEY || "";
 }
 
 export async function omniRouteFetch(path: string, options: RequestInit = {}): Promise<unknown> {
@@ -236,8 +236,8 @@ function withScopeEnforcement(
     );
     if (!scopeCheck.allowed) {
       const missingScopes =
-        scopeCheck.missing.length > 0 ? scopeCheck.missing.join(", ") : "unavailable';
-      const reason = scopeCheck.reason || "scope_check_failed';
+        scopeCheck.missing.length > 0 ? scopeCheck.missing.join(", ") : "unavailable";
+      const reason = scopeCheck.reason || "scope_check_failed";
       const msg =
         `Insufficient MCP scopes for ${toolName}. ` +
         `Missing: ${missingScopes}. ` +
@@ -276,7 +276,7 @@ function withScopeEnforcement(
 function toUptimeString(value: unknown): string {
   if (typeof value === "string") return value;
   if (typeof value === "number" && Number.isFinite(value)) return String(value);
-  return "unknown';
+  return "unknown";
 }
 
 async function handleGetHealth() {
@@ -445,7 +445,7 @@ async function handleCreateCombo(args: {
 async function handleCheckQuota(args: { provider?: string; connectionId?: string }) {
   const start = Date.now();
   try {
-    let path = "/api/usage/quota';
+    let path = "/api/usage/quota";
     if (args.connectionId) path += `?connectionId=${encodeURIComponent(args.connectionId)}`;
     else if (args.provider) path += `?provider=${encodeURIComponent(args.provider)}`;
 
@@ -538,14 +538,14 @@ async function handleRouteRequest(args: {
 async function handleCostReport(args: { period?: string }) {
   const start = Date.now();
   try {
-    const period = args.period || "session';
+    const period = args.period || "session";
     const rangeMap: Record<string, string> = {
       session: "1d",
       day: "1d",
       week: "7d",
       month: "30d",
     };
-    const range = rangeMap[period] || "30d';
+    const range = rangeMap[period] || "30d";
     const raw = toRecord(
       await omniRouteFetch(`/api/usage/analytics?range=${encodeURIComponent(range)}`)
     );
@@ -600,7 +600,7 @@ async function handleListModelsCatalog(args: { provider?: string; capability?: s
 async function handleWebSearch(args: {
   query: string;
   max_results?: number;
-  search_type?: "web" | "news';
+  search_type?: "web" | "news";
   provider?:
     | "serper-search"
     | "brave-search"
@@ -610,7 +610,7 @@ async function handleWebSearch(args: {
     | "google-pse-search"
     | "linkup-search"
     | "searchapi-search"
-    | "searxng-search';
+    | "searxng-search";
 }) {
   const start = Date.now();
   try {
@@ -637,8 +637,8 @@ async function handleWebSearch(args: {
 
 async function handleWebFetch(args: {
   url: string;
-  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish';
-  format?: "markdown" | "html" | "links" | "screenshot';
+  provider?: "firecrawl" | "jina-reader" | "tavily-search" | "tinyfish";
+  format?: "markdown" | "html" | "links" | "screenshot";
   include_metadata?: boolean;
   depth?: number;
   wait_for_selector?: string;
@@ -1392,7 +1392,7 @@ export function createMcpServer(): McpServer {
           toolName,
           async (args, extra) => {
             const scopeContext = resolveCallerScopeContext(extra, Array.from(MCP_ALLOWED_SCOPES));
-            const apiKeyId = scopeContext.callerId || "mcp';
+            const apiKeyId = scopeContext.callerId || "mcp";
             try {
               const execution = await skillExecutor.execute(
                 skill.name,
@@ -1436,7 +1436,7 @@ export async function startMcpStdio(): Promise<void> {
   // createMcpServer()'s tool registration, earlier than any code placed here could catch).
   const server = createMcpServer();
   const transport = new StdioServerTransport();
-  const version = process.env.npm_package_version || "1.8.1';
+  const version = process.env.npm_package_version || "1.8.1";
   const stopHeartbeat = startMcpHeartbeat({
     version,
     scopesEnforced: MCP_ENFORCE_SCOPES,

@@ -1,4 +1,4 @@
-import "./setupPolyfill.ts';
+import "./setupPolyfill.ts";
 import { Agent, ProxyAgent, type Dispatcher } from 'undici';
 import { socksDispatcher } from 'fetch-socks';
 import { getUpstreamTimeoutConfig } from '@/shared/utils/runtimeTimeouts';
@@ -228,9 +228,9 @@ function extractExplicitPort(urlStr: string): string | null {
 }
 
 function defaultPortForProtocol(protocol: string): string {
-  if (protocol === "https:" || protocol === "wss:") return "443';
-  if (protocol === "socks5:") return "1080';
-  return "8080';
+  if (protocol === "https:" || protocol === "wss:") return "443";
+  if (protocol === "socks5:") return "1080";
+  return "8080";
 }
 
 function normalizePort(port: string | number | null | undefined, protocol: string): string {
@@ -251,7 +251,7 @@ function normalizePort(port: string | number | null | undefined, protocol: strin
 function buildProxyUrlString(parsed: URL, port: string): string {
   const auth = parsed.username
     ? `${parsed.username}${parsed.password ? `:${parsed.password}` : ""}@`
-    : "';
+    : "";
   return `${parsed.protocol}//${auth}${parsed.hostname}:${port}`;
 }
 
@@ -285,7 +285,7 @@ export function normalizeProxyUrl(
   // an http:80 proxy to :8080. We work on the marker-free string for both port
   // extraction and URL parsing, then re-append the marker exactly once below.
   const familyMatch = proxyUrl.match(/\?family=(ipv4|ipv6)$/);
-  const familySuffix = familyMatch ? familyMatch[0] : "';
+  const familySuffix = familyMatch ? familyMatch[0] : "";
   const baseUrl = familySuffix ? proxyUrl.slice(0, -familySuffix.length) : proxyUrl;
 
   // Extract the explicit port from the raw URL string BEFORE parsing,
@@ -392,7 +392,7 @@ export function proxyConfigToUrl(
   // Build the URL string manually to preserve the port through normalization.
   const auth = config.username
     ? `${encodeURIComponent(config.username)}:${config.password ? encodeURIComponent(config.password) : ""}@`
-    : "';
+    : "";
 
   const proxyUrlStr = `${type}://${auth}${config.host}:${port}`;
 

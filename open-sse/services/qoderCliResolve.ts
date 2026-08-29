@@ -20,7 +20,7 @@ import {
 
 export function getQoderCliCommand(): string {
   const explicit = String(process.env.CLI_QODER_BIN || "").trim();
-  return explicit || "qodercli';
+  return explicit || "qodercli";
 }
 
 export type QoderCliInvocation = { command: string; useShell: boolean };
@@ -102,7 +102,7 @@ export async function resolveQoderCliInvocation(
  * resolver searched plus the `CLI_QODER_BIN` override hint (#6263).
  */
 export function buildQoderCliNotFoundHint(runError: string): string {
-  let searchedHint = "';
+  let searchedHint = "";
   try {
     const candidates = getKnownToolPaths("qoder");
     if (candidates.length > 0) {

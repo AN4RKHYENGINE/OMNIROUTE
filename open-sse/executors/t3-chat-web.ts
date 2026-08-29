@@ -19,16 +19,16 @@ import { prepareToolMessages, buildToolAwareResult } from '../translator/webTool
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-export const T3_CHAT_BASE = "https://t3.chat';
+export const T3_CHAT_BASE = "https://t3.chat";
 
 /** TanStack Start server function endpoint prefix */
 const SERVER_FN_PREFIX = `${T3_CHAT_BASE}/_serverFn/`;
 
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 /** TanStack Start accepts these content types, in priority order */
-const TSS_ACCEPT = "application/x-tss-framed, application/x-ndjson, application/json';
+const TSS_ACCEPT = "application/x-tss-framed, application/x-ndjson, application/json";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -65,7 +65,7 @@ export function parseT3Credentials(creds: unknown): T3ChatCredentials {
   }
 
   let cookieHeader = raw;
-  let convexSessionId = "';
+  let convexSessionId = "";
 
   if (raw.includes("convexSessionId") || raw.includes("convex-session-id")) {
     // Structured / multi-part format: split on separators and pull out the id.
@@ -144,7 +144,7 @@ function transformTSSStream(upstreamStream: ReadableStream, model: string): Read
     {
       async start(controller) {
         const reader = upstreamStream.getReader();
-        let buffer = "';
+        let buffer = "";
 
         const emit = (obj: object) => {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
@@ -179,7 +179,7 @@ function transformTSSStream(upstreamStream: ReadableStream, model: string): Read
 
             // Handle both NDJSON (newline-delimited) and SSE (data: prefix) formats
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "';
+            buffer = lines.pop() || "";
 
             for (const line of lines) {
               const trimmed = line.trim();
@@ -275,7 +275,7 @@ function isTSSDone(data: Record<string, unknown>): boolean {
 async function collectStreamContent(upstreamStream: ReadableStream): Promise<string> {
   const decoder = new TextDecoder();
   const reader = upstreamStream.getReader();
-  let buffer = "';
+  let buffer = "";
   const parts: string[] = [];
 
   while (true) {
@@ -283,7 +283,7 @@ async function collectStreamContent(upstreamStream: ReadableStream): Promise<str
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split("\n");
-    buffer = lines.pop() || "';
+    buffer = lines.pop() || "";
 
     for (const line of lines) {
       const trimmed = line.trim();
@@ -393,9 +393,9 @@ export class T3ChatWebExecutor extends BaseExecutor {
         let errMsg = `t3.chat API error (${status})`;
         if (status === 401 || status === 403) {
           errMsg =
-            "t3.chat session expired or unauthorized — re-paste your cookies and convex-session-id.';
+            "t3.chat session expired or unauthorized — re-paste your cookies and convex-session-id.";
         } else if (status === 429) {
-          errMsg = "t3.chat rate limited. Wait and retry.';
+          errMsg = "t3.chat rate limited. Wait and retry.";
         }
         log?.warn?.("T3-CHAT-WEB", errMsg);
         return {
@@ -406,7 +406,7 @@ export class T3ChatWebExecutor extends BaseExecutor {
         };
       }
 
-      const ct = resp.headers.get("content-type") || "';
+      const ct = resp.headers.get("content-type") || "";
 
       // 4. Non-streaming full JSON response
       if (ct.includes("application/json") && !ct.includes("ndjson")) {
@@ -433,7 +433,7 @@ export class T3ChatWebExecutor extends BaseExecutor {
           };
         }
         // TSS or plain response — extract content and wrap in OpenAI format
-        const content = extractTextFromTSS(json) ?? (json as any)?.message?.content ?? "';
+        const content = extractTextFromTSS(json) ?? (json as any)?.message?.content ?? "";
         const openaiResponse = {
           id: `chatcmpl-t3-${Date.now()}`,
           object: "chat.completion",

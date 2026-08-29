@@ -41,51 +41,51 @@ export type TransformOp =
   | InjectBillingHeaderOp;
 
 export interface DropParagraphIfContainsOp {
-  kind: "drop_paragraph_if_contains';
+  kind: "drop_paragraph_if_contains";
   needles: string[];
   caseSensitive?: boolean;
 }
 
 export interface DropParagraphIfStartsWithOp {
-  kind: "drop_paragraph_if_starts_with';
+  kind: "drop_paragraph_if_starts_with";
   prefixes: string[];
   caseSensitive?: boolean;
 }
 
 export interface ReplaceTextOp {
-  kind: "replace_text';
+  kind: "replace_text";
   match: string;
   replacement: string;
   allOccurrences?: boolean;
 }
 
 export interface ReplaceRegexOp {
-  kind: "replace_regex';
+  kind: "replace_regex";
   pattern: string;
   flags?: string;
   replacement: string;
 }
 
 export interface DropBlockIfContainsOp {
-  kind: "drop_block_if_contains';
+  kind: "drop_block_if_contains";
   needles: string[];
 }
 
 export interface PrependSystemBlockOp {
-  kind: "prepend_system_block';
+  kind: "prepend_system_block";
   text: string;
   /** Skip if any earlier block already starts with this prefix. */
   idempotencyKey?: string;
 }
 
 export interface AppendSystemBlockOp {
-  kind: "append_system_block';
+  kind: "append_system_block";
   text: string;
   idempotencyKey?: string;
 }
 
 export interface InjectBillingHeaderOp {
-  kind: "inject_billing_header';
+  kind: "inject_billing_header";
   /** Anthropic billing entrypoint label (e.g. `sdk-cli`, `cli`). */
   entrypoint: string;
   /**
@@ -93,14 +93,14 @@ export interface InjectBillingHeaderOp {
    *   - ex-machina: sha256(SALT + chars-at-positions + version).slice(0,3)
    *   - omniroute-daystamp: sha256(YYYY-MM-DD + version).slice(0,3)
    */
-  versionFormat: "ex-machina" | "omniroute-daystamp';
+  versionFormat: "ex-machina" | "omniroute-daystamp";
   /**
    * CCH attestation algorithm:
    *   - sha256-first-user: sha256(firstUserMessageText).slice(0,5)  (ex-machina)
    *   - xxhash64-body: defer to body-level signRequestBody; emit "00000" here
    *   - static-zero: emit "00000" (relay endpoints don't validate)
    */
-  cchAlgo: "sha256-first-user" | "xxhash64-body" | "static-zero';
+  cchAlgo: "sha256-first-user" | "xxhash64-body" | "static-zero";
   /** Override the embedded `cc_version=` value. Defaults to CLAUDE_CODE_CLIENT_VERSION. */
   version?: string;
   /** Override its captured build revision. Defaults to a computed compatibility suffix. */
@@ -117,14 +117,14 @@ export interface CcBridgeTransformsConfig {
 // ────────────────────────────────────────────────────────────────────────────
 
 /** Stable salt used by ex-machina/cch.ts for the version-suffix hash. */
-export const CCH_SALT = "59cf53e54c78';
+export const CCH_SALT = "59cf53e54c78";
 /** Character positions sampled from the first user message text. */
 export const CCH_POSITIONS = [4, 7, 20] as const;
 /** Default `cc_version=` value embedded in the billing header. */
 export const DEFAULT_CLAUDE_CODE_VERSION = CLAUDE_CODE_CLIENT_VERSION;
 /** Identity sentinel prepended for Claude Agent SDK callers. */
 export const CLAUDE_AGENT_SDK_IDENTITY =
-  "You are a Claude agent, built on Anthropic's Claude Agent SDK.';
+  "You are a Claude agent, built on Anthropic"s Claude Agent SDK.";
 /** Paragraph anchors from ex-machina (URLs identifying third-party agents). */
 export const DEFAULT_PARAGRAPH_REMOVAL_ANCHORS = [
   "github.com/anomalyco/opencode",
@@ -219,7 +219,7 @@ interface Message {
  * Returns "" when no user message has text content.
  */
 export function extractFirstUserMessageText(messages: Message[]): string {
-  if (!Array.isArray(messages)) return "';
+  if (!Array.isArray(messages)) return "";
 
   for (const msg of messages) {
     if (msg?.role !== "user") continue;
@@ -232,7 +232,7 @@ export function extractFirstUserMessageText(messages: Message[]): string {
       }
     }
   }
-  return "';
+  return "";
 }
 
 function sha256Hex(input: string): string {
@@ -272,8 +272,8 @@ export function computeCchSha256FirstUser(firstUserText: string): string {
 
 interface BuildBillingHeaderOptions {
   entrypoint: string;
-  versionFormat: "ex-machina" | "omniroute-daystamp';
-  cchAlgo: "sha256-first-user" | "xxhash64-body" | "static-zero';
+  versionFormat: "ex-machina" | "omniroute-daystamp";
+  cchAlgo: "sha256-first-user" | "xxhash64-body" | "static-zero";
   version?: string;
   buildRevision?: string;
   now?: Date;
@@ -309,7 +309,7 @@ export function buildBillingHeaderValue(
     case "xxhash64-body":
     case "static-zero":
     default:
-      cch = "00000';
+      cch = "00000";
       break;
   }
 
@@ -344,7 +344,7 @@ function normalizeSystemToBlocks(system: unknown): SystemBlock[] {
 }
 
 function isTextBlock(block: SystemBlock): block is SystemBlock & { text: string } {
-  return block.type === "text" && typeof block.text === "string';
+  return block.type === "text" && typeof block.text === "string";
 }
 
 function containsString(haystack: string, needle: string, caseSensitive: boolean): boolean {
@@ -477,7 +477,7 @@ function applyInjectBillingHeader(
 
   // Idempotency: replace any existing billing header block (ex-machina + native
   // OAuth path both rebuild on retry; see executors/base.ts issue #1712).
-  const headerPrefix = "x-anthropic-billing-header:';
+  const headerPrefix = "x-anthropic-billing-header:";
   const filtered = blocks.filter((b) => !(isTextBlock(b) && b.text.startsWith(headerPrefix)));
   return [{ type: "text", text: headerValue }, ...filtered];
 }

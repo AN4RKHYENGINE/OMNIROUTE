@@ -39,7 +39,7 @@ export function shouldForceResponsesUpstream(
   const tools = Array.isArray(body.tools) ? body.tools : [];
   return tools.some((toolValue) => {
     if (!isRecord(toolValue)) return false;
-    const toolType = typeof toolValue.type === "string" ? toolValue.type : "';
+    const toolType = typeof toolValue.type === "string" ? toolValue.type : "";
     return toolType === "namespace" || /^tool_search/.test(toolType);
   });
 }

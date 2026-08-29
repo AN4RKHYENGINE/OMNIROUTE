@@ -101,7 +101,7 @@ export class CursorImageError extends Error {
   status: number;
   constructor(message: string, status = 400) {
     super(message);
-    this.name = "CursorImageError';
+    this.name = "CursorImageError";
     this.status = status;
   }
 }
@@ -112,7 +112,7 @@ function estimatedBase64DecodedBytes(payload: string): number {
 
 function isHighDetail(detail: string | undefined): boolean {
   const normalized = (detail || "").toLowerCase();
-  return normalized === "high" || normalized === "original';
+  return normalized === "high" || normalized === "original";
 }
 
 function softMaxBytesForDetail(detail: string | undefined): number {
@@ -134,7 +134,7 @@ function decodeDataUrl(url: string): { data: Buffer; mimeType: string } {
   const header = url.slice(5, comma); // strip leading "data:"
   const payload = url.slice(comma + 1);
   const isBase64 = /;base64/i.test(header);
-  const mimeType = (header.split(";")[0] || "").trim().toLowerCase() || "application/octet-stream';
+  const mimeType = (header.split(";")[0] || "").trim().toLowerCase() || "application/octet-stream";
 
   if (!mimeType.startsWith("image/")) {
     throw new CursorImageError("Image data URL must have an image/* media type.");
@@ -375,7 +375,7 @@ export function sniffCursorImageFormat(
     data[6] === 0x1a &&
     data[7] === 0x0a
   ) {
-    return "png';
+    return "png";
   }
   if (
     data.byteLength >= 6 &&
@@ -384,9 +384,9 @@ export function sniffCursorImageFormat(
     data[2] === 0x46 &&
     data[3] === 0x38
   ) {
-    return "gif';
+    return "gif";
   }
-  if (data.byteLength >= 4 && data[0] === 0xff && data[1] === 0xd8) return "jpeg';
+  if (data.byteLength >= 4 && data[0] === 0xff && data[1] === 0xd8) return "jpeg";
   if (
     data.byteLength >= 12 &&
     data[0] === 0x52 &&
@@ -398,7 +398,7 @@ export function sniffCursorImageFormat(
     data[10] === 0x42 &&
     data[11] === 0x50
   ) {
-    return "webp';
+    return "webp";
   }
   return undefined;
 }
@@ -532,7 +532,7 @@ export async function prepareCursorImageForWire(input: {
   }
 
   // Soft-cap skip: already soft-capped JPEG that has a real SOF (not SOI-only).
-  const declaredJpeg = mime === "image/jpeg" || mime === "image/jpg';
+  const declaredJpeg = mime === "image/jpeg" || mime === "image/jpg";
   const alreadySmallJpeg =
     declaredJpeg && format === "jpeg" && sniffed !== undefined && input.data.byteLength <= softMax;
   if (alreadySmallJpeg) {

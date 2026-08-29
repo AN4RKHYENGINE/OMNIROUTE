@@ -39,8 +39,8 @@ export function nativeCodexTurnKey(
   comboName: string
 ): string | null {
   const metadata = turnMetadata(body);
-  const threadId = typeof metadata?.thread_id === "string" ? metadata.thread_id : "';
-  const turnId = typeof metadata?.turn_id === "string" ? metadata.turn_id : "';
+  const threadId = typeof metadata?.thread_id === "string" ? metadata.thread_id : "";
+  const turnId = typeof metadata?.turn_id === "string" ? metadata.turn_id : "";
   if (!threadId || !turnId) return null;
   return createHash("sha256").update(JSON.stringify({ comboName, threadId, turnId })).digest("hex");
 }

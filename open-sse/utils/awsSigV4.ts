@@ -37,7 +37,7 @@ function awsEncode(value: string) {
 }
 
 function canonicalUri(pathname: string) {
-  const path = pathname || "/';
+  const path = pathname || "/";
   return path
     .split("/")
     .map((segment) => awsEncode(decodeURIComponent(segment)))
@@ -88,7 +88,7 @@ export function signAwsRequest({
   now = new Date(),
 }: AwsSigV4Request): Record<string, string> {
   const parsedUrl = new URL(url);
-  const payload = body ?? "';
+  const payload = body ?? "";
   const payloadHash = sha256Hex(payload);
   const { amzDate, dateStamp } = amzDateParts(now);
 

@@ -1,4 +1,4 @@
-const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary';
+const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary";
 
 export function applyClaudeCodeCompatibleThinkingDisplay(
   thinking: Record<string, unknown>,
@@ -12,7 +12,7 @@ export function applyClaudeCodeCompatibleThinkingDisplay(
   }
 
   const markerRequestsSummary =
-    options.normalizedBody?.[COPILOT_REASONING_SUMMARY_MARKER] === "summarized';
+    options.normalizedBody?.[COPILOT_REASONING_SUMMARY_MARKER] === "summarized";
   const connectionRequestsSummary = options.summarizeThinking === true;
   if (!markerRequestsSummary && !connectionRequestsSummary) {
     return thinking;

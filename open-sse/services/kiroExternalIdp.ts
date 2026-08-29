@@ -34,11 +34,11 @@
  */
 
 /** authMethod marker persisted on External IdP connections. */
-export const KIRO_EXTERNAL_IDP_AUTH_METHOD = "external_idp';
+export const KIRO_EXTERNAL_IDP_AUTH_METHOD = "external_idp";
 
 /** Header CodeWhisperer requires to bind an External IdP bearer to its profile. */
-export const KIRO_EXTERNAL_IDP_TOKEN_TYPE_HEADER = "TokenType';
-export const KIRO_EXTERNAL_IDP_TOKEN_TYPE_VALUE = "EXTERNAL_IDP';
+export const KIRO_EXTERNAL_IDP_TOKEN_TYPE_HEADER = "TokenType";
+export const KIRO_EXTERNAL_IDP_TOKEN_TYPE_VALUE = "EXTERNAL_IDP";
 
 /**
  * Allowlist of enterprise IdP token-endpoint host suffixes. The refresh token is
@@ -67,7 +67,7 @@ const ALLOWED_IDP_HOST_SUFFIXES: readonly string[] = [
 ];
 
 function normalizeString(value: unknown): string {
-  return typeof value === "string" ? value.trim() : "';
+  return typeof value === "string" ? value.trim() : "";
 }
 
 /** True when a connection's providerSpecificData marks it as an External IdP login. */

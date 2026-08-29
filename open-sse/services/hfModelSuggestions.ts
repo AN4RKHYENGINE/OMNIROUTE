@@ -33,7 +33,7 @@ export interface HfModelSummary {
   pipeline_tag?: string;
 }
 
-export type HfSuggestedModelSortBy = "downloads" | "likes';
+export type HfSuggestedModelSortBy = "downloads" | "likes";
 
 /**
  * Pure filter/sort over raw HF Hub model search results:

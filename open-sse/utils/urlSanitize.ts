@@ -19,6 +19,6 @@ export function stripTrailingSlashes(value: string): string {
  * Single source of truth — replaces per-file inline copies in config/*.ts.
  */
 export function normalizeBaseUrl(value: string | null | undefined): string {
-  const str = typeof value === "string" ? value : "';
+  const str = typeof value === "string" ? value : "";
   return stripTrailingSlashes(str.trim());
 }

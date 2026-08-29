@@ -56,7 +56,7 @@ export function toDisplayLabel(value: string): string {
     .split(/[\s_-]+/)
     .filter(Boolean)
     .map((part) => {
-      if (/^pro\+$/i.test(part)) return "Pro+';
+      if (/^pro\+$/i.test(part)) return "Pro+";
       if (/^[a-z]{2,}$/.test(part))
         return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
       return part;

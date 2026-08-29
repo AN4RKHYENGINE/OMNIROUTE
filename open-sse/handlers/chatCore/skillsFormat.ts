@@ -13,21 +13,21 @@ export function getSkillsProviderForFormat(
 ): "openai" | "anthropic" | "google" | "other" {
   switch (format) {
     case FORMATS.CLAUDE:
-      return "anthropic';
+      return "anthropic";
     case FORMATS.GEMINI:
-      return "google';
+      return "google";
     default:
-      return "openai';
+      return "openai";
   }
 }
 
 export function getSkillsModelIdForFormat(format: string): string {
   switch (format) {
     case FORMATS.CLAUDE:
-      return "claude';
+      return "claude";
     case FORMATS.GEMINI:
-      return "gemini';
+      return "gemini";
     default:
-      return "openai';
+      return "openai";
   }
 }

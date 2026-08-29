@@ -22,7 +22,7 @@ interface AuditDatabase {
   pragma: (sql: string) => unknown;
   close: () => void;
   open?: boolean;
-  driver?: "better-sqlite3" | "node:sqlite';
+  driver?: "better-sqlite3" | "node:sqlite";
 }
 
 interface NodeSqliteDatabase {
@@ -203,7 +203,7 @@ function toNumber(value: unknown, fallback = 0): number {
 }
 
 function toString(value: unknown): string {
-  return typeof value === "string" ? value : "';
+  return typeof value === "string" ? value : "";
 }
 
 /**

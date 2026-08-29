@@ -168,7 +168,7 @@ function buildZaiBrowserChatOptions(input: {
     locale: "en-US",
     timezone: "Asia/Seoul",
     inputSelector: "#chat-input",
-    submitButtonSelector: '[aria-label="Send Message"] button:not([disabled])',
+    submitButtonSelector: '[aria-label="Send Message"] button:not([disabled])",
     submitButtonMode: "dom",
     attachments: input.attachments,
     beforeSubmit: (page) =>
@@ -222,7 +222,7 @@ function resolveZaiRequest(
   const token = extractZaiToken(rawCredential);
   if (!token) {
     return fail(
-      'Missing Z.ai web-session credential — copy the "token" value from chat.z.ai Local Storage.'
+      "Missing Z.ai web-session credential — copy the "token" value from chat.z.ai Local Storage."
     );
   }
 
@@ -344,7 +344,7 @@ export class ZaiWebExecutor extends BaseExecutor {
       };
     }
     const result = asRecord(await response.json().catch(() => null));
-    const chatId = typeof result?.id === "string" ? result.id : "';
+    const chatId = typeof result?.id === "string" ? result.id : "";
     if (!chatId) {
       return {
         errorResult: makeErrorResult(

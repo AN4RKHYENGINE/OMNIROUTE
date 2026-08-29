@@ -70,7 +70,7 @@ export function __setProxyFallbackTestHooks(hooks: ProxyFallbackTestHooks | null
 function proxyRecordToUrl(proxy: ProxyShape): string {
   const auth = proxy.username
     ? `${encodeURIComponent(proxy.username)}:${encodeURIComponent(proxy.password || "")}@`
-    : "';
+    : "";
   return `${proxy.type}://${auth}${proxy.host}:${proxy.port}`;
 }
 
@@ -413,8 +413,8 @@ export async function selectWorkingProxyFallback(_connectionId?: string): Promis
 
   // Use a well-known AI API endpoint as the test target. If a proxy can
   // reach this, it is likely suitable for routing AI traffic.
-  const targetUrl = "https://api.openai.com/v1/models';
-  const targetHostname = "api.openai.com';
+  const targetUrl = "https://api.openai.com/v1/models";
+  const targetHostname = "api.openai.com";
 
   const workingUrl = await findWorkingProxy(targetHostname, targetUrl);
   if (!workingUrl) return null;

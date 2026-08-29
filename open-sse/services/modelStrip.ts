@@ -7,7 +7,7 @@ function asRecord(value: unknown): JsonRecord {
 }
 
 function shouldStripPart(part: JsonRecord, stripTypes: Set<string>): boolean {
-  const type = typeof part.type === "string" ? part.type : "';
+  const type = typeof part.type === "string" ? part.type : "";
   if (!type) return false;
 
   if (stripTypes.has(type)) return true;

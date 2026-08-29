@@ -9,7 +9,7 @@ import {
   prewarmLlmlinguaUltra,
 } from './engines/llmlingua/ultraEntry.ts';
 
-const COMPRESSED_PREFIX = "[COMPRESSED:';
+const COMPRESSED_PREFIX = "[COMPRESSED:";
 
 /**
  * Async sibling of `mapTextContent`: applies an async transform to each text part
@@ -58,7 +58,7 @@ function pruneProseOnly(text: string, rate: number, minScore: number): string {
   return withPlaceholders
     .split(splitRe)
     .map((part) => {
-      if (!part) return "';
+      if (!part) return "";
       const preserved = placeholderToContent.get(part);
       if (preserved !== undefined) return preserved; // verbatim — never pruned
       return pruneByScore(part, rate, minScore); // prose only
@@ -138,7 +138,7 @@ export interface UltraCompressResult {
 type Message = ChatMessageLike;
 
 /** Tier the ultra resolver records on the stats. */
-export type UltraTier = "slm" | "heuristic-fallback" | "heuristic';
+export type UltraTier = "slm" | "heuristic-fallback" | "heuristic";
 
 /**
  * Tier-A heuristic ultra (PURE, SYNCHRONOUS). Identical to the pre-B behaviour.
@@ -297,7 +297,7 @@ export async function ultraCompress(
  * best-effort; this helper stays clock-free / side-effect-free.
  */
 export function shouldPrewarmUltraSlm(config: {
-  ultraEngine?: "heuristic" | "slm';
+  ultraEngine?: "heuristic" | "slm";
   ultraSlmPrewarm?: boolean;
 }): boolean {
   return config.ultraEngine === "slm" && config.ultraSlmPrewarm === true;
@@ -309,7 +309,7 @@ export function shouldPrewarmUltraSlm(config: {
  * (`void maybePrewarmUltraSlmOnConfig(cfg)`). Never throws.
  */
 export async function maybePrewarmUltraSlmOnConfig(config: {
-  ultraEngine?: "heuristic" | "slm';
+  ultraEngine?: "heuristic" | "slm";
   ultraSlmPrewarm?: boolean;
 }): Promise<void> {
   if (!shouldPrewarmUltraSlm(config)) return;

@@ -132,18 +132,18 @@ export function _unregisterExecutionCandidates(executionKeys: string[]): void {
 
 function toTextContent(content: unknown): string {
   if (typeof content === "string") return content;
-  if (!Array.isArray(content)) return "';
+  if (!Array.isArray(content)) return "";
   return content
     .map((part) => {
-      if (!isRecord(part)) return "';
+      if (!isRecord(part)) return "";
       if (typeof part.text === "string") return part.text;
-      return "';
+      return "";
     })
     .join("\n");
 }
 
 export function extractPromptForIntent(body: Record<string, unknown> | null | undefined): string {
-  if (!body || typeof body !== "object") return "';
+  if (!body || typeof body !== "object") return "";
 
   const fromMessages = Array.isArray(body.messages)
     ? [...body.messages].reverse().find((m) => isRecord(m) && m.role === "user")
@@ -154,10 +154,10 @@ export function extractPromptForIntent(body: Record<string, unknown> | null | un
   if (Array.isArray(body.input)) {
     const text = body.input
       .map((item) => {
-        if (!isRecord(item)) return "';
+        if (!isRecord(item)) return "";
         if (typeof item.content === "string") return item.content;
         if (typeof item.text === "string") return item.text;
-        return "';
+        return "";
       })
       .filter(Boolean)
       .join("\n");
@@ -165,20 +165,20 @@ export function extractPromptForIntent(body: Record<string, unknown> | null | un
   }
 
   if (typeof body.prompt === "string") return body.prompt;
-  return "';
+  return "";
 }
 
 export function mapIntentToTaskType(intent: string): "coding" | "analysis" | "default" {
   switch (intent) {
     case "code":
-      return "coding';
+      return "coding";
     case "reasoning":
-      return "analysis';
+      return "analysis";
     case "simple":
-      return "default';
+      return "default";
     case "medium":
     default:
-      return "default';
+      return "default";
   }
 }
 

@@ -10,10 +10,10 @@
 import { BaseExecutor, type ExecuteInput } from './base.ts';
 import { makeExecutorErrorResult as makeErrorResult, normalizeCookie } from '../utils/error.ts';
 
-const BASE_URL = "https://venice.ai';
+const BASE_URL = "https://venice.ai";
 const CHAT_URL = `${BASE_URL}/api/chat`;
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36';
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36";
 
 export class VeniceWebExecutor extends BaseExecutor {
   constructor() {
@@ -26,7 +26,7 @@ export class VeniceWebExecutor extends BaseExecutor {
     const rawCookie = normalizeCookie(String(credentials?.apiKey ?? "").trim());
 
     const messages = (bodyObj.messages as Array<{ role: string; content: string }>) || [];
-    const modelId = (bodyObj.model as string) || "venice-default';
+    const modelId = (bodyObj.model as string) || "venice-default";
 
     const reqBody = {
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
@@ -71,7 +71,7 @@ export class VeniceWebExecutor extends BaseExecutor {
       const content =
         (data?.choices as Array<{ message?: { content?: string } }>)?.[0]?.message?.content ||
         (data?.content as string) ||
-        "';
+        "";
       return {
         response: new Response(
           JSON.stringify({
@@ -106,14 +106,14 @@ export class VeniceWebExecutor extends BaseExecutor {
           return;
         }
 
-        let buffer = "';
+        let buffer = "";
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            buffer = lines.pop() || "';
+            buffer = lines.pop() || "";
 
             for (const line of lines) {
               if (!line.startsWith("data:")) continue;
@@ -124,7 +124,7 @@ export class VeniceWebExecutor extends BaseExecutor {
               }
               try {
                 const parsed = JSON.parse(data);
-                const text = parsed.choices?.[0]?.delta?.content || "';
+                const text = parsed.choices?.[0]?.delta?.content || "";
                 if (text) {
                   const chunk = {
                     id: `chatcmpl-ven-${Date.now()}`,

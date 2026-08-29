@@ -308,8 +308,8 @@ export const DEFAULT_BENCHMARK_ENGINES: string[] = [
  * best-first with the top engine bolded. Pure — used by the `bench:compression` CLI.
  */
 export function formatBenchmarkTable(rows: EngineSummaryRow[]): string {
-  const header = "| Engine | Mean Savings % | Mean Retention | Total Compressed Tokens |';
-  const sep = "| --- | ---: | ---: | ---: |';
+  const header = "| Engine | Mean Savings % | Mean Retention | Total Compressed Tokens |";
+  const sep = "| --- | ---: | ---: | ---: |";
   const body = rows.map((r, i) => {
     const engine = i === 0 ? `**${r.engine}**` : r.engine;
     return `| ${engine} | ${r.meanSavingsPercent.toFixed(1)} | ${r.meanRetention.toFixed(3)} | ${r.totalCompressedTokens} |`;

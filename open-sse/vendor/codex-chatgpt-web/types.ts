@@ -49,13 +49,13 @@ export type CodexMessage =
   CodexUserMessage | CodexAssistantMessage | CodexDeveloperMessage | CodexToolResultMessage;
 
 export interface CodexUserMessage {
-  role: "user';
+  role: "user";
   content: string | CodexContentPart[];
   timestamp: number;
 }
 
 export interface CodexAssistantMessage {
-  role: "assistant';
+  role: "assistant";
   content: CodexAssistantContentPart[];
   /** Responses message phase, preserved when replaying translated provider output. */
   phase?: CodexMessagePhase;
@@ -64,13 +64,13 @@ export interface CodexAssistantMessage {
 }
 
 export interface CodexDeveloperMessage {
-  role: "developer';
+  role: "developer";
   content: string | CodexContentPart[];
   timestamp: number;
 }
 
 export interface CodexToolResultMessage {
-  role: "toolResult';
+  role: "toolResult";
   toolCallId: string;
   toolName: string;
   /** MCP namespace from the originating tool call, if any. */
@@ -84,12 +84,12 @@ export interface CodexToolResultMessage {
 }
 
 export interface CodexTextContent {
-  type: "text';
+  type: "text";
   text: string;
 }
 
 export interface CodexImageContent {
-  type: "image';
+  type: "image";
   /** A `data:` URL (base64) or a remote https URL — passed through from Codex verbatim, NEVER inlined as text. */
   imageUrl: string;
   /** Fidelity hint from Codex: "low" | "high" | "auto". */
@@ -100,7 +100,7 @@ export interface CodexImageContent {
 export type CodexContentPart = CodexTextContent | CodexImageContent;
 
 export interface CodexThinkingContent {
-  type: "thinking';
+  type: "thinking";
   thinking: string;
   signature?: string;
   itemId?: string;
@@ -109,7 +109,7 @@ export interface CodexThinkingContent {
 }
 
 export interface CodexToolCall {
-  type: "toolCall';
+  type: "toolCall";
   id: string;
   name: string;
   arguments: Record<string, unknown>;
@@ -197,7 +197,7 @@ export interface CodexRequestOptions {
   promptCacheKey?: string;
 }
 
-export type CodexMessagePhase = "commentary" | "final_answer';
+export type CodexMessagePhase = "commentary" | "final_answer";
 
 /**
  * Provider-private state that must follow a locally expanded `previous_response_id` chain.
@@ -228,21 +228,21 @@ export type AdapterEvent =
   // the SAME output index, so the activity animates instead of flashing completed instantly.
   | { type: "web_search_call_begin"; id: string }
   | {
-      type: "web_search_call_end';
+      type: "web_search_call_end";
       id: string;
       queries: string[];
-      status?: "completed" | "failed';
+      status?: "completed" | "failed";
       sources?: CodexUrlCitation[];
     }
   | {
-      type: "done';
+      type: "done";
       usage?: CodexUsage;
       stopReason?: string;
       endTurn?: boolean;
       providerState?: CodexProviderContinuationState;
     }
   | {
-      type: "incomplete';
+      type: "incomplete";
       reason: string;
       message?: string;
       usage?: CodexUsage;
@@ -253,7 +253,7 @@ export type AdapterEvent =
   // `usage` carries best-effort partial consumption when a turn dies before a clean done
   // so failed requests can log best-effort token counts.
   | {
-      type: "error';
+      type: "error";
       message: string;
       usage?: CodexUsage;
       /** Authoritative upstream/proxy status when known; avoids message-based classification. */
@@ -296,7 +296,7 @@ export interface CodexUsage {
 
 /** The only provider configuration supported by this focused runtime. */
 export interface CodexProviderConfig {
-  adapter: "chatgpt-web';
+  adapter: "chatgpt-web";
   baseUrl: string;
   defaultModel?: string;
   models?: string[];

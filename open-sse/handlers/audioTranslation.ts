@@ -122,7 +122,7 @@ export async function handleAudioTranslation({
     }
 
     const data = await res.text();
-    const respContentType = res.headers.get("content-type") || "application/json';
+    const respContentType = res.headers.get("content-type") || "application/json";
 
     return new Response(data, {
       status: 200,

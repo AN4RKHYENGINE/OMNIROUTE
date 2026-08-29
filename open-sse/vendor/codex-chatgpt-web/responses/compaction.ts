@@ -16,7 +16,7 @@
  * routed models get a short "history was compacted" note instead.
  */
 
-export const BRIDGE_COMPACTION_PREFIX = "ocx1:';
+export const BRIDGE_COMPACTION_PREFIX = "ocx1:";
 
 /** Mirrors codex-rs core/templates/compact/prompt.md (the local-compaction instruction). */
 export const COMPACT_PROMPT = `You are performing a CONTEXT CHECKPOINT COMPACTION. Create a handoff summary for another LLM that will resume the task.
@@ -31,10 +31,10 @@ Be concise, structured, and focused on helping the next LLM seamlessly continue 
 
 /** Mirrors codex-rs core/templates/compact/summary_prefix.md (framing for a replayed summary). */
 export const SUMMARY_PREFIX =
-  "Another language model started to solve this problem and produced a summary of its thinking process. You also have access to the state of the tools that were used by that language model. Use this to build on the work that has already been done and avoid duplicating work. Here is the summary produced by the other language model, use the information in this summary to assist with your own analysis:';
+  "Another language model started to solve this problem and produced a summary of its thinking process. You also have access to the state of the tools that were used by that language model. Use this to build on the work that has already been done and avoid duplicating work. Here is the summary produced by the other language model, use the information in this summary to assist with your own analysis:";
 
 export const OPAQUE_COMPACTION_NOTE =
-  "[earlier conversation was compacted; the summary is stored in a format this model cannot read]';
+  "[earlier conversation was compacted; the summary is stored in a format this model cannot read]";
 
 /** Exact framing emitted by this proxy for a readable replayed Codex compaction summary. */
 export function isReadableCompactionSummaryText(value: unknown): value is string {
@@ -85,17 +85,17 @@ export function extractCompactUserMessages(input: unknown): string[] {
     const rec = item as { type?: string; role?: string; content?: unknown };
     if (rec.type !== undefined && rec.type !== "message") continue;
     if (rec.role !== "user") continue;
-    let text = "';
+    let text = "";
     if (typeof rec.content === "string") text = rec.content;
     else if (Array.isArray(rec.content)) {
       text = rec.content
         .map((b) => {
-          if (!b || typeof b !== "object") return "';
+          if (!b || typeof b !== "object") return "";
           const block = b as { type?: string; text?: string };
           return (block.type === "input_text" || block.type === "text") &&
             typeof block.text === "string"
             ? block.text
-            : "';
+            : "";
         })
         .join("");
     }
@@ -130,6 +130,6 @@ export function buildCompactV1Output(
   // codex-rs compact.rs uses "{SUMMARY_PREFIX}\n{summary}" (single newline) and detects stored
   // summaries by that exact prefix — keep the same shape.
   const summaryText =
-    summary.trim().length > 0 ? `${SUMMARY_PREFIX}\n${summary}` : "(no summary available)';
+    summary.trim().length > 0 ? `${SUMMARY_PREFIX}\n${summary}` : "(no summary available)";
   return [...selected.map(compactUserMessageItem), compactUserMessageItem(summaryText)];
 }

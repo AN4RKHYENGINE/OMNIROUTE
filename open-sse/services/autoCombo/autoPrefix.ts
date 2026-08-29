@@ -1,4 +1,4 @@
-export type AutoVariant = "coding" | "fast" | "cheap" | "offline" | "smart" | "lkgp" | "chaos';
+export type AutoVariant = "coding" | "fast" | "cheap" | "offline" | "smart" | "lkgp" | "chaos";
 
 export interface AutoPrefixParseResult {
   valid: boolean;

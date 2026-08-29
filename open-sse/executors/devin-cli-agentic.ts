@@ -16,7 +16,7 @@ import { parseDevinToolRequest } from './devin-agentic/toolParser.ts';
 import { asRecord, DevinAgenticBridgeError, estimateTokens } from './devin-agentic/types.ts';
 
 type AcpMessage = {
-  jsonrpc: "2.0';
+  jsonrpc: "2.0";
   id?: number | null;
   method?: string;
   params?: unknown;
@@ -26,7 +26,7 @@ type AcpMessage = {
 
 const ACP_PROTOCOL_VERSION = 1;
 const MAX_ACP_OUTPUT_CHARS = 1024 * 1024;
-const TRUSTED_DEVIN_BRIDGE_PROXY_URL = "http://network-guard:8080';
+const TRUSTED_DEVIN_BRIDGE_PROXY_URL = "http://network-guard:8080";
 const REPAIRABLE_TOOL_ERRORS = new Set([
   "invalid_tool_json",
   "missing_tool_name",
@@ -38,7 +38,7 @@ const REPAIRABLE_TOOL_ERRORS = new Set([
 ]);
 
 function describesUnexecutedToolIntent(text: string): boolean {
-  const action = "(?:read|inspect|examine|edit|fix|run|check|test|start)';
+  const action = "(?:read|inspect|examine|edit|fix|run|check|test|start)";
   const futureAction = new RegExp(
     `\\b(?:(?:next(?: immediate)?|immediate next)\\s+(?:task|step)|planned actions?)\\b[\\s\\S]{0,320}\\b${action}\\b`,
     "i"
@@ -89,7 +89,7 @@ function resolveDevinBin(): string {
     const localAppData = process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");
     const winPath = path.join(localAppData, "devin", "cli", "bin", "devin.exe");
     if (fs.existsSync(winPath)) return winPath;
-    return "devin.exe';
+    return "devin.exe";
   }
 
   for (const candidate of [
@@ -98,11 +98,11 @@ function resolveDevinBin(): string {
   ]) {
     if (fs.existsSync(candidate)) return candidate;
   }
-  return "devin';
+  return "devin";
 }
 
 function rpc(method: string, params: unknown, id: number): string {
-  return JSON.stringify({ jsonrpc: "2.0", id, method, params }) + "\n';
+  return JSON.stringify({ jsonrpc: "2.0", id, method, params }) + "\n";
 }
 
 export function assertLocalAcpUrl(url: string): void {
@@ -123,7 +123,7 @@ export function buildDevinChildEnv(
   _credentials: ExecuteInput["credentials"],
   source: NodeJS.ProcessEnv = process.env
 ): NodeJS.ProcessEnv {
-  const home = source.DEVIN_AGENTIC_HOME?.trim() || "';
+  const home = source.DEVIN_AGENTIC_HOME?.trim() || "";
   if (!home || !path.isAbsolute(home) || !isIsolatedHome(home)) {
     throw new DevinAgenticBridgeError(
       "DEVIN_AGENTIC_HOME must be an absolute path inside the bridge sandbox",
@@ -185,10 +185,10 @@ export async function runAcpTurn(args: {
   });
 
   let nextId = 1;
-  let buffer = "';
-  let text = "';
-  let phase: "initialize" | "session" | "prompt" = "initialize';
-  let sessionId = "';
+  let buffer = "";
+  let text = "";
+  let phase: "initialize" | "session" | "prompt" = "initialize";
+  let sessionId = "";
   let initializeRequestId = 0;
   let sessionRequestId = 0;
   let promptRequestId = 0;
@@ -295,7 +295,7 @@ export async function runAcpTurn(args: {
             );
             return;
           }
-          phase = "session';
+          phase = "session";
           sessionRequestId = send("session/new", {
             cwd: args.env.HOME,
             mcpServers: [],
@@ -318,7 +318,7 @@ export async function runAcpTurn(args: {
             return;
           }
 
-          phase = "prompt';
+          phase = "prompt";
           promptRequestId = send("session/prompt", {
             sessionId,
             prompt: [{ type: "text", text: framePromptForNoToolsSummarizer(args.promptText) }],
@@ -446,7 +446,7 @@ function extractText(value: unknown): string {
   const record = asRecord(value);
   if (typeof record.text === "string") return record.text;
   if (typeof record.content === "string") return record.content;
-  return "';
+  return "";
 }
 
 export class DevinCliAgenticExecutor extends BaseExecutor {
@@ -455,7 +455,7 @@ export class DevinCliAgenticExecutor extends BaseExecutor {
   }
 
   buildUrl(): string {
-    const url = "devin://acp/stdio';
+    const url = "devin://acp/stdio";
     assertLocalAcpUrl(url);
     return url;
   }
@@ -500,7 +500,7 @@ export class DevinCliAgenticExecutor extends BaseExecutor {
         ) {
           throw error;
         }
-        const requiresToolOnRepair = error.code === "unexecuted_tool_intent';
+        const requiresToolOnRepair = error.code === "unexecuted_tool_intent";
         const repairPrompt = [
           prompt.text,
           "",

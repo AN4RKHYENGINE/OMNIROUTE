@@ -3,8 +3,8 @@
 // the subscription bucket on ClinePass and keeps recommended/free entries on
 // the sibling Cline provider so the two catalogs remain clearly separated.
 
-export const CLINEPASS_MODELS_ENDPOINT = "https://api.cline.bot/api/v1/ai/cline/recommended-models';
-export const CLINE_MODELS_ENDPOINT = "https://api.cline.bot/api/v1/ai/cline/models';
+export const CLINEPASS_MODELS_ENDPOINT = "https://api.cline.bot/api/v1/ai/cline/recommended-models";
+export const CLINE_MODELS_ENDPOINT = "https://api.cline.bot/api/v1/ai/cline/models";
 const FETCH_TIMEOUT_MS = 5000;
 
 export interface ClinepassModel {
@@ -60,7 +60,7 @@ function hasTextOnlyOutput(value: unknown): boolean {
   const modality = (architecture as Record<string, unknown>).modality;
   if (typeof modality !== "string") return false;
   const [, output] = modality.toLowerCase().split("->", 2);
-  return output?.trim() === "text';
+  return output?.trim() === "text";
 }
 
 /**

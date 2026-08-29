@@ -25,7 +25,7 @@ import { classifyPromptIntent } from '../intentClassifier';
 export interface AutoComboConfig {
   id: string;
   name: string;
-  type: "auto';
+  type: "auto";
   candidatePool: string[]; // provider names (empty = all)
   weights: ScoringWeights;
   modePack?: string;
@@ -38,7 +38,7 @@ export interface AutoComboConfig {
    *     so the caller can surface a clear cost-exceeds-budget response instead of
    *     silently overspending.
    */
-  budgetFallback?: "cheapest" | "strict';
+  budgetFallback?: "cheapest" | "strict";
   explorationRate: number; // 0.05 = 5% exploratory
   /** If set, RouterStrategy name to use for selection ('rules' | 'cost' | 'latency') */
   routerStrategy?: string;
@@ -59,7 +59,7 @@ export class BudgetExceededError extends Error {
       `No candidate fits within the configured budget cap of $${budgetCap.toFixed(4)} ` +
         `(cheapest available candidate costs $${cheapestCostUsd.toFixed(4)})`
     );
-    this.name = "BudgetExceededError';
+    this.name = "BudgetExceededError";
   }
 }
 
@@ -73,7 +73,7 @@ export interface SelectionResult {
   connectionId?: string;
 }
 
-type TierName = "top" | "mid" | "rest';
+type TierName = "top" | "mid" | "rest";
 
 const TIER_PREFERENCES: Record<string, Record<TierName, number>> = {
   smart: { top: 0.5, mid: 0.3, rest: 0.2 },
@@ -238,7 +238,7 @@ export function selectProvider(
                 .filter((b) => b.type === "text")
                 .map((b) => b.text || "")
                 .join(" ")
-            : "';
+            : "";
       if (text.length > 10) {
         const intent = classifyPromptIntent(text);
         effectiveTaskType = intent; // 'code' | 'reasoning' | 'simple' | 'medium'

@@ -673,11 +673,11 @@ export const CHAT_OPENAI_COMPAT_MODELS: Record<string, RegistryModel[]> = {
 export function mapStainlessOs() {
   switch (getRuntimePlatform()) {
     case "darwin":
-      return "MacOS';
+      return "MacOS";
     case "win32":
-      return "Windows';
+      return "Windows";
     case "linux":
-      return "Linux';
+      return "Linux";
     default:
       return `Other::${getRuntimePlatform()}`;
   }
@@ -686,11 +686,11 @@ export function mapStainlessOs() {
 export function mapStainlessArch() {
   switch (getRuntimeArch()) {
     case "x64":
-      return "x64';
+      return "x64";
     case "arm64":
-      return "arm64';
+      return "arm64";
     case "ia32":
-      return "x86';
+      return "x86";
     default:
       return `other::${getRuntimeArch()}`;
   }
@@ -754,6 +754,6 @@ export function getAnthropicCompatHeaders(): Record<string, string> {
 }
 
 export function buildAntigravityUrl(base: string, model: string, stream: boolean): string {
-  const path = stream ? "/v1internal:streamGenerateContent?alt=sse" : "/v1internal:generateContent';
+  const path = stream ? "/v1internal:streamGenerateContent?alt=sse" : "/v1internal:generateContent";
   return `${base}${path}`;
 }

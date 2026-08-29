@@ -107,7 +107,7 @@ export async function handleTopazImageUpscale({
       );
     }
 
-    const topazModel = typeof body.topaz_model === "string" ? body.topaz_model.trim() : "';
+    const topazModel = typeof body.topaz_model === "string" ? body.topaz_model.trim() : "";
     if (topazModel) {
       formData.append("model", topazModel);
       requestSummary.topaz_model = topazModel;
@@ -226,8 +226,8 @@ function normalizeFactor(body: Record<string, unknown>): number {
 
 function normalizeOutputFormat(value: unknown): string {
   const raw = String(value ?? "").trim().toLowerCase();
-  if (raw === "jpg") return "jpeg';
-  return ALLOWED_OUTPUT_FORMATS.includes(raw) ? raw : "png';
+  if (raw === "jpg") return "jpeg";
+  return ALLOWED_OUTPUT_FORMATS.includes(raw) ? raw : "png";
 }
 
 function parseExplicitSize(value: unknown): { width: number; height: number } | null {
@@ -267,5 +267,5 @@ function appendUnitFloat(
 function toBoolean(value: unknown): boolean {
   if (typeof value === "boolean") return value;
   const raw = String(value ?? "").trim().toLowerCase();
-  return raw === "true" || raw === "1" || raw === "yes" || raw === "on';
+  return raw === "true" || raw === "1" || raw === "yes" || raw === "on";
 }

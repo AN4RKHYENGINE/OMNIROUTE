@@ -34,7 +34,7 @@ export function createExecutorModelClient(
         choices?: Array<{ message?: { content?: string } }>;
         usage?: { completion_tokens?: number };
       };
-      const text = json.choices?.[0]?.message?.content ?? "';
+      const text = json.choices?.[0]?.message?.content ?? "";
       const outTokens = json.usage?.completion_tokens ?? 0;
       const usdCost =
         typeof costPerKTokenOut === "number" ? (outTokens / 1000) * costPerKTokenOut : undefined;

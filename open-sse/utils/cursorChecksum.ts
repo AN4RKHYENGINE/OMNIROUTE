@@ -67,8 +67,8 @@ export function generateCursorChecksum(machineId) {
   }
 
   // URL-safe base64 encode (without padding)
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-  let encoded = "';
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+  let encoded = "";
 
   for (let i = 0; i < byteArray.length; i += 3) {
     const a = byteArray[i];

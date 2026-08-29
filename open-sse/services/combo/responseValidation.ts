@@ -8,7 +8,7 @@
  * substring matching (no regex / no ReDoS) and a bounded dot-path resolver (no eval).
  */
 
-export type JsonPathCondition = "exists" | "nonEmpty" | "equals" | "notEquals';
+export type JsonPathCondition = "exists" | "nonEmpty" | "equals" | "notEquals";
 
 export interface JsonPathPredicate {
   path: string;
@@ -44,11 +44,11 @@ function snippet(value: string): string {
  */
 export function parseJsonPath(path: string): Array<string | number> {
   const tokens: Array<string | number> = [];
-  let buf = "';
+  let buf = "";
   const flush = () => {
     if (buf) {
       tokens.push(buf);
-      buf = "';
+      buf = "";
     }
   };
   for (let i = 0; i < path.length; i++) {
@@ -57,7 +57,7 @@ export function parseJsonPath(path: string): Array<string | number> {
       flush();
     } else if (ch === "[") {
       flush();
-      let inner = "';
+      let inner = "";
       i++;
       while (i < path.length && path[i] !== "]") {
         inner += path[i];
@@ -113,7 +113,7 @@ function checkCondition(value: unknown, condition: JsonPathCondition, expected: 
 
 /** Best-effort extraction of the assistant's text content from a chat/Responses body. */
 export function extractContentText(json: unknown): string {
-  if (!json || typeof json !== "object") return "';
+  if (!json || typeof json !== "object") return "";
   const obj = json as Record<string, unknown>;
 
   // Chat Completions: choices[].message.content (string or array of parts).
@@ -152,7 +152,7 @@ export function extractContentText(json: unknown): string {
     if (parts.length) return parts.join("");
   }
 
-  return "';
+  return "";
 }
 
 /**

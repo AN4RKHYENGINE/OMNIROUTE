@@ -12,7 +12,7 @@ import { formatSSE } from './stream.ts';
  * mergeChunksToResponse() below.
  */
 
-const DEFAULT_BYPASS_TEXT = "CLI Command Execution: Clear Terminal';
+const DEFAULT_BYPASS_TEXT = "CLI Command Execution: Clear Terminal";
 
 /** Build a complete (non-chunked) OpenAI chat-completion response object. */
 export function createOpenAIResponse(model, text = DEFAULT_BYPASS_TEXT) {
@@ -87,7 +87,7 @@ function buildClaudeContentBlocks(chunks) {
     if (chunk?.type === "content_block_delta" && typeof chunk.index === "number") {
       const current = blockMap.get(chunk.index) || { type: "text", text: "" };
       if (chunk.delta?.type === "text_delta") {
-        current.type = current.type || "text';
+        current.type = current.type || "text";
         current.text = `${current.text || ""}${chunk.delta.text || ""}`;
       }
       blockMap.set(chunk.index, current);

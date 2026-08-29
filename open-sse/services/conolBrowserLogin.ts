@@ -1,7 +1,7 @@
 import { CONOL_SESSION_COOKIE_NAME } from './conolAuth.ts';
 import { sanitizeErrorMessage } from '../utils/error.ts';
 
-const CONOL_HOME_URL = "https://conol.ai/home';
+const CONOL_HOME_URL = "https://conol.ai/home";
 const DEFAULT_LOGIN_TIMEOUT_MS = 300_000;
 const MIN_LOGIN_TIMEOUT_MS = 15_000;
 const MAX_LOGIN_TIMEOUT_MS = 600_000;
@@ -34,7 +34,7 @@ export function extractConolBrowserCredentials(
       candidate.name === CONOL_SESSION_COOKIE_NAME &&
       (!candidate.domain || candidate.domain === "conol.ai" || candidate.domain.endsWith(".conol.ai"))
   );
-  const value = session?.value?.trim() || "';
+  const value = session?.value?.trim() || "";
   if (!value || /[\r\n;]/.test(value)) return null;
   return { cookie: `${CONOL_SESSION_COOKIE_NAME}=${value}` };
 }

@@ -83,7 +83,7 @@ interface OutputItem {
   [key: string]: unknown;
 }
 
-export type ResponsesTerminalStatus = "completed" | "failed" | "incomplete';
+export type ResponsesTerminalStatus = "completed" | "failed" | "incomplete";
 
 export function bridgeToResponsesSSE(
   events: AsyncIterable<AdapterEvent>,
@@ -131,7 +131,7 @@ export function bridgeToResponsesSSE(
   const freeformPartialInput = (args: string): string => {
     if (!args.startsWith(FREEFORM_WRAP_PREFIX)) return args;
     const body = args.slice(FREEFORM_WRAP_PREFIX.length);
-    let out = "';
+    let out = "";
     for (let i = 0; i < body.length; i++) {
       const c = body[i];
       if (c === '"') break; // unescaped closing quote: value complete
@@ -139,9 +139,9 @@ export function bridgeToResponsesSSE(
         const n = body[i + 1];
         if (n === undefined) break; // escape split across chunks: wait for more
         i++;
-        if (n === "n") out += "\n';
-        else if (n === "t") out += "\t';
-        else if (n === "r") out += "\r';
+        if (n === "n") out += "\n";
+        else if (n === "t") out += "\t";
+        else if (n === "r") out += "\r";
         else if (n === "u") {
           const hex = body.slice(i + 1, i + 5);
           if (hex.length === 4 && /^[0-9a-fA-F]{4}$/.test(hex)) {
@@ -224,7 +224,7 @@ export function bridgeToResponsesSSE(
   });
 
   const heartbeatFrame = encoder.encode(
-    'event: response.heartbeat\ndata: {"type":"response.heartbeat"}\n\n'
+    "event: response.heartbeat\ndata: {"type":"response.heartbeat"}\n\n"
   );
   let stallTicks = 0;
   const stallSec = resolveStallTimeoutSec(options?.stallTimeoutSec);
@@ -244,7 +244,7 @@ export function bridgeToResponsesSSE(
   // suppressed text under hideThinkingSummary so the signed text still round-trips.
   let pendingSignature: string | undefined;
   let pendingRedacted: string[] = [];
-  let hiddenThinkingText = "';
+  let hiddenThinkingText = "";
   const takeReasoningEnvelope = (hiddenText?: string): string | undefined => {
     if (!pendingSignature && pendingRedacted.length === 0) return undefined;
     const envelope: ReasoningEnvelope = {};
@@ -259,7 +259,7 @@ export function bridgeToResponsesSSE(
   // must still round-trip — emit an envelope-only reasoning item (empty summary, no text leak).
   const flushHiddenReasoningEnvelope = () => {
     const encrypted = takeReasoningEnvelope(hiddenThinkingText || undefined);
-    hiddenThinkingText = "';
+    hiddenThinkingText = "";
     if (!encrypted) return;
     const itemId = `rs_${uuid()}`;
     const item = {
@@ -278,11 +278,11 @@ export function bridgeToResponsesSSE(
   // like native models — but the text still round-trips in a txt-only ocxr1 envelope so
   // preserveReasoningContentModels replay (GLM interleaved thinking) keeps working. Direct
   // encodeReasoningEnvelope: takeReasoningEnvelope's sig/red guard would drop txt-only.
-  let hiddenRawReasoningText = "';
+  let hiddenRawReasoningText = "";
   const flushHiddenRawReasoning = () => {
     if (!hiddenRawReasoningText) return;
     const encrypted = encodeReasoningEnvelope({ txt: hiddenRawReasoningText });
-    hiddenRawReasoningText = "';
+    hiddenRawReasoningText = "";
     const itemId = `rs_${uuid()}`;
     const item = {
       type: "reasoning",
@@ -297,7 +297,7 @@ export function bridgeToResponsesSSE(
   };
   // Full assistant text of a compaction turn (across message boundaries) — becomes the
   // synthetic compaction item's payload on done.
-  let compactionText = "';
+  let compactionText = "";
   let currentToolCall: {
     itemId: string;
     outputIndex: number;
@@ -413,7 +413,7 @@ export function bridgeToResponsesSSE(
     // Empty input (no-arg tools like computer_use get_app_state / list_apps) must serialize as
     // "{}", never "" — Codex echoes the call back as a function_call next turn, and JSON.parse("")
     // would 400 the whole session ("invalid JSON arguments"), poisoning all later turns.
-    const argsStr = currentToolCall.args || "{}';
+    const argsStr = currentToolCall.args || "{}";
     // Finalize streamed function-call arguments so Codex commits the call (incl. MCP / computer_use).
     if (!currentToolCall.freeform && !currentToolCall.toolSearch) {
       emit("response.function_call_arguments.done", {
@@ -764,7 +764,7 @@ export function bridgeToResponsesSSE(
                 // then stream only the unwrapped input suffix (never rewind on mode flips).
                 if (!FREEFORM_WRAP_PREFIX.startsWith(currentToolCall.args)) {
                   const full = freeformPartialInput(currentToolCall.args);
-                  const emitted = currentToolCall.inputEmitted ?? "';
+                  const emitted = currentToolCall.inputEmitted ?? "";
                   if (full.startsWith(emitted) && full.length > emitted.length) {
                     emit("response.custom_tool_call_input.delta", {
                       item_id: currentToolCall.itemId,
@@ -1086,18 +1086,18 @@ export function buildResponseJSON(
   let incompleteEvent: Extract<AdapterEvent, { type: "incomplete" }> | undefined;
   let endTurn: boolean | undefined;
   let stopReason: string | undefined;
-  let compactionText = "';
+  let compactionText = "";
 
-  let currentText = "';
+  let currentText = "";
   let currentTextPhase: CodexMessagePhase | undefined;
-  let currentSummaryReasoning = "';
-  let currentRawReasoning = "';
+  let currentSummaryReasoning = "";
+  let currentRawReasoning = "";
   // Opaque signed-reasoning round-trip (batch): see bridgeToResponsesSSE counterpart.
   let batchSignature: string | undefined;
   let batchRedacted: string[] = [];
-  let currentToolCallId = "';
-  let currentToolCallName = "';
-  let currentToolCallArgs = "';
+  let currentToolCallId = "";
+  let currentToolCallName = "";
+  let currentToolCallArgs = "";
   // Web-search citations awaiting the next assistant message (attached as url_citation annotations).
   let pendingWebSources: { url: string; title?: string }[] = [];
 
@@ -1137,7 +1137,7 @@ export function buildResponseJSON(
       content: [{ type: "output_text", text: currentText, annotations }],
       ...(currentTextPhase ? { phase: currentTextPhase } : {}),
     });
-    currentText = "';
+    currentText = "";
     currentTextPhase = undefined;
   };
   const flushSummaryReasoning = () => {
@@ -1153,7 +1153,7 @@ export function buildResponseJSON(
     batchSignature = undefined;
     batchRedacted = [];
     if (hidden && !encrypted) {
-      currentSummaryReasoning = "';
+      currentSummaryReasoning = "";
       return;
     }
     output.push({
@@ -1165,7 +1165,7 @@ export function buildResponseJSON(
           : [],
       ...(encrypted ? { encrypted_content: encrypted } : {}),
     });
-    currentSummaryReasoning = "';
+    currentSummaryReasoning = "";
   };
   const flushRawReasoning = () => {
     if (!currentRawReasoning) return;
@@ -1177,7 +1177,7 @@ export function buildResponseJSON(
         summary: [],
         encrypted_content: encodeReasoningEnvelope({ txt: currentRawReasoning }),
       });
-      currentRawReasoning = "';
+      currentRawReasoning = "";
       return;
     }
     output.push({
@@ -1186,7 +1186,7 @@ export function buildResponseJSON(
       summary: [],
       content: [{ type: "reasoning_text", text: currentRawReasoning }],
     });
-    currentRawReasoning = "';
+    currentRawReasoning = "";
   };
   const flushToolCall = () => {
     if (!currentToolCallId) return;
@@ -1224,9 +1224,9 @@ export function buildResponseJSON(
         ...(ns ? { namespace: ns } : {}),
       });
     }
-    currentToolCallId = "';
-    currentToolCallName = "';
-    currentToolCallArgs = "';
+    currentToolCallId = "";
+    currentToolCallName = "";
+    currentToolCallArgs = "";
   };
 
   for (const e of events) {
@@ -1278,7 +1278,7 @@ export function buildResponseJSON(
         flushToolCall();
         currentToolCallId = e.id;
         currentToolCallName = e.name;
-        currentToolCallArgs = "';
+        currentToolCallArgs = "";
         break;
       case "tool_call_delta":
         currentToolCallArgs += e.arguments;
@@ -1325,7 +1325,7 @@ export function buildResponseJSON(
         usage = e.usage;
         endTurn = e.endTurn;
         if (e.providerState) options?.onProviderState?.(e.providerState);
-        if (e.stopReason === "max_tokens") stopReason = "max_tokens';
+        if (e.stopReason === "max_tokens") stopReason = "max_tokens";
         break;
     }
   }
@@ -1348,7 +1348,7 @@ export function buildResponseJSON(
     ? "failed"
     : incompleteEvent || stopReason === "max_tokens"
       ? "incomplete"
-      : "completed';
+      : "completed";
   return {
     id: responseId,
     object: "response",

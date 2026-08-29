@@ -22,10 +22,10 @@ import { extractCodeAssistOnboardTierId } from './codeAssistSubscription.ts';
 import type { AntigravityClientProfile } from './antigravityClientProfile.ts';
 import { ANTIGRAVITY_BOOTSTRAP_BASE_URLS, getAntigravityOnboardUrls } from '../config/antigravityUpstream.ts';
 
-const LOAD_CODE_ASSIST_PATH = "/v1internal:loadCodeAssist';
+const LOAD_CODE_ASSIST_PATH = "/v1internal:loadCodeAssist";
 const BOOTSTRAP_TIMEOUT_MS = 8_000;
 const ONBOARD_TIMEOUT_MS = 15_000;
-const DEFAULT_TIER_ID = "legacy-tier';
+const DEFAULT_TIER_ID = "legacy-tier";
 
 /** Ordered list of loadCodeAssist endpoint URLs. */
 export function getAntigravityLoadCodeAssistUrls(): string[] {
@@ -100,7 +100,7 @@ async function tryLoadCodeAssist(
               typeof raw === "object" &&
               typeof (raw as Record<string, unknown>).id === "string"
             ? ((raw as Record<string, unknown>).id as string).trim()
-            : "';
+            : "";
 
       const tierId = extractCodeAssistOnboardTierId(data) || DEFAULT_TIER_ID;
 

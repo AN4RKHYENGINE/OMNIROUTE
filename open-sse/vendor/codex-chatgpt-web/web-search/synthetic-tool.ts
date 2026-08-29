@@ -2,7 +2,7 @@
 import type { CodexTool } from '../types';
 
 /** The function name the chat model sees + the name the loop intercepts. */
-export const WEB_SEARCH_TOOL_NAME = "web_search';
+export const WEB_SEARCH_TOOL_NAME = "web_search";
 
 /**
  * Find the hosted `{type:"web_search", ...}` entry in a Responses request's `tools[]` and return it

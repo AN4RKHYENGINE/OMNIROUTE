@@ -28,19 +28,19 @@ import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
 import { buildErrorBody, sanitizeErrorMessage } from '../utils/error.ts';
 import { extractCookieValue, stripCookieInputPrefix } from '@/lib/providers/webCookieAuth';
 
-const YUANBAO_BASE = "https://yuanbao.tencent.com';
+const YUANBAO_BASE = "https://yuanbao.tencent.com";
 const CREATE_URL = `${YUANBAO_BASE}/api/user/agent/conversation/create`;
 const CHAT_URL = `${YUANBAO_BASE}/api/chat`;
 
 // Public default DeepSeek agent id used by the Yuanbao web app. Not a secret —
 // it is the shared consumer agent every logged-in session addresses by default.
-const DEFAULT_AGENT_ID = "naQivTmsDa';
+const DEFAULT_AGENT_ID = "naQivTmsDa";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
-  "(KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36';
+  "(KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36";
 
-const DEFAULT_MODEL = "deepseek-v3';
+const DEFAULT_MODEL = "deepseek-v3";
 
 // OmniRoute model id -> Yuanbao internal chatModelId + optional supportFunctions.
 const MODEL_MAP: Record<string, { chatModelId: string; supportFunctions?: string[] }> = {
@@ -77,12 +77,12 @@ function extractText(content: unknown): string {
   if (!Array.isArray(content)) return String(content ?? "");
   return content
     .map((part: unknown) => {
-      if (!part || typeof part !== "object") return "';
+      if (!part || typeof part !== "object") return "";
       const item = part as Record<string, unknown>;
       if ((item.type === "text" || item.type === "input_text") && typeof item.text === "string") {
         return item.text;
       }
-      return "';
+      return "";
     })
     .filter((p: string) => p.length > 0)
     .join("\n");
@@ -97,7 +97,7 @@ function buildPrompt(messages: Array<Record<string, unknown>>): string {
     if (!text) continue;
     parts.push({ role, content: text });
   }
-  if (parts.length === 0) return "';
+  if (parts.length === 0) return "";
   if (parts.length === 1) return parts[0].content;
   // Multi-turn: label each turn (matches the reference chat2api formatting).
   return parts.map((p) => `#[${p.role.trim()}]\n${p.content}`).join("\n\n");
@@ -132,7 +132,7 @@ async function readUpstreamErrorDetails(response: Response): Promise<{
   message: string | null;
   details: unknown;
 }> {
-  const contentType = response.headers.get("content-type") || "';
+  const contentType = response.headers.get("content-type") || "";
   const text = await response.text().catch(() => "");
   if (!text) return { message: null, details: null };
 
@@ -242,9 +242,9 @@ export class YuanbaoWebExecutor extends BaseExecutor {
         if (status === 401 || status === 403) {
           message =
             "Yuanbao auth failed — your hy_user/hy_token cookies may be missing or expired. " +
-            "Log in to yuanbao.tencent.com and re-paste your Cookie header.';
+            "Log in to yuanbao.tencent.com and re-paste your Cookie header.";
         } else if (status === 429) {
-          message = "Yuanbao rate limited. Wait a moment and retry.';
+          message = "Yuanbao rate limited. Wait a moment and retry.";
         }
         if (upstreamError.message) message = `${message}: ${upstreamError.message}`;
         return this.errorResponse(status, message, CREATE_URL, upstreamError.details);
@@ -322,9 +322,9 @@ export class YuanbaoWebExecutor extends BaseExecutor {
       const upstreamError = await readUpstreamErrorDetails(upstreamResponse);
       let message = `Yuanbao returned HTTP ${status}`;
       if (status === 401 || status === 403) {
-        message = "Yuanbao auth failed — session cookie may be expired.';
+        message = "Yuanbao auth failed — session cookie may be expired.";
       } else if (status === 429) {
-        message = "Yuanbao rate limited. Wait a moment and retry.';
+        message = "Yuanbao rate limited. Wait a moment and retry.";
       }
       if (upstreamError.message) message = `${message}: ${upstreamError.message}`;
       return this.errorResponse(status, message, messageUrl, upstreamError.details);
@@ -420,7 +420,7 @@ function transformYuanbaoStream(
   return new ReadableStream({
     async start(controller) {
       const reader = upstream.getReader();
-      let buffer = "';
+      let buffer = "";
 
       const emit = (delta: object, finish?: string | null) => {
         controller.enqueue(
@@ -450,7 +450,7 @@ function transformYuanbaoStream(
           if (done) break;
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split("\n");
-          buffer = lines.pop() ?? "';
+          buffer = lines.pop() ?? "";
           for (const line of lines) {
             const event = parseYuanbaoDataLine(line);
             if (!event) continue;
@@ -485,9 +485,9 @@ async function collectYuanbaoResponse(
 ): Promise<{ content: string; reasoning: string }> {
   const decoder = new TextDecoder();
   const reader = upstream.getReader();
-  let buffer = "';
-  let content = "';
-  let reasoning = "';
+  let buffer = "";
+  let content = "";
+  let reasoning = "";
 
   try {
     while (true) {
@@ -496,7 +496,7 @@ async function collectYuanbaoResponse(
       if (done) break;
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split("\n");
-      buffer = lines.pop() ?? "';
+      buffer = lines.pop() ?? "";
       for (const line of lines) {
         const event = parseYuanbaoDataLine(line);
         if (!event) continue;

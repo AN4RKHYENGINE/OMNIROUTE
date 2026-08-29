@@ -17,9 +17,9 @@ export type Phase =
   | "output_review"
   | "done"
   | "failed"
-  | "paused';
-export type RiskLevel = "low" | "medium" | "high';
-export type Verdict = "approve" | "approve_with_notes" | "request_changes" | "reject" | "block';
+  | "paused";
+export type RiskLevel = "low" | "medium" | "high";
+export type Verdict = "approve" | "approve_with_notes" | "request_changes" | "reject" | "block";
 
 export interface PhaseRecord {
   phase: Phase;
@@ -82,9 +82,9 @@ const MED_KEYWORDS = [
 
 export function classifyRisk(desc: string): RiskLevel {
   const l = desc.toLowerCase();
-  if (HIGH_KEYWORDS.some((k) => l.includes(k))) return "high';
-  if (MED_KEYWORDS.some((k) => l.includes(k))) return "medium';
-  return "low';
+  if (HIGH_KEYWORDS.some((k) => l.includes(k))) return "high";
+  if (MED_KEYWORDS.some((k) => l.includes(k))) return "medium";
+  return "low";
 }
 
 const PHASE_ORDER: Phase[] = [
@@ -299,7 +299,7 @@ export function advance(
 }
 
 export function pause(ctx: WorkflowContext, reason: string): void {
-  ctx.currentPhase = "paused';
+  ctx.currentPhase = "paused";
   ctx.history.push({
     phase: "paused",
     enteredAt: new Date().toISOString(),
@@ -329,7 +329,7 @@ export function resume(ctx: WorkflowContext, phase: Phase): void {
 }
 
 export function isTerminated(ctx: WorkflowContext): boolean {
-  return ctx.currentPhase === "done" || ctx.currentPhase === "failed';
+  return ctx.currentPhase === "done" || ctx.currentPhase === "failed";
 }
 export function getPhaseSequence(ctx: WorkflowContext): Phase[] {
   return ctx.history.map((r) => r.phase);

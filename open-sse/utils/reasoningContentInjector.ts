@@ -15,7 +15,7 @@
 
 import { requiresReasoningReplay } from '../services/reasoningCache.ts';
 
-const PLACEHOLDER = " ';
+const PLACEHOLDER = " ";
 
 type JsonRecord = Record<string, unknown>;
 

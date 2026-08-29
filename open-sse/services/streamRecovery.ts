@@ -23,7 +23,7 @@ export { ThroughputWatchdogError } from './throughputWatchdog.ts';
 export class TruncatedStreamError extends Error {
   constructor(message = "Provider stream ended without a terminal marker") {
     super(message);
-    this.name = "TruncatedStreamError';
+    this.name = "TruncatedStreamError";
   }
 }
 
@@ -157,8 +157,8 @@ export function isRetryableStreamError(error: unknown): boolean {
 
 // Terminal SSE markers OmniRoute emits across formats: OpenAI `data: [DONE]`,
 // Anthropic `event: message_stop`. Presence means the stream ended cleanly.
-const OPENAI_DONE_MARKER = "[DONE]';
-const ANTHROPIC_STOP_MARKER = "message_stop';
+const OPENAI_DONE_MARKER = "[DONE]";
+const ANTHROPIC_STOP_MARKER = "message_stop";
 
 /**
  * Heuristic check for a terminal SSE marker in the buffered opening window. Used to
@@ -197,7 +197,7 @@ export interface OpenAiSseScan {
  * to `parsedOpenAi:false` with empty text, so the caller falls back to current behavior.
  */
 export function scanOpenAiSseText(sse: string): OpenAiSseScan {
-  let text = "';
+  let text = "";
   let sawToolCall = false;
   let terminal = false;
   let parsedOpenAi = false;
@@ -268,7 +268,7 @@ export function makeContinuationBody(
  * already produced). Bounded to a 512-char seam so it stays O(n) on large outputs.
  */
 export function trimContinuationOverlap(emitted: string, continuation: string): string {
-  if (!continuation) return "';
+  if (!continuation) return "";
   if (!emitted) return continuation;
   const max = Math.min(emitted.length, continuation.length, 512);
   for (let k = max; k > 0; k--) {
@@ -361,7 +361,7 @@ export function createRecoverableStream(
   };
 
   // ── Mid-stream continuation state (no-op unless options.continueStream is set) ──
-  const continueEnabled = typeof options.continueStream === "function';
+  const continueEnabled = typeof options.continueStream === "function";
   const maxContinuations = options.maxContinuations ?? STREAM_RECOVERY.EARLY_RETRY_MAX;
   const encoder = new TextEncoder();
   const trackDecoder = new TextDecoder();
@@ -435,7 +435,7 @@ export function createRecoverableStream(
     // streaming of the recovered tail), then emit only the de-duplicated suffix.
     const contReader = contStream.getReader();
     const contDecoder = new TextDecoder();
-    let raw = "';
+    let raw = "";
     for (;;) {
       let r: ReadableStreamReadResult<Uint8Array>;
       try {

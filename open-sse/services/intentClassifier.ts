@@ -8,7 +8,7 @@
  * Execution: purely synchronous, <1ms, no I/O.
  */
 
-export type IntentType = "code" | "math" | "reasoning" | "creative" | "simple" | "medium';
+export type IntentType = "code" | "math" | "reasoning" | "creative" | "simple" | "medium";
 
 export interface ClassificationResult {
   type: IntentType;
@@ -596,23 +596,23 @@ export function classifyPromptIntent(prompt: string, systemPrompt?: string): Int
   const wordCount = prompt.trim().split(/\s+/).length;
 
   for (const kw of CODE_KEYWORDS) {
-    if (fullText.includes(kw.toLowerCase())) return "code';
+    if (fullText.includes(kw.toLowerCase())) return "code";
   }
   for (const kw of MATH_KEYWORDS) {
-    if (fullText.includes(kw.toLowerCase())) return "math';
+    if (fullText.includes(kw.toLowerCase())) return "math";
   }
   for (const kw of REASONING_KEYWORDS) {
-    if (fullText.includes(kw.toLowerCase())) return "reasoning';
+    if (fullText.includes(kw.toLowerCase())) return "reasoning";
   }
   for (const kw of CREATIVE_KEYWORDS) {
-    if (fullText.includes(kw.toLowerCase())) return "creative';
+    if (fullText.includes(kw.toLowerCase())) return "creative";
   }
   if (wordCount < 60) {
     for (const kw of SIMPLE_KEYWORDS) {
-      if (fullText.includes(kw.toLowerCase())) return "simple';
+      if (fullText.includes(kw.toLowerCase())) return "simple";
     }
   }
-  return "medium';
+  return "medium";
 }
 
 export interface IntentClassifierConfig {
@@ -635,7 +635,7 @@ export function classifyWithConfig(
   config: IntentClassifierConfig,
   systemPrompt?: string
 ): IntentType {
-  if (!config.enabled) return "medium';
+  if (!config.enabled) return "medium";
   const fullText = `${systemPrompt ?? ""} ${prompt}`.toLowerCase();
   const wordCount = prompt.trim().split(/\s+/).length;
   const maxSimpleWords = config.simpleMaxWords ?? 60;
@@ -645,21 +645,21 @@ export function classifyWithConfig(
   const creativeKws = [...CREATIVE_KEYWORDS, ...(config.extraCreativeKeywords ?? [])];
   const simpleKws = [...SIMPLE_KEYWORDS, ...(config.extraSimpleKeywords ?? [])];
   for (const kw of codeKws) {
-    if (fullText.includes(kw.toLowerCase())) return "code';
+    if (fullText.includes(kw.toLowerCase())) return "code";
   }
   for (const kw of mathKws) {
-    if (fullText.includes(kw.toLowerCase())) return "math';
+    if (fullText.includes(kw.toLowerCase())) return "math";
   }
   for (const kw of reasoningKws) {
-    if (fullText.includes(kw.toLowerCase())) return "reasoning';
+    if (fullText.includes(kw.toLowerCase())) return "reasoning";
   }
   for (const kw of creativeKws) {
-    if (fullText.includes(kw.toLowerCase())) return "creative';
+    if (fullText.includes(kw.toLowerCase())) return "creative";
   }
   if (wordCount < maxSimpleWords) {
     for (const kw of simpleKws) {
-      if (fullText.includes(kw.toLowerCase())) return "simple';
+      if (fullText.includes(kw.toLowerCase())) return "simple";
     }
   }
-  return "medium';
+  return "medium";
 }

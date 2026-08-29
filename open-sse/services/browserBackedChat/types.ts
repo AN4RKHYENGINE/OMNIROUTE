@@ -37,7 +37,7 @@ export interface BrowserBackedChatRequest {
    * Use a DOM click when an animated overlay makes coordinate-based
    * actionability unreliable even though the provider button is enabled.
    */
-  submitButtonMode?: "playwright" | "dom';
+  submitButtonMode?: "playwright" | "dom";
   /**
    * Optional in-memory files to attach through the provider page's native
    * upload input before submission.
