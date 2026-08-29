@@ -1,17 +1,17 @@
-import { createHash } from 'crypto';
+import { createHash } from "crypto";
 
 import {
   acquireBrowserContext,
   openPage,
   type BrowserPoolContextOptions,
   type PooledContext,
-} from '../../services/browserPool.ts';
-import type { ClaudeWebRequestPayload } from './payload.ts';
+} from "../../services/browserPool.ts";
+import type { ClaudeWebRequestPayload } from "./payload.ts";
 
 const CLAUDE_WEB_TEMPLATE_TTL_MS = 30 * 60 * 1000;
 const CLAUDE_WEB_TEMPLATE_MAX = 5000;
 const MAX_CLAUDE_WEB_BROWSER_RESPONSE_BYTES = 16 * 1024 * 1024;
-const CLAUDE_WEB_INPUT_SELECTOR = "div[contenteditable='true"]";
+const CLAUDE_WEB_INPUT_SELECTOR = "div[contenteditable='true']";
 
 type Page = import("playwright").Page;
 
