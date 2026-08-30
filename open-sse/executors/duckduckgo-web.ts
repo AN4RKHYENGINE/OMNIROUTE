@@ -1,13 +1,13 @@
-import { Buffer } from 'node:buffer';
-import { generateKeyPairSync, randomUUID } from 'node:crypto';
-import vm from 'node:vm';
-import { solveDuckDuckGoChallenge, makeDuckDuckGoFeSignals } from './duckduckgo-web/challenge.ts';
-import { BaseExecutor, type ExecuteInput } from './base.ts';
-import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
-import { prepareToolMessages, buildToolAwareResult } from '../translator/webTools.ts';
-import type { Session } from '../services/sessionPool/session.ts';
-import { tryBackedChat } from '../services/browserBackedChat.ts';
-import { sanitizeErrorMessage } from '../utils/error.ts';
+import { Buffer } from "node:buffer";
+import { generateKeyPairSync, randomUUID } from "node:crypto";
+import vm from "node:vm";
+import { solveDuckDuckGoChallenge, makeDuckDuckGoFeSignals } from "./duckduckgo-web/challenge.ts";
+import { BaseExecutor, type ExecuteInput } from "./base.ts";
+import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
+import { prepareToolMessages, buildToolAwareResult } from "../translator/webTools.ts";
+import type { Session } from "../services/sessionPool/session.ts";
+import { tryBackedChat } from "../services/browserBackedChat.ts";
+import { sanitizeErrorMessage } from "../utils/error.ts";
 
 // Issue #6999: Lightweight circuit breaker for the DuckDuckGo executor.
 // After CB_THRESHOLD consecutive failures (429, 5xx, or network errors),
@@ -92,9 +92,9 @@ export const FAKE_HEADERS: Record<string, string> = {
   Pragma: "no-cache",
   Referer: `${DUCKDUCKGO_BASE}/`,
   Priority: "u=1, i",
-  "Sec-Ch-Ua": '"Chromium";v="149", "Not-A.Brand";v="24", "Google Chrome";v="149"",
+  "Sec-Ch-Ua": '"Chromium";v="149", "Not-A.Brand";v="24", "Google Chrome";v="149"',
   "Sec-Ch-Ua-Mobile": "?0",
-  "Sec-Ch-Ua-Platform": '"Linux"",
+  "Sec-Ch-Ua-Platform": '"Linux"',
   "Sec-Fetch-Dest": "empty",
   "Sec-Fetch-Mode": "cors",
   "Sec-Fetch-Site": "same-origin",

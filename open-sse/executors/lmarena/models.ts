@@ -24,9 +24,9 @@ export function buildLmarenaBrowserHeaders(extra?: Record<string, string>): Reco
     Pragma: "no-cache",
     Origin: LMARENA_API_BASE,
     Referer: `${LMARENA_API_BASE}/`,
-    "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"",
+    "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"',
     "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"",
+    "Sec-Ch-Ua-Platform": '"Windows"',
     "Sec-Fetch-Dest": "empty",
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-origin",
@@ -228,15 +228,15 @@ export function pickLMArenaModelId(model: string, models: LMArenaModelMetadata[]
 }
 
 export function parseLMArenaInitialModels(html: string): LMArenaModelMetadata[] {
-  const escapedMarker = "\\"initialModels\\":[";
-  const plainMarker = ""initialModels":[";
+  const escapedMarker = '\\"initialModels\\":[';
+  const plainMarker = "initialModels:[";
   const marker = html.includes(escapedMarker) ? escapedMarker : plainMarker;
   const markerIndex = html.indexOf(marker);
   if (markerIndex < 0) return [];
 
   const arrayStart = markerIndex + marker.length - 1;
-  const escapedEnd = "],\\"initialModelAId\\"";
-  const plainEnd = "],"initialModelAId"";
+  const escapedEnd = `],\\"initialModelAId\\"`;
+  const plainEnd = `],"initialModelAId"`;
   const arrayEnd = html.indexOf(escapedEnd, arrayStart);
   const fallbackEnd = html.indexOf(plainEnd, arrayStart);
   const endIndex = arrayEnd >= 0 ? arrayEnd : fallbackEnd;

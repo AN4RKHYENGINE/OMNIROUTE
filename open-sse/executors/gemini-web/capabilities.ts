@@ -101,7 +101,7 @@ export function checkGeminiWebUnsupportedControls(
         'Model provider "gemini-web" does not support "reasoning_effort". It drives the ' +
         "gemini.google.com web UI through a typed prompt and has no thinking-budget control " +
         'to set, so any effort above "minimal" would be silently ignored. Remove ' +
-        '"reasoning_effort" (or send "none"/"minimal") or route to a reasoning-capable model.",
+        '"reasoning_effort" (or send "none"/"minimal") or route to a reasoning-capable model.',
     };
   }
 

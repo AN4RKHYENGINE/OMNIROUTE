@@ -18,21 +18,21 @@ import {
   mergeAbortSignals,
   type ExecuteInput,
   type ExecutorLog,
-} from './base.ts';
-import { FETCH_TIMEOUT_MS } from '../config/constants.ts';
-import { buildGrokCookieHeader } from '@/lib/providers/webCookieAuth';
+} from "./base.ts";
+import { FETCH_TIMEOUT_MS } from "../config/constants.ts";
+import { buildGrokCookieHeader } from "@/lib/providers/webCookieAuth";
 import {
   tlsFetchGrok,
   TlsClientUnavailableError,
   isCloudflareChallenge,
   type TlsFetchResult,
-} from '../services/grokTlsClient.ts';
-import { sanitizeErrorMessage } from '../utils/error.ts';
+} from "../services/grokTlsClient.ts";
+import { sanitizeErrorMessage } from "../utils/error.ts";
 import {
   shouldUseGrokBrowserBacked,
   acquireFreshGrokClearance,
-} from '../services/grokClearance.ts';
-import type { GrokStreamEvent } from './grok-web/types.ts';
+} from "../services/grokClearance.ts";
+import type { GrokStreamEvent } from "./grok-web/types.ts";
 import {
   type OpenAIToolCall,
   type GrokToolRegistry,
@@ -40,14 +40,14 @@ import {
   buildGrokMessage,
   parseClientToolCallMarkup,
   hasOpenToolCallMarkup,
-} from './grok-web/tool-bridge.ts';
-import { mapGrokNativeToolToOpenAI } from './grok-web/native-tools.ts';
+} from "./grok-web/tool-bridge.ts";
+import { mapGrokNativeToolToOpenAI } from "./grok-web/native-tools.ts";
 import {
   GrokMarkupFilter,
   cleanGrokContentText,
   cleanGrokThinkingText,
   extractStructuredReasoning,
-} from './grok-web/text-cleanup.ts';
+} from "./grok-web/text-cleanup.ts";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
@@ -685,7 +685,7 @@ export function classifyGrokNullBodyError(
       code: "cf_mitigated_challenge",
       message:
         "Grok returned a Cloudflare bot-management challenge instead of a real response. " +
-        "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from ' +
+        "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from " +
         "a datacenter/sandbox egress. Probe from a residential IP, or use the official xAI API " +
         "(provider: 'grok') instead.",
     };
@@ -908,9 +908,9 @@ export class GrokWebExecutor extends BaseExecutor {
       Origin: "https://grok.com",
       Pragma: "no-cache",
       Referer: "https://grok.com/",
-      "Sec-Ch-Ua": '"Google Chrome";v="149", "Chromium";v="149", "Not(A:Brand";v="24"",
+      "Sec-Ch-Ua": '"Google Chrome";v="149", "Chromium";v="149", "Not(A:Brand";v="24"',
       "Sec-Ch-Ua-Mobile": "?0",
-      "Sec-Ch-Ua-Platform": '"macOS"",
+      "Sec-Ch-Ua-Platform": '"macOS"',
       "Sec-Fetch-Dest": "empty",
       "Sec-Fetch-Mode": "cors",
       "Sec-Fetch-Site": "same-origin",

@@ -1,10 +1,358 @@
-
-> omniroute@3.8.50 build
-> node scripts/build/build-next-isolated.mjs
-
-▲ Next.js 16.3.1 (webpack)
-- Environments: .env.local, .env
-✓ Running next.config.mjs took 79ms
-
-  Creating an optimized production build ...
-Next.js build worker exited with code: null and signal: SIGKILL
+build-and-deploy	Set up job	﻿2026-08-29T23:32:27.9390490Z Current runner version: '2.336.0'
+build-and-deploy	Set up job	2026-08-29T23:32:27.9418585Z ##[group]Runner Image Provisioner
+build-and-deploy	Set up job	2026-08-29T23:32:27.9419601Z Hosted Compute Agent
+build-and-deploy	Set up job	2026-08-29T23:32:27.9420278Z Version: 20260819.586
+build-and-deploy	Set up job	2026-08-29T23:32:27.9420987Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+build-and-deploy	Set up job	2026-08-29T23:32:27.9421772Z Build Date: 2026-08-18T23:20:18Z
+build-and-deploy	Set up job	2026-08-29T23:32:27.9422567Z Worker ID: {0ef7286b-c602-4fff-adf6-c00bcfbe9690}
+build-and-deploy	Set up job	2026-08-29T23:32:27.9423351Z Azure Region: westus
+build-and-deploy	Set up job	2026-08-29T23:32:27.9423964Z ##[endgroup]
+build-and-deploy	Set up job	2026-08-29T23:32:27.9425989Z ##[group]Operating System
+build-and-deploy	Set up job	2026-08-29T23:32:27.9426707Z Ubuntu
+build-and-deploy	Set up job	2026-08-29T23:32:27.9427347Z 24.04.4
+build-and-deploy	Set up job	2026-08-29T23:32:27.9427918Z LTS
+build-and-deploy	Set up job	2026-08-29T23:32:27.9428489Z ##[endgroup]
+build-and-deploy	Set up job	2026-08-29T23:32:27.9429092Z ##[group]Runner Image
+build-and-deploy	Set up job	2026-08-29T23:32:27.9429704Z Image: ubuntu-24.04
+build-and-deploy	Set up job	2026-08-29T23:32:27.9430811Z Version: 20260823.283.1
+build-and-deploy	Set up job	2026-08-29T23:32:27.9431917Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
+build-and-deploy	Set up job	2026-08-29T23:32:27.9433790Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
+build-and-deploy	Set up job	2026-08-29T23:32:27.9435100Z ##[endgroup]
+build-and-deploy	Set up job	2026-08-29T23:32:27.9436481Z ##[group]GITHUB_TOKEN Permissions
+build-and-deploy	Set up job	2026-08-29T23:32:27.9438794Z Contents: read
+build-and-deploy	Set up job	2026-08-29T23:32:27.9439545Z Metadata: read
+build-and-deploy	Set up job	2026-08-29T23:32:27.9440144Z Packages: read
+build-and-deploy	Set up job	2026-08-29T23:32:27.9440836Z ##[endgroup]
+build-and-deploy	Set up job	2026-08-29T23:32:27.9443133Z Secret source: Actions
+build-and-deploy	Set up job	2026-08-29T23:32:27.9444684Z Prepare workflow directory
+build-and-deploy	Set up job	2026-08-29T23:32:27.9855535Z Prepare all required actions
+build-and-deploy	Set up job	2026-08-29T23:32:27.9921304Z Getting action download info
+build-and-deploy	Set up job	2026-08-29T23:32:28.3316249Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build-and-deploy	Set up job	2026-08-29T23:32:28.4944410Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build-and-deploy	Set up job	2026-08-29T23:32:28.6233355Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build-and-deploy	Set up job	2026-08-29T23:32:28.8838920Z Complete job name: build-and-deploy
+build-and-deploy	Run actions/checkout@v4	﻿2026-08-29T23:32:28.9654259Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9663322Z ##[group]Run actions/checkout@v4
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9664438Z with:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9664953Z   repository: AN4RKHYENGINE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9668789Z   token: ***
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9669245Z   ssh-strict: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9669700Z   ssh-user: git
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9670148Z   persist-credentials: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9670650Z   clean: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9671109Z   sparse-checkout-cone-mode: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9671667Z   fetch-depth: 1
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9672103Z   fetch-tags: false
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9672545Z   show-progress: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9673024Z   lfs: false
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9673440Z   submodules: false
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9673940Z   set-safe-directory: true
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9674637Z   allow-unsafe-pr-checkout: false
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:28.9675495Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0762491Z Syncing repository: AN4RKHYENGINE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0765701Z ##[group]Getting Git version info
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0766934Z Working directory is '/home/runner/work/OMNIROUTE/OMNIROUTE'
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0768693Z [command]/usr/bin/git version
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0831689Z git version 2.55.0
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0857197Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0874737Z Temporarily overriding HOME='/home/runner/work/_temp/0a12af5e-c984-48e5-ab42-b5db3e23b8db' before making global git config changes
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0877371Z Adding repository directory to the temporary git global config as a safe directory
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0885657Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/OMNIROUTE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0963706Z Deleting the contents of '/home/runner/work/OMNIROUTE/OMNIROUTE'
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0971838Z ##[group]Initializing the repository
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.0975538Z [command]/usr/bin/git init /home/runner/work/OMNIROUTE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1088224Z hint: Using 'master' as the name for the initial branch. This default branch name
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1090137Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1094496Z hint: to use in all of your new repositories, which will suppress this warning,
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1096415Z hint: call:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1097614Z hint:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1098872Z hint: 	git config --global init.defaultBranch <name>
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1100176Z hint:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1101408Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1103426Z hint: 'development'. The just-created branch can be renamed via this command:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1105414Z hint:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1106599Z hint: 	git branch -m <name>
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1107798Z hint:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1109106Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1111173Z Initialized empty Git repository in /home/runner/work/OMNIROUTE/OMNIROUTE/.git/
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1115187Z [command]/usr/bin/git remote add origin https://github.com/AN4RKHYENGINE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1168369Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1169729Z ##[group]Disabling automatic garbage collection
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1172539Z [command]/usr/bin/git config --local gc.auto 0
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1218250Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1219493Z ##[group]Setting up auth
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1220590Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1256523Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1678961Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1721842Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.1959942Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.2001165Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.2241523Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.2286319Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.2287382Z ##[group]Fetching the repository
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:29.2296399Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +64f8a3e80eb062e1132a5319813754763e337d58:refs/remotes/origin/main
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9101608Z From https://github.com/AN4RKHYENGINE/OMNIROUTE
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9102636Z  * [new ref]         64f8a3e80eb062e1132a5319813754763e337d58 -> origin/main
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9108135Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9109150Z ##[group]Determining the checkout info
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9111287Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9118042Z [command]/usr/bin/git sparse-checkout disable
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9175647Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9212653Z ##[group]Checking out the ref
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:32.9218011Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:33.9031594Z Switched to a new branch 'main'
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:33.9035998Z branch 'main' set up to track 'origin/main'.
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:33.9062586Z ##[endgroup]
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:33.9109999Z [command]/usr/bin/git log -1 --format=%H
+build-and-deploy	Run actions/checkout@v4	2026-08-29T23:32:33.9138943Z 64f8a3e80eb062e1132a5319813754763e337d58
+build-and-deploy	Setup Node.js	﻿2026-08-29T23:32:33.9424952Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9427010Z ##[group]Run actions/setup-node@v4
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9427333Z with:
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9427570Z   node-version: 24
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9427819Z   cache: npm
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9428070Z   always-auth: false
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9428336Z   check-latest: false
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9430965Z   token: ***
+build-and-deploy	Setup Node.js	2026-08-29T23:32:33.9431221Z ##[endgroup]
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.1030721Z Found in cache @ /opt/hostedtoolcache/node/24.19.0/x64
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.1037762Z (node:2256) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.1038810Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.1040245Z ##[group]Environment details
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.5401710Z node: v24.19.0
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.5402255Z npm: 11.17.0
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.5402517Z yarn: 1.22.22
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.5403325Z ##[endgroup]
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.5422044Z [command]/opt/hostedtoolcache/node/24.19.0/x64/bin/npm config get cache
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.6955495Z /home/runner/.npm
+build-and-deploy	Setup Node.js	2026-08-29T23:32:34.9948391Z Cache hit for: node-cache-Linux-x64-npm-6e3452a5dfdbf797c989db381a8d79baa81715afd78fd99bd69028999c87df35
+build-and-deploy	Setup Node.js	2026-08-29T23:32:35.0055263Z (node:2256) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.2815045Z Received 0 of 7510465 (0.0%), 0.0 MBs/sec
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.6828486Z Received 7510465 of 7510465 (100.0%), 5.1 MBs/sec
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.6829988Z Cache Size: ~7 MB (7510465 B)
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.6861785Z [command]/usr/bin/tar -xf /home/runner/work/_temp/dcee87a8-fb31-4126-b4d7-76f95865811d/cache.tzst -P -C /home/runner/work/OMNIROUTE/OMNIROUTE --use-compress-program unzstd
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.8016673Z Cache restored successfully
+build-and-deploy	Setup Node.js	2026-08-29T23:32:36.8025413Z Cache restored from key: node-cache-Linux-x64-npm-6e3452a5dfdbf797c989db381a8d79baa81715afd78fd99bd69028999c87df35
+build-and-deploy	Install dependencies	﻿2026-08-29T23:32:36.8197050Z ##[group]Run npm ci
+build-and-deploy	Install dependencies	2026-08-29T23:32:36.8197404Z [36;1mnpm ci[0m
+build-and-deploy	Install dependencies	2026-08-29T23:32:36.8247677Z shell: /usr/bin/bash -e {0}
+build-and-deploy	Install dependencies	2026-08-29T23:32:36.8248000Z ##[endgroup]
+build-and-deploy	Install dependencies	2026-08-29T23:34:30.1532853Z 
+build-and-deploy	Install dependencies	2026-08-29T23:34:30.1543274Z > omniroute@3.8.50 prepare
+build-and-deploy	Install dependencies	2026-08-29T23:34:30.1544719Z > husky
+build-and-deploy	Install dependencies	2026-08-29T23:34:30.1545157Z 
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2621595Z 
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2622514Z added 2406 packages, and audited 2409 packages in 2m
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2623073Z 
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2625353Z 548 packages are looking for funding
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2634042Z   run `npm fund` for details
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2656069Z 
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2656539Z found 0 vulnerabilities
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2677652Z npm warn allow-scripts 8 packages have install scripts not yet covered by allowScripts:
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2678464Z npm warn allow-scripts   @playwright/browser-chromium@1.62.1 (install: node install.js)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2679107Z npm warn allow-scripts   bun@1.3.14 (postinstall: node install.js)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2679900Z npm warn allow-scripts   core-js@3.29.1 (postinstall: node -e "try{require('./postinstall')}catch(e){}")
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2680753Z npm warn allow-scripts   koffi@2.16.3 (install: node src/cnoke/cnoke.js -P . -D src/koffi --prebuild)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2682214Z npm warn allow-scripts   libxmljs2@0.37.0 (install: prebuild-install || node-gyp rebuild)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2683537Z npm warn allow-scripts   onnxruntime-node@1.24.3 (postinstall: node ./script/install)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2685090Z npm warn allow-scripts   opencode-ai@1.18.8 (postinstall: node ./postinstall.mjs)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2686989Z npm warn allow-scripts   tls-client-node@0.2.0 (postinstall: node ./scripts/postinstall.js)
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2687928Z npm warn allow-scripts
+build-and-deploy	Install dependencies	2026-08-29T23:34:34.2689183Z npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+build-and-deploy	Build Next.js	﻿2026-08-29T23:34:34.4213556Z ##[group]Run npm run build
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.4213903Z [36;1mnpm run build[0m
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.4253544Z shell: /usr/bin/bash -e {0}
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.4253812Z env:
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.4254027Z   OMNIROUTE_USE_TURBOPACK: 0
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.4254529Z ##[endgroup]
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.5374595Z 
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.5375322Z > omniroute@3.8.50 build
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.5375843Z > node scripts/build/build-next-isolated.mjs
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.5376140Z 
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9625589Z ▲ Next.js 16.3.1 (webpack)
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9771680Z ⚠ Invalid next.config.mjs options detected: 
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9772911Z ⚠     Unrecognized key(s) in object: 'serverComponentsExternalPackages'
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9777861Z ⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9813482Z ✓ Running next.config.mjs took 22ms
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9817107Z ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9930645Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9934627Z This information is used to shape Next.js' roadmap and prioritize features.
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9937018Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9938150Z https://nextjs.org/telemetry
+build-and-deploy	Build Next.js	2026-08-29T23:34:34.9938496Z 
+build-and-deploy	Build Next.js	2026-08-29T23:34:35.0159729Z 
+build-and-deploy	Build Next.js	2026-08-29T23:34:35.1780229Z   Creating an optimized production build ...
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7808438Z Failed to compile.
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7808859Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7809336Z ./open-sse/services/notionWebModels.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7810041Z Error:   x Unterminated string constant
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7811020Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/services/notionWebModels.ts:41:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7815488Z  38 | // Browser fingerprint headers — make requests look like real Chromium
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7816412Z  39 | // to reduce Cloudflare bot-detection challenges.
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7817235Z  40 | export const BROWSER_HEADERS: Record<string, string> = {
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7818056Z  41 |   "sec-ch-ua": '"Chromium";v="149", "Not)A;Brand";v="24"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7818810Z     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7819417Z  42 |   "sec-ch-ua-mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7819996Z  43 |   "sec-ch-ua-platform": '"Windows"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7820582Z  44 |   "sec-fetch-dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7821068Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7821512Z   x Expected ',', got 'string literal'
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7822396Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/services/notionWebModels.ts:42:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7823350Z  39 | // to reduce Cloudflare bot-detection challenges.
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7824410Z  40 | export const BROWSER_HEADERS: Record<string, string> = {
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7825250Z  41 |   "sec-ch-ua": '"Chromium";v="149", "Not)A;Brand";v="24"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7825903Z  42 |   "sec-ch-ua-mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7826362Z     :   ^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7826896Z  43 |   "sec-ch-ua-platform": '"Windows"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7827492Z  44 |   "sec-fetch-dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7828021Z  45 |   "sec-fetch-mode": "cors",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7828477Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7828668Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7828827Z Caused by:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7829112Z     Syntax Error
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7829297Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7829540Z Import trace for requested module:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7830150Z ./open-sse/services/notionWebModels.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7833534Z ./open-sse/config/providers/registry/notion-web/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7834684Z ./open-sse/config/providers/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7835390Z ./open-sse/config/providerRegistry.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7836021Z ./src/app/shared/constants/cliTools.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7836891Z ./src/app/app/(dashboard)/dashboard/cli-agents/CliAgentsPageClient.tsx
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7837861Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7838184Z ./open-sse/executors/duckduckgo-web.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7838780Z Error:   x Unterminated string constant
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7839677Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/duckduckgo-web.ts:95:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7840513Z  92 |   Pragma: "no-cache",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7841054Z  93 |   Referer: `${DUCKDUCKGO_BASE}/`,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7841557Z  94 |   Priority: "u=1, i",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7842325Z  95 |   "Sec-Ch-Ua": '"Chromium";v="149", "Not-A.Brand";v="24", "Google Chrome";v="149"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7843279Z     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7843957Z  96 |   "Sec-Ch-Ua-Mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7844821Z  97 |   "Sec-Ch-Ua-Platform": '"Linux"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7845321Z  98 |   "Sec-Fetch-Dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7845775Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7846208Z   x Expected ',', got 'string literal'
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7847113Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/duckduckgo-web.ts:96:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7848012Z  93 |   Referer: `${DUCKDUCKGO_BASE}/`,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7848519Z  94 |   Priority: "u=1, i",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7849287Z  95 |   "Sec-Ch-Ua": '"Chromium";v="149", "Not-A.Brand";v="24", "Google Chrome";v="149"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7850087Z  96 |   "Sec-Ch-Ua-Mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7850563Z     :   ^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7851089Z  97 |   "Sec-Ch-Ua-Platform": '"Linux"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7851674Z  98 |   "Sec-Fetch-Dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7852191Z  99 |   "Sec-Fetch-Mode": "cors",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7852662Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7852880Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7853039Z Caused by:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7853397Z     Syntax Error
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7853595Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7853757Z Import trace for requested module:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7854382Z ./open-sse/executors/duckduckgo-web.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7854745Z ./open-sse/executors/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7855126Z ./src/app/app/api/v1/messages/count_tokens/route.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7855357Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7855541Z ./open-sse/executors/gemini-web/capabilities.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7855907Z Error:   x Unterminated string constant
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7856432Z      ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/gemini-web/capabilities.ts:104:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7857143Z  101 |         'Model provider "gemini-web" does not support "reasoning_effort". It drives the ' +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7857885Z  102 |         "gemini.google.com web UI through a typed prompt and has no thinking-budget control " +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7858528Z  103 |         'to set, so any effort above "minimal" would be silently ignored. Remove ' +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7859157Z  104 |         '"reasoning_effort" (or send "none"/"minimal") or route to a reasoning-capable model.",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7859715Z      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860051Z  105 |     };
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860246Z  106 |   }
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860430Z      `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860534Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860620Z Caused by:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860806Z     Syntax Error
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7860931Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7861075Z Import trace for requested module:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7861449Z ./open-sse/executors/gemini-web/capabilities.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7861803Z ./open-sse/executors/gemini-web.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7862091Z ./open-sse/executors/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7862431Z ./src/app/app/api/v1/messages/count_tokens/route.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7862957Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7863098Z ./open-sse/executors/grok-web.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7863441Z Error:   x Unterminated string constant
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7863905Z      ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/grok-web.ts:688:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7864534Z  685 |       code: "cf_mitigated_challenge",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7864818Z  686 |       message:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7865416Z  687 |         "Grok returned a Cloudflare bot-management challenge instead of a real response. " +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7866087Z  688 |         "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from ' +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7866651Z      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7867228Z  689 |         "a datacenter/sandbox egress. Probe from a residential IP, or use the official xAI API " +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7867740Z  690 |         "(provider: 'grok') instead.",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7868012Z  691 |     };
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7868201Z      `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7868431Z   x Expected ',', got 'string literal'
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7868876Z      ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/grok-web.ts:689:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7869283Z  686 |       message:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7869716Z  687 |         "Grok returned a Cloudflare bot-management challenge instead of a real response. " +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7870378Z  688 |         "cf_clearance is pinned to the IP+TLS+UA that earned it and can't be replayed from ' +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7871045Z  689 |         "a datacenter/sandbox egress. Probe from a residential IP, or use the official xAI API " +
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7871648Z      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872039Z  690 |         "(provider: 'grok') instead.",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872317Z  691 |     };
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872508Z  692 |   }
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872684Z      `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872793Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7872877Z Caused by:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7873059Z     Syntax Error
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7873180Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7873321Z Import trace for requested module:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7873631Z ./open-sse/executors/grok-web.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7873905Z ./open-sse/executors/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7874567Z ./src/app/app/api/v1/messages/count_tokens/route.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7874808Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7874967Z ./open-sse/executors/lmarena/models.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7875301Z Error:   x Unterminated string constant
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7875775Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/lmarena/models.ts:27:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7876212Z  24 |     Pragma: "no-cache",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7876488Z  25 |     Origin: LMARENA_API_BASE,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7876785Z  26 |     Referer: `${LMARENA_API_BASE}/`,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7877244Z  27 |     "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7877745Z     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7878106Z  28 |     "Sec-Ch-Ua-Mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7878413Z  29 |     "Sec-Ch-Ua-Platform": '"Windows"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7878719Z  30 |     "Sec-Fetch-Dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7878966Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7879199Z   x Expected ',', got 'string literal'
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7879666Z     ,-[/home/runner/work/OMNIROUTE/OMNIROUTE/open-sse/executors/lmarena/models.ts:28:1]
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7880141Z  25 |     Origin: LMARENA_API_BASE,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7880469Z  26 |     Referer: `${LMARENA_API_BASE}/`,
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7880910Z  27 |     "Sec-Ch-Ua": '"Chromium";v="150", "Google Chrome";v="150", "Not-A.Brand";v="24"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7881330Z  28 |     "Sec-Ch-Ua-Mobile": "?0",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7881578Z     :     ^^^^^^^^^^^^^^^^^^
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7881862Z  29 |     "Sec-Ch-Ua-Platform": '"Windows"",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7882173Z  30 |     "Sec-Fetch-Dest": "empty",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7882617Z  31 |     "Sec-Fetch-Mode": "cors",
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7882864Z     `----
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7882972Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7883052Z Caused by:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7883245Z     Syntax Error
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7883363Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7883508Z Import trace for requested module:
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7883823Z ./open-sse/executors/lmarena/models.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7884447Z ./open-sse/executors/lmarena.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7884742Z ./open-sse/executors/index.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7885092Z ./src/app/app/api/v1/messages/count_tokens/route.ts
+build-and-deploy	Build Next.js	2026-08-29T23:37:21.7885310Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:22.2881830Z 
+build-and-deploy	Build Next.js	2026-08-29T23:37:22.2882672Z > Build failed because of webpack errors
+build-and-deploy	Build Next.js	2026-08-29T23:37:22.9625148Z ##[error]Process completed with exit code 1.
+build-and-deploy	Post Run actions/checkout@v4	﻿2026-08-29T23:37:22.9918530Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:22.9919858Z Post job cleanup.
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2525287Z [command]/usr/bin/git version
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2585422Z git version 2.55.0
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2655471Z Temporarily overriding HOME='/home/runner/work/_temp/e88ad650-788e-48c7-9c8e-f936bb1c72a1' before making global git config changes
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2657141Z Adding repository directory to the temporary git global config as a safe directory
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2658495Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/OMNIROUTE/OMNIROUTE
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2722893Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.2833928Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3257739Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3298229Z http.https://github.com/.extraheader
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3313479Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3374780Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3767861Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-deploy	Post Run actions/checkout@v4	2026-08-29T23:37:23.3813624Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-deploy	Complete job	﻿2026-08-29T23:37:23.4260303Z Cleaning up orphan processes
+build-and-deploy	Complete job	2026-08-29T23:37:23.4670155Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
