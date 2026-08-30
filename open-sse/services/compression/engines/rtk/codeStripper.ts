@@ -1,7 +1,7 @@
-import { createRequire } from 'node:module';
+import { createRequire } from "node:module";
 // Type-only import: erased at build time, so it never forces the `typescript`
 // package to be present at runtime. The value handle is resolved lazily below.
-import type * as TypeScriptApi from 'typescript';
+import type * as TypeScriptApi from "typescript";
 
 type TypeScriptModule = typeof import("typescript");
 
@@ -33,7 +33,7 @@ function resolveTypeScript(): TypeScriptModule | null {
       console.warn(
         "[compression/rtk] optional dependency 'typescript' is not installed; " +
           "skipping AST-based code-comment stripping (compression still works). " +
-          "Install 'typescript" to re-enable it."
+          "Install 'typescript' to re-enable it."
       );
     }
   }
@@ -54,14 +54,7 @@ export function __setTypeScriptModuleLoaderForTests(
 }
 
 export type CodeLanguage =
-  | "javascript"
-  | "typescript"
-  | "python"
-  | "rust"
-  | "go"
-  | "ruby"
-  | "java"
-  | "unknown";
+  "javascript" | "typescript" | "python" | "rust" | "go" | "ruby" | "java" | "unknown";
 
 export interface CodeStripperOptions {
   removeComments?: boolean;

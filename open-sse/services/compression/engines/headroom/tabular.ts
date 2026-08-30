@@ -15,8 +15,8 @@
  * for backward-compat decoding and benchmark comparison.
  */
 
-import { encodeGeneric, decodeGeneric } from './gcf/index.ts';
-import { TOON_FENCE_OPEN, decodeToon } from './toon.ts';
+import { encodeGeneric, decodeGeneric } from "./gcf/index.ts";
+import { TOON_FENCE_OPEN, decodeToon } from "./toon.ts";
 
 // ─── fence markers ───────────────────────────────────────────────────────────
 
@@ -92,7 +92,7 @@ function encodeCell(raw: string): string {
     raw.startsWith(" ") ||
     raw.endsWith(" ");
   if (!needsQuoting) return raw;
-  return '"' + raw.replace(/"/g, '""') + """;
+  return '"' + raw.replace(/"/g, '""') + '"';
 }
 
 export function parseCsvRow(line: string): string[] {
@@ -107,7 +107,7 @@ export function parseCsvRow(line: string): string[] {
       while (i < len) {
         if (line[i] === '"') {
           if (i + 1 < len && line[i + 1] === '"') {
-            cell += """;
+            cell += '"';
             i += 2;
           } else {
             i++;

@@ -1,12 +1,12 @@
-import { spawn } from 'child_process';
-import crypto from 'crypto';
-import fs from 'fs';
-import os from 'os';
-import path from 'path';
-import { getLookupEnv } from '@/shared/services/cliRuntime';
-import { qoderProvider } from '../config/providers/registry/qoder/index.ts';
-import { buildQoderCliNotFoundHint, resolveQoderCliInvocation } from './qoderCliResolve';
-export { getQoderCliCommand } from './qoderCliResolve"; // #6263 public entry point
+import { spawn } from "child_process";
+import crypto from "crypto";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { getLookupEnv } from "@/shared/services/cliRuntime";
+import { qoderProvider } from "../config/providers/registry/qoder/index.ts";
+import { buildQoderCliNotFoundHint, resolveQoderCliInvocation } from "./qoderCliResolve";
+export { getQoderCliCommand } from "./qoderCliResolve"; // #6263 public entry point
 
 const DEFAULT_TIMEOUT_MS = 45_000;
 const DEFAULT_MODELS_TIMEOUT_MS = 20_000;
