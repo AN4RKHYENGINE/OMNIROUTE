@@ -4,11 +4,11 @@
  * @module mcp-server/tools/pluginTools
  */
 
-import { z } from 'zod';
-import { resolve, normalize, isAbsolute } from 'path';
-import { listPlugins, getPluginByName, updatePluginConfig } from '@lib/db/plugins';
-import { pluginManager } from '@lib/plugins/manager';
-import { validatePluginConfig, type ConfigField } from '@lib/plugins/manifest';
+import { z } from "zod";
+import { resolve, normalize, isAbsolute } from "path";
+import { listPlugins, getPluginByName, updatePluginConfig } from "@lib/db/plugins";
+import { pluginManager } from "@lib/plugins/manager";
+import { validatePluginConfig, type ConfigField } from "@lib/plugins/manifest";
 
 /**
  * Validate a path is safe for plugin installation.
@@ -161,7 +161,10 @@ export const pluginTools = [
           const validation = validatePluginConfig(merged, rawSchema);
           if (!validation.valid) {
             // Return a generic message — do NOT leak raw field-level detail externally
-            return { success: false, error: "Config validation failed: one or more values are invalid" };
+            return {
+              success: false,
+              error: "Config validation failed: one or more values are invalid",
+            };
           }
         }
 
@@ -185,9 +188,8 @@ export const pluginTools = [
       limit: z.number().min(1).max(100).default(20).describe("Max results to return"),
     }),
     handler: async (args: { name?: string; limit?: number }) => {
-      const { getPluginAnalytics, getPluginAnalyticsSummary } = await import(
-        "../../../src/lib/db/plugins"
-      );
+      const { getPluginAnalytics, getPluginAnalyticsSummary } =
+        await import("../../../src/app/lib/db/plugins");
       const limit = args.limit || 20;
       if (args.name) {
         const rows = getPluginAnalytics(args.name).slice(0, limit);

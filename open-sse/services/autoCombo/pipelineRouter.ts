@@ -8,16 +8,16 @@
  * @module services/autoCombo/pipelineRouter
  */
 
-import { classifyPromptIntent, type IntentType } from '../intentClassifier.ts';
+import { classifyPromptIntent, type IntentType } from "../intentClassifier.ts";
 import {
   executePipeline,
   buildPipelineConfig,
   type TaskType,
   type PipelineResult,
   type FitnessTier,
-} from '../../../src/domain/pipeline.ts';
-import { renderPrompt } from '../../../src/domain/prompts.ts';
-import { getTaskFitness } from './taskFitness.ts';
+} from "../../../src/app/domain/pipeline.ts";
+import { renderPrompt } from "../../../src/domain/prompts.ts";
+import { getTaskFitness } from "./taskFitness.ts";
 
 // ---------------------------------------------------------------------------
 // Fitness tiers — map pipeline behavior to model fitness thresholds

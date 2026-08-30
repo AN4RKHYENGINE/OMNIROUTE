@@ -24,7 +24,7 @@
  * startup cost. Set OMNIROUTE_BROWSER_POOL=off to fully disable.
  */
 
-import { Buffer } from 'node:buffer';
+import { Buffer } from "node:buffer";
 
 type Browser = import("playwright").Browser;
 type BrowserContext = import("playwright").BrowserContext;
@@ -193,7 +193,7 @@ export async function resolvePlaywrightProxy(
     const resolver =
       deps?.resolveProxy ??
       (async (id: string) => {
-        const { resolveProxyForProvider } = await import("../../src/lib/db/proxies");
+        const { resolveProxyForProvider } = await import("../../src/app/lib/db/proxies");
         return resolveProxyForProvider(id);
       });
     const p = await resolver(providerKey);

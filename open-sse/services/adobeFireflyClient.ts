@@ -21,22 +21,22 @@
  * Unofficial — tokens/cookies are short-lived; Adobe may change the wire contract.
  */
 
-import { createHash, randomBytes, randomUUID } from 'node:crypto';
-import { resolvePublicCred } from '../utils/publicCreds.ts';
-import { sanitizeErrorMessage } from '../utils/error.ts';
+import { createHash, randomBytes, randomUUID } from "node:crypto";
+import { resolvePublicCred } from "../utils/publicCreds.ts";
+import { sanitizeErrorMessage } from "../utils/error.ts";
 import {
   decodeAdobeJwtPayload,
   findAllAdobeJwts,
   isExactAdobeJwt,
   stripAdobeJwts,
-} from './adobeFireflySecurity.ts';
+} from "./adobeFireflySecurity.ts";
 import {
   parseAdobeModelsDiscovery as parseAdobeModelsDiscoveryContract,
   type AdobeFireflyDiscoveredModel,
-} from './adobeFireflyModels.ts';
+} from "./adobeFireflyModels.ts";
 
-export { decodeAdobeJwtPayload } from './adobeFireflySecurity.ts';
-export type { AdobeFireflyDiscoveredModel } from './adobeFireflyModels.ts';
+export { decodeAdobeJwtPayload } from "./adobeFireflySecurity.ts";
+export type { AdobeFireflyDiscoveredModel } from "./adobeFireflyModels.ts";
 
 export const ADOBE_FIREFLY_IMAGE_SUBMIT_URL =
   "https://firefly-3p.ff.adobe.io/v2/3p-images/generate-async";
@@ -57,7 +57,7 @@ export const ADOBE_FIREFLY_IMS_SCOPE =
 
 const DEFAULT_USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
-const DEFAULT_SEC_CH_UA = ""Not;A=Brand";v="8", "Chromium";v="150", "Google Chrome";v="150"";
+const DEFAULT_SEC_CH_UA = '"Not;A=Brand";v="8", "Chromium";v="150", "Google Chrome";v="150"';
 const DEFAULT_POLL_INTERVAL_MS = 3000;
 const DEFAULT_IMAGE_TIMEOUT_MS = 180_000;
 const DEFAULT_VIDEO_TIMEOUT_MS = 300_000;
@@ -978,7 +978,7 @@ function browserHeaders(): Record<string, string> {
     "accept-language": "en-US,en;q=0.9",
     "sec-ch-ua": DEFAULT_SEC_CH_UA,
     "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": '"Windows"",
+    "sec-ch-ua-platform": '"Windows"',
     "sec-fetch-site": "cross-site",
     "sec-fetch-mode": "cors",
     "sec-fetch-dest": "empty",
@@ -1341,7 +1341,7 @@ export function buildAdobeUploadHeaders(
 export {
   extractAdobeSourceImageReferences,
   normalizeAdobeReferenceBlobs,
-} from './adobeFireflyReferences.ts';
+} from "./adobeFireflyReferences.ts";
 
 export function extractAdobeSourceImageSources(body: unknown, max = 4): string[] {
   if (!body || typeof body !== "object") return [];

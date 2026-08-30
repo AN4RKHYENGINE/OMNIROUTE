@@ -26,7 +26,7 @@
  *   and alibabaFreeTierQuotaTypes.ts to stay under the file-size cap
  */
 
-import { getAlibabaBillingMode, isAlibabaModelStudioProvider } from './alibabaFreeTier.ts';
+import { getAlibabaBillingMode, isAlibabaModelStudioProvider } from "./alibabaFreeTier.ts";
 import {
   asRecord,
   getAlibabaFreeTierQuotaLastSyncAt,
@@ -34,7 +34,7 @@ import {
   toTrimmedString,
   type AlibabaFreeTierQuotaEntry,
   type AlibabaFreeTierQuotaSnapshot,
-} from './alibabaFreeTierQuotaTypes.ts';
+} from "./alibabaFreeTierQuotaTypes.ts";
 import {
   applyAlibabaSharedFreeTierEligibility,
   classifyAlibabaAudioFreeTierQuotaEntries,
@@ -43,7 +43,7 @@ import {
   classifyAlibabaVisionFreeTierQuotaEntries,
   extractAlibabaSharedFreeTierEligibility,
   parseAlibabaFreeTierQuotaEntries,
-} from './alibabaFreeTierQuotaClassify.ts';
+} from "./alibabaFreeTierQuotaClassify.ts";
 
 // Re-export the shared types + the classification/eligibility public API so existing
 // imports of this module (`from './alibabaFreeTierQuotaFetcher.ts"`) keep working.
@@ -51,8 +51,11 @@ export type {
   AlibabaFreeTierQuotaEntry,
   AlibabaFreeTierQuotaClassification,
   AlibabaFreeTierQuotaSnapshot,
-} from './alibabaFreeTierQuotaTypes.ts';
-export { getAlibabaFreeTierQuotaLastSyncAt, isAlibabaLiveQuotaSyncAt } from './alibabaFreeTierQuotaTypes.ts';
+} from "./alibabaFreeTierQuotaTypes.ts";
+export {
+  getAlibabaFreeTierQuotaLastSyncAt,
+  isAlibabaLiveQuotaSyncAt,
+} from "./alibabaFreeTierQuotaTypes.ts";
 export {
   isAlibabaQuotaValidityExpired,
   parseAlibabaFreeTierQuotaEntries,
@@ -80,7 +83,7 @@ export {
   filterAlibabaFreeAudioEligibleModels,
   type AlibabaConnectionLike,
   type AlibabaFreeTierEligibilityFields,
-} from './alibabaFreeTierQuotaClassify.ts';
+} from "./alibabaFreeTierQuotaClassify.ts";
 
 const FREE_TIER_QUOTA_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuotaAsyn";
 const FREE_TIER_QUOTA_START_API = "zeldaEasy.bailian-commerce.freeTrial.queryFreeTierQuota";
@@ -225,7 +228,7 @@ export async function propagateAlibabaFreeTierEligibilityToSiblings(
   if (!shared.alibabaFreeTierQuotaLastSyncAt) return;
 
   const { getProviderConnections, updateProviderConnection } =
-    await import("../../src/lib/db/providers.ts");
+    await import("../../src/app/lib/db/providers.ts");
   const connections = await getProviderConnections({ provider });
 
   for (const connection of connections) {
@@ -506,7 +509,7 @@ export function scheduleAlibabaFreeTierQuotaRefresh(
         connection.providerSpecificData
       );
       if (!merged) return;
-      const { updateProviderConnection } = await import("../../src/lib/db/providers.ts");
+      const { updateProviderConnection } = await import("../../src/app/lib/db/providers.ts");
       await updateProviderConnection(connection.id, { providerSpecificData: merged });
       await propagateAlibabaFreeTierEligibilityToSiblings(provider, connection.id, merged);
     } catch (error) {
