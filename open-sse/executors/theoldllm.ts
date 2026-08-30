@@ -1,5 +1,5 @@
-import { BaseExecutor, type ExecuteInput } from './base.ts';
-import type { ProviderCredentials } from './base.ts';
+import { BaseExecutor, type ExecuteInput } from "./base.ts";
+import type { ProviderCredentials } from "./base.ts";
 
 const API_BASE = "https://theoldllm.vercel.app";
 const API_PATH = "/api/chatgpt";
@@ -109,7 +109,7 @@ const TOKEN_SEED = "oldllm-client-2026";
 const UA_PREFIX = CHROME_UA.slice(0, 20); // "Mozilla/5.0 (Windows"
 
 type TheOldLlmProxy = Awaited<
-  ReturnType<typeof import("../../src/lib/db/proxies").resolveProxyForProvider>
+  ReturnType<typeof import("../../src/app/lib/db/proxies").resolveProxyForProvider>
 >;
 
 interface TheOldLlmFetchDependencies {
@@ -150,7 +150,10 @@ export async function fetchTheOldLlmWithProviderProxy(
     const [
       { resolveProxyForProvider, hasBlockingProxyAssignmentForProvider },
       { runWithProxyContext },
-    ] = await Promise.all([import("../../src/lib/db/proxies"), import("../utils/proxyFetch.ts")]);
+    ] = await Promise.all([
+      import("../../src/app/lib/db/proxies"),
+      import("../utils/proxyFetch.ts"),
+    ]);
     deps = {
       resolveProxy: () => resolveProxyForProvider("theoldllm"),
       runWithProxy: runWithProxyContext,

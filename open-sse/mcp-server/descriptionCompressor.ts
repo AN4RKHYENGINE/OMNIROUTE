@@ -1,9 +1,9 @@
-import { applyRulesToText } from '../services/compression/caveman.ts';
-import { getRulesForContext } from '../services/compression/cavemanRules.ts';
+import { applyRulesToText } from "../services/compression/caveman.ts";
+import { getRulesForContext } from "../services/compression/cavemanRules.ts";
 import {
   extractPreservedBlocks,
   restorePreservedBlocks,
-} from '../services/compression/preservation.ts';
+} from "../services/compression/preservation.ts";
 
 export interface DescriptionCompressionResult {
   compressed: string;
@@ -207,7 +207,7 @@ export async function snapshotMcpDescriptionCompressionStats(): Promise<McpDescr
   const originalTokens = Math.max(delta.estimatedTokensSaved, Math.ceil(delta.charsBefore / 4));
   const compressedTokens = Math.max(0, originalTokens - delta.estimatedTokensSaved);
   const { insertCompressionAnalyticsRow } =
-    await import("../../src/lib/db/compressionAnalytics.ts");
+    await import("../../src/app/lib/db/compressionAnalytics.ts");
   insertCompressionAnalyticsRow({
     timestamp: new Date().toISOString(),
     mode: "mcp-description",
