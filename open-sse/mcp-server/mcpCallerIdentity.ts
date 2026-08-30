@@ -18,9 +18,9 @@
  * isolation intact: a different key → a different id → a miss; no key → undefined
  * → the anonymous (`__anon__`) bucket, which only matches unauthenticated stores.
  */
-import { getMcpHttpAuthHeadersForInternalFetch } from './httpAuthContext.ts';
-import { extractApiKey } from '../../src/sse/services/auth.ts';
-import { getApiKeyMetadata } from '@lib/db/apiKeys.ts';
+import { getMcpHttpAuthHeadersForInternalFetch } from "./httpAuthContext.ts";
+import { extractApiKey } from "../../src/app/sse/services/auth.ts";
+import { getApiKeyMetadata } from "@lib/db/apiKeys.ts";
 
 type ApiKeyLookup = (rawKey: string) => Promise<{ id?: string | number | null } | null>;
 

@@ -9,23 +9,23 @@
  * Copilot, Claude Desktop) to intelligently query gateway state.
  */
 
-import { z } from 'zod';
-import { toolSearchTool } from './toolSearch.ts';
-import { pickFastestModelTool } from './pickFastestModel.ts';
-import { CCR_MCP_TOOLS } from './ccrTools.ts';
+import { z } from "zod";
+import { toolSearchTool } from "./toolSearch.ts";
+import { pickFastestModelTool } from "./pickFastestModel.ts";
+import { CCR_MCP_TOOLS } from "./ccrTools.ts";
 import {
   AUTO_ROUTING_STRATEGY_VALUES,
   ROUTING_STRATEGY_VALUES,
-} from '@shared/constants/routingStrategies.ts';
+} from "@shared/constants/routingStrategies.ts";
 
 // ============ Shared Types ============
 // AuditLevel + McpToolDefinition live in the leaf ./toolDefinition.ts so that
 // toolSearch.ts can import the type without forming a tools.ts ↔ toolSearch.ts cycle.
 // Re-exported here for backward compatibility (many modules import them from ./tools.ts).
-export type { AuditLevel, McpToolDefinition } from './toolDefinition.ts';
-import type { McpToolDefinition } from './toolDefinition.ts';
-export { pickFastestModelInput, pickFastestModelOutput } from './pickFastestModel.ts';
-export * from './ccrTools.ts';
+export type { AuditLevel, McpToolDefinition } from "./toolDefinition.ts";
+import type { McpToolDefinition } from "./toolDefinition.ts";
+export { pickFastestModelInput, pickFastestModelOutput } from "./pickFastestModel.ts";
+export * from "./ccrTools.ts";
 
 // ============ Phase 1: Essential Tools (8) ============
 
@@ -253,7 +253,7 @@ export const checkQuotaInput = z.object({
     .string()
     .optional()
     .describe(
-      "Filter by provider name (e.g., 'claude', 'gemini"). If omitted, returns all providers."
+      "Filter by provider name (e.g., 'claude', 'gemini'). If omitted, returns all providers."
     ),
   connectionId: z.string().optional().describe("Filter by specific connection ID"),
 });
@@ -1506,7 +1506,7 @@ export const agentSkillsCoverageTool: McpToolDefinition<
   sourceEndpoints: ["/api/agent-skills"],
 };
 
-export { toolSearchInput, toolSearchOutput, toolSearchTool } from './toolSearch.ts';
+export { toolSearchInput, toolSearchOutput, toolSearchTool } from "./toolSearch.ts";
 
 export const MCP_TOOLS = [
   toolSearchTool,

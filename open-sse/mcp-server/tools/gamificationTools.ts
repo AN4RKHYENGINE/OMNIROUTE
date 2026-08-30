@@ -4,7 +4,7 @@
  * @module mcp-server/tools/gamificationTools
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 export const gamificationTools = [
   {
@@ -16,7 +16,7 @@ export const gamificationTools = [
       limit: z.number().min(1).max(100).default(50),
     }),
     handler: async (args: { scope: string; limit: number }) => {
-      const { getTopN } = await import("../../../src/lib/gamification/leaderboard");
+      const { getTopN } = await import("../../../src/app/lib/gamification/leaderboard");
       const entries = await getTopN(args.scope as any, args.limit);
       return { entries };
     },
@@ -30,7 +30,7 @@ export const gamificationTools = [
       scope: z.enum(["global", "weekly", "monthly", "tokens_shared"]).default("global"),
     }),
     handler: async (args: { apiKeyId: string; scope: string }) => {
-      const { getRank } = await import("../../../src/lib/gamification/leaderboard");
+      const { getRank } = await import("../../../src/app/lib/gamification/leaderboard");
       const rank = await getRank(args.apiKeyId, args.scope as any);
       return { rank };
     },
@@ -45,7 +45,7 @@ export const gamificationTools = [
     handler: async (args: { apiKeyId: string }) => {
       const { getXp, getBadges } = await import("../../../src/lib/db/gamification");
       const { calculateLevel, getLevelTitle, getLevelTier } =
-        await import("../../../src/lib/gamification/xp");
+        await import("../../../src/app/lib/gamification/xp");
       const { getStreak } = await import("../../../src/lib/gamification/streaks");
 
       const xp = getXp(args.apiKeyId);
