@@ -10,7 +10,7 @@
 import {
   NOTION_WEB_FALLBACK_MODELS,
   type NotionDiscoveredModel,
-} from './notionWebFallbackModels.ts';
+} from "./notionWebFallbackModels.ts";
 
 export { NOTION_WEB_FALLBACK_MODELS };
 export type { NotionDiscoveredModel };
@@ -38,9 +38,9 @@ const NOTION_SPACE_CACHE_TTL_MS = 30 * 60 * 1000;
 // Browser fingerprint headers — make requests look like real Chromium
 // to reduce Cloudflare bot-detection challenges.
 export const BROWSER_HEADERS: Record<string, string> = {
-  "sec-ch-ua": '"Chromium";v="149", "Not)A;Brand";v="24"",
+  "sec-ch-ua": '"Chromium";v="149", "Not)A;Brand";v="24"',
   "sec-ch-ua-mobile": "?0",
-  "sec-ch-ua-platform": '"Windows"",
+  "sec-ch-ua-platform": '"Windows"',
   "sec-fetch-dest": "empty",
   "sec-fetch-mode": "cors",
   "sec-fetch-site": "same-origin",

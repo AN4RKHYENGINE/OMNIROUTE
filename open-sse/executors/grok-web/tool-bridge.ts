@@ -1,5 +1,5 @@
 // OpenAI <-> Grok tool-call translation (pure). Extracted verbatim from grok-web.ts.
-import type { GrokStreamResponse } from './types.ts';
+import type { GrokStreamResponse } from "./types.ts";
 
 // ─── OpenAI message → Grok query translation ───────────────────────────────
 
@@ -485,7 +485,7 @@ export function buildClientToolManifest(
   if (!toolRegistry.enabled) return "";
   const orderedTools = orderedToolsForManifest(toolRegistry);
   const lines = [
-    'CLIENT_TOOLS: use this caller-runtime tool list as the tool interface for this request. To call one, respond only with <tool_call>{"name":"exact_tool_name","arguments":{...}}</tool_call>. After tool results, answer normally.",
+    'CLIENT_TOOLS: use this caller-runtime tool list as the tool interface for this request. To call one, respond only with <tool_call>{"name":"exact_tool_name","arguments":{}}<\/tool_call>. After tool results, answer normally.',
     `tool_choice=${JSON.stringify(toolChoice ?? "auto")}`,
     ...(toolRegistry.completedToolCalls.length > 0
       ? [
