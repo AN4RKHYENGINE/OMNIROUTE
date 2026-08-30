@@ -50,9 +50,9 @@
  * Part of: Group B — Quota Sharing Engine (Fase 3, point #5).
  */
 
-import { createHash } from 'node:crypto';
-import { computeHeadroom, type HeadroomSaturation } from './headroomRanking.ts';
-import type { ResolvedComboTarget } from './types.ts';
+import { createHash } from "node:crypto";
+import { computeHeadroom, type HeadroomSaturation } from "./headroomRanking.ts";
+import type { ResolvedComboTarget } from "./types.ts";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -82,9 +82,7 @@ interface StickyEntry {
  * Injectable saturation fetcher seam (for unit tests).
  * Returns HeadroomSaturation or undefined when unknown.
  */
-export type SaturationFetcher = (
-  connectionId: string
-) => Promise<HeadroomSaturation | undefined>;
+export type SaturationFetcher = (connectionId: string) => Promise<HeadroomSaturation | undefined>;
 
 // ─── Saturation fetcher seam ─────────────────────────────────────────────────
 
@@ -184,9 +182,7 @@ export type QuotaExhaustionChecker = (connectionId: string) => boolean;
 let _quotaExhaustionOverride: QuotaExhaustionChecker | null = null;
 
 /** Test-only: inject the quota-exhaustion checker; pass null to restore default. */
-export function __setStickinessQuotaCheckerForTests(
-  checker: QuotaExhaustionChecker | null
-): void {
+export function __setStickinessQuotaCheckerForTests(checker: QuotaExhaustionChecker | null): void {
   _quotaExhaustionOverride = checker;
 }
 
@@ -211,7 +207,7 @@ async function isStickyConnectionQuotaExhausted(connectionId: string): Promise<b
   if (_quotaExhaustionOverride) return _quotaExhaustionOverride(connectionId);
 
   try {
-    const mod = await import("../../../src/domain/quotaCache");
+    const mod = await import("../../../src/app/domain/quotaCache");
     return Boolean(mod.isAccountQuotaExhausted(connectionId));
   } catch {
     return false;

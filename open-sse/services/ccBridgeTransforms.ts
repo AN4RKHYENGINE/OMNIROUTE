@@ -19,12 +19,12 @@
  *
  * Related: OmniRoute issue #2260.
  */
-import { createHash } from 'node:crypto';
+import { createHash } from "node:crypto";
 
 import {
   CLAUDE_CODE_CLIENT_BUILD_REVISION,
   CLAUDE_CODE_CLIENT_VERSION,
-} from '@/shared/constants/claudeCodeClient';
+} from "@/shared/constants/claudeCodeClient";
 
 // ────────────────────────────────────────────────────────────────────────────
 // DSL types
@@ -124,7 +124,7 @@ export const CCH_POSITIONS = [4, 7, 20] as const;
 export const DEFAULT_CLAUDE_CODE_VERSION = CLAUDE_CODE_CLIENT_VERSION;
 /** Identity sentinel prepended for Claude Agent SDK callers. */
 export const CLAUDE_AGENT_SDK_IDENTITY =
-  "You are a Claude agent, built on Anthropic"s Claude Agent SDK.";
+  "You are a Claude agent, built on Anthropic's Claude Agent SDK.";
 /** Paragraph anchors from ex-machina (URLs identifying third-party agents). */
 export const DEFAULT_PARAGRAPH_REMOVAL_ANCHORS = [
   "github.com/anomalyco/opencode",

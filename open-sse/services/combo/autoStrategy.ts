@@ -20,31 +20,31 @@
  * import cycle. This module never imports from the combo barrel.
  */
 
-import { isRecord } from './comboData.ts';
+import { isRecord } from "./comboData.ts";
 import type {
   AutoProviderCandidate,
   ComboLike,
   HistoricalLatencyStatsEntry,
   ResolvedComboTarget,
-} from './types.ts';
-import { extractSessionAffinityKey } from '@/sse/services/auth';
-import { DEFAULT_INTENT_CONFIG, type IntentClassifierConfig } from '../intentClassifier.ts';
-import { getTaskFitness } from '../autoCombo/taskFitness.ts';
+} from "./types.ts";
+import { extractSessionAffinityKey } from "@/sse/services/auth";
+import { DEFAULT_INTENT_CONFIG, type IntentClassifierConfig } from "../intentClassifier.ts";
+import { getTaskFitness } from "../autoCombo/taskFitness.ts";
 import {
   calculateFactors,
   calculateScore,
   computePoolMaxima,
   type ProviderCandidate,
   type ScoringWeights,
-} from '../autoCombo/scoring.ts';
-import type { RoutingHint } from '../manifestAdapter';
-import { getCachedProviderConnections } from '@lib/db/readCache';
-import { getProviderModels } from '../../config/providerModels.ts';
+} from "../autoCombo/scoring.ts";
+import type { RoutingHint } from "../manifestAdapter";
+import { getCachedProviderConnections } from "@lib/db/readCache";
+import { getProviderModels } from "../../config/providerModels.ts";
 import {
   getConnectionRoutingTags,
   matchesRoutingTags,
   resolveRequestRoutingTags,
-} from '../../../src/domain/tagRouter.ts';
+} from "../../../src/app/domain/tagRouter.ts";
 
 // Quota Share soft-policy deprioritization factor (B17).
 // When a candidate has quotaSoftPenalty === true, its auto-combo score is
