@@ -181,7 +181,7 @@ export async function loginToChatGpt(
       .getByRole("textbox", { name: "Chat with ChatGPT" })
       .or(
         page.locator(
-          "[data-testid="prompt-textarea"], [contenteditable="true"][data-lexical-editor="true"]"
+          `[data-testid="prompt-textarea"], [contenteditable="true"][data-lexical-editor="true"]`
         )
       )
       .first();

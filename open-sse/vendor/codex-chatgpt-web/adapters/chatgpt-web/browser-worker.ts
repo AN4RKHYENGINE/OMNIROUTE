@@ -688,7 +688,7 @@ export class ChatGptBrowserWorker {
             .forEach((candidate) => candidates.set(candidate, "markdown"));
           root
             .querySelectorAll<HTMLElement>(
-              "button, [role="status"], [aria-busy="true"], [data-testid*="cot"], [data-testid*="reason"], [data-testid*="thought"]"
+              `button, [role="status"], [aria-busy="true"], [data-testid*="cot"], [data-testid*="reason"], [data-testid*="thought"]`
             )
             .forEach((candidate) => {
               if (candidate.closest('[aria-label="Response actions"]')) return;
@@ -856,7 +856,7 @@ export class ChatGptBrowserWorker {
         () => this.attachFiles(page, prepared)
       );
       const responseTurns = page.locator(
-        "section[data-testid^="conversation-turn-"][data-turn="assistant"]"
+        `section[data-testid^="conversation-turn-"][data-turn="assistant"]`
       );
       const initialResponseTurnCount = await responseTurns.count();
       const responseTurn = responseTurns.nth(initialResponseTurnCount);

@@ -41,7 +41,7 @@ export default function RawJsonPanel({
     if (defaultOpen || forceOpen) {
       onOpenChange?.(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []); // intentionally run only once on mount
 
   // Sync forceOpen changes from parent (deep-link after mount).

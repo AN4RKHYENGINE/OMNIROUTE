@@ -268,7 +268,7 @@ export default function ModelSelectModal({
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [isOpen, activeProviders]);
 
   const allProviders = useMemo(

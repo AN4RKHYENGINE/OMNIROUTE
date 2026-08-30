@@ -118,7 +118,7 @@ export default function StudioConfigPane({ configState, setConfigState }: Studio
   useEffect(() => {
     const next = pickDefaultModel(configState.model, availableModels);
     if (next !== null) setConfigState({ ...configState, model: next });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [availableModels, configState.model]);
 
   // #6241: keep the resolved reasoning spec on configState so the tabs (ChatTab) can gate the
@@ -130,7 +130,7 @@ export default function StudioConfigPane({ configState, setConfigState }: Studio
       current.show !== reasoningSpec.show ||
       current.effortOptions.join(",") !== reasoningSpec.effortOptions.join(",");
     if (changed) setConfigState({ ...configState, reasoning: reasoningSpec });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [reasoningSpec.show, reasoningSpec.effortOptions.join(",")]);
 
   function update<K extends keyof ConfigState>(key: K, value: ConfigState[K]) {

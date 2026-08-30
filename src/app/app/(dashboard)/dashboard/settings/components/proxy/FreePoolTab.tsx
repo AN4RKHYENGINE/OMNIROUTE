@@ -48,7 +48,7 @@ export default function FreePoolTab() {
   // Load persisted disabled-sources from localStorage on mount
   useEffect(() => {
     const saved = loadDisabledSources();
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage hydration, runs once
+     
     if (saved) setDisabledSources(saved);
   }, []);
   // Wrapper setters that also reset page to 1
@@ -98,7 +98,7 @@ export default function FreePoolTab() {
   }, [disabledSources, filterProtocol, filterCountry, minQuality, page]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- async data fetch on filter change
+     
     loadData();
   }, [loadData]);
 

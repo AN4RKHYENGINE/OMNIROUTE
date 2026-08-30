@@ -316,7 +316,7 @@ export default function ProviderTopology({
 
   const { nodes, edges } = useMemo(
     () => buildLayout(providers, activeSet, lastSet, errorSet),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
     [providers, activeSet, lastKey, errorKey]
   );
 

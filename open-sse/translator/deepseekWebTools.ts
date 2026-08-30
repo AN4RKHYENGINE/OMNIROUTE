@@ -68,7 +68,7 @@ export function serializeDeepSeekToolPrompt(tools: unknown): string {
       params = "";
     }
     lines.push(
-      `- ${fn.name}${desc ? `: ${desc}` : ""}${params ? `\n  parameters: ${params}` : ""}`
+      `- ${fn.name}${desc ? `: ${desc}` : "}${params ? `\n  parameters: ${params}` : "}`
     );
   }
   if (lines.length === 0) return "";
@@ -79,7 +79,7 @@ export function serializeDeepSeekToolPrompt(tools: unknown): string {
     "Rules:",
     "- Use exactly <tool>...</tool>. Do NOT use <tool:name>, <tool_call>, <name>, <parameter>, id=/name= attributes, or code fences.",
     `- Include the secret binding "_nonce": "${nonce}" exactly as shown.`,
-    '- "name" must be one of the tools below; "arguments" must be a JSON object.",
+    '- "name" must be one of the tools below; "arguments" must be a JSON object.',
     "- When a tool is needed, emit the <tool> block instead of only describing the plan.",
     "- Emit one <tool> block per call; you may put several blocks back to back.",
     "- If no tool is needed, just answer normally without any <tool> block.",

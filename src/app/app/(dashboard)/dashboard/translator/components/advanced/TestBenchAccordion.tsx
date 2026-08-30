@@ -493,7 +493,7 @@ function TestBenchAccordionLazyMount({ onFirstOpen }: { onFirstOpen: () => void 
   useEffect(() => {
     onFirstOpen();
     // Intentionally run only once on mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
   return null;
 }

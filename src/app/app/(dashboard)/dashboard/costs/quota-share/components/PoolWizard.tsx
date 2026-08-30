@@ -264,7 +264,7 @@ export default function PoolWizard({
       setEditDimensions(catalogPlan ? [...catalogPlan.dimensions] : []);
     }
     setDimensionsEdited(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [primaryConnectionId]);
 
   // ── Reset wizard on open/close ────────────────────────────────────────────
@@ -311,7 +311,7 @@ export default function PoolWizard({
       setStep(1);
     }
     // When open && !editPool (create mode): the existing create-reset on close handles defaults.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, editPool, initialGroupId]);
 
   // Keep the group <select> on a real, selectable option: if the inherited page
@@ -323,7 +323,7 @@ export default function PoolWizard({
     if (groupId === "all" || !groups.some((g) => g.id === groupId)) {
       setGroupId(groups[0].id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open, editPool, groups]);
 
   // ── Step 2 — dimension editors ────────────────────────────────────────────

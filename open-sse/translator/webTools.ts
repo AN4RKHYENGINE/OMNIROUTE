@@ -180,7 +180,7 @@ function convertSingleQuotedStrings(value: string): string {
 
     if (ch === "'" && !inDouble) {
       inSingle = !inSingle;
-      result += """;
+      result += "'";
       continue;
     }
 
@@ -261,7 +261,7 @@ function findBareJsonCandidates(text: string): ToolParseCandidate[] {
   const candidates: ToolParseCandidate[] = [];
   let start = -1;
   let depth = 0;
-  let quote: '"' | """ | "" = "";
+    let quote: '"' | '"""' | '""' = "";
   let escaped = false;
 
   for (let i = 0; i < text.length; i += 1) {

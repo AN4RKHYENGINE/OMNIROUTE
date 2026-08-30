@@ -54,12 +54,12 @@ export function needsQuote(s: string): boolean {
 
 /** Produce a JSON-compatible quoted string. */
 export function quoteString(s: string): string {
-  let out = """;
+  let out = "\"";  // Start with opening quote
   for (let i = 0; i < s.length; i++) {
     const c = s.charCodeAt(i);
     switch (c) {
       case 0x22:
-        out += ";
+        out += "";
         break;
       case 0x5c:
         out += "\\\\";
@@ -87,7 +87,7 @@ export function quoteString(s: string): string {
         }
     }
   }
-  return out + """;
+  return out + "\"";
 }
 
 /** Format a JS value as a GCF scalar. delimiter is '|', ',', or 0. */
@@ -192,7 +192,7 @@ export function parseQuotedString(s: string): string {
       i++;
       switch (s[i]) {
         case '"':
-          out += """;
+          out += "\"";
           break;
         case "\\":
           out += "\\";

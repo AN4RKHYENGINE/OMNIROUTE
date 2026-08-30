@@ -53,7 +53,7 @@ export default function AccessTokensTab() {
     } finally {
       setLoading(false);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);  
 
   useEffect(() => {
     load();

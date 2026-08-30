@@ -36,7 +36,7 @@ export function LocaleAutoDetect() {
     router.refresh();
     // Run once on mount only — this is a first-visit detection, not a
     // reactive effect that should re-run on router identity changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   return null;

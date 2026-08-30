@@ -69,7 +69,7 @@ export function usePoolsUsageAggregate(pools: QuotaPool[]): PoolsUsageAggregate 
       mounted = false;
       clearInterval(interval);
     };
-  }, [pools.map((p) => p.id).join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pools.map((p) => p.id).join(",")]);  
 
   return state;
 }

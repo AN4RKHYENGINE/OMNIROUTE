@@ -23,7 +23,7 @@ export default function ConnectionDetail({
     if (!connection?.isCoolingDown) return;
     // Reset tick baseline when the connection changes so the countdown restarts from
     // the fresh cooldownRemainingMs. setTick(0) is a re-sync, not a cascading render.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+     
     setTick(0);
     const interval = setInterval(() => setTick((n) => n + 1), 1000);
     return () => clearInterval(interval);

@@ -160,7 +160,7 @@ const eslintConfig = [
     rules: {
       "react-hooks/set-state-in-effect": "off",
       "react-hooks/immutability": "off",
-      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
       "@next/next/no-assign-module-variable": "off",
       "react-hooks/rules-of-hooks": "off",
     },

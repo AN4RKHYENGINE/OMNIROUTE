@@ -97,7 +97,7 @@ describe("claudeTlsClient", () => {
       const mockResponse = {
         status: 401,
         headers: new Headers({ "content-type": "application/json" }),
-        text: '{"error":"unauthorized"}",
+        text: '{"error":"unauthorized"}',
         body: null,
       };
 
@@ -127,7 +127,7 @@ describe("claudeTlsClient", () => {
       await tlsFetchClaude("https://claude.ai/test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: '{"test": true}",
+        body: '{"test": true}',
         timeoutMs: 30000,
         signal: controller.signal,
         stream: true,
@@ -139,7 +139,7 @@ describe("claudeTlsClient", () => {
       const callArgs = mockFn.mock.calls[0];
       expect(callArgs[1]).toMatchObject({
         method: "POST",
-        body: '{"test": true}",
+        body: '{"test": true}',
         timeoutMs: 30000,
         stream: true,
         proxyUrl: "http://proxy:8080",

@@ -103,7 +103,7 @@ export default function ResilienceConnectionsClient() {
     return () => {
       // pollGenRef is a mutable counter (not a DOM node); cleanup intentionally
       // bumps it so the captured `gen` goes stale and in-flight chains self-terminate.
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+       
       pollGenRef.current++; // invalidate any in-flight chain
       abortRef.current?.abort();
       if (pollTimerRef.current) clearTimeout(pollTimerRef.current);

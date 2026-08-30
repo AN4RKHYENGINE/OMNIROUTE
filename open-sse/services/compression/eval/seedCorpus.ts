@@ -31,7 +31,7 @@ export const SEED_CORPUS: EvalCase[] = [
     kind: "tool-output-json",
     context:
       '{"status":"ok","results":[{"id":1,"name":"alpha","score":0.91},' +
-      '{"id":2,"name":"beta","score":0.42},{"id":3,"name":"gamma","score":0.77}]}",
+      '{"id":2,"name":"beta","score":0.42},{"id":3,"name":"gamma","score":0.77}]}"',
     question: "Which result has the highest score?",
     gold: "alpha (score 0.91)",
   },

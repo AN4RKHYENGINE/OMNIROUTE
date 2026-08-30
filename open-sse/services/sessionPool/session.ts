@@ -112,7 +112,7 @@ export class Session {
     if (this.fingerprint.secChUa) {
       headers["Sec-CH-UA"] = this.fingerprint.secChUa;
       headers["Sec-CH-UA-Mobile"] = this.fingerprint.secChUaMobile ?? "?0";
-      headers["Sec-CH-UA-Platform"] = this.fingerprint.secChUaPlatform ?? ""Windows"";
+      headers["Sec-CH-UA-Platform"] = this.fingerprint.secChUaPlatform ?? "Windows";
     }
     return headers;
   }

@@ -19,7 +19,7 @@ export default function BatchConceptCard({ className = "" }: Props) {
     try {
       const stored = localStorage.getItem(LS_KEY);
       if (stored !== null) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage hydration, runs once
+         
         setCollapsed(stored === "true");
       }
     } catch {

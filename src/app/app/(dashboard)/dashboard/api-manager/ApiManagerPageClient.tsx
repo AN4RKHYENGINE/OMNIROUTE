@@ -267,7 +267,7 @@ export default function ApiManagerPageClient() {
     fetchModels();
     fetchCombos();
     fetchConnections();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- initial dashboard load only
+  }, []);  
 
   useEffect(() => {
     if (!showAddModal || !nameError) return;

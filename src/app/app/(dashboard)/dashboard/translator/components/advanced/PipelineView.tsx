@@ -126,7 +126,7 @@ export default function PipelineView({
       onOpenChange?.(true);
     }
     // Only run on mount — forceOpen is treated as an initial deep-link signal.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   // Sync forceOpen changes from parent after mount.

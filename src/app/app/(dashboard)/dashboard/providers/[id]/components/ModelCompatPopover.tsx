@@ -162,7 +162,7 @@ export default function ModelCompatPopover({
     setHeaderRows(recordToHeaderRows(rec, genHeaderRowId));
     // Only re-load rows when opening or switching protocol — not when the parent passes a new
     // inline callback every render (would wipe in-progress edits).
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
+     
   }, [open, protocol]);
 
   // Load model-level block/allow from param-filters API

@@ -92,7 +92,7 @@ export default function ToolDetailClient({ toolId, category }: ToolDetailClientP
     // The react-hooks/set-state-in-effect rule flags this pattern conservatively
     // (it cannot distinguish sync vs async setState), but this is the canonical
     // way to load remote data on mount until we migrate to use()/Suspense.
-    /* eslint-disable react-hooks/set-state-in-effect */
+     
     Promise.all([
       fetchConnections(),
       fetchApiKeys(),
@@ -101,7 +101,7 @@ export default function ToolDetailClient({ toolId, category }: ToolDetailClientP
     ]).finally(() => {
       if (!cancelled) setLoading(false);
     });
-    /* eslint-enable react-hooks/set-state-in-effect */
+     
     return () => {
       cancelled = true;
     };

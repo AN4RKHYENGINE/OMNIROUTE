@@ -29,7 +29,7 @@ const KIRO_UNSUPPORTED_THINKING_MESSAGE =
   "This Kiro model does not support the '-thinking' alias. Use a model returned by Kiro's " +
   "live catalog with Thinking capability.";
 const KIRO_REMOVED_AUTO_ALIAS_MESSAGE =
-  "'auto-kiro" is not a real Kiro upstream model. Select a model returned by the live catalog.";
+  `'auto-kiro" is not a real Kiro upstream model. Select a model returned by the live catalog.`;
 
 export function resolveKiroModelAlias(model: unknown): { upstream: string; thinking: boolean } {
   let upstream = String(model || "");

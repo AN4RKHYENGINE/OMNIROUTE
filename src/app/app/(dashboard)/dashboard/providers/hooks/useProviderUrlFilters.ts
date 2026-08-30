@@ -58,7 +58,7 @@ export function useProviderUrlFilters({
     const urlMode = readProviderFiltersFromUrl(searchParams).displayMode;
     setProviderDisplayMode(urlMode ?? readProviderDisplayModePreference());
     setDisplayModePreferenceReady(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [searchParams]);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function useProviderUrlFilters({
     setShowFreeOnly(urlFilters.showFreeOnly ?? false);
     setActiveServiceKind(urlFilters.mediaKind ?? null);
     setFiltersHydrated(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [searchParams]);
 
   useEffect(() => {

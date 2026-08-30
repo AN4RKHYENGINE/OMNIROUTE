@@ -1,16 +1,26 @@
 ▲ Next.js 16.3.1 (webpack)
 - Environments: .env.local, .env
-[MDX] generated files in 593.643799ms
-✓ Running next.config.mjs took 1751ms
-- Experiments (use with caution):
-  · optimizePackageImports
-  · proxyClientMaxBodySize: "512mb"
-  · proxyTimeout: 600000
-  · serverActions
+✓ Running next.config.mjs took 23ms
 
   Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/fumadocs-mdx/dist/load-from-file-CIW3c2FZ.js for build dependencies failed at 'import(url.href)'.
-<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
-<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /home/user/projects/OmniRoute/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
-<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
-Killed
+socket hang up
+
+Retrying 1/3...
+
+<--- Last few GCs --->
+
+[2927:0x258af000]   202231 ms: Scavenge 1946.6 (2042.9) -> 1934.3 (2117.1) MB, pooled: 0 MB, 31.17 / 0.00 ms  (average mu = 0.368, current mu = 0.388) allocation failure; 
+[2927:0x258af000]   205012 ms: Mark-Compact (reduce) 1954.2 (2118.1) -> 1872.3 (1983.9) MB, pooled: 0 MB, 212.31 / 0.00 ms  (+ 2195.1 ms in 303 steps since start of marking, biggest step 80.0 ms, walltime since start of marking 2781 ms) (average mu = 0.36
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0x75356c node::OOMErrorHandler(char const*, v8::OOMDetails const&) [next-build (v16.3.1)]
+ 2: 0xc52cd0  [next-build (v16.3.1)]
+ 3: 0xc52dbf  [next-build (v16.3.1)]
+ 4: 0xef6695  [next-build (v16.3.1)]
+ 5: 0xef66c2  [next-build (v16.3.1)]
+ 6: 0xef69ba  [next-build (v16.3.1)]
+ 7: 0xf076ba  [next-build (v16.3.1)]
+ 8: 0xf0ba60  [next-build (v16.3.1)]
+ 9: 0x199e0d1  [next-build (v16.3.1)]
+Aborted

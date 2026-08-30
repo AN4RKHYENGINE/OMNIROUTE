@@ -224,7 +224,7 @@ export function bridgeToResponsesSSE(
   });
 
   const heartbeatFrame = encoder.encode(
-    "event: response.heartbeat\ndata: {"type":"response.heartbeat"}\n\n"
+    `event: response.heartbeat\ndata: {"type":"response.heartbeat"}\n\n`
   );
   let stallTicks = 0;
   const stallSec = resolveStallTimeoutSec(options?.stallTimeoutSec);
