@@ -43,10 +43,10 @@ export const gamificationTools = [
       apiKeyId: z.string(),
     }),
     handler: async (args: { apiKeyId: string }) => {
-      const { getXp, getBadges } = await import("../../../src/lib/db/gamification");
+      const { getXp, getBadges } = await import("../../../src/app/lib/db/gamification");
       const { calculateLevel, getLevelTitle, getLevelTier } =
         await import("../../../src/app/lib/gamification/xp");
-      const { getStreak } = await import("../../../src/lib/gamification/streaks");
+      const { getStreak } = await import("../../../src/app/lib/gamification/streaks");
 
       const xp = getXp(args.apiKeyId);
       const badges = getBadges(args.apiKeyId);
@@ -73,7 +73,8 @@ export const gamificationTools = [
       category: z.string().optional(),
     }),
     handler: async (args: { apiKeyId?: string; category?: string }) => {
-      const { getBadgeDefinitions, getBadges } = await import("../../../src/lib/db/gamification");
+      const { getBadgeDefinitions, getBadges } =
+        await import("../../../src/app/lib/db/gamification");
 
       if (args.apiKeyId) {
         const badges = getBadges(args.apiKeyId);
@@ -100,7 +101,7 @@ export const gamificationTools = [
       amount: number;
       reason?: string;
     }) => {
-      const { transferTokens } = await import("../../../src/lib/gamification/sharing");
+      const { transferTokens } = await import("../../../src/app/lib/gamification/sharing");
       const result = await transferTokens(
         args.fromApiKeyId,
         args.toApiKeyId,
@@ -120,7 +121,7 @@ export const gamificationTools = [
       maxUses: z.number().positive().default(1),
     }),
     handler: async (args: { apiKeyId: string; serverUrl?: string; maxUses: number }) => {
-      const { createInvite } = await import("../../../src/lib/gamification/invites");
+      const { createInvite } = await import("../../../src/app/lib/gamification/invites");
       const result = await createInvite(args.apiKeyId, args.serverUrl, args.maxUses);
       return result;
     },
@@ -131,7 +132,7 @@ export const gamificationTools = [
     scopes: ["read:gamification"],
     inputSchema: z.object({}),
     handler: async () => {
-      const { listServers } = await import("../../../src/lib/gamification/servers");
+      const { listServers } = await import("../../../src/app/lib/gamification/servers");
       return { servers: await listServers() };
     },
   },
@@ -141,7 +142,7 @@ export const gamificationTools = [
     scopes: ["read:gamification"],
     inputSchema: z.object({}),
     handler: async () => {
-      const { getAnomalies } = await import("../../../src/lib/gamification/antiCheat");
+      const { getAnomalies } = await import("../../../src/app/lib/gamification/antiCheat");
       return { anomalies: await getAnomalies() };
     },
   },
