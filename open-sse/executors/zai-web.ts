@@ -8,9 +8,9 @@
  * Completions go to /api/v2/chat/completions; the older unversioned
  * /api/chat/completions path is stale and 404s model-independently (#8014).
  */
-import { createHash, randomUUID } from 'node:crypto';
-import { BaseExecutor, type ExecuteInput } from './base.ts';
-import { configureZaiBrowserRequest } from './zai-web/browserAutomation.ts';
+import { createHash, randomUUID } from "node:crypto";
+import { BaseExecutor, type ExecuteInput } from "./base.ts";
+import { configureZaiBrowserRequest } from "./zai-web/browserAutomation.ts";
 import {
   asRecord,
   browserModelName,
@@ -43,18 +43,18 @@ import {
   type ZaiReasoningEffort,
   type ZaiThinkingConfig,
   type ZaiVlmConfig,
-} from './zai-web/protocol.ts';
+} from "./zai-web/protocol.ts";
 import {
   buildZaiStreamingBody,
   collectZaiNonStreaming,
   makeZaiChunkEmitter,
-} from './zai-web/stream.ts';
-import { browserBackedChat } from '../services/browserBackedChat.ts';
-import { CursorImageError, resolveCursorImages } from '../utils/cursorImages.ts';
+} from "./zai-web/stream.ts";
+import { browserBackedChat } from "../services/browserBackedChat.ts";
+import { CursorImageError, resolveCursorImages } from "../utils/cursorImages.ts";
 import {
   makeExecutorErrorResult as makeErrorResult,
   sanitizeErrorMessage,
-} from '../utils/error.ts';
+} from "../utils/error.ts";
 
 export {
   buildZaiSignature,
@@ -67,15 +67,15 @@ export {
   parseZaiFrontendVersion,
   resolveZaiThinkingConfig,
   resolveZaiVlmConfig,
-} from './zai-web/protocol.ts';
+} from "./zai-web/protocol.ts";
 export type {
   ZaiModelCapabilities,
   ZaiReasoningEffort,
   ZaiThinkingConfig,
   ZaiVlmConfig,
-} from './zai-web/protocol.ts';
-export { parseZaiFrame } from './zai-web/stream.ts';
-export type { ZaiDelta } from './zai-web/stream.ts';
+} from "./zai-web/protocol.ts";
+export { parseZaiFrame } from "./zai-web/stream.ts";
+export type { ZaiDelta } from "./zai-web/stream.ts";
 
 let cachedFeVersion: { value: string; expiresAt: number } | null = null;
 
@@ -168,7 +168,7 @@ function buildZaiBrowserChatOptions(input: {
     locale: "en-US",
     timezone: "Asia/Seoul",
     inputSelector: "#chat-input",
-    submitButtonSelector: '[aria-label="Send Message"] button:not([disabled])",
+    submitButtonSelector: '[aria-label="Send Message"] button:not([disabled])',
     submitButtonMode: "dom",
     attachments: input.attachments,
     beforeSubmit: (page) =>
@@ -222,7 +222,7 @@ function resolveZaiRequest(
   const token = extractZaiToken(rawCredential);
   if (!token) {
     return fail(
-      "Missing Z.ai web-session credential — copy the "token" value from chat.z.ai Local Storage."
+      'Missing Z.ai web-session credential — copy the "token" value from chat.z.ai Local Storage.'
     );
   }
 

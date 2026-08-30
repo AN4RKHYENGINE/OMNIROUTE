@@ -6,15 +6,15 @@
  *
  * No auth required. Rate limited to 6 requests/hour per IP.
  */
-import dns from 'node:dns';
-import { isIP } from 'node:net';
-import { BaseExecutor, type ExecuteInput } from './base.ts';
-import { sanitizeErrorMessage } from '../utils/error.ts';
+import dns from "node:dns";
+import { isIP } from "node:net";
+import { BaseExecutor, type ExecuteInput } from "./base.ts";
+import { sanitizeErrorMessage } from "../utils/error.ts";
 import {
   OutboundUrlGuardError,
   isPrivateHost,
   parseAndValidatePublicUrl,
-} from '@/shared/network/outboundUrlGuard';
+} from "@/shared/network/outboundUrlGuard";
 
 const BASE_URL = "https://veoaifree.com";
 const AJAX_URL = `${BASE_URL}/wp-admin/admin-ajax.php`;
@@ -333,7 +333,7 @@ async function handleTTS(
     return new Response(res.body, {
       headers: {
         "Content-Type": contentType.includes("wav") ? "audio/wav" : "audio/mpeg",
-        "Content-Disposition": 'attachment; filename="speech.wav"",
+        "Content-Disposition": 'attachment; filename="speech.wav"',
       },
     });
   }
