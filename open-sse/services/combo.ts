@@ -324,7 +324,7 @@ export async function buildAutoCandidates(
   const quotaPromises = new Map<string, Promise<unknown>>();
   let historicalLatencyStats: Record<string, HistoricalLatencyStatsEntry> = {};
   try {
-    const { getModelLatencyStats } = await import("../../src/lib/usageDb");
+    const { getModelLatencyStats } = await import("@/lib/db/usageDb");
     historicalLatencyStats = await getModelLatencyStats({
       windowHours: 24,
       minSamples: 3,

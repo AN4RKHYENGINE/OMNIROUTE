@@ -29,14 +29,14 @@
  * per-step routing policy is inherited.
  */
 
-import { wildcardMatch } from '../wildcardRouter.ts';
-import { getProviderModels } from '../../config/providerModels.ts';
-import { getActiveSyncedCatalog } from '@lib/db/models/activeSyncedCatalog.ts';
-import { filterAlibabaFreeTierModels, isAlibabaModelStudioProvider } from '../alibabaFreeTier.ts';
+import { wildcardMatch } from "../wildcardRouter.ts";
+import { getProviderModels } from "../../config/providerModels.ts";
+import { getActiveSyncedCatalog } from "@lib/db/models/activeSyncedCatalog.ts";
+import { filterAlibabaFreeTierModels, isAlibabaModelStudioProvider } from "../alibabaFreeTier.ts";
 import {
   filterAlibabaFreeEligibleModels,
   buildAlibabaFreeTierFilterContext,
-} from '../alibabaFreeTierDiscovery.ts';
+} from "../alibabaFreeTierDiscovery.ts";
 import {
   buildAlibabaFreeAudioFilterContext,
   buildAlibabaFreeMultimodalFilterContext,
@@ -44,15 +44,15 @@ import {
   filterAlibabaFreeAudioEligibleModels,
   filterAlibabaFreeMultimodalEligibleModels,
   filterAlibabaFreeVisionEligibleModels,
-} from '../alibabaFreeTierQuotaFetcher.ts';
-import type { AlibabaConnectionLike } from '../alibabaFreeTierQuotaFetcher.ts';
+} from "../alibabaFreeTierQuotaFetcher.ts";
+import type { AlibabaConnectionLike } from "../alibabaFreeTierQuotaFetcher.ts";
 import {
   isAlibabaFreeTierAudioComboName,
   isAlibabaFreeTierMultimodalComboName,
   isAlibabaFreeTierTextComboName,
   isAlibabaFreeTierVisionComboName,
-} from '../dashscopeTextModels.ts';
-import type { ComboLike } from './types.ts';
+} from "../dashscopeTextModels.ts";
+import type { ComboLike } from "./types.ts";
 
 /** Sentinel pattern used for "all models of a provider". */
 const PROVIDER_WILDCARD_SENTINEL = "*";
@@ -160,7 +160,7 @@ async function filterAlibabaFreeDrainedModelIds(
     return modelIds;
   }
   try {
-    const { getProviderConnections } = await import("../../../src/lib/db/providers.ts");
+    const { getProviderConnections } = await import("@/lib/db/providers");
     const connections = await getProviderConnections({ provider: providerId });
     const connection = connections.find((entry) => entry.id === connectionId);
     if (!connection) return modelIds;

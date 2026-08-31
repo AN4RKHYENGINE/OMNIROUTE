@@ -141,7 +141,7 @@ async function resolveConnectionHealth(
   if (_connectionFetcherOverride) return _connectionFetcherOverride(connectionId, provider);
 
   try {
-    const mod = await import("../../../src/lib/db/readCache");
+    const mod = await import("@/lib/db/readCache");
     const getCachedProviderConnections = mod.getCachedProviderConnections as (
       filter: Record<string, unknown>
     ) => Promise<StickyConnectionHealth[]>;
@@ -226,7 +226,7 @@ async function resolveSaturation(
   if (_fetcherOverride) return _fetcherOverride(connectionId);
 
   try {
-    const mod = await import("../../../src/lib/quota/saturationSignals");
+    const mod = await import("@/lib/quota/saturationSignals");
     const getSaturation = mod.getSaturation as (
       connectionId: string,
       provider: string,

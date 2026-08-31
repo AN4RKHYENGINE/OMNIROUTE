@@ -23,15 +23,15 @@ import {
   isAlibabaModelStudioProvider,
   mergeAlibabaFreeDrainedModels,
   type AlibabaBillingMode,
-} from './alibabaFreeTier.ts';
+} from "./alibabaFreeTier.ts";
 import {
   getAlibabaBuiltinFreeTierTextCapableModels,
   getAlibabaBuiltinNoFreeTierTextModels,
-} from './alibabaFreeTierAllowlist.ts';
+} from "./alibabaFreeTierAllowlist.ts";
 import {
   buildAlibabaFreeTierTextFilterContext,
   getAlibabaFreeTierQuotaLastSyncAt,
-} from './alibabaFreeTierQuotaFetcher.ts';
+} from "./alibabaFreeTierQuotaFetcher.ts";
 
 export type AlibabaFreeTierProbeVerdict =
   "capable_available" | "capable_drained" | "not_capable" | "unknown";
@@ -347,7 +347,7 @@ export function scheduleAlibabaFreeTierProbeRefresh(
         chatCompletionsUrl
       );
       if (!merged) return;
-      const { updateProviderConnection } = await import("../../src/lib/db/providers.ts");
+      const { updateProviderConnection } = await import("@/lib/db/providers");
       await updateProviderConnection(connection.id, { providerSpecificData: merged });
     } catch (error) {
       console.warn("[alibaba-free-tier] background probe refresh failed", {

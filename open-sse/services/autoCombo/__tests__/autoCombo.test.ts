@@ -2,9 +2,9 @@
  * Unit tests for Auto-Combo Engine (Phase 5)
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { calculateFactors, calculateScore, DEFAULT_WEIGHTS, validateWeights } from '../scoring';
-import type { ProviderCandidate, ScoringWeights } from '../scoring';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { calculateFactors, calculateScore, DEFAULT_WEIGHTS, validateWeights } from "../scoring";
+import type { ProviderCandidate, ScoringWeights } from "../scoring";
 import {
   getTaskFitness,
   getTaskFitnessWithSource,
@@ -13,11 +13,11 @@ import {
   invalidateFitnessCache,
   setUserFitnessOverride,
   clearUserFitnessOverride,
-} from '../taskFitness';
-import { SelfHealingManager } from '../selfHealing';
-import { MODE_PACKS, getModePack, getModePackNames } from '../modePacks';
-import { getStrategy } from '../routerStrategy';
-import type { RoutingContext } from '../routerStrategy';
+} from "../taskFitness";
+import { SelfHealingManager } from "../selfHealing";
+import { MODE_PACKS, getModePack, getModePackNames } from "../modePacks";
+import { getStrategy } from "../routerStrategy";
+import type { RoutingContext } from "../routerStrategy";
 
 describe("Scoring", () => {
   const candidate: ProviderCandidate = {
@@ -106,7 +106,7 @@ describe("Task Fitness", () => {
       const baseId = "alias-base-test-4517";
       const freeId = "alias-base-test-4517-free";
       const { upsertModelIntelligence, deleteModelIntelligence } =
-        await import("../../../../src/lib/db/modelIntelligence.ts");
+        await import("@/lib/db/modelIntelligence");
       // Seed arena_elo on the base id only — no row exists for the free id.
       upsertModelIntelligence({
         model: baseId,

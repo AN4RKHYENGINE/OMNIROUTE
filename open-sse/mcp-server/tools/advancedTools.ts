@@ -16,20 +16,20 @@
  *  11. omniroute_sync_pricing      — Sync provider pricing from external source
  */
 
-import { logToolCall } from '../audit.ts';
-import { getMcpHttpAuthHeadersForInternalFetch } from '../httpAuthContext.ts';
-import { normalizeQuotaResponse } from '@shared/contracts/quota.ts';
-import { resolveOmniRouteBaseUrl } from '@shared/utils/resolveOmniRouteBaseUrl.ts';
+import { logToolCall } from "../audit.ts";
+import { getMcpHttpAuthHeadersForInternalFetch } from "../httpAuthContext.ts";
+import { normalizeQuotaResponse } from "@shared/contracts/quota.ts";
+import { resolveOmniRouteBaseUrl } from "@shared/utils/resolveOmniRouteBaseUrl.ts";
 import {
   getComboModelProvider,
   getComboModelString,
   getComboStepTarget,
-} from '@lib/combos/steps.ts';
+} from "@lib/combos/steps.ts";
 import type {
   AutoRoutingStrategyValue,
   RoutingStrategyValue,
-} from '@shared/constants/routingStrategies.ts';
-import { normalizeRoutingStrategy } from '@shared/constants/routingStrategies.ts';
+} from "@shared/constants/routingStrategies.ts";
+import { normalizeRoutingStrategy } from "@shared/constants/routingStrategies.ts";
 
 const OMNIROUTE_BASE_URL = resolveOmniRouteBaseUrl();
 const OMNIROUTE_API_KEY = process.env.OMNIROUTE_API_KEY || "";
@@ -893,7 +893,7 @@ export async function handleDbHealthCheck(args: { autoRepair?: boolean }) {
   const autoRepair = args.autoRepair === true;
 
   try {
-    const { runManagedDbHealthCheck } = await import("../../../src/lib/db/core.ts");
+    const { runManagedDbHealthCheck } = await import("@/lib/db/core");
     const result = runManagedDbHealthCheck({ autoRepair });
 
     await logToolCall(

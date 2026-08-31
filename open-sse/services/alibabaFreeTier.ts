@@ -7,7 +7,7 @@
  * - [2026-07-24] [Composer] - Add free-vs-paid billing mode and permanent free-tier model drain handling
  */
 
-import { isModelLocked, lockModel } from './accountFallback.ts';
+import { isModelLocked, lockModel } from "./accountFallback.ts";
 
 export type AlibabaBillingMode = "free" | "paid";
 
@@ -30,7 +30,7 @@ const ALIBABA_MODEL_STUDIO_PROVIDER_IDS = new Set(["alibaba", "alibaba-cn", "ali
 export {
   filterAlibabaFreeEligibleModels,
   isAlibabaFreeTierCapableModel,
-} from './alibabaFreeTierDiscovery.ts';
+} from "./alibabaFreeTierDiscovery.ts";
 
 export {
   filterAlibabaFreeVisionEligibleModels,
@@ -39,7 +39,7 @@ export {
   isAlibabaFreeTierVisionCapableModel,
   isAlibabaFreeTierMultimodalCapableModel,
   isAlibabaFreeTierAudioCapableModel,
-} from './alibabaFreeTierQuotaFetcher.ts';
+} from "./alibabaFreeTierQuotaFetcher.ts";
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -142,7 +142,7 @@ export async function isAlibabaFreeTierModelRoutable(
   if (!isAlibabaModelStudioProvider(provider) || !model) return true;
   if (isModelLocked(provider, connectionId, model)) return false;
   try {
-    const { getProviderConnections } = await import("../../src/lib/db/providers.ts");
+    const { getProviderConnections } = await import("@/lib/db/providers");
     const { buildAlibabaFreeTierFilterContext, isAlibabaFreeTierCapableModel } =
       await import("./alibabaFreeTierDiscovery.ts");
     const connections = await getProviderConnections({ provider });
