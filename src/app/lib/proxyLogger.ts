@@ -1,3 +1,4 @@
+import { matchesSearch } from "@/shared/utils/turkishText";
 /**
  * Proxy Logger — Hybrid in-memory + SQLite persistence
  *
@@ -215,14 +216,14 @@ export function getProxyLogs(filters: ProxyLogFilters = {}) {
     const q = filters.search.toLowerCase();
     logs = logs.filter(
       (l) =>
-        (l.proxy?.host || "").toLowerCase().includes(q) ||
-        (l.provider || "").toLowerCase().includes(q) ||
-        (l.targetUrl || "").toLowerCase().includes(q) ||
-        (l.clientIp || "").toLowerCase().includes(q) ||
-        (l.egressIp || "").toLowerCase().includes(q) ||
-        (l.level || "").toLowerCase().includes(q) ||
-        (l.error || "").toLowerCase().includes(q) ||
-        (l.account || "").toLowerCase().includes(q)
+        (l.proxy?.host || "").matchesSearch(q) ||
+        (l.provider || "").matchesSearch(q) ||
+        (l.targetUrl || "").matchesSearch(q) ||
+        (l.clientIp || "").matchesSearch(q) ||
+        (l.egressIp || "").matchesSearch(q) ||
+        (l.level || "").matchesSearch(q) ||
+        (l.error || "").matchesSearch(q) ||
+        (l.account || "").matchesSearch(q)
     );
   }
 

@@ -1,4 +1,5 @@
-"use client";
+import { matchesSearch } from "@/shared/utils/turkishText";
+("use client");
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -37,10 +38,10 @@ export default function CliAgentsPageClient({ machineId: _machineId }: CliAgents
       // Search filter
       if (search.trim()) {
         const q = search.trim().toLowerCase();
-        const matchesName = tool.name.toLowerCase().includes(q);
-        const matchesId = tool.id.toLowerCase().includes(q);
-        const matchesDesc = tool.description.toLowerCase().includes(q);
-        const matchesVendor = tool.vendor.toLowerCase().includes(q);
+        const matchesName = tool.name.includes(q);
+        const matchesId = tool.idmatchesSearch(q);
+        const matchesDesc = tool.descriptionmatchesSearch(q);
+        const matchesVendor = tool.vendormatchesSearch(q);
         if (!matchesName && !matchesId && !matchesDesc && !matchesVendor) {
           return false;
         }
