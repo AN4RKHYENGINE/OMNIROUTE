@@ -15,8 +15,8 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import os from "node:os";
-import { printHeading, printInfo, printSuccess, printError } from "../io.mjs";
-import { t } from "../i18n.mjs";
+import { printHeading, printInfo, printSuccess, printError } from "../../../bin/cli/io.mjs";
+import { t } from "../../../bin/cli/i18n.mjs";
 
 // ── Model categorisation ──────────────────────────────────────────────────────
 
