@@ -4,7 +4,7 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = config.externals || [];
-      config.externals.push("wreq-js");
+      config.externals.push("wreq-js", "@ngrok/ngrok", "keytar", "koffi", "tls-client-node");
     }
     return config;
   },
