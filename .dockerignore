@@ -1,9 +1,9 @@
-.git
 node_modules
-.next
-tests
-docs
-OmniRoute
-Dockerfile.prod
-**/*.log
-.build/
+.git
+.gitignore
+README.md
+.env
+.env.local
+.env.*.local
+.next/cache
+.next/static
