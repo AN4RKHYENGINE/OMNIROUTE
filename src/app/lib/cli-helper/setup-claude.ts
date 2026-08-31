@@ -19,12 +19,8 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import os from "node:os";
-import { printHeading, printInfo, printSuccess, printError } from "../../../bin/cli/io.mjs";
-import {
-  categoriseModel,
-  isCodexCompatibleTextModel,
-  profileNameFromModelId,
-} from "./setup-codex.mjs";
+import { printHeading, printInfo, printSuccess, printError } from "../../../bin/cli/io";
+import { categoriseModel, isCodexCompatibleTextModel, profileNameFromModelId } from "./setup-codex";
 
 /** Map a Codex-style effort to a Claude Code settings.json effortLevel. */
 function effortLevelFor(cfg) {
