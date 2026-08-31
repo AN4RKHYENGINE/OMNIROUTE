@@ -1,4 +1,4 @@
-import { docs } from "../../.source/server";
+import { docs } from "@source-bridge";
 import { loader } from "fumadocs-core/source";
 
 const generatedSource = docs.toFumadocsSource();

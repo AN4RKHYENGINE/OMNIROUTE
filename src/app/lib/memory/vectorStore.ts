@@ -14,7 +14,7 @@ import {
   setMemoryVecMeta,
   markAllMemoriesNeedReindex,
   countMemoryReindexPending,
-} from "../memoryVec";
+} from "@/lib/db/memoryVec";
 import { getDbInstance } from "../db/core";
 import { logger } from "@open-sse/utils/logger.ts";
 import { sanitizeErrorMessage } from "@open-sse/utils/error.ts";

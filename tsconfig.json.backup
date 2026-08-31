@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "checkJs": false,
     "skipLibCheck": true,
@@ -17,15 +21,27 @@
     "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/*": ["./src/app/*"],
-      "@omniroute/open-sse": ["./open-sse"],
-      "@omniroute/open-sse/*": ["./open-sse/*"],
-      "@omniroute/browser-pool": ["./packages/browser-pool/src"],
-      "@lib/*": ["./src/app/lib/*"],
-      "@shared/*": ["./src/app/shared/*"],
-      "@open-sse/*": ["./open-sse/*"],
-      "@cli-io": ["./src/lib/cli-io"],
-      "@source-bridge": ["./src/lib/source-bridge"]
+      "@/*": [
+        "./src/app/*"
+      ],
+      "@omniroute/open-sse": [
+        "./open-sse"
+      ],
+      "@omniroute/open-sse/*": [
+        "./open-sse/*"
+      ],
+      "@omniroute/browser-pool": [
+        "./packages/browser-pool/src"
+      ],
+      "@lib/*": [
+        "./src/app/lib/*"
+      ],
+      "@shared/*": [
+        "./src/app/shared/*"
+      ],
+      "@open-sse/*": [
+        "./open-sse/*"
+      ]
     },
     "plugins": [
       {

@@ -19,7 +19,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import os from "node:os";
-import { printHeading, printInfo, printSuccess, printError } from "../../../bin/cli/io";
+import { printHeading, printInfo, printSuccess, printError } from "@cli-io";
 import { categoriseModel, isCodexCompatibleTextModel, profileNameFromModelId } from "./setup-codex";
 
 /** Map a Codex-style effort to a Claude Code settings.json effortLevel. */
