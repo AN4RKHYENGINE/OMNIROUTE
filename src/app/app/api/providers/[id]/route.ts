@@ -4,10 +4,10 @@ import {
   getProviderAuditTarget,
   summarizeProviderConnectionForAudit,
 } from "@/lib/compliance/providerAudit";
-import { updateProviderConnection } from "@/lib/db/providers"
-import { getCachedProviderConnectionById } from "@/lib/db/readCache"
-import { isCloudEnabled } from "@/lib/db/settings"
-import { deleteProviderConnection } from "@/lib/localDb";
+import { updateProviderConnection } from "@/lib/db/providers";
+import { getCachedProviderConnectionById } from "@/lib/db/readCache";
+import { isCloudEnabled } from "@/lib/db/settings";
+import { deleteProviderConnection } from "@/lib/db/providers";
 import { getConsistentMachineId } from "@/shared/utils/machineId";
 import { syncToCloud } from "@/lib/cloudSync";
 import { updateProviderConnectionSchema } from "@/shared/validation/schemas";
@@ -26,7 +26,7 @@ import { cleanupProviderModelsAfterConnectionDelete } from "@/lib/db/models";
 import {
   refreshConnectionRateLimits,
   enableRateLimitProtection,
-} from "@/../open-sse/services/rateLimitManager";
+} from "@open-sse/services/rateLimitManager";
 import {
   finalizeValidatedChatGptWebCodexSecrets,
   decodeChatGptWebCodexSecrets,

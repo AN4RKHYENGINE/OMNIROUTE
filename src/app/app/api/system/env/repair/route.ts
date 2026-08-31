@@ -10,7 +10,9 @@ import { join } from "node:path";
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/shared/utils/apiAuth";
 // @ts-expect-error - .mjs without types
-import { getEnvSyncPlan, syncEnv } from "../../../../../../scripts/dev/sync-env.mjs";
+async function getSyncEnv() {
+  return import("../../../../../../scripts/dev/sync-env.mjs");
+}
 
 async function loadSyncHelpers() {
   return { getEnvSyncPlan, syncEnv };
