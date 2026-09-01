@@ -24,4 +24,4 @@ RUN npm prune --omit=dev
 EXPOSE 3000
 
 # Start app
-CMD ["npm", "start"]
+CMD ["node", ".next/standalone/server.js"]
