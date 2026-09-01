@@ -1,19 +1,4 @@
-app = 'omniroute-calm-acorn-9243'
-primary_region = 'ams'
+app = "omniroute-calm-acorn-9243"
 
 [build]
-  builder = 'none'
-
-[http_service]
-  internal_port = 3000
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 0
-  processes = ['app']
-
-[[vm]]
-  memory = '512mb'
-  cpu_kind = 'shared'
-  cpus = 1
-  memory_mb = 512
+  dockerfile = "Dockerfile"

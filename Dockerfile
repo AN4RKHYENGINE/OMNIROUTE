@@ -1,27 +1,25 @@
-FROM node:24-alpine
-
+FROM node:24-alpine AS base
 WORKDIR /app
 
-# Copy package files
+FROM base AS deps
 COPY package*.json ./
-
-# Install dependencies with legacy peer deps to handle version conflicts
 RUN npm ci --prefer-offline --no-audit --legacy-peer-deps
-ENV NODE_OPTIONS=--max-old-space-size=4096
 
-# Copy source
+FROM base AS builder
+ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV CI=1
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN npm run build
 
-# Build with explicit heap limit
-ENV NODE_OPTIONS="--max-old-space-size=2048 --max-http-header-size=16384"
-RUN npm run build --verbose 2>&1 | tee build.log || (tail -100 build.log && exit 1)
+FROM base AS runner
+ENV NODE_ENV=production
 ENV NODE_OPTIONS=--max-old-space-size=4096
+WORKDIR /app
 
-# Remove dev dependencies
-RUN npm prune --omit=dev
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
 
-# Expose port
 EXPOSE 3000
-
-# Start app
-CMD ["node", ".next/standalone/server.js"]
+CMD ["node", "server.js"]
