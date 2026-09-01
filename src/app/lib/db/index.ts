@@ -11,3 +11,5 @@ export * from "./models";
 export * from "./compression";
 export * from "./compressionCombos";
 export * from "./modelIntelligence";
+
+export { getApiKeyById, createApiKey } from "./apiKeys";
