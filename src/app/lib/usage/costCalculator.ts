@@ -1,3 +1,4 @@
+import { toNumber } from "@/shared/utils/numeric";
 /**
  * Cost Calculator — extracted from usageDb.js (T-15)
  *
@@ -50,28 +51,21 @@ export type CostCalculationOptions = {
  */
 const USD_TICKS_PER_DOLLAR = 10_000_000_000;
 
+type UsageTokenRecord = Record<string, number | undefined> & {
+  cost_in_usd_ticks?: number;
+};
+
 /**
  * Extract an exact, provider-reported USD cost from a token/usage record when one
  * is present, so callers can trust it over the token × pricing estimate. Currently
  * only xAI's `cost_in_usd_ticks` field is handled — see comment above.
  */
-function extractExactCostUsd(
-  tokens: Record<string, number | undefined> | null | undefined
-): number | null {
+function extractExactCostUsd(tokens: UsageTokenRecord | null | undefined): number | null {
   const ticks = tokens?.cost_in_usd_ticks;
   if (typeof ticks === "number" && Number.isFinite(ticks) && ticks >= 0) {
     return ticks / USD_TICKS_PER_DOLLAR;
   }
   return null;
-}
-
-function toNumber(value: unknown, fallback = 0): number {
-  if (typeof value === "number" && Number.isFinite(value)) return value;
-  if (typeof value === "string" && value.trim().length > 0) {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-  }
-  return fallback;
 }
 
 function normalizeServiceTier(value: unknown): string {
@@ -126,7 +120,7 @@ export function getCodexFastCostMultiplier(
  */
 export function computeCostFromPricing(
   pricing: Record<string, unknown> | null | undefined,
-  tokens: Record<string, number | undefined> | null | undefined,
+  tokens: UsageTokenRecord | null | undefined,
   options: CostCalculationOptions = {}
 ): number {
   if (!tokens) return 0;
@@ -176,7 +170,7 @@ export function computeCostFromPricing(
 export async function calculateCost(
   provider: string,
   model: string,
-  tokens: Record<string, number | undefined> | null | undefined,
+  tokens: UsageTokenRecord | null | undefined,
   options: CostCalculationOptions = {}
 ): Promise<number> {
   if (!tokens || !provider || !model) return 0;
