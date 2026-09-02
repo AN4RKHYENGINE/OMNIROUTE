@@ -16,3 +16,4 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: flyctl deploy --remote-only -a omniroute-calm-acorn-9243
+
