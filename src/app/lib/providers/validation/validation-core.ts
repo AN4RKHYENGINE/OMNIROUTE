@@ -25,8 +25,8 @@ import {
   normalizeBaseUrl,
   addModelsSuffix,
   resolveBaseUrl,
-} from "./validation/urlHelpers";
-import { toValidationErrorResult } from "./validation/transport";
+} from "./urlHelpers";
+import { toValidationErrorResult } from "./transport";
 import {
   validateMuseSparkWebProvider,
   validateAdaptaWebProvider,
@@ -40,7 +40,7 @@ import {
   validateDevinCloudAgentProvider,
   validateInnerAiProvider,
   validateNotionWebProvider,
-} from "./validation/webProvidersB";
+} from "./webProvidersB";
 import {
   validateHerokuProvider,
   validateDatabricksProvider,
@@ -114,9 +114,9 @@ import {
 // (provider-nodes/validate route + tests) — re-export to preserve the historical public surface.
 export { validateCommandCodeProvider, validateClaudeCodeCompatibleProvider };
 
-// isRetryableProxyTarget + isSecurityBlockError now live in ./validation/transport. Re-export them
+// isRetryableProxyTarget + isSecurityBlockError now live in ./transport. Re-export them
 // here to preserve the historical public surface (tests + route handlers import them via this module).
-export { isRetryableProxyTarget, isSecurityBlockError } from "./validation/transport";
+export { isRetryableProxyTarget, isSecurityBlockError } from "./transport";
 
 // validateWebCookieProvider + bytezValidationResultFromStatus have external importers (tests +
 // the web-cookie fallback suites) — re-export to preserve the historical public surface.
