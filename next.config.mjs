@@ -12,7 +12,8 @@ const nextConfig = {
           request === "@ngrok/ngrok" ||
           request === "keytar" ||
           request === "koffi" ||
-          request === "tls-client-node"
+          request === "tls-client-node" ||
+          request === "better-sqlite3"
         ) {
           return callback(null, `commonjs ${request}`);
         }
