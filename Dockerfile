@@ -3,7 +3,7 @@ WORKDIR /app
 
 FROM base AS deps
 COPY package*.json ./
-RUN npm ci --omit=dev --prefer-offline --no-audit --legacy-peer-deps
+RUN npm ci --prefer-offline --no-audit --legacy-peer-deps
 
 FROM base AS builder
 ENV NODE_ENV=production
