@@ -6,10 +6,5 @@ coverage
 tests
 test
 docs
-.build
-src
-packages
-open-sse
-CHANGELOG.md
 *.log
 .env*
