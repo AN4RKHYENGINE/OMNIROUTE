@@ -1,10 +1,8 @@
-.git
-.github
 node_modules
 .next
+.build
+.git
 coverage
-tests
-test
-docs
+dist
+tmp
 *.log
-.env*
