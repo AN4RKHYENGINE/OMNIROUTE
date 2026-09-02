@@ -4,9 +4,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    serverExternalPackages: ["@ngrok/ngrok", "keytar", "koffi", "tls-client-node"],
-  },
   webpack(config, { isServer }) {
     if (isServer) {
       config.externals = config.externals || [];
