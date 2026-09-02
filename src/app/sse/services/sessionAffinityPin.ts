@@ -35,10 +35,7 @@ import {
 import { touchConnectionLastUsed } from "@/lib/db/providers";
 import { isModelExcludedByConnection } from "@/domain/connectionModelRules";
 import { isAccountQuotaExhausted } from "@/domain/quotaCache";
-import {
-  isAccountUnavailable,
-  isModelLocked,
-} from "@omniroute/open-sse/services/accountFallback.ts";
+import { isAccountUnavailable, isModelLocked } from "@omniroute/open-sse/services/accountFallback";
 import * as log from "../utils/logger";
 
 /** Minimal structural view of a provider connection this module reads. */

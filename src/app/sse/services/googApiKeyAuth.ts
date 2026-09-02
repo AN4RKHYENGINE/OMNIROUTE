@@ -1,4 +1,4 @@
-import { readHeaderValue, type AuthRequestHeaders } from "./headerReader.ts";
+import { readHeaderValue, type AuthRequestHeaders } from "./headerReader";
 
 /**
  * Issue #7034: `gemini-cli` (and any `@google/genai`-based client) sends its

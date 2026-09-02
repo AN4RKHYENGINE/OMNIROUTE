@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { resolveChatRequestBody } from "./requestBody";
-import * as chatAdmission from "./chatAdmission.ts";
-import { buildClientRawRequest, resolveDispatchClientRawRequest } from "./chat/clientRawRequest.ts";
+import * as chatAdmission from "./chatAdmission";
+import { buildClientRawRequest, resolveDispatchClientRawRequest } from "./chat/clientRawRequest";
 export { buildClientRawRequest, resolveDispatchClientRawRequest };
 import { normalizeReasoningRequest } from "@/shared/reasoning/effortStandardization";
 import { resolveRoutingModel, RoutingModelOps } from "./resolveRoutingModel";
@@ -19,36 +19,36 @@ import {
   lockModel,
   recordModelLockoutFailure,
   isDailyQuotaExhausted,
-} from "@omniroute/open-sse/services/accountFallback.ts";
+} from "@omniroute/open-sse/services/accountFallback";
 import { getCombo, getComboForModel, getModelInfo } from "../services/model";
-import { stripContextWindowSuffix } from "@omniroute/open-sse/services/model.ts";
-import { resolveBareModelToConnectionDefault } from "@omniroute/open-sse/services/model.ts";
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import { getImageModelEntry } from "@omniroute/open-sse/config/imageRegistry.ts";
-import { acceptHeaderForcesStream } from "@omniroute/open-sse/utils/aiSdkCompat.ts";
-import { applyNoThinkingAlias } from "@omniroute/open-sse/utils/noThinkingAlias.ts";
+import { stripContextWindowSuffix } from "@omniroute/open-sse/services/model";
+import { resolveBareModelToConnectionDefault } from "@omniroute/open-sse/services/model";
+import { errorResponse } from "@omniroute/open-sse/utils/error";
+import { getImageModelEntry } from "@omniroute/open-sse/config/imageRegistry";
+import { acceptHeaderForcesStream } from "@omniroute/open-sse/utils/aiSdkCompat";
+import { applyNoThinkingAlias } from "@omniroute/open-sse/utils/noThinkingAlias";
 import { resolveCcDiscoveryAliasStrip } from "@/lib/ccDiscoveryAliasResolve";
-import { handleComboChat, shouldSkipConnDisable } from "@omniroute/open-sse/services/combo.ts";
-import type { SingleModelTarget } from "@omniroute/open-sse/services/combo/types.ts";
+import { handleComboChat, shouldSkipConnDisable } from "@omniroute/open-sse/services/combo";
+import type { SingleModelTarget } from "@omniroute/open-sse/services/combo/types";
 import { mergeAbortSignals } from "@omniroute/open-sse/handlers";
-import { resolveRequestAutoControls } from "@omniroute/open-sse/services/autoCombo/requestControls.ts";
-import { isVerifiedNativeCodexRequest } from "@omniroute/open-sse/config/codexIdentity.ts";
-import { resolveComboConfig } from "@omniroute/open-sse/services/comboConfig.ts";
-import { injectHandoffIntoBody } from "@omniroute/open-sse/services/contextHandoff.ts";
+import { resolveRequestAutoControls } from "@omniroute/open-sse/services/autoCombo/requestControls";
+import { isVerifiedNativeCodexRequest } from "@omniroute/open-sse/config/codexIdentity";
+import { resolveComboConfig } from "@omniroute/open-sse/services/comboConfig";
+import { injectHandoffIntoBody } from "@omniroute/open-sse/services/contextHandoff";
 import {
   HTTP_STATUS,
   ANTIGRAVITY_PRE_RESPONSE_TIMEOUT_CODE,
-} from "@omniroute/open-sse/config/constants.ts";
+} from "@omniroute/open-sse/config/constants";
 import {
   getTargetFormat,
   detectFormatFromEndpoint,
   detectFormatFromUrl,
-} from "@omniroute/open-sse/services/provider.ts";
+} from "@omniroute/open-sse/services/provider";
 import {
   getModelsByProviderId,
   getModelTargetFormat,
   PROVIDER_ID_TO_ALIAS,
-} from "@omniroute/open-sse/config/providerModels.ts";
+} from "@omniroute/open-sse/config/providerModels";
 import * as log from "../utils/logger";
 import { checkAndRefreshToken } from "../services/tokenRefresh";
 import { createHookContext, runHooks, initPreRequestRegistry } from "@/lib/middleware/registry";
@@ -93,9 +93,9 @@ import {
   resolveStreamReadinessClassificationError,
   shouldTripProviderBreakerForResult,
 } from "./chatPredicates";
-import { markAntigravityMissingCloudCodeProject } from "@omniroute/open-sse/services/antigravityProjectPersistence.ts";
-import { connectionHasExtraKeys } from "@omniroute/open-sse/services/apiKeyRotator.ts";
-import { wrapResponseWithOAuthSessionRelease } from "@omniroute/open-sse/services/oauthSessionOccupancy.ts";
+import { markAntigravityMissingCloudCodeProject } from "@omniroute/open-sse/services/antigravityProjectPersistence";
+import { connectionHasExtraKeys } from "@omniroute/open-sse/services/apiKeyRotator";
+import { wrapResponseWithOAuthSessionRelease } from "@omniroute/open-sse/services/oauthSessionOccupancy";
 import {
   extractReasoningIntent,
   type ExtractedReasoningIntent,
@@ -111,26 +111,26 @@ import { getComboFailureLogError } from "./comboFailureLogging";
 
 // Pipeline integration — wired modules
 import { classify429FromError, type FailureKind } from "@/shared/utils/classify429";
-import { isSubscriptionQuotaText } from "@omniroute/open-sse/services/quotaTextCooldowns.ts";
+import { isSubscriptionQuotaText } from "@omniroute/open-sse/services/quotaTextCooldowns";
 import { resolveUseUpstream429BreakerHints } from "@/shared/utils/providerHints";
 import { getCircuitBreaker, isLocalStreamLifecycleError } from "../../shared/utils/circuitBreaker";
 import { markAccountExhaustedFrom429 } from "../../domain/quotaCache";
-import { resolveForcedConnectionForCredentialPool } from "../services/sessionAffinityPin.ts";
+import { resolveForcedConnectionForCredentialPool } from "../services/sessionAffinityPin";
 import { RequestTelemetry, recordTelemetry } from "../../shared/utils/requestTelemetry";
 import { generateRequestId } from "../../shared/utils/requestId";
 import { logAuditEvent } from "../../lib/compliance/index";
 import { enforceApiKeyPolicy } from "../../shared/utils/apiKeyPolicy";
 import { hasProviderQuotaBypassScope } from "../../shared/constants/apiKeyPolicyScopes";
-import { cloneBoundedForLog } from "@omniroute/open-sse/utils/requestLogger.ts";
+import { cloneBoundedForLog } from "@omniroute/open-sse/utils/requestLogger";
 import { handleInternalUsageCommand } from "@/lib/usage/internalUsageCommand";
 import {
   applyTaskAwareRouting,
   getTaskRoutingConfig,
-} from "@omniroute/open-sse/services/taskAwareRouter.ts";
+} from "@omniroute/open-sse/services/taskAwareRouter";
 import {
   hasNativeWebSearchTool,
   resolveWebSearchRouteOverride,
-} from "@omniroute/open-sse/services/webSearchRouting.ts";
+} from "@omniroute/open-sse/services/webSearchRouting";
 import {
   generateSessionId as generateStableSessionId,
   touchSession,
@@ -138,24 +138,24 @@ import {
   checkSessionLimit,
   registerKeySession,
   isSessionRegisteredForKey,
-} from "@omniroute/open-sse/services/sessionManager.ts";
-import { startQuotaMonitor } from "@omniroute/open-sse/services/quotaMonitor.ts";
+} from "@omniroute/open-sse/services/sessionManager";
+import { startQuotaMonitor } from "@omniroute/open-sse/services/quotaMonitor";
 import {
   isFallbackDecision,
   shouldUseFallback,
-} from "@omniroute/open-sse/services/emergencyFallback.ts";
+} from "@omniroute/open-sse/services/emergencyFallback";
 import {
   registerCodexConnection,
   registerCodexQuotaFetcher,
-} from "@omniroute/open-sse/services/codexQuotaFetcher.ts";
-import { registerBailianCodingPlanQuotaFetcher } from "@omniroute/open-sse/services/bailianQuotaFetcher.ts";
-import { registerCrofUsageFetcher } from "@omniroute/open-sse/services/crofUsageFetcher.ts";
-import { registerDeepseekQuotaFetcher } from "@omniroute/open-sse/services/deepseekQuotaFetcher.ts";
-import { registerOpenrouterQuotaFetcher } from "@omniroute/open-sse/services/openrouterQuotaFetcher.ts";
-import { registerOpencodeQuotaFetcher } from "@omniroute/open-sse/services/opencodeQuotaFetcher.ts";
-import { registerGrokWebQuotaFetcher } from "@omniroute/open-sse/services/grokQuotaFetcher.ts";
-import { registerGenericQuotaFetchers } from "@omniroute/open-sse/services/genericQuotaFetcher.ts";
-import "@omniroute/open-sse/services/quotaTrackersBatch.ts";
+} from "@omniroute/open-sse/services/codexQuotaFetcher";
+import { registerBailianCodingPlanQuotaFetcher } from "@omniroute/open-sse/services/bailianQuotaFetcher";
+import { registerCrofUsageFetcher } from "@omniroute/open-sse/services/crofUsageFetcher";
+import { registerDeepseekQuotaFetcher } from "@omniroute/open-sse/services/deepseekQuotaFetcher";
+import { registerOpenrouterQuotaFetcher } from "@omniroute/open-sse/services/openrouterQuotaFetcher";
+import { registerOpencodeQuotaFetcher } from "@omniroute/open-sse/services/opencodeQuotaFetcher";
+import { registerGrokWebQuotaFetcher } from "@omniroute/open-sse/services/grokQuotaFetcher";
+import { registerGenericQuotaFetchers } from "@omniroute/open-sse/services/genericQuotaFetcher";
+import "@omniroute/open-sse/services/quotaTrackersBatch";
 import {
   disableCooldownAwareRetry,
   getCooldownAwareRetryDecision,
@@ -793,7 +793,7 @@ async function handleChatImplementation(
       // OAuth selection must happen atomically with occupancy reservation in the
       // actual dispatch. Availability preflight may finish well before a combo
       // target runs, so caching OAuth credentials here would reintroduce a race.
-      if (creds.authType !== "oauth") {
+      if ("authType" in creds && creds.authType !== "oauth") {
         comboPreselectedCredentials.set(getComboCredentialCacheKey(modelString, target), creds);
       }
       return true;
@@ -873,7 +873,7 @@ async function handleChatImplementation(
             reasoningIntent,
             reasoningRequestTags: requestRoutingTags.tags,
             // #7360 follow-up: without this, a target dispatch abandoned by
-            // targetTimeoutRunner.ts's per-target timeout (comboTargetTimeoutMs)
+            // targetTimeoutRunner's per-target timeout (comboTargetTimeoutMs)
             // never learns it was abandoned — it only watches the ORIGINAL
             // client's request.signal (see clientRawRequest below), which stays
             // open for as long as the overall combo keeps retrying elsewhere.
@@ -1068,7 +1068,7 @@ async function handleSingleModelChat(
     reasoningIntent?: ExtractedReasoningIntent | null;
     reasoningRequestTags?: string[];
     /**
-     * Per-target abort signal from combo.ts's targetTimeoutRunner
+     * Per-target abort signal from combo's targetTimeoutRunner
      * (comboTargetTimeoutMs) — see the #7360 follow-up comment at the
      * handleSingleModel call site above for why this must be merged into
      * the signal used for the actual dispatch, not left unused.
@@ -1268,7 +1268,7 @@ async function handleSingleModelChat(
   );
   const requestSignal = request?.signal ?? null;
   // Cumulative cap across all waits for this request (#7360 follow-up) — mirrors
-  // combo.ts's comboCooldownBudgetLeftMs. Declared outside requestAttemptLoop so
+  // combo's comboCooldownBudgetLeftMs. Declared outside requestAttemptLoop so
   // it persists (and only decreases) across `continue requestAttemptLoop` retries.
   let requestRetryBudgetLeftMs = retrySettings.budgetMs;
 

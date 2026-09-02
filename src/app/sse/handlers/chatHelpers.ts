@@ -1,31 +1,31 @@
 import { getModelInfo, getComboForModel } from "../services/model";
 import { clearAccountError, markAccountUnavailable } from "../services/auth";
-import { connectionHasExtraKeys } from "@omniroute/open-sse/services/apiKeyRotator.ts";
-import { createBuiltinAutoCombo } from "@omniroute/open-sse/services/autoCombo/builtinCatalog.ts";
+import { connectionHasExtraKeys } from "@omniroute/open-sse/services/apiKeyRotator";
+import { createBuiltinAutoCombo } from "@omniroute/open-sse/services/autoCombo/builtinCatalog";
 import * as log from "../utils/logger";
 import { updateProviderCredentials } from "../services/tokenRefresh";
-import { detectFormatFromEndpoint } from "@omniroute/open-sse/services/provider.ts";
-import { resolveChatCoreTargetFormat } from "@omniroute/open-sse/handlers/chatCore/targetFormat.ts";
-import { handleChatCore } from "@omniroute/open-sse/handlers/chatCore.ts";
+import { detectFormatFromEndpoint } from "@omniroute/open-sse/services/provider";
+import { resolveChatCoreTargetFormat } from "@omniroute/open-sse/handlers/chatCore/targetFormat";
+import { handleChatCore } from "@omniroute/open-sse/handlers/chatCore";
 import {
   checkResourcePressureGuard,
   type ResourcePressureGuardResult,
-} from "@omniroute/open-sse/utils/resourcePressure.ts";
+} from "@omniroute/open-sse/utils/resourcePressure";
 import {
   errorResponse,
   modelCooldownResponse,
   providerCircuitOpenResponse,
   unavailableResponse,
-} from "@omniroute/open-sse/utils/error.ts";
-import { inheritTrustedLocalRateLimitResponse } from "@omniroute/open-sse/services/rateLimitManager/errors.ts";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
+} from "@omniroute/open-sse/utils/error";
+import { inheritTrustedLocalRateLimitResponse } from "@omniroute/open-sse/services/rateLimitManager/errors";
+import { HTTP_STATUS } from "@omniroute/open-sse/config/constants";
 import {
   runWithProxyContext,
   runWithAppliedProxyCapture,
   runWithTlsTracking,
   isTlsFingerprintActive,
   type AppliedProxySink,
-} from "@omniroute/open-sse/utils/proxyFetch.ts";
+} from "@omniroute/open-sse/utils/proxyFetch";
 import { resolveProxyForConnection } from "@/lib/db";
 import { hasBlockingProxyAssignment } from "@/lib/db/proxies";
 import {
@@ -38,7 +38,7 @@ import { resolveUseUpstream429BreakerHints } from "../../shared/utils/providerHi
 
 import { logProxyEvent } from "../../lib/proxyLogger";
 import { logTranslationEvent } from "../../lib/translatorEvents";
-import { getRuntimeProviderProfile } from "@omniroute/open-sse/services/accountFallback.ts";
+import { getRuntimeProviderProfile } from "@omniroute/open-sse/services/accountFallback";
 
 // Models that explicitly cannot run on the codex/ChatGPT-Pro OAuth pool — when
 // a caller writes `codex/deepseek-v4-pro` we transparently reroute to the
@@ -96,7 +96,7 @@ function isCodexNativeResponsesRequest(
     body && typeof body === "object" && body.metadata && typeof body.metadata === "object"
       ? String(body.metadata.source || "")
       : "";
-  return metadataSourcematchesSearch("codex");
+  return metadataSourceMatchesSearch("codex");
 }
 
 async function hasOnlyActiveCodexAccount() {
@@ -447,7 +447,7 @@ export async function executeChatWithBreaker({
           (handleChatCore as any)({
             body: { ...body, model: `${provider}/${model}` },
             // #2905-followup: forward the already-resolved custom-model targetFormat
-            // override through as modelInfo.targetFormat. Without this, chatCore.ts's
+            // override through as modelInfo.targetFormat. Without this, chatCore's
             // own resolveChatCoreRequestSetup() reads customModelTargetFormat off THIS
             // modelInfo object (not the one resolveModelOrError computed it from) and
             // finds nothing, silently re-deriving targetFormat from the static registry
@@ -846,7 +846,7 @@ export async function safeLogEvents({
     let egressIp: string | null = null;
     try {
       const { getCachedEgressIp, warmEgressIp } = await import("../../lib/proxyEgress");
-      const { proxyConfigToUrl } = await import("@omniroute/open-sse/utils/proxyDispatcher.ts");
+      const { proxyConfigToUrl } = await import("@omniroute/open-sse/utils/proxyDispatcher");
       const proxyUrl = proxyInfo?.proxy ? proxyConfigToUrl(proxyInfo.proxy) : null;
       egressIp = getCachedEgressIp(proxyUrl);
       warmEgressIp(proxyUrl);

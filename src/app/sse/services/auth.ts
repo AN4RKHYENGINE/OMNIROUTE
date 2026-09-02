@@ -1,5 +1,5 @@
 import { randomUUID, createHash } from "crypto";
-import { extractGoogApiKeyHeader } from "./googApiKeyAuth.ts";
+import { extractGoogApiKeyHeader } from "./googApiKeyAuth";
 import {
   getCachedRawProviderConnections,
   getCachedProviderNodes,
@@ -26,9 +26,9 @@ import {
   getQuotaWindowStatus,
   isQuotaExhaustedForRequest,
 } from "@/domain/quotaCache";
-import { getQuotaScopeLabelForProvider } from "@omniroute/open-sse/services/antigravityQuotaFamily.ts";
-import { getCreditsMode } from "@omniroute/open-sse/services/antigravityCredits.ts";
-import { preferAntigravityConnectionsWithStoredProject } from "@omniroute/open-sse/services/antigravityProjectPersistence.ts";
+import { getQuotaScopeLabelForProvider } from "@omniroute/open-sse/services/antigravityQuotaFamily";
+import { getCreditsMode } from "@omniroute/open-sse/services/antigravityCredits";
+import { preferAntigravityConnectionsWithStoredProject } from "@omniroute/open-sse/services/antigravityProjectPersistence";
 import {
   isAccountUnavailable,
   getUnavailableUntil,
@@ -42,20 +42,20 @@ import {
   hasPerModelQuota,
   getRuntimeProviderProfile,
   recordModelLockoutFailure,
-} from "@omniroute/open-sse/services/accountFallback.ts";
-import { isLocalProvider } from "@omniroute/open-sse/config/providerRegistry.ts";
-import { COOLDOWN_MS, RateLimitReason } from "@omniroute/open-sse/config/constants.ts";
+} from "@omniroute/open-sse/services/accountFallback";
+import { isLocalProvider } from "@omniroute/open-sse/config/providerRegistry";
+import { COOLDOWN_MS, RateLimitReason } from "@omniroute/open-sse/config/constants";
 import {
   preflightQuota,
   isQuotaPreflightEnabled,
-} from "@omniroute/open-sse/services/quotaPreflight.ts";
+} from "@omniroute/open-sse/services/quotaPreflight";
 import { resolveResilienceSettings } from "@/lib/resilience/settings";
 import { resolveModelLockoutSettings } from "@/lib/resilience/modelLockoutSettings";
-import { syncHealthFromDB, type KeyHealth } from "@omniroute/open-sse/services/apiKeyRotator.ts";
+import { syncHealthFromDB, type KeyHealth } from "@omniroute/open-sse/services/apiKeyRotator";
 import {
   classifyProviderError,
   PROVIDER_ERROR_TYPES,
-} from "@omniroute/open-sse/services/errorClassifier.ts";
+} from "@omniroute/open-sse/services/errorClassifier";
 import {
   ALIBABA_FREE_DRAINED_LOCK_MS,
   getAlibabaBillingMode,
@@ -64,14 +64,14 @@ import {
   isAlibabaModelStudioProvider,
   mergeAlibabaFreeDrainedModels,
   rehydrateAlibabaFreeDrainedModelLocks,
-} from "@omniroute/open-sse/services/alibabaFreeTier.ts";
+} from "@omniroute/open-sse/services/alibabaFreeTier";
 
 import {
   getCodexModelScope,
   getCodexQuotaWindowFilterForModel,
   toCodexBaseQuotaWindowName,
   toCodexScopedQuotaWindowName,
-} from "@omniroute/open-sse/config/codexQuotaScopes.ts";
+} from "@omniroute/open-sse/config/codexQuotaScopes";
 import {
   getProviderById,
   getProviderAlias,
@@ -98,11 +98,11 @@ import { getResource404Bypass } from "./requestResourceHealth";
 import { isVertexConnectionWidePermissionDenied } from "./vertexErrorClassifier";
 import * as log from "../utils/logger";
 import { fisherYatesShuffle, getNextFromDeckSync } from "@/shared/utils/shuffleDeck";
-import { readHeaderValue, type AuthRequestHeaders } from "./headerReader.ts";
+import { readHeaderValue, type AuthRequestHeaders } from "./headerReader";
 import {
   getOAuthSessionAvailability,
   reserveOAuthSession,
-} from "@omniroute/open-sse/services/oauthSessionOccupancy.ts";
+} from "@omniroute/open-sse/services/oauthSessionOccupancy";
 
 type JsonRecord = Record<string, unknown>;
 interface RecoverableConnectionState {
@@ -929,7 +929,7 @@ const markMutexes = new Map<string, Promise<void>>();
 export { fisherYatesShuffle, getNextFromDeckSync as getNextFromDeck };
 // Re-export readHeaderValue and AuthRequestHeaders from headerReader.ts for
 // backwards compat with existing imports (e.g. googApiKeyAuth.ts).
-export { readHeaderValue, type AuthRequestHeaders } from "./headerReader.ts";
+export { readHeaderValue, type AuthRequestHeaders } from "./headerReader";
 const PROVIDER_SEARCH_PAIRS: string[][] = [
   ["nvidia", "nvidia_nim"],
   ["kimi-coding", "kimi-coding-apikey"],

@@ -9,7 +9,7 @@
  * are unchanged.
  */
 import { mergeAbortSignals } from "@omniroute/open-sse/handlers";
-import { cloneBoundedForLog } from "@omniroute/open-sse/utils/requestLogger.ts";
+import { cloneBoundedForLog } from "@omniroute/open-sse/utils/requestLogger";
 
 export function buildClientRawRequest(request: Request, body: unknown) {
   const url = new URL(request.url);
@@ -30,7 +30,7 @@ export function buildClientRawRequest(request: Request, body: unknown) {
 }
 
 /**
- * #7360 follow-up: chatCore.ts's createStreamController (and, downstream,
+ * #7360 follow-up: chatCore's createStreamController (and, downstream,
  * withRateLimit/acquireAccountSemaphore) only ever watches
  * clientRawRequest.signal — the ORIGINAL client's request signal, which stays
  * open for as long as the overall combo keeps retrying elsewhere. A target

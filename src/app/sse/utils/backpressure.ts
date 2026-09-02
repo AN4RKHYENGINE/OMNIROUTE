@@ -1,4 +1,4 @@
-import { getActiveSessionCount } from "@omniroute/open-sse/services/sessionManager.ts";
+import { getActiveSessionCount } from "@omniroute/open-sse/services/sessionManager";
 
 /**
  * Connection back-pressure for SSE / streaming endpoints.

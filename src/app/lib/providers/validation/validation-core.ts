@@ -28,15 +28,6 @@ import {
 } from "./validation/urlHelpers";
 import { toValidationErrorResult } from "./validation/transport";
 import {
-  validateDeepSeekWebProvider,
-  validateQwenWebProvider,
-  validateGrokWebProvider,
-  validateChatGptWebProvider,
-  validatePerplexityWebProvider,
-  validateBlackboxWebProvider,
-  validateKimiWebProvider,
-} from "./validation/webProvidersA";
-import {
   validateMuseSparkWebProvider,
   validateAdaptaWebProvider,
   validateTinyCmsWebProvider,
@@ -227,7 +218,7 @@ export async function validateProviderApiKey({ provider, apiKey, providerSpecifi
           error:
             "Modal requires a Base URL pointing to your OpenAI-compatible Modal app " +
             "(e.g. https://<workspace>--<app>.modal.run/v1). " +
-            "Fill in the \"Base URL override\" field.",
+            'Fill in the "Base URL override" field.',
         };
       }
       return validateOpenAILikeProvider({

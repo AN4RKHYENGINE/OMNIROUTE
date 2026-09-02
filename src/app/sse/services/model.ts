@@ -14,9 +14,9 @@ import {
   getModelInfoCore,
   splitSyncedEffortSuffix,
   stripContextWindowSuffix,
-} from "@omniroute/open-sse/services/model.ts";
-import { REGISTRY } from "@omniroute/open-sse/config/providerRegistry.ts";
-import { getRegisteredProviderEffortBaseModelId } from "@omniroute/open-sse/utils/registeredEffortVariants.ts";
+} from "@omniroute/open-sse/services/model";
+import { REGISTRY } from "@omniroute/open-sse/config/providerRegistry";
+import { getRegisteredProviderEffortBaseModelId } from "@omniroute/open-sse/utils/registeredEffortVariants";
 
 export { parseModel, stripContextWindowSuffix };
 
@@ -228,8 +228,10 @@ function copySyncedThinkingMetadata(metadata: RuntimeModelMeta, syncedMatch: any
   // Only let a non-empty synced effort list override the static registry fallback;
   // an empty array from an incomplete synced discovery must not erase registry-declared
   // tiers (#9485 review).
-  if (Array.isArray(syncedMatch?.supportedThinkingEfforts) &&
-    syncedMatch.supportedThinkingEfforts.length > 0) {
+  if (
+    Array.isArray(syncedMatch?.supportedThinkingEfforts) &&
+    syncedMatch.supportedThinkingEfforts.length > 0
+  ) {
     metadata.supportedThinkingEfforts = syncedMatch.supportedThinkingEfforts;
   }
   if (typeof syncedMatch?.defaultThinkingEffort === "string") {
