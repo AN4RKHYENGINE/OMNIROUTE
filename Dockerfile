@@ -10,19 +10,7 @@ ENV NODE_OPTIONS=--max-old-space-size=4096
 ENV CI=1
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY package*.json ./
-COPY src ./src
-COPY app ./app
-COPY pages ./pages
-COPY public ./public
-COPY components ./components
-COPY lib ./lib
-COPY packages ./packages
-COPY prisma ./prisma
-COPY next.config.* ./
-COPY tsconfig*.json ./
-COPY postcss.config.* ./
-COPY tailwind.config.* ./
+COPY . .
 RUN npm run build
 
 FROM base AS runner
