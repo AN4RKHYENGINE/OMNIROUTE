@@ -1,1 +1,1 @@
-export * from './validation-core';
+export * from './validation-core.ts';
