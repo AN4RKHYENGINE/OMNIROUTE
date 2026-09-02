@@ -6,8 +6,10 @@ COPY package*.json ./
 RUN npm ci --prefer-offline --no-audit --legacy-peer-deps
 
 FROM base AS builder
-ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV NODE_ENV=production
 ENV CI=1
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_OPTIONS=--max-old-space-size=6144
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
