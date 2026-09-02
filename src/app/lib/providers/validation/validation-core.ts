@@ -52,7 +52,7 @@ import {
   validateWatsonxProvider,
   validateOciProvider,
   validateSapProvider,
-} from "./validation/cloudProviders";
+} from "./cloudProviders";
 import {
   validateDeepgramProvider,
   validateAssemblyAIProvider,
@@ -70,14 +70,14 @@ import {
   validateRunwayProvider,
   validateNousResearchProvider,
   validatePoeProvider,
-} from "./validation/audioMiscProviders";
-import { validateChatGptWebCodexProvider } from "./validation/chatgptWebCodex";
-import { validateSearchProvider, SEARCH_VALIDATOR_CONFIGS } from "./validation/searchProviders";
+} from "./audioMiscProviders";
+import { validateChatGptWebCodexProvider } from "./chatgptWebCodex";
+import { validateSearchProvider, SEARCH_VALIDATOR_CONFIGS } from "./searchProviders";
 import {
   validateClarifaiProvider,
   validateEmbeddingApiProvider,
   validateRerankApiProvider,
-} from "./validation/embeddingProviders";
+} from "./embeddingProviders";
 import {
   validateBedrockProvider,
   validateOpenAILikeProvider,
@@ -85,17 +85,17 @@ import {
   validateGeminiLikeProvider,
   validateHuggingFaceProvider,
   validateOpenAICompatibleProvider,
-} from "./validation/openaiFormat";
+} from "./openaiFormat";
 import {
   validateAnthropicLikeProvider,
   validateAnthropicCompatibleProvider,
   validateClaudeCodeCompatibleProvider,
-} from "./validation/anthropicFormat";
+} from "./anthropicFormat";
 import {
   validateWebCookieProvider,
   bytezValidationResultFromStatus,
   validateBytezProvider,
-} from "./validation/webCookie";
+} from "./webCookie";
 import {
   validateV0VercelProvider,
   validateAuggieProvider,
@@ -109,7 +109,7 @@ import {
   validateZaiProvider,
   validateXiaomiMimoProvider,
   buildGitlawbValidators,
-} from "./validation/specialtyInline";
+} from "./specialtyInline";
 // validateCommandCodeProvider + validateClaudeCodeCompatibleProvider have external importers
 // (provider-nodes/validate route + tests) — re-export to preserve the historical public surface.
 export { validateCommandCodeProvider, validateClaudeCodeCompatibleProvider };
@@ -123,7 +123,7 @@ export { isRetryableProxyTarget, isSecurityBlockError } from "./transport";
 export { validateWebCookieProvider, bytezValidationResultFromStatus };
 
 // validateWebCookieProvider, bytezValidationResultFromStatus, validateBytezProvider, and
-// validateKiroApiKeyRuntimeProbe now live in ./validation/webCookie and ./validation/kiro.
+// validateKiroApiKeyRuntimeProbe now live in ./webCookie and ./validation/kiro.
 // They are re-exported above to preserve the historical public surface.
 
 export async function validateProviderApiKey({ provider, apiKey, providerSpecificData = {} }: any) {
@@ -157,7 +157,7 @@ export async function validateProviderApiKey({ provider, apiKey, providerSpecifi
     }
   }
 
-  // buildOpengatewayValidator + buildGitlawbValidators now live in ./validation/specialtyInline
+  // buildOpengatewayValidator + buildGitlawbValidators now live in ./specialtyInline
   // (god-file decomposition). The host still owns the SPECIALTY_VALIDATORS map below; only the
   // validator bodies were extracted as leaf functions taking `isLocal` where the original
   // closure captured it.
