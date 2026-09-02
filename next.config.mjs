@@ -13,7 +13,8 @@ const nextConfig = {
           request === "keytar" ||
           request === "koffi" ||
           request === "tls-client-node" ||
-          request === "better-sqlite3"
+          request === "better-sqlite3" ||
+          request === "wreq-js"
         ) {
           return callback(null, `commonjs ${request}`);
         }
